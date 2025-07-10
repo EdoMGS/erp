@@ -9,55 +9,184 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('prodaja', '0005_remove_tenderpreparation_tender_documents_and_more'),
+        ("prodaja", "0005_remove_tenderpreparation_tender_documents_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='tenderpreparation',
-            options={'ordering': ['-created_at']},
+            name="tenderpreparation",
+            options={"ordering": ["-created_at"]},
         ),
         migrations.CreateModel(
-            name='TenderSummary',
+            name="TenderSummary",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('total_material_cost', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('total_labor_cost', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('total_direct_cost', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('total_indirect_cost', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('final_price', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('tender', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='tender_summary', to='prodaja.tenderpreparation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "total_material_cost",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "total_labor_cost",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "total_direct_cost",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "total_indirect_cost",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "final_price",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "tender",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tender_summary",
+                        to="prodaja.tenderpreparation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='TenderMaterial',
+            name="TenderMaterial",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('item_name', models.CharField(max_length=255, verbose_name='Naziv materijala')),
-                ('unit_price', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Cijena jedinice')),
-                ('quantity', models.PositiveIntegerField(verbose_name='Količina')),
-                ('tax', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=5, verbose_name='PDV (%)')),
-                ('tender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tender_materials', to='prodaja.tenderpreparation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "item_name",
+                    models.CharField(max_length=255, verbose_name="Naziv materijala"),
+                ),
+                (
+                    "unit_price",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=12, verbose_name="Cijena jedinice"
+                    ),
+                ),
+                ("quantity", models.PositiveIntegerField(verbose_name="Količina")),
+                (
+                    "tax",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=5,
+                        verbose_name="PDV (%)",
+                    ),
+                ),
+                (
+                    "tender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tender_materials",
+                        to="prodaja.tenderpreparation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='TenderLabor',
+            name="TenderLabor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('labor_category', models.CharField(max_length=255, verbose_name='Vrsta rada')),
-                ('hours', models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Broj sati')),
-                ('hourly_rate', models.DecimalField(decimal_places=2, max_digits=6, verbose_name='Satnica (€)')),
-                ('tender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tender_labor', to='prodaja.tenderpreparation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "labor_category",
+                    models.CharField(max_length=255, verbose_name="Vrsta rada"),
+                ),
+                (
+                    "hours",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=6, verbose_name="Broj sati"
+                    ),
+                ),
+                (
+                    "hourly_rate",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=6, verbose_name="Satnica (€)"
+                    ),
+                ),
+                (
+                    "tender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tender_labor",
+                        to="prodaja.tenderpreparation",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='TenderCost',
+            name="TenderCost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cost_name', models.CharField(max_length=255, verbose_name='Naziv troška')),
-                ('cost_type', models.CharField(choices=[('direct', 'Neposredni'), ('indirect', 'Posredni')], max_length=50, verbose_name='Vrsta troška')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Iznos')),
-                ('tender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='tender_costs', to='prodaja.tenderpreparation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "cost_name",
+                    models.CharField(max_length=255, verbose_name="Naziv troška"),
+                ),
+                (
+                    "cost_type",
+                    models.CharField(
+                        choices=[("direct", "Neposredni"), ("indirect", "Posredni")],
+                        max_length=50,
+                        verbose_name="Vrsta troška",
+                    ),
+                ),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=12, verbose_name="Iznos"
+                    ),
+                ),
+                (
+                    "tender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="tender_costs",
+                        to="prodaja.tenderpreparation",
+                    ),
+                ),
             ],
         ),
     ]

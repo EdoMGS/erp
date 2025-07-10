@@ -9,95 +9,125 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('financije', '0007_alter_budget_options_alter_invoice_options_and_more'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("financije", "0007_alter_budget_options_alter_invoice_options_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='auditlog',
-            name='content_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            model_name="auditlog",
+            name="content_type",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="contenttypes.contenttype",
+            ),
         ),
         migrations.AddField(
-            model_name='auditlog',
-            name='ip_address',
+            model_name="auditlog",
+            name="ip_address",
             field=models.GenericIPAddressField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='auditlog',
-            name='new_value',
+            model_name="auditlog",
+            name="new_value",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='auditlog',
-            name='object_id',
+            model_name="auditlog",
+            name="object_id",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='auditlog',
-            name='old_value',
+            model_name="auditlog",
+            name="old_value",
             field=models.JSONField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='taxconfiguration',
-            name='is_active',
-            field=models.BooleanField(default=True, verbose_name='Aktivna konfiguracija'),
+            model_name="taxconfiguration",
+            name="is_active",
+            field=models.BooleanField(
+                default=True, verbose_name="Aktivna konfiguracija"
+            ),
         ),
         migrations.AddField(
-            model_name='taxconfiguration',
-            name='valid_from',
-            field=models.DateField(default=django.utils.timezone.now, verbose_name='Vrijedi od'),
+            model_name="taxconfiguration",
+            name="valid_from",
+            field=models.DateField(
+                default=django.utils.timezone.now, verbose_name="Vrijedi od"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='taxconfiguration',
-            name='valid_to',
-            field=models.DateField(blank=True, null=True, verbose_name='Vrijedi do'),
+            model_name="taxconfiguration",
+            name="valid_to",
+            field=models.DateField(blank=True, null=True, verbose_name="Vrijedi do"),
         ),
         migrations.AlterField(
-            model_name='taxconfiguration',
-            name='tax_rate',
-            field=models.DecimalField(decimal_places=2, max_digits=5, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(100)], verbose_name='Stopa poreza (%)'),
+            model_name="taxconfiguration",
+            name="tax_rate",
+            field=models.DecimalField(
+                decimal_places=2,
+                max_digits=5,
+                validators=[
+                    django.core.validators.MinValueValidator(0),
+                    django.core.validators.MaxValueValidator(100),
+                ],
+                verbose_name="Stopa poreza (%)",
+            ),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['timestamp'], name='financije_a_timesta_083c1b_idx'),
+            model_name="auditlog",
+            index=models.Index(
+                fields=["timestamp"], name="financije_a_timesta_083c1b_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['user'], name='financije_a_user_id_95ea62_idx'),
+            model_name="auditlog",
+            index=models.Index(fields=["user"], name="financije_a_user_id_95ea62_idx"),
         ),
         migrations.AddIndex(
-            model_name='auditlog',
-            index=models.Index(fields=['model_name'], name='financije_a_model_n_ec0532_idx'),
+            model_name="auditlog",
+            index=models.Index(
+                fields=["model_name"], name="financije_a_model_n_ec0532_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='journalentry',
-            index=models.Index(fields=['date'], name='financije_j_date_f6a48e_idx'),
+            model_name="journalentry",
+            index=models.Index(fields=["date"], name="financije_j_date_f6a48e_idx"),
         ),
         migrations.AddIndex(
-            model_name='journalentry',
-            index=models.Index(fields=['created_at'], name='financije_j_created_601cb2_idx'),
+            model_name="journalentry",
+            index=models.Index(
+                fields=["created_at"], name="financije_j_created_601cb2_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='journalitem',
-            index=models.Index(fields=['debit'], name='financije_j_debit_f48f23_idx'),
+            model_name="journalitem",
+            index=models.Index(fields=["debit"], name="financije_j_debit_f48f23_idx"),
         ),
         migrations.AddIndex(
-            model_name='journalitem',
-            index=models.Index(fields=['credit'], name='financije_j_credit_d377ae_idx'),
+            model_name="journalitem",
+            index=models.Index(fields=["credit"], name="financije_j_credit_d377ae_idx"),
         ),
         migrations.AddIndex(
-            model_name='taxconfiguration',
-            index=models.Index(fields=['valid_from', 'valid_to'], name='financije_t_valid_f_ae643a_idx'),
+            model_name="taxconfiguration",
+            index=models.Index(
+                fields=["valid_from", "valid_to"], name="financije_t_valid_f_ae643a_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='taxconfiguration',
-            index=models.Index(fields=['is_active'], name='financije_t_is_acti_fc5b71_idx'),
+            model_name="taxconfiguration",
+            index=models.Index(
+                fields=["is_active"], name="financije_t_is_acti_fc5b71_idx"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='taxconfiguration',
-            constraint=models.CheckConstraint(check=models.Q(('tax_rate__gte', 0), ('tax_rate__lte', 100)), name='valid_tax_rate'),
+            model_name="taxconfiguration",
+            constraint=models.CheckConstraint(
+                check=models.Q(("tax_rate__gte", 0), ("tax_rate__lte", 100)),
+                name="valid_tax_rate",
+            ),
         ),
     ]

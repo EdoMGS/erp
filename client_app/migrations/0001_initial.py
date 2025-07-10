@@ -10,53 +10,204 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='CityPostalCode',
+            name="CityPostalCode",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('postal_code', models.CharField(max_length=10, validators=[django.core.validators.RegexValidator('^\\d{5}$', 'Enter a valid postal code.')], verbose_name='Postal Code')),
-                ('city', models.CharField(max_length=255, verbose_name='City')),
-                ('district', models.CharField(blank=True, max_length=100, null=True, verbose_name='Naselje')),
-                ('county', models.CharField(blank=True, max_length=100, null=True, verbose_name='Županija')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "postal_code",
+                    models.CharField(
+                        max_length=10,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^\\d{5}$", "Enter a valid postal code."
+                            )
+                        ],
+                        verbose_name="Postal Code",
+                    ),
+                ),
+                ("city", models.CharField(max_length=255, verbose_name="City")),
+                (
+                    "district",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Naselje"
+                    ),
+                ),
+                (
+                    "county",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Županija"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ClientSupplier',
+            name="ClientSupplier",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, verbose_name='Naziv (ime tvrtke ili osobe)')),
-                ('address', models.TextField(verbose_name='Adresa')),
-                ('email', models.EmailField(max_length=254, validators=[django.core.validators.RegexValidator(code='invalid_email', message='Unesite ispravan email format.', regex='^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$')], verbose_name='Email')),
-                ('phone', models.CharField(max_length=20, verbose_name='Telefon')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Aktivan')),
-                ('is_supplier', models.BooleanField(default=False, verbose_name='Dobavljač?')),
-                ('oib', models.CharField(max_length=11, unique=True, validators=[django.core.validators.RegexValidator(code='invalid_oib', message='OIB mora imati točno 11 znamenki.', regex='^\\d{11}$')], verbose_name='OIB')),
-                ('country', models.CharField(default='Hrvatska', max_length=100, verbose_name='Država')),
-                ('city', models.CharField(max_length=100, verbose_name='Grad')),
-                ('postal_code', models.CharField(max_length=10, verbose_name='Poštanski broj')),
-                ('county', models.CharField(blank=True, max_length=100, null=True, verbose_name='Županija')),
-                ('long_term_relationship', models.BooleanField(default=False, verbose_name='Dugoročni odnos')),
-                ('relationship_status', models.CharField(default='active', max_length=100, verbose_name='Status odnosa')),
-                ('loyalty_level', models.CharField(blank=True, max_length=50, verbose_name='Razina lojalnosti')),
-                ('feedback', models.TextField(blank=True, null=True, verbose_name='Povratne informacije')),
-                ('post_sales_feedback', models.TextField(blank=True, null=True, verbose_name='Post-prodajne povratne informacije')),
-                ('date_created', models.DateTimeField(auto_now_add=True, verbose_name='Datum kreiranja')),
-                ('date_updated', models.DateTimeField(auto_now=True, verbose_name='Datum ažuriranja')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, verbose_name="Naziv (ime tvrtke ili osobe)"
+                    ),
+                ),
+                ("address", models.TextField(verbose_name="Adresa")),
+                (
+                    "email",
+                    models.EmailField(
+                        max_length=254,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_email",
+                                message="Unesite ispravan email format.",
+                                regex="^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$",
+                            )
+                        ],
+                        verbose_name="Email",
+                    ),
+                ),
+                ("phone", models.CharField(max_length=20, verbose_name="Telefon")),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Aktivan"),
+                ),
+                (
+                    "is_supplier",
+                    models.BooleanField(default=False, verbose_name="Dobavljač?"),
+                ),
+                (
+                    "oib",
+                    models.CharField(
+                        max_length=11,
+                        unique=True,
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                code="invalid_oib",
+                                message="OIB mora imati točno 11 znamenki.",
+                                regex="^\\d{11}$",
+                            )
+                        ],
+                        verbose_name="OIB",
+                    ),
+                ),
+                (
+                    "country",
+                    models.CharField(
+                        default="Hrvatska", max_length=100, verbose_name="Država"
+                    ),
+                ),
+                ("city", models.CharField(max_length=100, verbose_name="Grad")),
+                (
+                    "postal_code",
+                    models.CharField(max_length=10, verbose_name="Poštanski broj"),
+                ),
+                (
+                    "county",
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Županija"
+                    ),
+                ),
+                (
+                    "long_term_relationship",
+                    models.BooleanField(default=False, verbose_name="Dugoročni odnos"),
+                ),
+                (
+                    "relationship_status",
+                    models.CharField(
+                        default="active", max_length=100, verbose_name="Status odnosa"
+                    ),
+                ),
+                (
+                    "loyalty_level",
+                    models.CharField(
+                        blank=True, max_length=50, verbose_name="Razina lojalnosti"
+                    ),
+                ),
+                (
+                    "feedback",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Povratne informacije"
+                    ),
+                ),
+                (
+                    "post_sales_feedback",
+                    models.TextField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Post-prodajne povratne informacije",
+                    ),
+                ),
+                (
+                    "date_created",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum kreiranja"
+                    ),
+                ),
+                (
+                    "date_updated",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Datum ažuriranja"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ClientActivityLog',
+            name="ClientActivityLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('activity_description', models.TextField(verbose_name='Opis aktivnosti')),
-                ('activity_date', models.DateTimeField(auto_now_add=True, verbose_name='Datum aktivnosti')),
-                ('activity', models.TextField(verbose_name='Activity Description')),
-                ('timestamp', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Timestamp')),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='activity_logs', to='client_app.clientsupplier', verbose_name='Klijent/Dobavljač')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "activity_description",
+                    models.TextField(verbose_name="Opis aktivnosti"),
+                ),
+                (
+                    "activity_date",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum aktivnosti"
+                    ),
+                ),
+                ("activity", models.TextField(verbose_name="Activity Description")),
+                (
+                    "timestamp",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="Timestamp"
+                    ),
+                ),
+                (
+                    "client",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="activity_logs",
+                        to="client_app.clientsupplier",
+                        verbose_name="Klijent/Dobavljač",
+                    ),
+                ),
             ],
         ),
     ]

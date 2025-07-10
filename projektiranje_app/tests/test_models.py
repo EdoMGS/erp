@@ -10,7 +10,6 @@ class ProjektModelTest(TestCase):
         # Minimalni potrebni podaci za kreiranje Projekta
         financial_details = FinancialDetails.objects.create()
         projekt = Projekt.objects.create(
-            naziv_projekta="Test Projekt",
-            financial_details=financial_details
+            naziv_projekta="Test Projekt", financial_details=financial_details
         )
         self.assertEqual(projekt.naziv_projekta, "Test Projekt")

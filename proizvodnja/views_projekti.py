@@ -7,25 +7,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from .forms import ProjektForm  # Pretpostavka da je ProjektForm u forms.py
-from .models import Notifikacija, Projekt, RadniNalog, TemplateRadniNalog
+from .models import Projekt, RadniNalog, TemplateRadniNalog
 
 logger = logging.getLogger(__name__)
+
 
 # =============================
 # 1🌟 Lista projekata
 # =============================
 class ListaProjekataView(LoginRequiredMixin, ListView):
     model = Projekt
-    template_name = 'proizvodnja/lista_projekata.html'
-    context_object_name = 'projekti'
+    template_name = "proizvodnja/lista_projekata.html"
+    context_object_name = "projekti"
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = Projekt.objects.filter(is_active=True).select_related('tip_projekta', 'tip_vozila')
+        queryset = Projekt.objects.filter(is_active=True).select_related(
+            "tip_projekta", "tip_vozila"
+        )
         # Ažuriramo status svakog projekta prije prikaza
         for projekt in queryset:
             projekt.azuriraj_status()
@@ -35,7 +43,9 @@ class ListaProjekataView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Provjeravamo je li korisnik vlasnik ili direktor (radi prikaza dodatnih opcija)
-        context['korisnik_je_vlasnik'] = self.request.user.groups.filter(name__in=['vlasnik', 'direktor']).exists()
+        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists()
         return context
 
 
@@ -44,8 +54,8 @@ class ListaProjekataView(LoginRequiredMixin, ListView):
 # =============================
 class DetaljiProjektaView(LoginRequiredMixin, DetailView):
     model = Projekt
-    template_name = 'proizvodnja/detalji_projekta.html'
-    context_object_name = 'projekt'
+    template_name = "proizvodnja/detalji_projekta.html"
+    context_object_name = "projekt"
 
     def get_object(self, queryset=None):
         projekt = super().get_object(queryset)
@@ -54,14 +64,18 @@ class DetaljiProjektaView(LoginRequiredMixin, DetailView):
         return projekt
 
     def get_queryset(self):
-        return Projekt.objects.select_related('tip_projekta', 'tip_vozila').prefetch_related('radni_nalozi', 'dokumentacija')
+        return Projekt.objects.select_related(
+            "tip_projekta", "tip_vozila"
+        ).prefetch_related("radni_nalozi", "dokumentacija")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         projekt = self.get_object()
-        context['radni_nalozi'] = projekt.radni_nalozi.filter(is_active=True)
-        context['dokumentacija'] = projekt.dokumentacija.all()
-        context['korisnik_je_vlasnik'] = self.request.user.groups.filter(name__in=['vlasnik', 'direktor']).exists()
+        context["radni_nalozi"] = projekt.radni_nalozi.filter(is_active=True)
+        context["dokumentacija"] = projekt.dokumentacija.all()
+        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists()
         return context
 
 
@@ -71,17 +85,19 @@ class DetaljiProjektaView(LoginRequiredMixin, DetailView):
 class KreirajProjektView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Projekt
     form_class = ProjektForm
-    template_name = 'proizvodnja/dodaj_uredi_projekt.html'
-    success_url = reverse_lazy('lista_projekata')
+    template_name = "proizvodnja/dodaj_uredi_projekt.html"
+    success_url = reverse_lazy("lista_projekata")
 
     def test_func(self):
         # Pristup imaju vlasnici, direktori i voditelji
-        return self.request.user.groups.filter(name__in=['vlasnik', 'direktor', 'voditelj']).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_form_kwargs(self):
         # Prosljeđujemo user formi, ako nam treba za logiku u ProjektForm
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     @transaction.atomic
@@ -93,11 +109,14 @@ class KreirajProjektView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if not projekt.ručni_unos_radnih_naloga:
             # Provjeravamo da je tip_projekta "Izrada novih vatrogasnih vozila"
             # ili neki drugi naziv po želji
-            if projekt.tip_projekta and projekt.tip_projekta.naziv == "Izrada novih vatrogasnih vozila":
+            if (
+                projekt.tip_projekta
+                and projekt.tip_projekta.naziv == "Izrada novih vatrogasnih vozila"
+            ):
                 # Dohvati sve template radne naloge za taj tip projekta
                 template_nalozi = TemplateRadniNalog.objects.filter(
                     tip_projekta=projekt.tip_projekta
-                ).order_by('sort_index')
+                ).order_by("sort_index")
 
                 # Ako želiš razlikovati i po tipu vozila (npr. cisterna vs. tehničko vozilo),
                 # možeš ovdje dodati filter(tip_vozila=projekt.tip_vozila)
@@ -131,16 +150,18 @@ class KreirajProjektView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class AzurirajProjektView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Projekt
     form_class = ProjektForm
-    template_name = 'proizvodnja/dodaj_uredi_projekt.html'
-    success_url = reverse_lazy('lista_projekata')
+    template_name = "proizvodnja/dodaj_uredi_projekt.html"
+    success_url = reverse_lazy("lista_projekata")
 
     def test_func(self):
         # Pristup imaju vlasnici, direktori i voditelji
-        return self.request.user.groups.filter(name__in=['vlasnik', 'direktor', 'voditelj']).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     @transaction.atomic
@@ -148,7 +169,7 @@ class AzurirajProjektView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         """
         Kod ažuriranja projekta ne generiramo automatski radne naloge,
         jer projekt već postoji. Ako želiš, možeš ovdje dodati opciju
-        generiranja novih radnih naloga. 
+        generiranja novih radnih naloga.
         """
         try:
             response = super().form_valid(form)
@@ -158,7 +179,9 @@ class AzurirajProjektView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return response
         except Exception as e:
             logger.error(f"Greška prilikom ažuriranja projekta: {e}")
-            messages.error(self.request, f"Greška prilikom ažuriranja projekta: {str(e)}")
+            messages.error(
+                self.request, f"Greška prilikom ažuriranja projekta: {str(e)}"
+            )
             return super().form_invalid(form)
 
 
@@ -167,19 +190,23 @@ class AzurirajProjektView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # =============================
 class ObrisiProjektView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Projekt
-    template_name = 'proizvodnja/obrisi_projekt.html'
+    template_name = "proizvodnja/obrisi_projekt.html"
 
     def test_func(self):
         # Samo vlasnik i direktor mogu brisati projekte
-        return self.request.user.groups.filter(name__in=['vlasnik', 'direktor']).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
         projekt = self.get_object()
         aktivni_nalozi = projekt.radni_nalozi.filter(is_active=True)
         if aktivni_nalozi.exists():
-            messages.error(request, "Projekt ne možete obrisati jer sadrži aktivne radne naloge.")
-            return redirect('detalji_projekta', pk=projekt.pk)
+            messages.error(
+                request, "Projekt ne možete obrisati jer sadrži aktivne radne naloge."
+            )
+            return redirect("detalji_projekta", pk=projekt.pk)
 
         # Soft delete radnih naloga
         aktivni_nalozi.update(is_active=False)
@@ -189,7 +216,8 @@ class ObrisiProjektView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         projekt.save()
 
         messages.success(request, "Projekt i povezani radni nalozi uspješno obrisani!")
-        return redirect(reverse_lazy('lista_projekata'))
+        return redirect(reverse_lazy("lista_projekata"))
+
 
 def projekt_detail(request, pk):
     """
@@ -197,9 +225,13 @@ def projekt_detail(request, pk):
     """
     projekt = get_object_or_404(Projekt, pk=pk, is_active=True)
     context = {
-        'projekt': projekt,
-        'radni_nalozi': projekt.radni_nalozi.filter(is_active=True),
-        'dokumentacija': projekt.dokumentacija.all() if hasattr(projekt, 'dokumentacija') else [],
-        'korisnik_je_vlasnik': request.user.groups.filter(name__in=['vlasnik', 'direktor']).exists()
+        "projekt": projekt,
+        "radni_nalozi": projekt.radni_nalozi.filter(is_active=True),
+        "dokumentacija": (
+            projekt.dokumentacija.all() if hasattr(projekt, "dokumentacija") else []
+        ),
+        "korisnik_je_vlasnik": request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists(),
     }
-    return render(request, 'proizvodnja/projekt_detail.html', context)
+    return render(request, "proizvodnja/projekt_detail.html", context)

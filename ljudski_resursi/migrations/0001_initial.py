@@ -8,123 +8,361 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Department',
+            name="Department",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Naziv odjela')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Opis odjela')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Naziv odjela"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Opis odjela"),
+                ),
             ],
             options={
-                'verbose_name': 'Department',
-                'verbose_name_plural': 'Departments',
-                'ordering': ['name'],
+                "verbose_name": "Department",
+                "verbose_name_plural": "Departments",
+                "ordering": ["name"],
             },
         ),
         migrations.CreateModel(
-            name='Employee',
+            name="Employee",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=50, verbose_name='Ime')),
-                ('last_name', models.CharField(max_length=50, verbose_name='Prezime')),
-                ('email', models.EmailField(blank=True, max_length=254, null=True, unique=True, verbose_name='Email')),
-                ('expertise_level', models.CharField(choices=[('junior', 'Junior'), ('mid', 'Mid-level'), ('senior', 'Senior')], default='junior', max_length=50, verbose_name='Expertise Level')),
-                ('hierarchical_level', models.PositiveIntegerField(default=1, verbose_name='Hierarchical Level')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Aktivan')),
-                ('salary_coefficient', models.DecimalField(decimal_places=2, default=1.0, max_digits=5, verbose_name='Salary Coefficient')),
-                ('onboarding_date', models.DateField(blank=True, null=True, verbose_name='Onboarding Date')),
-                ('onboarding_timeline', models.PositiveIntegerField(blank=True, null=True, verbose_name='Onboarding Timeline (days)')),
-                ('employee_satisfaction', models.DecimalField(blank=True, decimal_places=1, max_digits=3, null=True, verbose_name='Employee Satisfaction')),
-                ('satisfaction_score', models.DecimalField(blank=True, decimal_places=2, max_digits=4, null=True, verbose_name='Satisfaction Score')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=50, verbose_name="Ime")),
+                ("last_name", models.CharField(max_length=50, verbose_name="Prezime")),
+                (
+                    "email",
+                    models.EmailField(
+                        blank=True,
+                        max_length=254,
+                        null=True,
+                        unique=True,
+                        verbose_name="Email",
+                    ),
+                ),
+                (
+                    "expertise_level",
+                    models.CharField(
+                        choices=[
+                            ("junior", "Junior"),
+                            ("mid", "Mid-level"),
+                            ("senior", "Senior"),
+                        ],
+                        default="junior",
+                        max_length=50,
+                        verbose_name="Expertise Level",
+                    ),
+                ),
+                (
+                    "hierarchical_level",
+                    models.PositiveIntegerField(
+                        default=1, verbose_name="Hierarchical Level"
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Aktivan"),
+                ),
+                (
+                    "salary_coefficient",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=1.0,
+                        max_digits=5,
+                        verbose_name="Salary Coefficient",
+                    ),
+                ),
+                (
+                    "onboarding_date",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Onboarding Date"
+                    ),
+                ),
+                (
+                    "onboarding_timeline",
+                    models.PositiveIntegerField(
+                        blank=True, null=True, verbose_name="Onboarding Timeline (days)"
+                    ),
+                ),
+                (
+                    "employee_satisfaction",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=1,
+                        max_digits=3,
+                        null=True,
+                        verbose_name="Employee Satisfaction",
+                    ),
+                ),
+                (
+                    "satisfaction_score",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        max_digits=4,
+                        null=True,
+                        verbose_name="Satisfaction Score",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Employee',
-                'verbose_name_plural': 'Employees',
-                'ordering': ['last_name', 'first_name'],
+                "verbose_name": "Employee",
+                "verbose_name_plural": "Employees",
+                "ordering": ["last_name", "first_name"],
             },
         ),
         migrations.CreateModel(
-            name='Evaluacija',
+            name="Evaluacija",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ocjena', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], verbose_name='Ocjena')),
-                ('komentar', models.TextField(blank=True, null=True, verbose_name='Komentar')),
-                ('datum_evaluacije', models.DateField(auto_now_add=True, verbose_name='Datum evaluacije')),
-                ('efikasnost', models.BooleanField(default=False)),
-                ('kvaliteta', models.BooleanField(default=False)),
-                ('izuzetni_rad', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "ocjena",
+                    models.IntegerField(
+                        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+                        verbose_name="Ocjena",
+                    ),
+                ),
+                (
+                    "komentar",
+                    models.TextField(blank=True, null=True, verbose_name="Komentar"),
+                ),
+                (
+                    "datum_evaluacije",
+                    models.DateField(
+                        auto_now_add=True, verbose_name="Datum evaluacije"
+                    ),
+                ),
+                ("efikasnost", models.BooleanField(default=False)),
+                ("kvaliteta", models.BooleanField(default=False)),
+                ("izuzetni_rad", models.BooleanField(default=False)),
             ],
             options={
-                'verbose_name': 'Evaluacija',
-                'verbose_name_plural': 'Evaluacije',
-                'ordering': ['-datum_evaluacije'],
+                "verbose_name": "Evaluacija",
+                "verbose_name_plural": "Evaluacije",
+                "ordering": ["-datum_evaluacije"],
             },
         ),
         migrations.CreateModel(
-            name='ExpertiseLevel',
+            name="ExpertiseLevel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Expertise Level')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Expertise Level"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Description"),
+                ),
             ],
             options={
-                'verbose_name': 'Expertise Level',
-                'verbose_name_plural': 'Expertise Levels',
+                "verbose_name": "Expertise Level",
+                "verbose_name_plural": "Expertise Levels",
             },
         ),
         migrations.CreateModel(
-            name='HierarchicalLevel',
+            name="HierarchicalLevel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Naziv hijerarhijskog nivoa')),
-                ('level', models.IntegerField(help_text='Niža vrijednost = viši rang, ili obrnuto, ovisno o konvenciji.', verbose_name='Razina (Level)')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Opis hijerarhijskog nivoa')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100,
+                        unique=True,
+                        verbose_name="Naziv hijerarhijskog nivoa",
+                    ),
+                ),
+                (
+                    "level",
+                    models.IntegerField(
+                        help_text="Niža vrijednost = viši rang, ili obrnuto, ovisno o konvenciji.",
+                        verbose_name="Razina (Level)",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Opis hijerarhijskog nivoa"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Hierarchical Level',
-                'verbose_name_plural': 'Hierarchical Levels',
-                'ordering': ['level', 'name'],
+                "verbose_name": "Hierarchical Level",
+                "verbose_name_plural": "Hierarchical Levels",
+                "ordering": ["level", "name"],
             },
         ),
         migrations.CreateModel(
-            name='JobPosition',
+            name="JobPosition",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Job Title')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
-                ('level', models.PositiveIntegerField(default=1, verbose_name='Level')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=255, verbose_name="Job Title")),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Description"),
+                ),
+                ("level", models.PositiveIntegerField(default=1, verbose_name="Level")),
             ],
         ),
         migrations.CreateModel(
-            name='Position',
+            name="Position",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100, unique=True, verbose_name='Naziv pozicije')),
-                ('is_managerial', models.BooleanField(default=False, verbose_name='Menadžerska pozicija')),
-                ('department', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='ljudski_resursi.department', verbose_name='Odjel')),
-                ('expertise_level', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.expertiselevel', verbose_name='Razina stručnosti (default)')),
-                ('hierarchical_level', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='positions', to='ljudski_resursi.hierarchicallevel', verbose_name='Hijerarhijski nivo')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Naziv pozicije"
+                    ),
+                ),
+                (
+                    "is_managerial",
+                    models.BooleanField(
+                        default=False, verbose_name="Menadžerska pozicija"
+                    ),
+                ),
+                (
+                    "department",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="ljudski_resursi.department",
+                        verbose_name="Odjel",
+                    ),
+                ),
+                (
+                    "expertise_level",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ljudski_resursi.expertiselevel",
+                        verbose_name="Razina stručnosti (default)",
+                    ),
+                ),
+                (
+                    "hierarchical_level",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="positions",
+                        to="ljudski_resursi.hierarchicallevel",
+                        verbose_name="Hijerarhijski nivo",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Position',
-                'verbose_name_plural': 'Positions',
-                'ordering': ['title'],
+                "verbose_name": "Position",
+                "verbose_name_plural": "Positions",
+                "ordering": ["title"],
             },
         ),
         migrations.CreateModel(
-            name='OcjenaKvalitete',
+            name="OcjenaKvalitete",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('razina', models.CharField(choices=[('LOW', 'Low'), ('MEDIUM', 'Medium'), ('HIGH', 'High')], max_length=10)),
-                ('ocjena', models.IntegerField()),
-                ('komentar', models.TextField(blank=True, null=True)),
-                ('video', models.FileField(blank=True, null=True, upload_to='video_ocjene/')),
-                ('tezinski_faktor', models.DecimalField(decimal_places=2, max_digits=5)),
-                ('employee', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ocjene_kvalitete', to='ljudski_resursi.employee')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "razina",
+                    models.CharField(
+                        choices=[
+                            ("LOW", "Low"),
+                            ("MEDIUM", "Medium"),
+                            ("HIGH", "High"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("ocjena", models.IntegerField()),
+                ("komentar", models.TextField(blank=True, null=True)),
+                (
+                    "video",
+                    models.FileField(blank=True, null=True, upload_to="video_ocjene/"),
+                ),
+                (
+                    "tezinski_faktor",
+                    models.DecimalField(decimal_places=2, max_digits=5),
+                ),
+                (
+                    "employee",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ocjene_kvalitete",
+                        to="ljudski_resursi.employee",
+                    ),
+                ),
             ],
         ),
     ]

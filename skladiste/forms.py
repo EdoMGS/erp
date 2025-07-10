@@ -1,14 +1,22 @@
 # skladiste/forms.py
 
 from django import forms
-from django.forms import ModelForm, inlineformset_factory
-from django.utils.translation import gettext_lazy as _
 
-from nabava.models import Dobavljac
 
-from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
-                     IzdatnicaStavka, Lokacija, Materijal, Primka,
-                     PrimkaStavka, SkladisteResurs, Zona)
+from .models import (
+    Alat,
+    Artikl,
+    DnevnikDogadaja,
+    HTZOprema,
+    Izdatnica,
+    IzdatnicaStavka,
+    Lokacija,
+    Materijal,
+    Primka,
+    PrimkaStavka,
+    SkladisteResurs,
+    Zona,
+)
 
 
 ###############################################################################
@@ -20,10 +28,11 @@ class BaseSkladisteForm(forms.ModelForm):
     - Dodaj 'form-control' klasu za bootstrap styling
     - Mjesto za zajedničku clean() logiku
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
-            field.widget.attrs.update({'class': 'form-control'})
+            field.widget.attrs.update({"class": "form-control"})
 
     def clean(self):
         cleaned_data = super().clean()
@@ -52,7 +61,7 @@ class LokacijaForm(BaseSkladisteForm):
 class ArtiklForm(BaseSkladisteForm):
     class Meta:
         model = Artikl
-        fields = '__all__'
+        fields = "__all__"
 
 
 class SkladisteResursForm(BaseSkladisteForm):
@@ -73,16 +82,19 @@ class MaterijalForm(BaseSkladisteForm):
     """
     Materijal -> Vezan na RadniNalog iz 'proizvodnja'
     """
+
     class Meta:
         model = Materijal
-        exclude = ['tehnicki_nacrt']  # Exclude this field from form to avoid circular import
+        exclude = [
+            "tehnicki_nacrt"
+        ]  # Exclude this field from form to avoid circular import
         # Or specify only the fields you want to include:
         # fields = ['artikl', 'radni_nalog', 'status', 'naziv', 'cijena', 'kolicina', 'opis', 'datum_dostave']
 
 
 # class InventoryItemForm(BaseSkladisteForm):
 #     """
-#     Evidencija 'Materijal + količina + lokacija (tekst)' 
+#     Evidencija 'Materijal + količina + lokacija (tekst)'
 #     - Ako radiš klasičan popis stanja u skladištu.
 #     """
 #     class Meta:
@@ -141,28 +153,31 @@ class DnevnikDogadajaForm(BaseSkladisteForm):
 class PrimkaForm(BaseSkladisteForm):
     class Meta:
         model = Primka
-        fields = ['broj_primke', 'datum', 'dobavljac', 'napomena']
+        fields = ["broj_primke", "datum", "dobavljac", "napomena"]
         widgets = {
-            'datum': forms.DateInput(attrs={'type': 'date'}),
+            "datum": forms.DateInput(attrs={"type": "date"}),
         }
+
 
 class PrimkaStavkaForm(BaseSkladisteForm):
     class Meta:
         model = PrimkaStavka
-        fields = ['artikl', 'kolicina', 'cijena']
+        fields = ["artikl", "kolicina", "cijena"]
+
 
 class IzdatnicaForm(BaseSkladisteForm):
     class Meta:
         model = Izdatnica
-        fields = ['broj_izdatnice', 'datum', 'preuzeo', 'napomena']
+        fields = ["broj_izdatnice", "datum", "preuzeo", "napomena"]
         widgets = {
-            'datum': forms.DateInput(attrs={'type': 'date'}),
+            "datum": forms.DateInput(attrs={"type": "date"}),
         }
+
 
 class IzdatnicaStavkaForm(BaseSkladisteForm):
     class Meta:
         model = IzdatnicaStavka
-        fields = ['artikl', 'kolicina']
+        fields = ["artikl", "kolicina"]
 
 
 ###############################################################################

@@ -7,36 +7,67 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AuditTrail',
+            name="AuditTrail",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('action', models.CharField(max_length=255)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('audit_notes', models.TextField(blank=True, null=True)),
-                ('action_taken', models.CharField(max_length=200)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("action", models.CharField(max_length=255)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("audit_notes", models.TextField(blank=True, null=True)),
+                ("action_taken", models.CharField(max_length=200)),
             ],
         ),
         migrations.CreateModel(
-            name='Notification',
+            name="Notification",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('message', models.TextField()),
-                ('enabled', models.BooleanField(default=True)),
-                ('notification_enabled', models.BooleanField(default=True)),
-                ('is_read', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("message", models.TextField()),
+                ("enabled", models.BooleanField(default=True)),
+                ("notification_enabled", models.BooleanField(default=True)),
+                ("is_read", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Role',
+            name="Role",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True, verbose_name='Role Name')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Role Name"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(blank=True, null=True, verbose_name="Description"),
+                ),
             ],
         ),
     ]

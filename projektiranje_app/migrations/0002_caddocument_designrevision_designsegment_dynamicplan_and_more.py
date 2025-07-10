@@ -8,73 +8,198 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projektiranje_app', '0001_initial'),
+        ("projektiranje_app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='CADDocument',
+            name="CADDocument",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to='cad_documents/', verbose_name='CAD dokument')),
-                ('file_type', models.CharField(choices=[('solidworks', 'SolidWorks'), ('autocad', 'AutoCAD')], max_length=20, verbose_name='Tip CAD dokumenta')),
-                ('uploaded_at', models.DateTimeField(auto_now_add=True, verbose_name='Datum uploada')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "file",
+                    models.FileField(
+                        upload_to="cad_documents/", verbose_name="CAD dokument"
+                    ),
+                ),
+                (
+                    "file_type",
+                    models.CharField(
+                        choices=[("solidworks", "SolidWorks"), ("autocad", "AutoCAD")],
+                        max_length=20,
+                        verbose_name="Tip CAD dokumenta",
+                    ),
+                ),
+                (
+                    "uploaded_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum uploada"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'CAD dokument',
-                'verbose_name_plural': 'CAD dokumenti',
-                'ordering': ['-uploaded_at'],
+                "verbose_name": "CAD dokument",
+                "verbose_name_plural": "CAD dokumenti",
+                "ordering": ["-uploaded_at"],
             },
         ),
         migrations.CreateModel(
-            name='DesignRevision',
+            name="DesignRevision",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('broj_revizije', models.PositiveIntegerField(default=1, verbose_name='Broj revizije')),
-                ('opis', models.TextField(verbose_name='Opis promjena')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Datum revizije')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "broj_revizije",
+                    models.PositiveIntegerField(
+                        default=1, verbose_name="Broj revizije"
+                    ),
+                ),
+                ("opis", models.TextField(verbose_name="Opis promjena")),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum revizije"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Revizija',
-                'verbose_name_plural': 'Revizije',
-                'ordering': ['-created_at'],
+                "verbose_name": "Revizija",
+                "verbose_name_plural": "Revizije",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='DesignSegment',
+            name="DesignSegment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('segment_type', models.CharField(choices=[('chassis', 'Podvozje'), ('superstructure', 'Nadogradnja'), ('pipeline', 'Cjevovod'), ('electrical', 'Električni sustav'), ('pump', 'Pumpni sustav'), ('other', 'Ostalo')], max_length=50, verbose_name='Tip segmenta')),
-                ('opis', models.TextField(blank=True, null=True, verbose_name='Opis segmenta')),
-                ('planirani_sati', models.DecimalField(decimal_places=1, default=Decimal('0.0'), max_digits=5, verbose_name='Planirani sati za segment')),
-                ('utroseni_sati', models.DecimalField(decimal_places=1, default=Decimal('0.0'), max_digits=6, verbose_name='Utrošeni sati za segment')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Datum kreiranja segmenta')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Datum posljednje izmjene segmenta')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "segment_type",
+                    models.CharField(
+                        choices=[
+                            ("chassis", "Podvozje"),
+                            ("superstructure", "Nadogradnja"),
+                            ("pipeline", "Cjevovod"),
+                            ("electrical", "Električni sustav"),
+                            ("pump", "Pumpni sustav"),
+                            ("other", "Ostalo"),
+                        ],
+                        max_length=50,
+                        verbose_name="Tip segmenta",
+                    ),
+                ),
+                (
+                    "opis",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Opis segmenta"
+                    ),
+                ),
+                (
+                    "planirani_sati",
+                    models.DecimalField(
+                        decimal_places=1,
+                        default=Decimal("0.0"),
+                        max_digits=5,
+                        verbose_name="Planirani sati za segment",
+                    ),
+                ),
+                (
+                    "utroseni_sati",
+                    models.DecimalField(
+                        decimal_places=1,
+                        default=Decimal("0.0"),
+                        max_digits=6,
+                        verbose_name="Utrošeni sati za segment",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum kreiranja segmenta"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Datum posljednje izmjene segmenta"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Segment dizajna',
-                'verbose_name_plural': 'Segmenti dizajna',
-                'ordering': ['created_at'],
+                "verbose_name": "Segment dizajna",
+                "verbose_name_plural": "Segmenti dizajna",
+                "ordering": ["created_at"],
             },
         ),
         migrations.CreateModel(
-            name='DynamicPlan',
+            name="DynamicPlan",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('json_data', models.JSONField(blank=True, null=True, verbose_name='Gantt podaci (JSON)')),
-                ('pocetak_plana', models.DateField(blank=True, null=True, verbose_name='Početak plana')),
-                ('kraj_plana', models.DateField(blank=True, null=True, verbose_name='Kraj plana')),
-                ('napomena', models.TextField(blank=True, null=True, verbose_name='Napomena')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Datum posljednje izmjene')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "json_data",
+                    models.JSONField(
+                        blank=True, null=True, verbose_name="Gantt podaci (JSON)"
+                    ),
+                ),
+                (
+                    "pocetak_plana",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Početak plana"
+                    ),
+                ),
+                (
+                    "kraj_plana",
+                    models.DateField(blank=True, null=True, verbose_name="Kraj plana"),
+                ),
+                (
+                    "napomena",
+                    models.TextField(blank=True, null=True, verbose_name="Napomena"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Datum posljednje izmjene"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Dinamički plan',
-                'verbose_name_plural': 'Dinamički planovi',
-                'ordering': ['-updated_at'],
+                "verbose_name": "Dinamički plan",
+                "verbose_name_plural": "Dinamički planovi",
+                "ordering": ["-updated_at"],
             },
         ),
         migrations.RemoveField(
-            model_name='dinamickiplan',
-            name='design_task',
+            model_name="dinamickiplan",
+            name="design_task",
         ),
     ]

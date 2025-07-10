@@ -8,7 +8,10 @@ from django.template.loader import get_template
 from django.urls import Resolver404, get_resolver
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
 
 def check_urls():
     """
@@ -17,18 +20,18 @@ def check_urls():
     logger.info("Checking URL configuration for issues...")
     resolver = get_resolver()
     missing_urls = []
-    
+
     # List of URLs to verify
     urls_to_check = [
-        'favicon.ico',
-        'client_app/',
-        'projektiranje/',
-        'financije/',
-        'ljudski_resursi/',
-        'nabava/',
-        'prodaja/',
-        'proizvodnja/',
-        'skladiste/',
+        "favicon.ico",
+        "client_app/",
+        "projektiranje/",
+        "financije/",
+        "ljudski_resursi/",
+        "nabava/",
+        "prodaja/",
+        "proizvodnja/",
+        "skladiste/",
     ]
 
     for url in urls_to_check:
@@ -49,7 +52,7 @@ def check_templates():
     Check for issues with templates, such as missing variables.
     """
     logger.info("Checking template files for potential issues...")
-    templates = settings.TEMPLATES[0]['DIRS']
+    templates = settings.TEMPLATES[0]["DIRS"]
     missing_variables = []
 
     for template_dir in templates:
@@ -73,7 +76,7 @@ def check_static_files():
     """
     logger.info("Checking static files configuration...")
     try:
-        call_command('collectstatic', interactive=False, verbosity=0)
+        call_command("collectstatic", interactive=False, verbosity=0)
         logger.info("Static files collected successfully.")
     except Exception as e:
         logger.error(f"Error during static file collection: {e}")
@@ -84,12 +87,14 @@ def add_favicon_to_template():
     Add favicon link to HTML templates if missing.
     """
     logger.info("Checking if favicon is added to templates...")
-    templates = settings.TEMPLATES[0]['DIRS']
-    favicon_link = "<link rel=\"icon\" type=\"image/x-icon\" href=\"{% static 'favicon.ico' %}\">"
+    templates = settings.TEMPLATES[0]["DIRS"]
+    favicon_link = (
+        '<link rel="icon" type="image/x-icon" href="{% static \'favicon.ico\' %}">'
+    )
 
     for template_dir in templates:
         try:
-            with open(template_dir, 'r+') as file:
+            with open(template_dir, "r+") as file:
                 content = file.read()
                 if "favicon.ico" not in content:
                     logger.info(f"Adding favicon link to template {template_dir}")
@@ -109,6 +114,7 @@ def run_diagnostics():
     check_static_files()
     add_favicon_to_template()
     logger.info("Diagnostics completed.")
+
 
 if __name__ == "__main__":
     run_diagnostics()

@@ -2,7 +2,6 @@ from decimal import Decimal
 
 from django.db import models
 from django.db.models import Sum
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -10,9 +9,14 @@ class FinancialReports:
     @staticmethod
     def cash_flow_report(start_date, end_date):
         from financije.models.bank import CashFlow
+
         cash_flows = CashFlow.objects.filter(datum__range=[start_date, end_date])
-        income = cash_flows.filter(tip_transakcije='priljev').aggregate(total=Sum('iznos'))['total'] or Decimal('0.00')
-        expense = cash_flows.filter(tip_transakcije='odljev').aggregate(total=Sum('iznos'))['total'] or Decimal('0.00')
+        income = cash_flows.filter(tip_transakcije="priljev").aggregate(
+            total=Sum("iznos")
+        )["total"] or Decimal("0.00")
+        expense = cash_flows.filter(tip_transakcije="odljev").aggregate(
+            total=Sum("iznos")
+        )["total"] or Decimal("0.00")
         return {
             "income": income,
             "expense": expense,
@@ -23,25 +27,31 @@ class FinancialReports:
     def profit_and_loss_report(year, month):
         from financije.models.invoice import Invoice
         from financije.models.overhead import Overhead
+
         income = Invoice.objects.filter(
-            issue_date__year=year,
-            issue_date__month=month
-        ).aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
-        expenses = Overhead.objects.filter(
-            godina=year,
-            mjesec=month
-        ).aggregate(total=Sum('overhead_ukupno'))['total'] or Decimal('0.00')
+            issue_date__year=year, issue_date__month=month
+        ).aggregate(total=Sum("amount"))["total"] or Decimal("0.00")
+        expenses = Overhead.objects.filter(godina=year, mjesec=month).aggregate(
+            total=Sum("overhead_ukupno")
+        )["total"] or Decimal("0.00")
         return {
             "income": income,
             "expenses": expenses,
             "profit": income - expenses,
         }
 
+
 class BalanceSheet(models.Model):
     date = models.DateField(verbose_name=_("Datum"))
-    assets = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal('0.00'))
-    liabilities = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal('0.00'))
-    equity = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal('0.00'))
+    assets = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
+    liabilities = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
+    equity = models.DecimalField(
+        max_digits=12, decimal_places=2, default=Decimal("0.00")
+    )
 
     def __str__(self):
         return f"Balance Sheet as of {self.date}"
@@ -50,13 +60,14 @@ class BalanceSheet(models.Model):
         verbose_name = _("Balance Sheet")
         verbose_name_plural = _("Balance Sheets")
 
+
 class FinancialReport(models.Model):
     PERIODS = [
-        ('monthly', _("Monthly")),
-        ('quarterly', _("Quarterly")),
-        ('yearly', _("Yearly")),
+        ("monthly", _("Monthly")),
+        ("quarterly", _("Quarterly")),
+        ("yearly", _("Yearly")),
     ]
-    
+
     period = models.CharField(max_length=10, choices=PERIODS)
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField(null=True, blank=True)
@@ -68,50 +79,46 @@ class FinancialReport(models.Model):
     def generiraj_izvještaj(self):
         from financije.models.bank import CashFlow
 
-        if self.period == 'monthly':
+        if self.period == "monthly":
             priljev = CashFlow.objects.filter(
-                tip_transakcije='priljev',
+                tip_transakcije="priljev",
                 datum__year=self.year,
-                datum__month=self.month
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
+                datum__month=self.month,
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
             odljev = CashFlow.objects.filter(
-                tip_transakcije='odljev',
-                datum__year=self.year,
-                datum__month=self.month
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
+                tip_transakcije="odljev", datum__year=self.year, datum__month=self.month
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
-        elif self.period == 'quarterly':
+        elif self.period == "quarterly":
             kvartal_mjeseci = {
                 1: [1, 2, 3],
                 2: [4, 5, 6],
                 3: [7, 8, 9],
-                4: [10, 11, 12]
+                4: [10, 11, 12],
             }
             mjeseci = kvartal_mjeseci.get(self.kvartal, [])
-            
+
             priljev = CashFlow.objects.filter(
-                tip_transakcije='priljev',
+                tip_transakcije="priljev",
                 datum__year=self.year,
-                datum__month__in=mjeseci
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
-            
+                datum__month__in=mjeseci,
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
+
             odljev = CashFlow.objects.filter(
-                tip_transakcije='odljev',
+                tip_transakcije="odljev",
                 datum__year=self.year,
-                datum__month__in=mjeseci
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
-        
+                datum__month__in=mjeseci,
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
+
         else:  # yearly
             priljev = CashFlow.objects.filter(
-                tip_transakcije='priljev',
-                datum__year=self.year
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
-            
+                tip_transakcije="priljev", datum__year=self.year
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
+
             odljev = CashFlow.objects.filter(
-                tip_transakcije='odljev',
-                datum__year=self.year
-            ).aggregate(ukupno=Sum('iznos'))['ukupno'] or Decimal('0.00')
+                tip_transakcije="odljev", datum__year=self.year
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
         self.priljev_ukupno = priljev
         self.odljev_ukupno = odljev

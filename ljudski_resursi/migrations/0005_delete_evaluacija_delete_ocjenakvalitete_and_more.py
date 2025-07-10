@@ -7,45 +7,72 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('proizvodnja', '0002_initial'),
-        ('financije', '0005_alter_salaryaddition_evaluation_and_more'),
-        ('ljudski_resursi', '0004_nagrada_radnaevaluacija_remove_evaluacija_employee_and_more'),
+        ("proizvodnja", "0002_initial"),
+        ("financije", "0005_alter_salaryaddition_evaluation_and_more"),
+        (
+            "ljudski_resursi",
+            "0004_nagrada_radnaevaluacija_remove_evaluacija_employee_and_more",
+        ),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Evaluacija',
+            name="Evaluacija",
         ),
         migrations.DeleteModel(
-            name='OcjenaKvalitete',
+            name="OcjenaKvalitete",
         ),
         migrations.AddField(
-            model_name='radnaevaluacija',
-            name='employee',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='evaluacije', to='ljudski_resursi.employee'),
+            model_name="radnaevaluacija",
+            name="employee",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="evaluacije",
+                to="ljudski_resursi.employee",
+            ),
         ),
         migrations.AddField(
-            model_name='radnaevaluacija',
-            name='evaluator',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='dane_evaluacije', to='ljudski_resursi.employee'),
+            model_name="radnaevaluacija",
+            name="evaluator",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="dane_evaluacije",
+                to="ljudski_resursi.employee",
+            ),
         ),
         migrations.AddField(
-            model_name='nagrada',
-            name='employee',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='nagrade', to='ljudski_resursi.employee', verbose_name='Zaposlenik'),
+            model_name="nagrada",
+            name="employee",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="nagrade",
+                to="ljudski_resursi.employee",
+                verbose_name="Zaposlenik",
+            ),
         ),
         migrations.AddField(
-            model_name='nagrada',
-            name='odobrio',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='odobrene_nagrade', to='ljudski_resursi.employee', verbose_name='Odobrio'),
+            model_name="nagrada",
+            name="odobrio",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="odobrene_nagrade",
+                to="ljudski_resursi.employee",
+                verbose_name="Odobrio",
+            ),
         ),
         migrations.AddField(
-            model_name='nagrada',
-            name='radni_nalog',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='nagrade', to='proizvodnja.radninalog', verbose_name='Radni nalog'),
+            model_name="nagrada",
+            name="radni_nalog",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="nagrade",
+                to="proizvodnja.radninalog",
+                verbose_name="Radni nalog",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='radnaevaluacija',
-            unique_together={('employee', 'evaluation_period')},
+            name="radnaevaluacija",
+            unique_together={("employee", "evaluation_period")},
         ),
     ]

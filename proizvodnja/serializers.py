@@ -10,10 +10,25 @@ from financije.services import calculate_project_costs
 from ljudski_resursi.serializers import EmployeeSerializer
 
 from .models import (  # Remove Nagrada from imports; Oprema,  # Removed Oprema; RadniProces,  # Removed RadniProces; AnotherModel,  # Removed AnotherModel
-    Angazman, DodatniAngazman, GrupaPoslova, MonthlyWorkRecord, Notifikacija,
-    OcjenaKvalitete, PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
-    RadniNalog, RadniNalogMaterijal, TemplateRadniNalog, TipProjekta,
-    TipVozila, Usteda, VideoMaterijal, VideoPitanje)
+    Angazman,
+    DodatniAngazman,
+    GrupaPoslova,
+    MonthlyWorkRecord,
+    Notifikacija,
+    OcjenaKvalitete,
+    PovijestPromjena,
+    ProizvodniResurs,
+    Proizvodnja,
+    Projekt,
+    RadniNalog,
+    RadniNalogMaterijal,
+    TemplateRadniNalog,
+    TipProjekta,
+    TipVozila,
+    Usteda,
+    VideoMaterijal,
+    VideoPitanje,
+)
 
 User = get_user_model()
 
@@ -21,19 +36,19 @@ User = get_user_model()
 class TipProjektaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipProjekta
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TipVozilaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipVozila
-        fields = '__all__'
+        fields = "__all__"
 
 
 class GrupaPoslovaSerializer(serializers.ModelSerializer):
     class Meta:
         model = GrupaPoslova
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProjektSerializer(serializers.ModelSerializer):
@@ -47,14 +62,14 @@ class ProjektSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Projekt
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RadniNalogMaterijalSerializer(serializers.ModelSerializer):
     # materijal = MaterijalSerializer() # ako imaš definiran MaterijalSerializer u skladiste
     class Meta:
         model = RadniNalogMaterijal
-        fields = '__all__'
+        fields = "__all__"
 
 
 class RadniNalogSerializer(serializers.ModelSerializer):
@@ -67,7 +82,7 @@ class RadniNalogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RadniNalog
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AngazmanSerializer(serializers.ModelSerializer):
@@ -75,7 +90,7 @@ class AngazmanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Angazman
-        fields = '__all__'
+        fields = "__all__"
 
 
 class DodatniAngazmanSerializer(serializers.ModelSerializer):
@@ -83,7 +98,7 @@ class DodatniAngazmanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DodatniAngazman
-        fields = '__all__'
+        fields = "__all__"
 
 
 class OcjenaKvaliteteSerializer(serializers.ModelSerializer):
@@ -91,7 +106,7 @@ class OcjenaKvaliteteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = OcjenaKvalitete
-        fields = '__all__'
+        fields = "__all__"
 
 
 # Remove NagradaSerializer class
@@ -100,25 +115,25 @@ class OcjenaKvaliteteSerializer(serializers.ModelSerializer):
 class VideoMaterijalSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoMaterijal
-        fields = '__all__'
+        fields = "__all__"
 
 
 class VideoPitanjeSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoPitanje
-        fields = '__all__'
+        fields = "__all__"
 
 
 class NotifikacijaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notifikacija
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PovijestPromjenaSerializer(serializers.ModelSerializer):
     class Meta:
         model = PovijestPromjena
-        fields = '__all__'
+        fields = "__all__"
 
 
 class MonthlyWorkRecordSerializer(serializers.ModelSerializer):
@@ -126,25 +141,25 @@ class MonthlyWorkRecordSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MonthlyWorkRecord
-        fields = '__all__'
+        fields = "__all__"
 
 
 class UstedaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usteda
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProizvodniResursSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProizvodniResurs
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TemplateRadniNalogSerializer(serializers.ModelSerializer):
     class Meta:
         model = TemplateRadniNalog
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ProizvodnjaSerializer(serializers.ModelSerializer):
@@ -152,4 +167,4 @@ class ProizvodnjaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Proizvodnja
-        fields = '__all__'
+        fields = "__all__"

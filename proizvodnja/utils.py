@@ -1,50 +1,46 @@
 # erp_system/proizvodnja/utils.py
 
-import csv
 import logging
 from datetime import datetime
 from decimal import Decimal
 
-import requests
 from asgiref.sync import async_to_sync
-from bs4 import BeautifulSoup
 from channels.layers import get_channel_layer
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Avg, Q
 from django.shortcuts import render
 
-from financije.models import (Municipality,  # ako ih doista koristiš
-                              TaxConfiguration)
-from ljudski_resursi.models import \
-    Employee  # OK: Employee je u ljudski_resursi
-# Ovako ispravno importamo iz 'proizvodnja.models':
-from proizvodnja.models import (Notifikacija, PovijestPromjena, Projekt,
-                                RadniNalog)
+from financije.models import Municipality  # ako ih doista koristiš
+from ljudski_resursi.models import Employee  # OK: Employee je u ljudski_resursi
 
-logger = logging.getLogger('nalozi')
+# Ovako ispravno importamo iz 'proizvodnja.models':
+from proizvodnja.models import PovijestPromjena
+
+logger = logging.getLogger("nalozi")
 
 
 ########################################
 # 1. Access-Level Checking
 ########################################
 
+
 def check_access_level(user, allowed_positions=None, allowed_hierarchies=None):
     if user.is_superuser:
         return True
 
-    employee = getattr(user, 'employee', None)
+    employee = getattr(user, "employee", None)
     if not employee:
         return False
 
     # Primjer provjere (adjust prema svojoj logici):
     if allowed_positions:
-        if getattr(employee, 'access_level', None) not in allowed_positions:
+        if getattr(employee, "access_level", None) not in allowed_positions:
             return False
 
     # Provjera hijerarhije (ako treba)
     if allowed_hierarchies:
-        position = getattr(employee, 'position', None)
-        hierarchical_level = getattr(position, 'hierarchical_level', None)
+        position = getattr(employee, "position", None)
+        hierarchical_level = getattr(position, "hierarchical_level", None)
         if not hierarchical_level:
             return False
         level_name = hierarchical_level.name
@@ -58,10 +54,12 @@ def protected_view(view, allowed_positions=None, allowed_hierarchies=None):
     """
     Dekorator za zaštitu pogleda prema 'check_access_level'.
     """
+
     def wrapped_view(request, *args, **kwargs):
         if not check_access_level(request.user, allowed_positions, allowed_hierarchies):
-            return render(request, 'errors/403.html', status=403)
+            return render(request, "errors/403.html", status=403)
         return view(request, *args, **kwargs)
+
     return wrapped_view
 
 
@@ -72,8 +70,12 @@ def is_management(user):
     """
     try:
         return user.employee.access_level in [
-            "Direktor", "Administrator", "Voditelj Projekta",
-            "Voditelj Proizvodnje", "Nabava", "Projektant"
+            "Direktor",
+            "Administrator",
+            "Voditelj Projekta",
+            "Voditelj Proizvodnje",
+            "Nabava",
+            "Projektant",
         ]
     except AttributeError:
         return False
@@ -90,6 +92,7 @@ def management_required(view_func):
 ########################################
 # 2. Notification Utilities
 ########################################
+
 
 def informiraj_korisnika(korisnik, poruka):
     """
@@ -119,7 +122,7 @@ def informiraj_ocjenjivace(radni_nalog):
             if ocjenjivac.user:
                 informiraj_korisnika(
                     ocjenjivac.user,
-                    f"Evaluation required for work order: {radni_nalog.naziv_naloga}"
+                    f"Evaluation required for work order: {radni_nalog.naziv_naloga}",
                 )
     except Exception as e:
         logger.error(f"Error notifying evaluators: {str(e)}")
@@ -128,6 +131,7 @@ def informiraj_ocjenjivace(radni_nalog):
 ########################################
 # 3. Logging & Project Status
 ########################################
+
 
 def log_action(korisnik, objekt, akcija, dodatni_podaci=None):
     """
@@ -152,7 +156,7 @@ def izracunaj_prosjek_ocjena(radni_nalog):
     Primjer: prosjek ocjena radnog naloga (npr. OcjenaKvalitete).
     """
     try:
-        prosjek = radni_nalog.ocjene_kvalitete.aggregate(avg=Avg('ocjena'))['avg'] or 0
+        prosjek = radni_nalog.ocjene_kvalitete.aggregate(avg=Avg("ocjena"))["avg"] or 0
         return round(prosjek, 2)
     except Exception as e:
         logger.error(f"Error calculating average score: {str(e)}")
@@ -164,22 +168,28 @@ def izracunaj_status_projekta(projekt):
     Primjer: custom logika za izračun statusa (možeš prilagoditi).
     """
     try:
-        napredak = projekt.izracunaj_napredak()
-        # Ovdje su polja 'predvidjeni_troskovi' i 'stvarni_troskovi' 
+        projekt.izracunaj_napredak()
+        # Ovdje su polja 'predvidjeni_troskovi' i 'stvarni_troskovi'
         # ako postoji takva logika u projekt modelu
-        predvidjeni = getattr(projekt, 'predvidjeni_troskovi', Decimal('0.00'))
-        stvarni = getattr(projekt, 'stvarni_troskovi', Decimal('0.00'))
+        getattr(projekt, "predvidjeni_troskovi", Decimal("0.00"))
+        getattr(projekt, "stvarni_troskovi", Decimal("0.00"))
 
         danas = datetime.now().date()
         if projekt.rok_za_isporuku:
-            preostalo_dana = (projekt.rok_za_isporuku - danas).days
+            (projekt.rok_za_isporuku - danas).days
         else:
-            preostalo_dana = None
+            pass
 
         # tražimo još nezavršene radne naloge
-        nezavrseni_nalozi = projekt.radni_nalozi.filter(~Q(status='ZAVRSENO'), is_active=True).exists()
+        nezavrseni_nalozi = projekt.radni_nalozi.filter(
+            ~Q(status="ZAVRSENO"), is_active=True
+        ).exists()
 
-        if projekt.rok_za_isporuku and danas > projekt.rok_za_isporuku and nezavrseni_nalozi:
+        if (
+            projekt.rok_za_isporuku
+            and danas > projekt.rok_za_isporuku
+            and nezavrseni_nalozi
+        ):
             return "PROBIJEN_ROK"
         elif not nezavrseni_nalozi:
             return "ZAVRSENO"

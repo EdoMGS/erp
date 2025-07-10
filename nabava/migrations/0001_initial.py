@@ -11,126 +11,380 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Dobavljac',
+            name="Dobavljac",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('naziv', models.CharField(max_length=200, verbose_name='Naziv dobavljača')),
-                ('oib', models.CharField(max_length=11, unique=True, verbose_name='OIB')),
-                ('adresa', models.CharField(max_length=200, verbose_name='Adresa')),
-                ('grad', models.CharField(max_length=100, verbose_name='Grad')),
-                ('drzava', models.CharField(max_length=100, verbose_name='Država')),
-                ('email', models.EmailField(max_length=254, verbose_name='Email')),
-                ('telefon', models.CharField(max_length=50, verbose_name='Telefon')),
-                ('web', models.URLField(blank=True, null=True, verbose_name='Web stranica')),
-                ('rejting', models.CharField(choices=[('A', 'A - Strateški partner'), ('B', 'B - Preferirani dobavljač'), ('C', 'C - Odobreni dobavljač'), ('D', 'D - Novi/Neocijenjeni dobavljač')], default='D', max_length=1, verbose_name='Rejting')),
-                ('rok_placanja', models.PositiveIntegerField(default=30, verbose_name='Rok plaćanja (dana)')),
-                ('popust', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=5, validators=[django.core.validators.MinValueValidator(Decimal('0.00'))], verbose_name='Standardni popust (%)')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Aktivno')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "naziv",
+                    models.CharField(max_length=200, verbose_name="Naziv dobavljača"),
+                ),
+                (
+                    "oib",
+                    models.CharField(max_length=11, unique=True, verbose_name="OIB"),
+                ),
+                ("adresa", models.CharField(max_length=200, verbose_name="Adresa")),
+                ("grad", models.CharField(max_length=100, verbose_name="Grad")),
+                ("drzava", models.CharField(max_length=100, verbose_name="Država")),
+                ("email", models.EmailField(max_length=254, verbose_name="Email")),
+                ("telefon", models.CharField(max_length=50, verbose_name="Telefon")),
+                (
+                    "web",
+                    models.URLField(blank=True, null=True, verbose_name="Web stranica"),
+                ),
+                (
+                    "rejting",
+                    models.CharField(
+                        choices=[
+                            ("A", "A - Strateški partner"),
+                            ("B", "B - Preferirani dobavljač"),
+                            ("C", "C - Odobreni dobavljač"),
+                            ("D", "D - Novi/Neocijenjeni dobavljač"),
+                        ],
+                        default="D",
+                        max_length=1,
+                        verbose_name="Rejting",
+                    ),
+                ),
+                (
+                    "rok_placanja",
+                    models.PositiveIntegerField(
+                        default=30, verbose_name="Rok plaćanja (dana)"
+                    ),
+                ),
+                (
+                    "popust",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=5,
+                        validators=[
+                            django.core.validators.MinValueValidator(Decimal("0.00"))
+                        ],
+                        verbose_name="Standardni popust (%)",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Aktivno"),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name': 'Dobavljač',
-                'verbose_name_plural': 'Dobavljači',
-                'ordering': ['naziv'],
+                "verbose_name": "Dobavljač",
+                "verbose_name_plural": "Dobavljači",
+                "ordering": ["naziv"],
             },
         ),
         migrations.CreateModel(
-            name='GrupaDobavljaca',
+            name="GrupaDobavljaca",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('naziv', models.CharField(max_length=100, unique=True, verbose_name='Naziv grupe')),
-                ('opis', models.TextField(blank=True, null=True, verbose_name='Opis')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Aktivno')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "naziv",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Naziv grupe"
+                    ),
+                ),
+                ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Aktivno"),
+                ),
             ],
             options={
-                'verbose_name': 'Grupa dobavljača',
-                'verbose_name_plural': 'Grupe dobavljača',
-                'ordering': ['naziv'],
+                "verbose_name": "Grupa dobavljača",
+                "verbose_name_plural": "Grupe dobavljača",
+                "ordering": ["naziv"],
             },
         ),
         migrations.CreateModel(
-            name='Narudzbenica',
+            name="Narudzbenica",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('broj', models.CharField(max_length=20, verbose_name='Broj narudžbenice')),
-                ('datum', models.DateField(verbose_name='Datum')),
-                ('status', models.CharField(choices=[('draft', 'U pripremi'), ('sent', 'Poslano'), ('received', 'Zaprimljeno'), ('cancelled', 'Otkazano')], default='draft', max_length=20, verbose_name='Status')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "broj",
+                    models.CharField(max_length=20, verbose_name="Broj narudžbenice"),
+                ),
+                ("datum", models.DateField(verbose_name="Datum")),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("draft", "U pripremi"),
+                            ("sent", "Poslano"),
+                            ("received", "Zaprimljeno"),
+                            ("cancelled", "Otkazano"),
+                        ],
+                        default="draft",
+                        max_length=20,
+                        verbose_name="Status",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name': 'Narudžbenica',
-                'verbose_name_plural': 'Narudžbenice',
-                'ordering': ['-datum', 'broj'],
+                "verbose_name": "Narudžbenica",
+                "verbose_name_plural": "Narudžbenice",
+                "ordering": ["-datum", "broj"],
             },
         ),
         migrations.CreateModel(
-            name='NarudzbenicaStavka',
+            name="NarudzbenicaStavka",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('kolicina', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Količina')),
-                ('cijena', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Cijena')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "kolicina",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Količina"
+                    ),
+                ),
+                (
+                    "cijena",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Cijena"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Stavka narudžbenice',
-                'verbose_name_plural': 'Stavke narudžbenice',
+                "verbose_name": "Stavka narudžbenice",
+                "verbose_name_plural": "Stavke narudžbenice",
             },
         ),
         migrations.CreateModel(
-            name='ProcurementPlan',
+            name="ProcurementPlan",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('project_name', models.CharField(max_length=200, verbose_name='Project Name')),
-                ('item', models.CharField(max_length=200, verbose_name='Item/Material')),
-                ('quantity', models.IntegerField(verbose_name='Quantity')),
-                ('required_date', models.DateField(verbose_name='Required Date')),
-                ('status', models.CharField(max_length=100, verbose_name='Status')),
-                ('responsible_person', models.CharField(max_length=200, verbose_name='Responsible Person')),
-                ('note', models.TextField(blank=True, null=True, verbose_name='Note')),
-                ('priority', models.CharField(choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High')], default='medium', max_length=20, verbose_name='Prioritet')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "project_name",
+                    models.CharField(max_length=200, verbose_name="Project Name"),
+                ),
+                (
+                    "item",
+                    models.CharField(max_length=200, verbose_name="Item/Material"),
+                ),
+                ("quantity", models.IntegerField(verbose_name="Quantity")),
+                ("required_date", models.DateField(verbose_name="Required Date")),
+                ("status", models.CharField(max_length=100, verbose_name="Status")),
+                (
+                    "responsible_person",
+                    models.CharField(max_length=200, verbose_name="Responsible Person"),
+                ),
+                ("note", models.TextField(blank=True, null=True, verbose_name="Note")),
+                (
+                    "priority",
+                    models.CharField(
+                        choices=[
+                            ("low", "Low"),
+                            ("medium", "Medium"),
+                            ("high", "High"),
+                        ],
+                        default="medium",
+                        max_length=20,
+                        verbose_name="Prioritet",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ProcurementRequest',
+            name="ProcurementRequest",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('item', models.CharField(max_length=200, verbose_name='Item')),
-                ('quantity', models.IntegerField(verbose_name='Quantity')),
-                ('department', models.CharField(max_length=200, verbose_name='Department')),
-                ('status', models.CharField(max_length=100, verbose_name='Status')),
-                ('request_date', models.DateField(verbose_name='Request Date')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("item", models.CharField(max_length=200, verbose_name="Item")),
+                ("quantity", models.IntegerField(verbose_name="Quantity")),
+                (
+                    "department",
+                    models.CharField(max_length=200, verbose_name="Department"),
+                ),
+                ("status", models.CharField(max_length=100, verbose_name="Status")),
+                ("request_date", models.DateField(verbose_name="Request Date")),
             ],
         ),
         migrations.CreateModel(
-            name='PurchaseOrder',
+            name="PurchaseOrder",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('order_date', models.DateField(default=django.utils.timezone.now, verbose_name='Order Date')),
-                ('expected_delivery_date', models.DateField(blank=True, null=True, verbose_name='Expected Delivery')),
-                ('status', models.CharField(choices=[('draft', 'Draft'), ('sent', 'Sent'), ('partially_received', 'Partially Received'), ('received', 'Fully Received'), ('cancelled', 'Cancelled')], default='draft', max_length=20, verbose_name='Status narudžbe')),
-                ('is_jit', models.BooleanField(default=False, verbose_name='Just-In-Time?')),
-                ('delivery_schedule', models.DateField(blank=True, null=True, verbose_name='Delivery Schedule')),
-                ('reference_price', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Reference Price (€/unit)')),
-                ('agreed_price', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Agreed Price (€/unit)')),
-                ('justification_for_deviation', models.TextField(blank=True, null=True, verbose_name='Justification for price deviation')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Date Created')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Date Updated')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "order_date",
+                    models.DateField(
+                        default=django.utils.timezone.now, verbose_name="Order Date"
+                    ),
+                ),
+                (
+                    "expected_delivery_date",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Expected Delivery"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("draft", "Draft"),
+                            ("sent", "Sent"),
+                            ("partially_received", "Partially Received"),
+                            ("received", "Fully Received"),
+                            ("cancelled", "Cancelled"),
+                        ],
+                        default="draft",
+                        max_length=20,
+                        verbose_name="Status narudžbe",
+                    ),
+                ),
+                (
+                    "is_jit",
+                    models.BooleanField(default=False, verbose_name="Just-In-Time?"),
+                ),
+                (
+                    "delivery_schedule",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Delivery Schedule"
+                    ),
+                ),
+                (
+                    "reference_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Reference Price (€/unit)",
+                    ),
+                ),
+                (
+                    "agreed_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Agreed Price (€/unit)",
+                    ),
+                ),
+                (
+                    "justification_for_deviation",
+                    models.TextField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Justification for price deviation",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Date Created"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Date Updated"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PurchaseOrderLine',
+            name="PurchaseOrderLine",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Količina')),
-                ('unit_price', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Jedinična cijena (€)')),
-                ('discount', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=5, verbose_name='Popust (%)')),
-                ('received_quantity', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Zaprimljena količina')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "quantity",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Količina"
+                    ),
+                ),
+                (
+                    "unit_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Jedinična cijena (€)",
+                    ),
+                ),
+                (
+                    "discount",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=5,
+                        verbose_name="Popust (%)",
+                    ),
+                ),
+                (
+                    "received_quantity",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Zaprimljena količina",
+                    ),
+                ),
             ],
         ),
     ]

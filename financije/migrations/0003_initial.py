@@ -10,119 +10,192 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('client_app', '0001_initial'),
+        ("client_app", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('skladiste', '0001_initial'),
-        ('financije', '0002_initial'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("skladiste", "0001_initial"),
+        ("financije", "0002_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='racun',
-            name='primka',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='racun', to='skladiste.primka'),
+            model_name="racun",
+            name="primka",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="racun",
+                to="skladiste.primka",
+            ),
         ),
         migrations.AddField(
-            model_name='payment',
-            name='related_invoice',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='payments', to='financije.invoice'),
+            model_name="payment",
+            name="related_invoice",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="payments",
+                to="financije.invoice",
+            ),
         ),
         migrations.AddIndex(
-            model_name='overhead',
-            index=models.Index(fields=['godina', 'mjesec'], name='financije_o_godina_319e82_idx'),
+            model_name="overhead",
+            index=models.Index(
+                fields=["godina", "mjesec"], name="financije_o_godina_319e82_idx"
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='overhead',
-            unique_together={('godina', 'mjesec')},
+            name="overhead",
+            unique_together={("godina", "mjesec")},
         ),
         migrations.AddField(
-            model_name='monthlyoverhead',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='financije.overheadcategory', verbose_name='Category'),
+            model_name="monthlyoverhead",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="financije.overheadcategory",
+                verbose_name="Category",
+            ),
         ),
         migrations.AddIndex(
-            model_name='mjesecnioverheadpregled',
-            index=models.Index(fields=['godina', 'mjesec'], name='financije_m_godina_105e1d_idx'),
+            model_name="mjesecnioverheadpregled",
+            index=models.Index(
+                fields=["godina", "mjesec"], name="financije_m_godina_105e1d_idx"
+            ),
         ),
         migrations.AddField(
-            model_name='journalitem',
-            name='account',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='financije.account'),
+            model_name="journalitem",
+            name="account",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="financije.account"
+            ),
         ),
         migrations.AddField(
-            model_name='journalitem',
-            name='entry',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='journalitem_set', to='financije.journalentry'),
+            model_name="journalitem",
+            name="entry",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="journalitem_set",
+                to="financije.journalentry",
+            ),
         ),
         migrations.AddField(
-            model_name='journalentry',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Korisnik'),
+            model_name="journalentry",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Korisnik",
+            ),
         ),
         migrations.AddField(
-            model_name='invoiceline',
-            name='invoice',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lines', to='financije.invoice'),
+            model_name="invoiceline",
+            name="invoice",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="lines",
+                to="financije.invoice",
+            ),
         ),
         migrations.AddField(
-            model_name='invoice',
-            name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='invoices', to='client_app.clientsupplier', verbose_name='Klijent'),
+            model_name="invoice",
+            name="client",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="invoices",
+                to="client_app.clientsupplier",
+                verbose_name="Klijent",
+            ),
         ),
         migrations.AddField(
-            model_name='invoice',
-            name='user',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Kreirao'),
+            model_name="invoice",
+            name="user",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Kreirao",
+            ),
         ),
         migrations.AddField(
-            model_name='financijskatransakcija',
-            name='content_type',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.contenttype'),
+            model_name="financijskatransakcija",
+            name="content_type",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="contenttypes.contenttype",
+            ),
         ),
         migrations.AddField(
-            model_name='debt',
-            name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='client_app.clientsupplier', verbose_name='Client'),
+            model_name="debt",
+            name="client",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="client_app.clientsupplier",
+                verbose_name="Client",
+            ),
         ),
         migrations.AddField(
-            model_name='debt',
-            name='invoice',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='debts', to='financije.invoice', verbose_name='Invoice'),
+            model_name="debt",
+            name="invoice",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="debts",
+                to="financije.invoice",
+                verbose_name="Invoice",
+            ),
         ),
         migrations.AddField(
-            model_name='cashflow',
-            name='bank_transaction',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='cashflow_entry', to='financije.banktransaction'),
+            model_name="cashflow",
+            name="bank_transaction",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="cashflow_entry",
+                to="financije.banktransaction",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='budget',
-            unique_together={('godina', 'mjesec')},
+            name="budget",
+            unique_together={("godina", "mjesec")},
         ),
         migrations.AddField(
-            model_name='auditlog',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="auditlog",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='account',
-            name='parent_account',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='subaccounts', to='financije.account', verbose_name='Nadređeni konto'),
+            model_name="account",
+            name="parent_account",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="subaccounts",
+                to="financije.account",
+                verbose_name="Nadređeni konto",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='variablepayrule',
-            unique_together={('position', 'expertise_level')},
+            name="variablepayrule",
+            unique_together={("position", "expertise_level")},
         ),
         migrations.AddIndex(
-            model_name='racun',
-            index=models.Index(fields=['broj'], name='financije_r_broj_cddbcd_idx'),
+            model_name="racun",
+            index=models.Index(fields=["broj"], name="financije_r_broj_cddbcd_idx"),
         ),
         migrations.AddIndex(
-            model_name='racun',
-            index=models.Index(fields=['datum'], name='financije_r_datum_5b4679_idx'),
+            model_name="racun",
+            index=models.Index(fields=["datum"], name="financije_r_datum_5b4679_idx"),
         ),
         migrations.AddIndex(
-            model_name='monthlyoverhead',
-            index=models.Index(fields=['year', 'month', 'category'], name='financije_m_year_f983a9_idx'),
+            model_name="monthlyoverhead",
+            index=models.Index(
+                fields=["year", "month", "category"], name="financije_m_year_f983a9_idx"
+            ),
         ),
     ]

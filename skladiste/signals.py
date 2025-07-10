@@ -13,8 +13,9 @@ def update_financije_artikl(sender, instance, created, **kwargs):
         FinancijskaTransakcija.objects.create(
             iznos=instance.get_total_value(),
             opis=f"Promjena stanja artikla {instance.naziv}",
-            content_object=instance
+            content_object=instance,
         )
+
 
 @receiver(post_save, sender=Materijal)
 def update_financije_materijal(sender, instance, created, **kwargs):
@@ -23,7 +24,8 @@ def update_financije_materijal(sender, instance, created, **kwargs):
         FinancijskaTransakcija.objects.create(
             iznos=instance.artikl.get_total_value(),
             opis=f"Promjena materijala {instance.naziv}",
-            content_object=instance
+            content_object=instance,
         )
+
 
 # ...more signals...

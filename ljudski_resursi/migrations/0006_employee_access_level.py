@@ -6,13 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ljudski_resursi', '0005_delete_evaluacija_delete_ocjenakvalitete_and_more'),
+        ("ljudski_resursi", "0005_delete_evaluacija_delete_ocjenakvalitete_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='employee',
-            name='access_level',
-            field=models.CharField(choices=[('Direktor', 'Direktor'), ('Administrator', 'Administrator'), ('Voditelj Projekta', 'Voditelj Projekta'), ('Voditelj Proizvodnje', 'Voditelj Proizvodnje'), ('Nabava', 'Nabava'), ('Projektant', 'Projektant'), ('Radnik', 'Radnik'), ('Skladištar', 'Skladištar')], default='Radnik', max_length=50, verbose_name='Razina pristupa'),
+            model_name="employee",
+            name="access_level",
+            field=models.CharField(
+                choices=[
+                    ("Direktor", "Direktor"),
+                    ("Administrator", "Administrator"),
+                    ("Voditelj Projekta", "Voditelj Projekta"),
+                    ("Voditelj Proizvodnje", "Voditelj Proizvodnje"),
+                    ("Nabava", "Nabava"),
+                    ("Projektant", "Projektant"),
+                    ("Radnik", "Radnik"),
+                    ("Skladištar", "Skladištar"),
+                ],
+                default="Radnik",
+                max_length=50,
+                verbose_name="Razina pristupa",
+            ),
         ),
     ]

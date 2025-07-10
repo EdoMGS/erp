@@ -9,35 +9,54 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('ljudski_resursi', '0001_initial'),
-        ('client_app', '0001_initial'),
-        ('financije', '0001_initial'),
+        ("ljudski_resursi", "0001_initial"),
+        ("client_app", "0001_initial"),
+        ("financije", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='variablepayrule',
-            name='expertise_level',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.expertiselevel', verbose_name='Razina stručnosti'),
+            model_name="variablepayrule",
+            name="expertise_level",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="ljudski_resursi.expertiselevel",
+                verbose_name="Razina stručnosti",
+            ),
         ),
         migrations.AddField(
-            model_name='variablepayrule',
-            name='position',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.position', verbose_name='Pozicija'),
+            model_name="variablepayrule",
+            name="position",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="ljudski_resursi.position",
+                verbose_name="Pozicija",
+            ),
         ),
         migrations.AddField(
-            model_name='salescontract',
-            name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='client_app.clientsupplier', verbose_name='Client'),
+            model_name="salescontract",
+            name="client",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="client_app.clientsupplier",
+                verbose_name="Client",
+            ),
         ),
         migrations.AddField(
-            model_name='salaryaddition',
-            name='salary',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='financije.salary'),
+            model_name="salaryaddition",
+            name="salary",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="financije.salary"
+            ),
         ),
         migrations.AddField(
-            model_name='salary',
-            name='employee',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.employee', verbose_name='Zaposlenik'),
+            model_name="salary",
+            name="employee",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="ljudski_resursi.employee",
+                verbose_name="Zaposlenik",
+            ),
         ),
     ]

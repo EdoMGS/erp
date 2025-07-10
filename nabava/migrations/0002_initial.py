@@ -9,24 +9,39 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('nabava', '0001_initial'),
-        ('skladiste', '0001_initial'),
+        ("nabava", "0001_initial"),
+        ("skladiste", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='purchaseorderline',
-            name='artikl',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='skladiste.artikl', verbose_name='Artikl'),
+            model_name="purchaseorderline",
+            name="artikl",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                to="skladiste.artikl",
+                verbose_name="Artikl",
+            ),
         ),
         migrations.AddField(
-            model_name='purchaseorderline',
-            name='purchase_order',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lines', to='nabava.purchaseorder', verbose_name='Purchase Order'),
+            model_name="purchaseorderline",
+            name="purchase_order",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="lines",
+                to="nabava.purchaseorder",
+                verbose_name="Purchase Order",
+            ),
         ),
         migrations.AddField(
-            model_name='purchaseorder',
-            name='supplier',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='nabava.dobavljac', verbose_name='Dobavljač'),
+            model_name="purchaseorder",
+            name="supplier",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="nabava.dobavljac",
+                verbose_name="Dobavljač",
+            ),
         ),
     ]

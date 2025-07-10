@@ -9,22 +9,43 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('prodaja', '0008_salesopportunity_amount_salesopportunity_notes'),
+        ("prodaja", "0008_salesopportunity_amount_salesopportunity_notes"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TenderStatusChange',
+            name="TenderStatusChange",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('old_status', models.CharField(max_length=50)),
-                ('new_status', models.CharField(max_length=50)),
-                ('changed_at', models.DateTimeField(auto_now_add=True)),
-                ('changed_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
-                ('tender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='prodaja.tenderpreparation')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("old_status", models.CharField(max_length=50)),
+                ("new_status", models.CharField(max_length=50)),
+                ("changed_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "changed_by",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "tender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="prodaja.tenderpreparation",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-changed_at'],
+                "ordering": ["-changed_at"],
             },
         ),
     ]

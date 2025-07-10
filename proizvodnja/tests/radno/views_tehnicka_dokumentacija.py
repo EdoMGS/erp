@@ -62,34 +62,21 @@ class DodajTehnickuDokumentacijuView(LoginRequiredMixin, CreateView):
     form_class = TehnickaDokumentacijaForm
     template_name = 'dodaj_tehnicku_dokumentaciju.html'
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        Sprema novu tehničku dokumentaciju i povezuje je s projektom ili radnim nalogom.
-        """
-        dokumentacija = form.save(commit=False)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
         radni_nalog_id = self.kwargs.get('radni_nalog_id')
         projekt_id = self.kwargs.get('projekt_id')
-
         if radni_nalog_id:
-            dokumentacija.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
+            instance.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
         elif projekt_id:
-            dokumentacija.projekt = get_object_or_404(Projekt, id=projekt_id)
-
-        dokumentacija.save()
-
-        # Logiranje kreiranja
-        log_action(self.request.user, dokumentacija, "CREATE", form.cleaned_data)
-
+            instance.projekt = get_object_or_404(Projekt, id=projekt_id)
+        instance.save()
+        form.save_m2m()
+        try:
+            from .utils import log_action
+            log_action(self.request.user, instance, "CREATE", form.cleaned_data)
+        except ImportError:
+            pass
         messages.success(self.request, "Tehnička dokumentacija uspješno dodana!")
         return redirect(self.get_success_url())
 

@@ -1,7 +1,7 @@
 from django import template
-from django.template.defaultfilters import floatformat
 
 register = template.Library()
+
 
 @register.filter
 def get_display_value(instance, field_name):
@@ -14,7 +14,8 @@ def get_display_value(instance, field_name):
     if hasattr(instance, method_name):
         method = getattr(instance, method_name)
         return method()
-    return getattr(instance, field_name, '')
+    return getattr(instance, field_name, "")
+
 
 @register.filter
 def in_list(value, lst):
@@ -23,12 +24,14 @@ def in_list(value, lst):
         return False
     return value in lst
 
-@register.filter(name='yes_no')
+
+@register.filter(name="yes_no")
 def yes_no(value):
     """Prikazuje 'Da' za True i 'Ne' za False."""
     return "Da" if value else "Ne"
 
-@register.filter(name='add_class')
+
+@register.filter(name="add_class")
 def add_class(field, css_class):
     """Dodaje CSS klasu polju forme."""
     try:
@@ -36,7 +39,8 @@ def add_class(field, css_class):
     except AttributeError:
         return field
 
-@register.filter(name='add_placeholder')
+
+@register.filter(name="add_placeholder")
 def add_placeholder(field, placeholder_text):
     """Dodaje placeholder atribut polju forme."""
     try:
@@ -44,19 +48,21 @@ def add_placeholder(field, placeholder_text):
     except AttributeError:
         return field
 
-@register.filter(name='add_attributes')
+
+@register.filter(name="add_attributes")
 def add_attributes(field, attributes):
     """Dodaje više atributa polju forme."""
     attrs = {}
     try:
-        for attr in attributes.split(','):
-            key, value = attr.split('=', 1)
+        for attr in attributes.split(","):
+            key, value = attr.split("=", 1)
             attrs[key.strip()] = value.strip()
         return field.as_widget(attrs=attrs)
     except (ValueError, AttributeError):
         return field
 
-@register.filter(name='currency')
+
+@register.filter(name="currency")
 def currency(value, currency_symbol="€"):
     """Formatira numeričku vrijednost u valutu."""
     try:
@@ -65,25 +71,28 @@ def currency(value, currency_symbol="€"):
     except (TypeError, ValueError):
         return value
 
-@register.filter(name='split')
-def split(value, delimiter=' '):
+
+@register.filter(name="split")
+def split(value, delimiter=" "):
     """Splituje string na osnovu delimitera."""
     try:
         return value.split(delimiter)
     except AttributeError:
         return value
 
-@register.filter(name='status_to_class')
+
+@register.filter(name="status_to_class")
 def status_to_class(status):
     """Mapira status na Bootstrap klasu."""
     return {
-        'ZAVRSENO': 'success',
-        'U_TIJEKU': 'info',
-        'OTKAZANO': 'danger',
-        'CEKANJE': 'warning',
-    }.get(str(status).upper(), 'secondary')
+        "ZAVRSENO": "success",
+        "U_TIJEKU": "info",
+        "OTKAZANO": "danger",
+        "CEKANJE": "warning",
+    }.get(str(status).upper(), "secondary")
 
-@register.filter(name='hasattr')
+
+@register.filter(name="hasattr")
 def has_attr(obj, attr_name):
     """Vraća True/False ovisno o tome ima li 'obj' atribut 'attr_name'."""
     return hasattr(obj, attr_name)

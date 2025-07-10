@@ -2,7 +2,6 @@ from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.template.loader import get_template
 from django.views.generic import TemplateView, View
 from xhtml2pdf import pisa
@@ -36,8 +35,16 @@ class DnevniIzvjestajView(LoginRequiredMixin, TemplateView):
         ).count()
 
         # Dohvaćanje detalja aktivnosti
-        aktivnosti = list(Projekt.objects.filter(updated_at__date=datum).values("id", "naziv_projekta", "updated_at"))
-        aktivnosti += list(RadniNalog.objects.filter(updated_at__date=datum).values("id", "naziv_naloga", "updated_at"))
+        aktivnosti = list(
+            Projekt.objects.filter(updated_at__date=datum).values(
+                "id", "naziv_projekta", "updated_at"
+            )
+        )
+        aktivnosti += list(
+            RadniNalog.objects.filter(updated_at__date=datum).values(
+                "id", "naziv_naloga", "updated_at"
+            )
+        )
         aktivnosti = sorted(aktivnosti, key=lambda x: x["updated_at"], reverse=True)
 
         # Prikaz podataka za aktivnosti

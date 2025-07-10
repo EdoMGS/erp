@@ -40,23 +40,12 @@ class DodajVideoMaterijalView(LoginRequiredMixin, CreateView):
     form_class = VideoMaterijalForm
     template_name = 'video_materijali/dodaj_video_materijal.html'
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        video_materijal.projekt = get_object_or_404(Projekt, id=self.kwargs.get('projekt_id'))
-        video_materijal.save()
-        log_action(self.request.user, video_materijal, 'CREATE')
-        messages.success(self.request, "Video materijal uspješno dodan!")
-        return redirect(self.get_success_url())
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.save()  # Sprema instancu kako bi dobila ID
+        form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
+        messages.success(self.request, "Uspješno ažurirano!")
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('lista_video_materijala', kwargs={'projekt_id': self.kwargs['projekt_id']})
@@ -67,20 +56,15 @@ class AzurirajVideoMaterijalView(LoginRequiredMixin, UpdateView):
     form_class = VideoMaterijalForm
     template_name = 'video_materijali/azuriraj_video_materijal.html'
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        video_materijal.save()
-        log_action(self.request.user, video_materijal, 'UPDATE')
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.save()
+        form.save_m2m()
+        try:
+            from .utils import log_action
+            log_action(self.request.user, instance, 'UPDATE')
+        except ImportError:
+            pass
         messages.success(self.request, "Video materijal uspješno ažuriran!")
         return redirect(self.get_success_url())
 

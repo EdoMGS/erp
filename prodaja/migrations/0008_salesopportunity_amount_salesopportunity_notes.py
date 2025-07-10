@@ -6,19 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('prodaja', '0007_tenderlabor_total_cost_tendermaterial_total_price_and_more'),
+        ("prodaja", "0007_tenderlabor_total_cost_tendermaterial_total_price_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='salesopportunity',
-            name='amount',
-            field=models.DecimalField(decimal_places=2, default=0, max_digits=10, verbose_name='Vrijednost'),
+            model_name="salesopportunity",
+            name="amount",
+            field=models.DecimalField(
+                decimal_places=2, default=0, max_digits=10, verbose_name="Vrijednost"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='salesopportunity',
-            name='notes',
-            field=models.TextField(blank=True, verbose_name='Bilješke'),
+            model_name="salesopportunity",
+            name="notes",
+            field=models.TextField(blank=True, verbose_name="Bilješke"),
         ),
     ]

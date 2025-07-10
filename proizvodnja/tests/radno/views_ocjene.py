@@ -60,35 +60,31 @@ class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     def test_func(self):
         return self.request.user.role in ["Voditelj", "Direktor", "Administrativno osoblje"]
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        ocjena.ocjenjivac = self.request.user.zaposlenik
-
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        # Ako postoji povezani zaposlenik, postavi ga kao ocjenjivača
+        if hasattr(self.request.user, 'zaposlenik'):
+            instance.ocjenjivac = self.request.user.zaposlenik
+        instance.save()
+        form.save_m2m()
         # Validacija: Jedan ocjenjivač može ocijeniti samo jednom po razini.
         postoji_ocjena = OcjenaKvalitete.objects.filter(
-            radni_nalog=ocjena.radni_nalog,
-            ocjenjivac=ocjena.ocjenjivac,
-            razina=ocjena.razina,
+            radni_nalog=instance.radni_nalog,
+            ocjenjivac=instance.ocjenjivac,
+            razina=instance.razina,
             is_active=True
         ).exists()
         if postoji_ocjena:
             form.add_error('razina', "Već ste ocijenili ovaj radni nalog za svoju razinu.")
             return self.form_invalid(form)
-
-        ocjena.save()
+        instance.save()
         messages.success(self.request, "Ocjena kvalitete uspješno dodana!")
-        informiraj_ocjenjivace(ocjena.radni_nalog)
-        log_action(self.request.user, ocjena, 'CREATE')
+        try:
+            from .utils import informiraj_ocjenjivace, log_action
+            informiraj_ocjenjivace(instance.radni_nalog)
+            log_action(self.request.user, instance, 'CREATE')
+        except ImportError:
+            pass
         return super().form_valid(form)
 
     def get_success_url(self):

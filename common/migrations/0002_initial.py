@@ -9,24 +9,39 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('ljudski_resursi', '0001_initial'),
-        ('common', '0001_initial'),
+        ("ljudski_resursi", "0001_initial"),
+        ("common", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notification',
-            name='recipient',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.employee'),
+            model_name="notification",
+            name="recipient",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="ljudski_resursi.employee",
+            ),
         ),
         migrations.AddField(
-            model_name='audittrail',
-            name='recipient',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='audittrail_recipient', to='ljudski_resursi.employee'),
+            model_name="audittrail",
+            name="recipient",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="audittrail_recipient",
+                to="ljudski_resursi.employee",
+            ),
         ),
         migrations.AddField(
-            model_name='audittrail',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='audittrail_user', to='ljudski_resursi.employee'),
+            model_name="audittrail",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="audittrail_user",
+                to="ljudski_resursi.employee",
+            ),
         ),
     ]

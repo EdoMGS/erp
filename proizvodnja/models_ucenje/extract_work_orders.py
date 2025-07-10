@@ -6,6 +6,7 @@ import pandas as pd
 BASE_FOLDER = r"D:\MGS-Davor\d$\192.168.1.61\d$\Arhiva MG\arhiva - 2\MG Rijeka docs"
 OUTPUT_FILE = "extracted_work_orders.csv"
 
+
 # Funkcija za pronalazak tablica u Excelu
 def find_valid_table(df):
     for i in range(len(df)):
@@ -13,6 +14,7 @@ def find_valid_table(df):
         if all(col in df.iloc[i].values for col in ["NAZIV", "RAD(h)", "IDE"]):
             return df.iloc[i + 1 :]  # Tablica počinje odmah nakon ovog retka
     return None
+
 
 # Funkcija za izdvajanje relevantnih podataka iz Excel datoteka
 def extract_relevant_data(file_path):
@@ -34,6 +36,7 @@ def extract_relevant_data(file_path):
         print(f"Greška pri obradi datoteke {file_path}: {e}")
         return None
 
+
 # Funkcija za pretraživanje Excel datoteka u folderima
 def search_excel_files(base_folder):
     extracted_data = []
@@ -47,6 +50,7 @@ def search_excel_files(base_folder):
                     extracted_data.append(data)
     return pd.concat(extracted_data, ignore_index=True) if extracted_data else None
 
+
 def main():
     # Pretraži i izvuci podatke iz Excel datoteka
     extracted_data = search_excel_files(BASE_FOLDER)
@@ -56,6 +60,7 @@ def main():
         print(f"Podaci su spremljeni u {OUTPUT_FILE}")
     else:
         print("Nema podataka za izdvajanje.")
+
 
 if __name__ == "__main__":
     main()

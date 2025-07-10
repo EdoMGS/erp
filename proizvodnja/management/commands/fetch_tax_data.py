@@ -5,8 +5,8 @@ from nalozi.utils import fetch_tax_data
 
 
 class Command(BaseCommand):
-    help = 'Dohvaća i ažurira podatke o porezima, doprinosima i općinama'
+    help = "Dohvaća i ažurira podatke o porezima, doprinosima i općinama"
 
     def handle(self, *args, **options):
         fetch_tax_data()
-        self.stdout.write(self.style.SUCCESS('Podaci su uspješno ažurirani.'))
+        self.stdout.write(self.style.SUCCESS("Podaci su uspješno ažurirani."))

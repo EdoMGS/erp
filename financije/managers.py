@@ -6,7 +6,4 @@ class OverheadManager(models.Manager):
     def current(self):
         """Get current month's overhead"""
         today = timezone.now()
-        return self.filter(
-            godina=today.year,
-            mjesec=today.month
-        ).first()
+        return self.filter(godina=today.year, mjesec=today.month).first()

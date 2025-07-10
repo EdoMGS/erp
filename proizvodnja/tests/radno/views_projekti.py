@@ -43,28 +43,12 @@ class KreirajProjektView(LoginRequiredMixin, CreateView):
     template_name = 'nalozi/dodaj_uredi_projekt.html'
     success_url = reverse_lazy('lista_projekata')
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-            projekt = form.save(commit=False)
-            projekt.save()
-            form.save_m2m()
-
-            messages.success(self.request, "Projekt uspješno kreiran!")
-            return super().form_valid(form)
-        except Exception as e:
-            print(f"Greška prilikom kreiranja projekta: {e}")
-            messages.error(self.request, "Došlo je do greške. Provjerite podatke.")
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.save()
+        form.save_m2m()
+        messages.success(self.request, "Projekt uspješno kreiran!")
+        return super().form_valid(form)
 
 class AzurirajProjektView(LoginRequiredMixin, UpdateView):
     model = Projekt
@@ -72,28 +56,12 @@ class AzurirajProjektView(LoginRequiredMixin, UpdateView):
     template_name = 'nalozi/dodaj_uredi_projekt.html'
     success_url = reverse_lazy('lista_projekata')
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-            projekt = form.save(commit=False)
-            projekt.save()
-            form.save_m2m()
-
-            messages.success(self.request, "Projekt uspješno ažuriran!")
-            return super().form_valid(form)
-        except Exception as e:
-            print(f"Greška prilikom ažuriranja projekta: {e}")
-            messages.error(self.request, "Došlo je do greške. Provjerite podatke.")
-            return self.form_invalid(form)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.save()
+        form.save_m2m()
+        messages.success(self.request, "Projekt uspješno ažuriran!")
+        return super().form_valid(form)
 
 class ObrisiProjektView(LoginRequiredMixin, DeleteView):
     model = Projekt

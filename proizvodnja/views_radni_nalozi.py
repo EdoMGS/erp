@@ -10,24 +10,28 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import send_mail
 from django.db import transaction
-from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, View
 
 from ljudski_resursi.models import Employee  # Ako treba
+
 # Import formi (prilagodi točno odakle ih povlačiš)
 from proizvodnja.forms import OcjenaKvaliteteFormSet  # ako je tu
-from proizvodnja.forms import \
-    UstedaForm  # ako je to individual form, a ne inline formset
-from proizvodnja.forms import (AngazmanFormSet, MaterijalFormSet,
-                               RadniNalogForm, VideoMaterijalFormSet,
-                               VideoPitanjeFormSet)
+from proizvodnja.forms import (
+    UstedaForm,
+)  # ako je to individual form, a ne inline formset
+from proizvodnja.forms import (
+    AngazmanFormSet,
+    MaterijalFormSet,
+    RadniNalogForm,
+    VideoMaterijalFormSet,
+    VideoPitanjeFormSet,
+)
+
 # Importi modela iz aplikacije "proizvodnja"
-from proizvodnja.models import (GrupaPoslova, PovijestPromjena, Projekt,
-                                RadniNalog, TemplateRadniNalog)
+from proizvodnja.models import GrupaPoslova, PovijestPromjena, Projekt, RadniNalog
 
 from .utils import log_action  # Ako imaš custom logging util
 
@@ -41,7 +45,6 @@ from .utils import log_action  # Ako imaš custom logging util
 # from projektiranje_app.forms import DesignTaskForm
 
 
-
 # ------------------------------------------------------------
 # Funkcije za obavijesti (websocket/email)
 # ------------------------------------------------------------
@@ -50,8 +53,9 @@ def notify_via_websocket(korisnik, poruka):
     if channel_layer:
         async_to_sync(channel_layer.group_send)(
             f"notifikacije_{korisnik.id}",
-            {"type": "send_notification", "message": poruka}
+            {"type": "send_notification", "message": poruka},
         )
+
 
 def send_email_notification(subject, message, recipient_list):
     send_mail(
@@ -62,16 +66,17 @@ def send_email_notification(subject, message, recipient_list):
         fail_silently=False,
     )
 
+
 # ------------------------------------------------------------
 # 0) AJAX endpoint (ako treba dinamički dohvat grupe poslova)
 # ------------------------------------------------------------
 def ajax_load_grupe_poslova(request):
-    tip_projekta_id = request.GET.get('tip_projekta_id')
+    tip_projekta_id = request.GET.get("tip_projekta_id")
     if tip_projekta_id:
         grupe = GrupaPoslova.objects.filter(tip_projekta_id=tip_projekta_id)
     else:
         grupe = GrupaPoslova.objects.none()
-    data = [{'id': g.id, 'naziv': g.naziv} for g in grupe]
+    data = [{"id": g.id, "naziv": g.naziv} for g in grupe]
     return JsonResponse(data, safe=False)
 
 
@@ -80,28 +85,35 @@ def ajax_load_grupe_poslova(request):
 # ------------------------------------------------------------
 class ListaRadnihNalogaView(LoginRequiredMixin, ListView):
     model = RadniNalog
-    template_name = 'proizvodnja/lista_radnih_naloga.html'
-    context_object_name = 'radni_nalozi'
+    template_name = "proizvodnja/lista_radnih_naloga.html"
+    context_object_name = "radni_nalozi"
     paginate_by = 20  # prilagodi
-    
+
     def get_paginate_by(self, queryset):
-        return self.request.GET.get('per_page', self.paginate_by)
+        return self.request.GET.get("per_page", self.paginate_by)
 
     def get_queryset(self):
-        projekt_id = self.kwargs.get('projekt_id')
+        projekt_id = self.kwargs.get("projekt_id")
         qs = (
             RadniNalog.objects.filter(projekt_id=projekt_id, is_active=True)
-            .select_related('projekt', 'odgovorna_osoba', 'zaduzena_osoba')
-            .prefetch_related('angazmani', 'materijali', 'video_materijali',
-                              'video_pitanja', 'ocjene_kvalitete', 'nagrade', 'usteda')
-            .order_by('-created_at')
+            .select_related("projekt", "odgovorna_osoba", "zaduzena_osoba")
+            .prefetch_related(
+                "angazmani",
+                "materijali",
+                "video_materijali",
+                "video_pitanja",
+                "ocjene_kvalitete",
+                "nagrade",
+                "usteda",
+            )
+            .order_by("-created_at")
         )
 
-        naziv = self.request.GET.get('naziv', '').strip()
+        naziv = self.request.GET.get("naziv", "").strip()
         if naziv:
             qs = qs.filter(naziv_naloga__icontains=naziv)
 
-        status = self.request.GET.get('status', '')
+        status = self.request.GET.get("status", "")
         if status:
             qs = qs.filter(status=status)
 
@@ -109,13 +121,13 @@ class ListaRadnihNalogaView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        projekt_id = self.kwargs.get('projekt_id')
+        projekt_id = self.kwargs.get("projekt_id")
         projekt = get_object_or_404(Projekt, id=projekt_id)
-        context['projekt'] = projekt
+        context["projekt"] = projekt
 
-        context['prioriteti'] = RadniNalog.PRIORITETI_CHOICES
-        context['tipovi_posla'] = RadniNalog.TIP_POSLA_CHOICES
-        context['statusi_naloga'] = RadniNalog.STATUSI_NALOGA
+        context["prioriteti"] = RadniNalog.PRIORITETI_CHOICES
+        context["tipovi_posla"] = RadniNalog.TIP_POSLA_CHOICES
+        context["statusi_naloga"] = RadniNalog.STATUSI_NALOGA
         return context
 
 
@@ -124,15 +136,22 @@ class ListaRadnihNalogaView(LoginRequiredMixin, ListView):
 # ------------------------------------------------------------
 class RadniNalogDetailView(LoginRequiredMixin, DetailView):
     model = RadniNalog
-    template_name = 'proizvodnja/radni_nalog_detail.html'
-    context_object_name = 'radni_nalog'
+    template_name = "proizvodnja/radni_nalog_detail.html"
+    context_object_name = "radni_nalog"
 
     def get_queryset(self):
         return (
             RadniNalog.objects.filter(is_active=True)
-            .select_related('projekt', 'odgovorna_osoba', 'zaduzena_osoba')
-            .prefetch_related('angazmani', 'materijali', 'video_materijali',
-                              'video_pitanja', 'ocjene_kvalitete', 'nagrade', 'usteda')
+            .select_related("projekt", "odgovorna_osoba", "zaduzena_osoba")
+            .prefetch_related(
+                "angazmani",
+                "materijali",
+                "video_materijali",
+                "video_pitanja",
+                "ocjene_kvalitete",
+                "nagrade",
+                "usteda",
+            )
         )
 
 
@@ -141,29 +160,37 @@ class RadniNalogDetailView(LoginRequiredMixin, DetailView):
 # ------------------------------------------------------------
 class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
     form_class = RadniNalogForm
-    template_name = 'proizvodnja/univerzalni_radni_nalog.html'
+    template_name = "proizvodnja/univerzalni_radni_nalog.html"
 
     def test_func(self):
         """
         Tko smije kreirati ili uređivati radne naloge?
         Prilagodi prema grupama ili user.employee.logika
         """
-        return self.request.user.groups.filter(name__in=['vlasnik','direktor','voditelj']).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get(self, request, projekt_id, pk=None):
         projekt = get_object_or_404(Projekt, id=projekt_id)
         radni_nalog = get_object_or_404(RadniNalog, pk=pk) if pk else None
 
         form = self.form_class(instance=radni_nalog)
-        
+
         # Primjeri formseta - prilagodi
-        angazman_formset = AngazmanFormSet(instance=radni_nalog, prefix='angazmani')
-        materijal_formset = MaterijalFormSet(instance=radni_nalog, prefix='materijali')
+        angazman_formset = AngazmanFormSet(instance=radni_nalog, prefix="angazmani")
+        materijal_formset = MaterijalFormSet(instance=radni_nalog, prefix="materijali")
         # Ako imaš npr. TehnickaDokumentacijaFormSet:
         # dokumentacija_formset = TehnickaDokumentacijaFormSet(instance=radni_nalog, prefix='dokumentacije')
-        video_materijal_formset = VideoMaterijalFormSet(instance=radni_nalog, prefix='video_materijali')
-        video_pitanje_formset = VideoPitanjeFormSet(instance=radni_nalog, prefix='video_pitanja')
-        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(instance=radni_nalog, prefix='ocjene_kvalitete')
+        video_materijal_formset = VideoMaterijalFormSet(
+            instance=radni_nalog, prefix="video_materijali"
+        )
+        video_pitanje_formset = VideoPitanjeFormSet(
+            instance=radni_nalog, prefix="video_pitanja"
+        )
+        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(
+            instance=radni_nalog, prefix="ocjene_kvalitete"
+        )
         # Ako imaš NagradaFormSet i UstedaFormSet:
         # nagrada_formset = NagradaFormSet(instance=radni_nalog, prefix='nagrade')
         # usteda_formset = UstedaFormSet(instance=radni_nalog, prefix='ustede')
@@ -172,24 +199,23 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
         povijest_promjena = []
         if radni_nalog:
             povijest_promjena = PovijestPromjena.objects.filter(
-                content_type=content_type,
-                object_id=radni_nalog.id
-            ).order_by('-created_at')
+                content_type=content_type, object_id=radni_nalog.id
+            ).order_by("-created_at")
 
         context = {
-            'projekt': projekt,
-            'radni_nalog': radni_nalog,
-            'form': form,
-            'action': 'edit' if pk else 'create',
-            'angazman_formset': angazman_formset,
-            'materijal_formset': materijal_formset,
+            "projekt": projekt,
+            "radni_nalog": radni_nalog,
+            "form": form,
+            "action": "edit" if pk else "create",
+            "angazman_formset": angazman_formset,
+            "materijal_formset": materijal_formset,
             # 'dokumentacija_formset': dokumentacija_formset,
-            'video_materijal_formset': video_materijal_formset,
-            'video_pitanje_formset': video_pitanje_formset,
-            'ocjena_kvalitete_formset': ocjena_kvalitete_formset,
+            "video_materijal_formset": video_materijal_formset,
+            "video_pitanje_formset": video_pitanje_formset,
+            "ocjena_kvalitete_formset": ocjena_kvalitete_formset,
             # 'nagrada_formset': nagrada_formset,
             # 'usteda_formset': usteda_formset,
-            'povijest_promjena': povijest_promjena,
+            "povijest_promjena": povijest_promjena,
         }
         return render(request, self.template_name, context)
 
@@ -197,14 +223,26 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
         projekt = get_object_or_404(Projekt, id=projekt_id)
         radni_nalog = get_object_or_404(RadniNalog, pk=pk) if pk else None
 
-        form = self.form_class(data=request.POST, files=request.FILES, instance=radni_nalog)
-        
-        angazman_formset = AngazmanFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='angazmani')
-        materijal_formset = MaterijalFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='materijali')
+        form = self.form_class(
+            data=request.POST, files=request.FILES, instance=radni_nalog
+        )
+
+        angazman_formset = AngazmanFormSet(
+            request.POST, request.FILES, instance=radni_nalog, prefix="angazmani"
+        )
+        materijal_formset = MaterijalFormSet(
+            request.POST, request.FILES, instance=radni_nalog, prefix="materijali"
+        )
         # dokumentacija_formset = TehnickaDokumentacijaFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='dokumentacije')
-        video_materijal_formset = VideoMaterijalFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='video_materijali')
-        video_pitanje_formset = VideoPitanjeFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='video_pitanja')
-        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='ocjene_kvalitete')
+        video_materijal_formset = VideoMaterijalFormSet(
+            request.POST, request.FILES, instance=radni_nalog, prefix="video_materijali"
+        )
+        video_pitanje_formset = VideoPitanjeFormSet(
+            request.POST, request.FILES, instance=radni_nalog, prefix="video_pitanja"
+        )
+        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(
+            request.POST, request.FILES, instance=radni_nalog, prefix="ocjene_kvalitete"
+        )
         # nagrada_formset = NagradaFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='nagrade')
         # usteda_formset = UstedaFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='ustede')
 
@@ -226,10 +264,15 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
                     nalog_obj = form.save(commit=False)
                     nalog_obj.projekt = projekt
 
-                    if nalog_obj.status == 'U_TIJEKU':
+                    if nalog_obj.status == "U_TIJEKU":
                         if not nalog_obj.can_start():
-                            messages.error(request, "Ne možete započeti ovaj nalog - preduvjeti nisu ispunjeni.")
-                            return redirect('lista_radnih_naloga', projekt_id=projekt.id)
+                            messages.error(
+                                request,
+                                "Ne možete započeti ovaj nalog - preduvjeti nisu ispunjeni.",
+                            )
+                            return redirect(
+                                "lista_radnih_naloga", projekt_id=projekt.id
+                            )
 
                     nalog_obj.save()
                     form.save_m2m()
@@ -245,10 +288,12 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
                     # usteda_formset.save()
 
                     # Ako je ZAVRSENO -> postavi stvarno vrijeme = zbroj sati
-                    if nalog_obj.status == 'ZAVRSENO':
-                        total_sati = sum(ang.sati_rada for ang in nalog_obj.angazmani.all())
+                    if nalog_obj.status == "ZAVRSENO":
+                        total_sati = sum(
+                            ang.sati_rada for ang in nalog_obj.angazmani.all()
+                        )
                         nalog_obj.stvarno_vrijeme = total_sati
-                        nalog_obj.save(update_fields=['stvarno_vrijeme'])
+                        nalog_obj.save(update_fields=["stvarno_vrijeme"])
 
                         # Ažuriraj template_nalog
                         if nalog_obj.template_nalog:
@@ -265,21 +310,24 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
                         content_type=content_type,
                         object_id=nalog_obj.id,
                         user=request.user,
-                        promjene=opis_promjene
+                        promjene=opis_promjene,
                     )
 
                     # Obavijesti menadžment
                     poruka = f"Radni nalog '{nalog_obj.naziv_naloga}' je {'ažuriran' if pk else 'kreiran'}."
                     korisnici_za_obavijesti = Employee.objects.filter(
-                        position__title__in=['vlasnik','direktor','voditelj']
-                    ).values_list('user', flat=True)
+                        position__title__in=["vlasnik", "direktor", "voditelj"]
+                    ).values_list("user", flat=True)
                     for usr_id in korisnici_za_obavijesti:
                         user_obj = get_object_or_404(User, id=usr_id)
                         notify_via_websocket(user_obj, poruka)
                         # send_email_notification("Obavijest o Radnom Nalogu", poruka, [user_obj.email])
 
-                    messages.success(request, f"Radni nalog uspješno {'ažuriran' if pk else 'kreiran'}!")
-                    return redirect('lista_radnih_naloga', projekt_id=projekt.id)
+                    messages.success(
+                        request,
+                        f"Radni nalog uspješno {'ažuriran' if pk else 'kreiran'}!",
+                    )
+                    return redirect("lista_radnih_naloga", projekt_id=projekt.id)
 
             except Exception as e:
                 messages.error(request, f"Greška pri spremanju: {str(e)}")
@@ -287,16 +335,16 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
             messages.error(request, "Greška pri validaciji forme.")
 
         context = {
-            'projekt': projekt,
-            'radni_nalog': radni_nalog,
-            'form': form,
-            'action': 'edit' if pk else 'create',
-            'angazman_formset': angazman_formset,
-            'materijal_formset': materijal_formset,
+            "projekt": projekt,
+            "radni_nalog": radni_nalog,
+            "form": form,
+            "action": "edit" if pk else "create",
+            "angazman_formset": angazman_formset,
+            "materijal_formset": materijal_formset,
             # 'dokumentacija_formset': dokumentacija_formset,
-            'video_materijal_formset': video_materijal_formset,
-            'video_pitanje_formset': video_pitanje_formset,
-            'ocjena_kvalitete_formset': ocjena_kvalitete_formset,
+            "video_materijal_formset": video_materijal_formset,
+            "video_pitanje_formset": video_pitanje_formset,
+            "ocjena_kvalitete_formset": ocjena_kvalitete_formset,
             # 'nagrada_formset': nagrada_formset,
             # 'usteda_formset': usteda_formset,
         }
@@ -308,7 +356,9 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 # ------------------------------------------------------------
 class ObrisiRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
-        return self.request.user.groups.filter(name__in=['vlasnik','direktor','voditelj']).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def post(self, request, pk, *args, **kwargs):
@@ -319,9 +369,9 @@ class ObrisiRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 
         messages.success(request, "Radni nalog je uspješno obrisan (soft-delete).")
         if projekt:
-            return redirect('lista_radnih_naloga', projekt_id=projekt.id)
+            return redirect("lista_radnih_naloga", projekt_id=projekt.id)
         else:
-            return redirect('dashboard')
+            return redirect("dashboard")
 
 
 # ------------------------------------------------------------
@@ -330,15 +380,17 @@ class ObrisiRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 class PrintPDFRadniNalogView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         nalog = get_object_or_404(RadniNalog, pk=pk, is_active=True)
-        html_string = render_to_string('nalozi/pdf_radni_nalog.html', {
-            'radni_nalog': nalog
-        })
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="radni_nalog_{pk}.pdf"'
+        html_string = render_to_string(
+            "nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog}
+        )
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="radni_nalog_{pk}.pdf"'
 
-        weasyprint.HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+        weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri()
+        ).write_pdf(
             response,
-            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/css/pdf_styles.css')]
+            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )
         return response
 
@@ -350,16 +402,20 @@ class PrintPDFSviNaloziView(LoginRequiredMixin, View):
     def get(self, request, projekt_id, *args, **kwargs):
         radni_nalozi = RadniNalog.objects.filter(projekt_id=projekt_id, is_active=True)
         projekt = get_object_or_404(Projekt, id=projekt_id)
-        html_str = render_to_string('nalozi/pdf_svi_radni_naloga.html', {
-            'radni_nalozi': radni_nalozi,
-            'projekt': projekt
-        })
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="radni_nalozi_projekt_{projekt_id}.pdf"'
+        html_str = render_to_string(
+            "nalozi/pdf_svi_radni_naloga.html",
+            {"radni_nalozi": radni_nalozi, "projekt": projekt},
+        )
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = (
+            f'attachment; filename="radni_nalozi_projekt_{projekt_id}.pdf"'
+        )
 
-        weasyprint.HTML(string=html_str, base_url=request.build_absolute_uri()).write_pdf(
+        weasyprint.HTML(
+            string=html_str, base_url=request.build_absolute_uri()
+        ).write_pdf(
             response,
-            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/css/pdf_styles.css')]
+            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )
         return response
 
@@ -369,18 +425,20 @@ class PrintPDFSviNaloziView(LoginRequiredMixin, View):
 # ------------------------------------------------------------
 class GenerirajPDFRadniNalogView(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
-        if not request.user.has_perm('proizvodnja.view_radninalog'):
+        if not request.user.has_perm("proizvodnja.view_radninalog"):
             return HttpResponseForbidden("Nemate dopuštenje.")
 
         nalog = get_object_or_404(RadniNalog, pk=pk, is_active=True)
-        html_string = render_to_string('nalozi/pdf_radni_nalog.html', {
-            'radni_nalog': nalog
-        })
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="radni_nalog_{pk}.pdf"'
+        html_string = render_to_string(
+            "nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog}
+        )
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="radni_nalog_{pk}.pdf"'
 
-        weasyprint.HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
+        weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri()
+        ).write_pdf(
             response,
-            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + '/css/pdf_styles.css')]
+            stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )
         return response

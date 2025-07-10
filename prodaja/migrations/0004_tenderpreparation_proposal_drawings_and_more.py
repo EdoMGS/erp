@@ -6,19 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projektiranje_app', '0002_caddocument_designrevision_designsegment_dynamicplan_and_more'),
-        ('prodaja', '0003_tenderdocument_tenderpreparation'),
+        (
+            "projektiranje_app",
+            "0002_caddocument_designrevision_designsegment_dynamicplan_and_more",
+        ),
+        ("prodaja", "0003_tenderdocument_tenderpreparation"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='tenderpreparation',
-            name='proposal_drawings',
-            field=models.ManyToManyField(blank=True, related_name='proposal_tender_preparations', to='projektiranje_app.caddocument', verbose_name='Ponudbeni nacrti'),
+            model_name="tenderpreparation",
+            name="proposal_drawings",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="proposal_tender_preparations",
+                to="projektiranje_app.caddocument",
+                verbose_name="Ponudbeni nacrti",
+            ),
         ),
         migrations.AddField(
-            model_name='tenderpreparation',
-            name='tender_documents',
-            field=models.ManyToManyField(blank=True, related_name='tender_preparations', to='prodaja.tenderdocument', verbose_name='Dokumentacija natječaja'),
+            model_name="tenderpreparation",
+            name="tender_documents",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="tender_preparations",
+                to="prodaja.tenderdocument",
+                verbose_name="Dokumentacija natječaja",
+            ),
         ),
     ]

@@ -6,51 +6,132 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ljudski_resursi', '0003_alter_employee_expertise_level'),
+        ("ljudski_resursi", "0003_alter_employee_expertise_level"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Nagrada',
+            name="Nagrada",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('iznos', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Iznos nagrade (€)')),
-                ('razlog', models.TextField(blank=True, null=True, verbose_name='Razlog nagrade')),
-                ('datum_dodjele', models.DateField(auto_now_add=True, verbose_name='Datum dodjele')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "iznos",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=10,
+                        verbose_name="Iznos nagrade (€)",
+                    ),
+                ),
+                (
+                    "razlog",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Razlog nagrade"
+                    ),
+                ),
+                (
+                    "datum_dodjele",
+                    models.DateField(auto_now_add=True, verbose_name="Datum dodjele"),
+                ),
             ],
             options={
-                'verbose_name': 'Nagrada',
-                'verbose_name_plural': 'Nagrade',
-                'ordering': ['-datum_dodjele'],
+                "verbose_name": "Nagrada",
+                "verbose_name_plural": "Nagrade",
+                "ordering": ["-datum_dodjele"],
             },
         ),
         migrations.CreateModel(
-            name='RadnaEvaluacija',
+            name="RadnaEvaluacija",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('evaluation_period', models.CharField(max_length=50)),
-                ('datum_evaluacije', models.DateTimeField(auto_now_add=True)),
-                ('efikasnost', models.IntegerField(choices=[(1, 'Vrlo loše'), (2, 'Loše'), (3, 'Zadovoljavajuće'), (4, 'Dobro'), (5, 'Vrlo dobro')])),
-                ('kvaliteta_rada', models.IntegerField(choices=[(1, 'Vrlo loše'), (2, 'Loše'), (3, 'Zadovoljavajuće'), (4, 'Dobro'), (5, 'Vrlo dobro')])),
-                ('timski_rad', models.IntegerField(choices=[(1, 'Vrlo loše'), (2, 'Loše'), (3, 'Zadovoljavajuće'), (4, 'Dobro'), (5, 'Vrlo dobro')])),
-                ('inicijativa', models.IntegerField(choices=[(1, 'Vrlo loše'), (2, 'Loše'), (3, 'Zadovoljavajuće'), (4, 'Dobro'), (5, 'Vrlo dobro')])),
-                ('broj_zavrsenih_naloga', models.IntegerField(default=0)),
-                ('prosjecna_ocjena_kvalitete', models.DecimalField(decimal_places=2, max_digits=3, null=True)),
-                ('ukupno_sati_rada', models.DecimalField(decimal_places=2, default=0, max_digits=8)),
-                ('komentar', models.TextField(blank=True)),
-                ('preporuke', models.TextField(blank=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("evaluation_period", models.CharField(max_length=50)),
+                ("datum_evaluacije", models.DateTimeField(auto_now_add=True)),
+                (
+                    "efikasnost",
+                    models.IntegerField(
+                        choices=[
+                            (1, "Vrlo loše"),
+                            (2, "Loše"),
+                            (3, "Zadovoljavajuće"),
+                            (4, "Dobro"),
+                            (5, "Vrlo dobro"),
+                        ]
+                    ),
+                ),
+                (
+                    "kvaliteta_rada",
+                    models.IntegerField(
+                        choices=[
+                            (1, "Vrlo loše"),
+                            (2, "Loše"),
+                            (3, "Zadovoljavajuće"),
+                            (4, "Dobro"),
+                            (5, "Vrlo dobro"),
+                        ]
+                    ),
+                ),
+                (
+                    "timski_rad",
+                    models.IntegerField(
+                        choices=[
+                            (1, "Vrlo loše"),
+                            (2, "Loše"),
+                            (3, "Zadovoljavajuće"),
+                            (4, "Dobro"),
+                            (5, "Vrlo dobro"),
+                        ]
+                    ),
+                ),
+                (
+                    "inicijativa",
+                    models.IntegerField(
+                        choices=[
+                            (1, "Vrlo loše"),
+                            (2, "Loše"),
+                            (3, "Zadovoljavajuće"),
+                            (4, "Dobro"),
+                            (5, "Vrlo dobro"),
+                        ]
+                    ),
+                ),
+                ("broj_zavrsenih_naloga", models.IntegerField(default=0)),
+                (
+                    "prosjecna_ocjena_kvalitete",
+                    models.DecimalField(decimal_places=2, max_digits=3, null=True),
+                ),
+                (
+                    "ukupno_sati_rada",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=8),
+                ),
+                ("komentar", models.TextField(blank=True)),
+                ("preporuke", models.TextField(blank=True)),
             ],
         ),
         migrations.RemoveField(
-            model_name='evaluacija',
-            name='employee',
+            model_name="evaluacija",
+            name="employee",
         ),
         migrations.RemoveField(
-            model_name='ocjenakvalitete',
-            name='employee',
+            model_name="ocjenakvalitete",
+            name="employee",
         ),
         migrations.RemoveField(
-            model_name='ocjenakvalitete',
-            name='radni_nalog',
+            model_name="ocjenakvalitete",
+            name="radni_nalog",
         ),
     ]

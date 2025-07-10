@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ljudski_resursi', '0002_initial'),
+        ("ljudski_resursi", "0002_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='employee',
-            name='expertise_level',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='employees', to='ljudski_resursi.expertiselevel', verbose_name='Expertise Level'),
+            model_name="employee",
+            name="expertise_level",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="employees",
+                to="ljudski_resursi.expertiselevel",
+                verbose_name="Expertise Level",
+            ),
         ),
     ]

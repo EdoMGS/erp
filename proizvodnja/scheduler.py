@@ -5,6 +5,7 @@ from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 logger = logging.getLogger(__name__)
 
+
 def initialize_scheduler():
     """Initialize or update periodic tasks"""
     try:
@@ -13,12 +14,12 @@ def initialize_scheduler():
             period=IntervalSchedule.HOURS,
         )
 
-        timestamp = timezone.now().strftime('%Y%m%d_%H%M%S')
+        timestamp = timezone.now().strftime("%Y%m%d_%H%M%S")
         task_name = f"check_project_status_{timestamp}"
 
         # Try to find existing task
         existing_task = PeriodicTask.objects.filter(
-            task='proizvodnja.tasks.check_project_status'
+            task="proizvodnja.tasks.check_project_status"
         ).first()
 
         if existing_task:
@@ -32,8 +33,8 @@ def initialize_scheduler():
             PeriodicTask.objects.create(
                 interval=schedule,
                 name=task_name,
-                task='proizvodnja.tasks.check_project_status',
-                enabled=True
+                task="proizvodnja.tasks.check_project_status",
+                enabled=True,
             )
             logger.info(f"Created new periodic task: {task_name}")
 

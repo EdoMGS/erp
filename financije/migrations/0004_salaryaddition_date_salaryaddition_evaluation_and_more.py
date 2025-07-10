@@ -10,43 +10,90 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ljudski_resursi', '0003_alter_employee_expertise_level'),
-        ('financije', '0003_initial'),
+        ("ljudski_resursi", "0003_alter_employee_expertise_level"),
+        ("financije", "0003_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='salaryaddition',
-            name='date',
-            field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
+            model_name="salaryaddition",
+            name="date",
+            field=models.DateField(
+                auto_now_add=True, default=django.utils.timezone.now
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='salaryaddition',
-            name='evaluation',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='ljudski_resursi.evaluacija'),
+            model_name="salaryaddition",
+            name="evaluation",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="ljudski_resursi.evaluacija",
+            ),
         ),
         migrations.AddField(
-            model_name='salaryaddition',
-            name='quality_score',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='ljudski_resursi.ocjenakvalitete'),
+            model_name="salaryaddition",
+            name="quality_score",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="ljudski_resursi.ocjenakvalitete",
+            ),
         ),
         migrations.AddField(
-            model_name='salaryaddition',
-            name='type',
-            field=models.CharField(choices=[('BASE', 'Osnovna plaća'), ('VARIABLE', 'Varijabilni dio'), ('BONUS', 'Bonus'), ('OVERTIME', 'Prekovremeni'), ('PERFORMANCE', 'Nagrade za performanse'), ('OTHER', 'Ostalo')], default='OTHER', max_length=20),
+            model_name="salaryaddition",
+            name="type",
+            field=models.CharField(
+                choices=[
+                    ("BASE", "Osnovna plaća"),
+                    ("VARIABLE", "Varijabilni dio"),
+                    ("BONUS", "Bonus"),
+                    ("OVERTIME", "Prekovremeni"),
+                    ("PERFORMANCE", "Nagrade za performanse"),
+                    ("OTHER", "Ostalo"),
+                ],
+                default="OTHER",
+                max_length=20,
+            ),
         ),
         migrations.CreateModel(
-            name='VariablePayCalculation',
+            name="VariablePayCalculation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('period', models.DateField()),
-                ('base_amount', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('performance_multiplier', models.DecimalField(decimal_places=2, default=Decimal('1.00'), max_digits=3)),
-                ('quality_multiplier', models.DecimalField(decimal_places=2, default=Decimal('1.00'), max_digits=3)),
-                ('final_amount', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('employee', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='ljudski_resursi.employee')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("period", models.DateField()),
+                ("base_amount", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "performance_multiplier",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("1.00"), max_digits=3
+                    ),
+                ),
+                (
+                    "quality_multiplier",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("1.00"), max_digits=3
+                    ),
+                ),
+                ("final_amount", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "employee",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="ljudski_resursi.employee",
+                    ),
+                ),
             ],
         ),
     ]

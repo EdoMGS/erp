@@ -11,22 +11,23 @@ class CustomUser(AbstractUser):
     Uklonili smo polje 'department' kako bismo izbjegli kružnu ovisnost
     (Employee -> CustomUser -> Department -> Employee).
     """
+
     email = models.EmailField(unique=True, verbose_name=_("Email Address"))
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='customuser_set',
+        "auth.Group",
+        related_name="customuser_set",
         blank=True,
-        help_text=_('The groups this user belongs to.'),
-        verbose_name=_('groups'),
+        help_text=_("The groups this user belongs to."),
+        verbose_name=_("groups"),
     )
     user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='customuser_set',
+        "auth.Permission",
+        related_name="customuser_set",
         blank=True,
-        help_text=_('Specific permissions for this user.'),
-        verbose_name=_('user permissions'),
+        help_text=_("Specific permissions for this user."),
+        verbose_name=_("user permissions"),
     )
 
     # Ako želiš role, mozes dodati many-to-many

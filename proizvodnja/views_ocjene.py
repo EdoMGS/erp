@@ -3,13 +3,17 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
-from ljudski_resursi.models import Employee
-from proizvodnja.models import OcjenaKvalitete, RadniNalog
+from proizvodnja.models import OcjenaKvalitete
 
 from .forms import OcjenaKvaliteteForm
 from .utils import informiraj_ocjenjivace, log_action
@@ -20,21 +24,20 @@ from .utils import informiraj_ocjenjivace, log_action
 # ==============================
 class ListaOcjenaKvaliteteView(LoginRequiredMixin, ListView):
     model = OcjenaKvalitete
-    template_name = 'proizvodnja/ocjene/lista_ocjena.html'
-    context_object_name = 'ocjene'
-    
+    template_name = "proizvodnja/ocjene/lista_ocjena.html"
+    context_object_name = "ocjene"
+
     def get_queryset(self):
-        qs = OcjenaKvalitete.objects.select_related(
-            'radni_nalog', 
-            'ocjenjivac'
-        ).filter(is_active=True)
-        
+        qs = OcjenaKvalitete.objects.select_related("radni_nalog", "ocjenjivac").filter(
+            is_active=True
+        )
+
         # Filter by radni nalog if specified
-        nalog_id = self.kwargs.get('radni_nalog_id')
+        nalog_id = self.kwargs.get("radni_nalog_id")
         if nalog_id:
             qs = qs.filter(radni_nalog_id=nalog_id)
-            
-        return qs.order_by('-datum_ocjene')
+
+        return qs.order_by("-datum_ocjene")
 
 
 # ==============================
@@ -42,12 +45,12 @@ class ListaOcjenaKvaliteteView(LoginRequiredMixin, ListView):
 # ==============================
 class DetaljiOcjeneKvaliteteView(LoginRequiredMixin, DetailView):
     model = OcjenaKvalitete
-    template_name = 'proizvodnja/ocjene_kvalitete/detalji_ocjena_kvalitete.html'
-    context_object_name = 'ocjena_kvalitete'
+    template_name = "proizvodnja/ocjene_kvalitete/detalji_ocjena_kvalitete.html"
+    context_object_name = "ocjena_kvalitete"
 
     def get_queryset(self):
         return OcjenaKvalitete.objects.filter(is_active=True).select_related(
-            'radni_nalog', 'employee'
+            "radni_nalog", "employee"
         )
 
 
@@ -57,11 +60,11 @@ class DetaljiOcjeneKvaliteteView(LoginRequiredMixin, DetailView):
 class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = OcjenaKvalitete
     form_class = OcjenaKvaliteteForm
-    template_name = 'ocjene_kvalitete/dodaj_ocjenu_kvalitete.html'
+    template_name = "ocjene_kvalitete/dodaj_ocjenu_kvalitete.html"
 
     def test_func(self):
         return self.request.user.groups.filter(
-            name__in=['direktor', 'voditelj', 'administrativno osoblje']
+            name__in=["direktor", "voditelj", "administrativno osoblje"]
         ).exists()
 
     @transaction.atomic
@@ -80,7 +83,7 @@ class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse_lazy('lista_ocjena_kvalitete')
+        return reverse_lazy("lista_ocjena_kvalitete")
 
 
 # ==============================
@@ -89,14 +92,14 @@ class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class AzurirajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = OcjenaKvalitete
     form_class = OcjenaKvaliteteForm
-    template_name = 'ocjene_kvalitete/dodaj_ocjenu_kvalitete.html'
-    success_url = reverse_lazy('lista_ocjena_kvalitete')
+    template_name = "ocjene_kvalitete/dodaj_ocjenu_kvalitete.html"
+    success_url = reverse_lazy("lista_ocjena_kvalitete")
 
     def test_func(self):
         ocjena = self.get_object()
         return (
             self.request.user == ocjena.employee.user
-            or self.request.user.groups.filter(name='direktor').exists()
+            or self.request.user.groups.filter(name="direktor").exists()
         )
 
     @transaction.atomic
@@ -120,13 +123,13 @@ class AzurirajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # ==============================
 class ObrisiOcjenuView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = OcjenaKvalitete
-    template_name = 'ocjene_kvalitete/obrisi_ocjenu_kvalitete.html'
+    template_name = "ocjene_kvalitete/obrisi_ocjenu_kvalitete.html"
 
     def test_func(self):
         ocjena = self.get_object()
         return (
             self.request.user == ocjena.employee.user
-            or self.request.user.groups.filter(name='direktor').exists()
+            or self.request.user.groups.filter(name="direktor").exists()
         )
 
     @transaction.atomic
@@ -135,19 +138,19 @@ class ObrisiOcjenuView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
         if not self.test_func():
             messages.error(request, "Nemate pravo obrisati ovu ocjenu.")
-            return redirect('lista_ocjena_kvalitete')
+            return redirect("lista_ocjena_kvalitete")
 
         try:
             ocjena.is_active = False
             ocjena.save()
 
-            log_action(request.user, ocjena, 'DELETE')
+            log_action(request.user, ocjena, "DELETE")
 
             messages.success(request, "Ocjena kvalitete uspješno obrisana!")
             return redirect(self.get_success_url())
         except Exception as e:
             messages.error(request, f"Greška prilikom brisanja ocjene: {str(e)}")
-            return redirect('lista_ocjena_kvalitete')
+            return redirect("lista_ocjena_kvalitete")
 
     def get_success_url(self):
-        return reverse_lazy('lista_ocjena_kvalitete')
+        return reverse_lazy("lista_ocjena_kvalitete")

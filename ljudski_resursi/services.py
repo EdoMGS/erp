@@ -3,7 +3,16 @@ from .models import RadnaEvaluacija
 
 class EvaluacijaService:
     @staticmethod
-    def kreiraj_evaluaciju(employee, evaluator, period, efikasnost, kvaliteta_rada, timski_rad, inicijativa, komentar):
+    def kreiraj_evaluaciju(
+        employee,
+        evaluator,
+        period,
+        efikasnost,
+        kvaliteta_rada,
+        timski_rad,
+        inicijativa,
+        komentar,
+    ):
         evaluacija = RadnaEvaluacija.objects.create(
             employee=employee,
             evaluator=evaluator,
@@ -12,6 +21,6 @@ class EvaluacijaService:
             kvaliteta_rada=kvaliteta_rada,
             timski_rad=timski_rad,
             inicijativa=inicijativa,
-            komentar=komentar
+            komentar=komentar,
         )
         return evaluacija

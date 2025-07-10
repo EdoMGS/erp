@@ -46,31 +46,18 @@ class DodajAngazmanView(LoginRequiredMixin, CreateView):
     form_class = AngazmanForm
     template_name = 'dodaj_angazman.html'
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        Sprema novi angažman i povezuje ga s radnim nalogom.
-        """
-        angazman = form.save(commit=False)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
         radni_nalog_id = self.kwargs.get('radni_nalog_id')
-
         if radni_nalog_id:
-            angazman.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
-
-        angazman.save()
-
-        # Logiranje kreiranja
-        log_action(self.request.user, angazman, "CREATE", form.cleaned_data)
-
+            instance.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
+        instance.save()
+        form.save_m2m()
+        try:
+            from .utils import log_action
+            log_action(self.request.user, instance, "CREATE", form.cleaned_data)
+        except ImportError:
+            pass
         messages.success(self.request, "Angažman uspješno dodan!")
         return redirect(self.get_success_url())
 
@@ -84,25 +71,17 @@ class AzurirajAngazmanView(LoginRequiredMixin, UpdateView):
     form_class = AngazmanForm
     template_name = 'dodaj_angazman.html'
 
-    
-        
-            def form_valid(self, form):
-                instance = form.save(commit=False)
-                instance.save()  # Sprema instancu kako bi dobila ID
-                form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-                messages.success(self.request, "Uspješno ažurirano!")
-                return super().form_valid(form)
-            instance.save()  # Sprema instancu kako bi dobila ID
-            form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-            messages.success(self.request, "Uspješno ažurirano!")
-            return super().form_valid(form)
-        Sprema ažurirane podatke za angažman.
-        """
-        angazman = form.save(commit=False)
-        angazman.save()
-
-        # Logiranje ažuriranja
-        log_action(self.request.user, angazman, "UPDATE", form.cleaned_data)
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.save()
+        form.save_m2m()
+        try:
+            from .utils import log_action
+            log_action(self.request.user, instance, "UPDATE", form.cleaned_data)
+        except ImportError:
+            pass
+        messages.success(self.request, "Angažman uspješno ažuriran!")
+        return super().form_valid(form)
 
         messages.success(self.request, "Angažman uspješno ažuriran!")
         return redirect(self.get_success_url())

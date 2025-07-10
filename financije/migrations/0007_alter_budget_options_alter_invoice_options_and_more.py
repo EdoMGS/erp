@@ -6,36 +6,51 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('financije', '0006_financialanalysis'),
+        ("financije", "0006_financialanalysis"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='budget',
-            options={'verbose_name': 'Proračun', 'verbose_name_plural': 'Proračuni'},
+            name="budget",
+            options={"verbose_name": "Proračun", "verbose_name_plural": "Proračuni"},
         ),
         migrations.AlterModelOptions(
-            name='invoice',
-            options={'ordering': ['-issue_date'], 'verbose_name': 'Faktura', 'verbose_name_plural': 'Fakture'},
+            name="invoice",
+            options={
+                "ordering": ["-issue_date"],
+                "verbose_name": "Faktura",
+                "verbose_name_plural": "Fakture",
+            },
         ),
         migrations.AddIndex(
-            model_name='banktransaction',
-            index=models.Index(fields=['tip_transakcije'], name='financije_b_tip_tra_25ec3f_idx'),
+            model_name="banktransaction",
+            index=models.Index(
+                fields=["tip_transakcije"], name="financije_b_tip_tra_25ec3f_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='banktransaction',
-            index=models.Index(fields=['bank_account_number'], name='financije_b_bank_ac_03544c_idx'),
+            model_name="banktransaction",
+            index=models.Index(
+                fields=["bank_account_number"], name="financije_b_bank_ac_03544c_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='invoice',
-            index=models.Index(fields=['issue_date'], name='financije_i_issue_d_2b7b08_idx'),
+            model_name="invoice",
+            index=models.Index(
+                fields=["issue_date"], name="financije_i_issue_d_2b7b08_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='invoice',
-            index=models.Index(fields=['due_date'], name='financije_i_due_dat_47ec64_idx'),
+            model_name="invoice",
+            index=models.Index(
+                fields=["due_date"], name="financije_i_due_dat_47ec64_idx"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='budget',
-            constraint=models.CheckConstraint(check=models.Q(('mjesec__gte', 1), ('mjesec__lte', 12)), name='valid_month_check'),
+            model_name="budget",
+            constraint=models.CheckConstraint(
+                check=models.Q(("mjesec__gte", 1), ("mjesec__lte", 12)),
+                name="valid_month_check",
+            ),
         ),
     ]

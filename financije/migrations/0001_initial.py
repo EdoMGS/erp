@@ -9,369 +9,1104 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name="Account",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('number', models.CharField(max_length=20, unique=True, verbose_name='Broj konta')),
-                ('name', models.CharField(max_length=255, verbose_name='Naziv konta')),
-                ('account_type', models.CharField(choices=[('active', 'Aktiva'), ('passive', 'Pasiva'), ('income', 'Prihod'), ('expense', 'Rashod')], max_length=10, verbose_name='Tip konta')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "number",
+                    models.CharField(
+                        max_length=20, unique=True, verbose_name="Broj konta"
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, verbose_name="Naziv konta")),
+                (
+                    "account_type",
+                    models.CharField(
+                        choices=[
+                            ("active", "Aktiva"),
+                            ("passive", "Pasiva"),
+                            ("income", "Prihod"),
+                            ("expense", "Rashod"),
+                        ],
+                        max_length=10,
+                        verbose_name="Tip konta",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Konto (Account)',
-                'verbose_name_plural': 'Konta (Accounts)',
-                'ordering': ['number'],
+                "verbose_name": "Konto (Account)",
+                "verbose_name_plural": "Konta (Accounts)",
+                "ordering": ["number"],
             },
         ),
         migrations.CreateModel(
-            name='AuditLog',
+            name="AuditLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('action', models.CharField(max_length=255)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('model_name', models.CharField(max_length=255)),
-                ('instance_id', models.PositiveIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("action", models.CharField(max_length=255)),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("model_name", models.CharField(max_length=255)),
+                ("instance_id", models.PositiveIntegerField()),
             ],
             options={
-                'verbose_name': 'Audit Log',
-                'verbose_name_plural': 'Audit Logs',
+                "verbose_name": "Audit Log",
+                "verbose_name_plural": "Audit Logs",
             },
         ),
         migrations.CreateModel(
-            name='BalanceSheet',
+            name="BalanceSheet",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(verbose_name='Datum')),
-                ('assets', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('liabilities', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('equity', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(verbose_name="Datum")),
+                (
+                    "assets",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "liabilities",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "equity",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Balance Sheet',
-                'verbose_name_plural': 'Balance Sheets',
+                "verbose_name": "Balance Sheet",
+                "verbose_name_plural": "Balance Sheets",
             },
         ),
         migrations.CreateModel(
-            name='BankTransaction',
+            name="BankTransaction",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bank_account_number', models.CharField(help_text='IBAN ili broj računa', max_length=34, verbose_name='Broj bankovnog računa (IBAN)')),
-                ('bank_name', models.CharField(blank=True, max_length=100, null=True, verbose_name='Naziv banke')),
-                ('tip_transakcije', models.CharField(choices=[('priljev', 'Priljev'), ('odljev', 'Odljev')], max_length=10, verbose_name='Tip transakcije')),
-                ('iznos', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Iznos transakcije (€)')),
-                ('valuta', models.CharField(default='EUR', max_length=10, verbose_name='Valuta')),
-                ('opis', models.CharField(max_length=255, verbose_name='Opis transakcije')),
-                ('datum', models.DateField(verbose_name='Datum transakcije')),
-                ('datum_valute', models.DateField(blank=True, null=True, verbose_name='Datum valute')),
-                ('referenca', models.CharField(max_length=100, unique=True, verbose_name='Referenca transakcije')),
-                ('saldo', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Saldo računa (€) nakon transakcije')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Vrijeme evidentiranja u sustavu')),
-                ('is_reconciled', models.BooleanField(default=False, verbose_name='Usklađeno s knjigovodstvom?')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "bank_account_number",
+                    models.CharField(
+                        help_text="IBAN ili broj računa",
+                        max_length=34,
+                        verbose_name="Broj bankovnog računa (IBAN)",
+                    ),
+                ),
+                (
+                    "bank_name",
+                    models.CharField(
+                        blank=True,
+                        max_length=100,
+                        null=True,
+                        verbose_name="Naziv banke",
+                    ),
+                ),
+                (
+                    "tip_transakcije",
+                    models.CharField(
+                        choices=[("priljev", "Priljev"), ("odljev", "Odljev")],
+                        max_length=10,
+                        verbose_name="Tip transakcije",
+                    ),
+                ),
+                (
+                    "iznos",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Iznos transakcije (€)",
+                    ),
+                ),
+                (
+                    "valuta",
+                    models.CharField(
+                        default="EUR", max_length=10, verbose_name="Valuta"
+                    ),
+                ),
+                (
+                    "opis",
+                    models.CharField(max_length=255, verbose_name="Opis transakcije"),
+                ),
+                ("datum", models.DateField(verbose_name="Datum transakcije")),
+                (
+                    "datum_valute",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Datum valute"
+                    ),
+                ),
+                (
+                    "referenca",
+                    models.CharField(
+                        max_length=100,
+                        unique=True,
+                        verbose_name="Referenca transakcije",
+                    ),
+                ),
+                (
+                    "saldo",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Saldo računa (€) nakon transakcije",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        verbose_name="Vrijeme evidentiranja u sustavu",
+                    ),
+                ),
+                (
+                    "is_reconciled",
+                    models.BooleanField(
+                        default=False, verbose_name="Usklađeno s knjigovodstvom?"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Bankovna transakcija',
-                'verbose_name_plural': 'Bankovne transakcije',
-                'ordering': ['-datum'],
+                "verbose_name": "Bankovna transakcija",
+                "verbose_name_plural": "Bankovne transakcije",
+                "ordering": ["-datum"],
             },
         ),
         migrations.CreateModel(
-            name='Budget',
+            name="Budget",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('godina', models.PositiveIntegerField(verbose_name='Godina')),
-                ('mjesec', models.PositiveIntegerField(verbose_name='Mjesec')),
-                ('predvidjeni_prihod', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Predviđeni prihod (€)')),
-                ('predvidjeni_trosak', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Predviđeni trošak (€)')),
-                ('stvarni_prihod', models.DecimalField(decimal_places=2, default=0, max_digits=12, verbose_name='Stvarni prihod (€)')),
-                ('stvarni_trosak', models.DecimalField(decimal_places=2, default=0, max_digits=12, verbose_name='Stvarni trošak (€)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("godina", models.PositiveIntegerField(verbose_name="Godina")),
+                ("mjesec", models.PositiveIntegerField(verbose_name="Mjesec")),
+                (
+                    "predvidjeni_prihod",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Predviđeni prihod (€)",
+                    ),
+                ),
+                (
+                    "predvidjeni_trosak",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Predviđeni trošak (€)",
+                    ),
+                ),
+                (
+                    "stvarni_prihod",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0,
+                        max_digits=12,
+                        verbose_name="Stvarni prihod (€)",
+                    ),
+                ),
+                (
+                    "stvarni_trosak",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=0,
+                        max_digits=12,
+                        verbose_name="Stvarni trošak (€)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Budget',
-                'verbose_name_plural': 'Budgets',
+                "verbose_name": "Budget",
+                "verbose_name_plural": "Budgets",
             },
         ),
         migrations.CreateModel(
-            name='CashFlow',
+            name="CashFlow",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tip_transakcije', models.CharField(max_length=50)),
-                ('iznos', models.DecimalField(decimal_places=2, max_digits=12)),
-                ('opis', models.CharField(max_length=255)),
-                ('datum', models.DateField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("tip_transakcije", models.CharField(max_length=50)),
+                ("iznos", models.DecimalField(decimal_places=2, max_digits=12)),
+                ("opis", models.CharField(max_length=255)),
+                ("datum", models.DateField()),
             ],
             options={
-                'verbose_name': 'CashFlow',
-                'verbose_name_plural': 'CashFlows',
-                'ordering': ['-datum'],
+                "verbose_name": "CashFlow",
+                "verbose_name_plural": "CashFlows",
+                "ordering": ["-datum"],
             },
         ),
         migrations.CreateModel(
-            name='Debt',
+            name="Debt",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('due_date', models.DateField(verbose_name='Due Date')),
-                ('amount_due', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount Due')),
-                ('is_paid', models.BooleanField(default=False, verbose_name='Is Paid')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("due_date", models.DateField(verbose_name="Due Date")),
+                (
+                    "amount_due",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Amount Due"
+                    ),
+                ),
+                ("is_paid", models.BooleanField(default=False, verbose_name="Is Paid")),
             ],
             options={
-                'ordering': ['due_date'],
+                "ordering": ["due_date"],
             },
         ),
         migrations.CreateModel(
-            name='FinancialDetails',
+            name="FinancialDetails",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('total_price', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12, verbose_name='Ukupna cijena')),
-                ('vat_rate', models.DecimalField(decimal_places=2, default=Decimal('25.00'), max_digits=4, verbose_name='Stopa PDV-a')),
-                ('contracted_net_price', models.DecimalField(blank=True, decimal_places=2, default=Decimal('0.00'), max_digits=12, null=True, verbose_name='Ugovorena neto cijena')),
-                ('contracted_gross_price', models.DecimalField(blank=True, decimal_places=2, default=Decimal('0.00'), max_digits=12, null=True, verbose_name='Ugovorena bruto cijena')),
-                ('predicted_costs', models.DecimalField(blank=True, decimal_places=2, default=Decimal('0.00'), max_digits=12, null=True, verbose_name='Predviđeni troškovi')),
-                ('actual_costs', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12, verbose_name='Stvarni troškovi')),
-                ('predicted_profit', models.DecimalField(blank=True, decimal_places=2, default=Decimal('0.00'), max_digits=12, null=True, verbose_name='Predviđena dobit')),
-                ('actual_profit', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12, verbose_name='Stvarna dobit (€)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "total_price",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        verbose_name="Ukupna cijena",
+                    ),
+                ),
+                (
+                    "vat_rate",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("25.00"),
+                        max_digits=4,
+                        verbose_name="Stopa PDV-a",
+                    ),
+                ),
+                (
+                    "contracted_net_price",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        null=True,
+                        verbose_name="Ugovorena neto cijena",
+                    ),
+                ),
+                (
+                    "contracted_gross_price",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        null=True,
+                        verbose_name="Ugovorena bruto cijena",
+                    ),
+                ),
+                (
+                    "predicted_costs",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        null=True,
+                        verbose_name="Predviđeni troškovi",
+                    ),
+                ),
+                (
+                    "actual_costs",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        verbose_name="Stvarni troškovi",
+                    ),
+                ),
+                (
+                    "predicted_profit",
+                    models.DecimalField(
+                        blank=True,
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        null=True,
+                        verbose_name="Predviđena dobit",
+                    ),
+                ),
+                (
+                    "actual_profit",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=12,
+                        verbose_name="Stvarna dobit (€)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Financial Details',
-                'verbose_name_plural': 'Financial Details',
+                "verbose_name": "Financial Details",
+                "verbose_name_plural": "Financial Details",
             },
         ),
         migrations.CreateModel(
-            name='FinancialReport',
+            name="FinancialReport",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('period', models.CharField(choices=[('monthly', 'Monthly'), ('quarterly', 'Quarterly'), ('yearly', 'Yearly')], max_length=10)),
-                ('year', models.PositiveIntegerField()),
-                ('month', models.PositiveIntegerField(blank=True, null=True)),
-                ('kvartal', models.PositiveIntegerField(blank=True, null=True)),
-                ('priljev_ukupno', models.DecimalField(decimal_places=2, default=0, max_digits=12)),
-                ('odljev_ukupno', models.DecimalField(decimal_places=2, default=0, max_digits=12)),
-                ('neto_cash_flow', models.DecimalField(decimal_places=2, default=0, max_digits=12)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "period",
+                    models.CharField(
+                        choices=[
+                            ("monthly", "Monthly"),
+                            ("quarterly", "Quarterly"),
+                            ("yearly", "Yearly"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("year", models.PositiveIntegerField()),
+                ("month", models.PositiveIntegerField(blank=True, null=True)),
+                ("kvartal", models.PositiveIntegerField(blank=True, null=True)),
+                (
+                    "priljev_ukupno",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=12),
+                ),
+                (
+                    "odljev_ukupno",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=12),
+                ),
+                (
+                    "neto_cash_flow",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=12),
+                ),
             ],
             options={
-                'verbose_name': 'Financijski izvještaj',
-                'verbose_name_plural': 'Financijski izvještaji',
+                "verbose_name": "Financijski izvještaj",
+                "verbose_name_plural": "Financijski izvještaji",
             },
         ),
         migrations.CreateModel(
-            name='FinancijskaTransakcija',
+            name="FinancijskaTransakcija",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datum', models.DateTimeField(auto_now_add=True)),
-                ('iznos', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('opis', models.TextField()),
-                ('object_id', models.PositiveIntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("datum", models.DateTimeField(auto_now_add=True)),
+                ("iznos", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("opis", models.TextField()),
+                ("object_id", models.PositiveIntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='Invoice',
+            name="Invoice",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('invoice_number', models.CharField(db_index=True, max_length=100, unique=True, verbose_name='Broj fakture')),
-                ('issue_date', models.DateField(verbose_name='Datum izdavanja')),
-                ('due_date', models.DateField(verbose_name='Datum dospijeća')),
-                ('pdv_rate', models.DecimalField(decimal_places=2, default=Decimal('25.00'), max_digits=5, verbose_name='Stopa PDV-a (%)')),
-                ('payment_method', models.CharField(choices=[('gotovina', 'Gotovina'), ('kartica', 'Kartica'), ('virman', 'Virman')], default='virman', max_length=20, verbose_name='Način plaćanja')),
-                ('status_fakture', models.CharField(choices=[('draft', 'Draft'), ('odobreno', 'Odobreno'), ('otkazano', 'Otkazano')], default='draft', max_length=20, verbose_name='Status fakture')),
-                ('paid', models.BooleanField(default=False, verbose_name='Plaćeno')),
-                ('is_guaranteed', models.BooleanField(default=False, verbose_name='Garancija?')),
-                ('guarantee_details', models.TextField(blank=True, null=True, verbose_name='Detalji garancije')),
-                ('financial_guarantee', models.BooleanField(default=False, verbose_name='Financijska garancija?')),
-                ('tender_statement', models.TextField(blank=True, null=True, verbose_name='Izjava za tender')),
-                ('public_tender_ref', models.CharField(blank=True, max_length=100, null=True, verbose_name='Referenca javnog natječaja')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "invoice_number",
+                    models.CharField(
+                        db_index=True,
+                        max_length=100,
+                        unique=True,
+                        verbose_name="Broj fakture",
+                    ),
+                ),
+                ("issue_date", models.DateField(verbose_name="Datum izdavanja")),
+                ("due_date", models.DateField(verbose_name="Datum dospijeća")),
+                (
+                    "pdv_rate",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("25.00"),
+                        max_digits=5,
+                        verbose_name="Stopa PDV-a (%)",
+                    ),
+                ),
+                (
+                    "payment_method",
+                    models.CharField(
+                        choices=[
+                            ("gotovina", "Gotovina"),
+                            ("kartica", "Kartica"),
+                            ("virman", "Virman"),
+                        ],
+                        default="virman",
+                        max_length=20,
+                        verbose_name="Način plaćanja",
+                    ),
+                ),
+                (
+                    "status_fakture",
+                    models.CharField(
+                        choices=[
+                            ("draft", "Draft"),
+                            ("odobreno", "Odobreno"),
+                            ("otkazano", "Otkazano"),
+                        ],
+                        default="draft",
+                        max_length=20,
+                        verbose_name="Status fakture",
+                    ),
+                ),
+                ("paid", models.BooleanField(default=False, verbose_name="Plaćeno")),
+                (
+                    "is_guaranteed",
+                    models.BooleanField(default=False, verbose_name="Garancija?"),
+                ),
+                (
+                    "guarantee_details",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Detalji garancije"
+                    ),
+                ),
+                (
+                    "financial_guarantee",
+                    models.BooleanField(
+                        default=False, verbose_name="Financijska garancija?"
+                    ),
+                ),
+                (
+                    "tender_statement",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Izjava za tender"
+                    ),
+                ),
+                (
+                    "public_tender_ref",
+                    models.CharField(
+                        blank=True,
+                        max_length=100,
+                        null=True,
+                        verbose_name="Referenca javnog natječaja",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='InvoiceLine',
+            name="InvoiceLine",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.CharField(max_length=255, verbose_name='Opis stavke')),
-                ('quantity', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Količina')),
-                ('unit_price', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Jedinična cijena')),
-                ('tax_rate', models.DecimalField(decimal_places=2, default=Decimal('25.00'), max_digits=5, verbose_name='Stopa PDV-a')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "description",
+                    models.CharField(max_length=255, verbose_name="Opis stavke"),
+                ),
+                (
+                    "quantity",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Količina"
+                    ),
+                ),
+                (
+                    "unit_price",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Jedinična cijena"
+                    ),
+                ),
+                (
+                    "tax_rate",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("25.00"),
+                        max_digits=5,
+                        verbose_name="Stopa PDV-a",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Stavka računa',
-                'verbose_name_plural': 'Stavke računa',
+                "verbose_name": "Stavka računa",
+                "verbose_name_plural": "Stavke računa",
             },
         ),
         migrations.CreateModel(
-            name='JournalEntry',
+            name="JournalEntry",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(verbose_name='Datum knjiženja')),
-                ('description', models.TextField(verbose_name='Opis transakcije')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date", models.DateField(verbose_name="Datum knjiženja")),
+                ("description", models.TextField(verbose_name="Opis transakcije")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='JournalItem',
+            name="JournalItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('debit', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
-                ('credit', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=12)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "debit",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
+                (
+                    "credit",
+                    models.DecimalField(
+                        decimal_places=2, default=Decimal("0.00"), max_digits=12
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='MjesecniOverheadPregled',
+            name="MjesecniOverheadPregled",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('godina', models.PositiveIntegerField(verbose_name='Godina')),
-                ('mjesec', models.PositiveIntegerField(verbose_name='Mjesec')),
-                ('ukupni_overhead', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Ukupni overhead (€)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("godina", models.PositiveIntegerField(verbose_name="Godina")),
+                ("mjesec", models.PositiveIntegerField(verbose_name="Mjesec")),
+                (
+                    "ukupni_overhead",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Ukupni overhead (€)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Mjesečni pregled overhead-a',
-                'verbose_name_plural': 'Mjesečni pregledi overhead-a',
+                "verbose_name": "Mjesečni pregled overhead-a",
+                "verbose_name_plural": "Mjesečni pregledi overhead-a",
             },
         ),
         migrations.CreateModel(
-            name='MonthlyOverhead',
+            name="MonthlyOverhead",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('year', models.PositiveIntegerField(verbose_name='Year')),
-                ('month', models.PositiveIntegerField(verbose_name='Month')),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Amount (€)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("year", models.PositiveIntegerField(verbose_name="Year")),
+                ("month", models.PositiveIntegerField(verbose_name="Month")),
+                (
+                    "amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=12, verbose_name="Amount (€)"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Monthly Overhead',
-                'verbose_name_plural': 'Monthly Overheads',
+                "verbose_name": "Monthly Overhead",
+                "verbose_name_plural": "Monthly Overheads",
             },
         ),
         migrations.CreateModel(
-            name='Municipality',
+            name="Municipality",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True, verbose_name='Naziv općine')),
-                ('tax_rate', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=5, verbose_name='Stopa prireza (%)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, unique=True, verbose_name="Naziv općine"
+                    ),
+                ),
+                (
+                    "tax_rate",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=5,
+                        verbose_name="Stopa prireza (%)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Općina',
-                'verbose_name_plural': 'Općine',
+                "verbose_name": "Općina",
+                "verbose_name_plural": "Općine",
             },
         ),
         migrations.CreateModel(
-            name='NekiFinancijskiModel',
+            name="NekiFinancijskiModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Overhead',
+            name="Overhead",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('godina', models.PositiveIntegerField(verbose_name='Godina')),
-                ('mjesec', models.PositiveIntegerField(verbose_name='Mjesec')),
-                ('overhead_ukupno', models.DecimalField(decimal_places=2, max_digits=12, verbose_name='Ukupni overhead (€)')),
-                ('mjesecni_kapacitet_sati', models.DecimalField(decimal_places=2, default=Decimal('1600.00'), max_digits=12, verbose_name='Mjesečni kapacitet sati')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("godina", models.PositiveIntegerField(verbose_name="Godina")),
+                ("mjesec", models.PositiveIntegerField(verbose_name="Mjesec")),
+                (
+                    "overhead_ukupno",
+                    models.DecimalField(
+                        decimal_places=2,
+                        max_digits=12,
+                        verbose_name="Ukupni overhead (€)",
+                    ),
+                ),
+                (
+                    "mjesecni_kapacitet_sati",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("1600.00"),
+                        max_digits=12,
+                        verbose_name="Mjesečni kapacitet sati",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Overhead',
-                'verbose_name_plural': 'Overheadi',
+                "verbose_name": "Overhead",
+                "verbose_name_plural": "Overheadi",
             },
         ),
         migrations.CreateModel(
-            name='OverheadCategory',
+            name="OverheadCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True, verbose_name='Category Name')),
-                ('description', models.TextField(blank=True, null=True, verbose_name='Category Description')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Category Name"
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Category Description"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Overhead Category',
-                'verbose_name_plural': 'Overhead Categories',
+                "verbose_name": "Overhead Category",
+                "verbose_name_plural": "Overhead Categories",
             },
         ),
         migrations.CreateModel(
-            name='Payment',
+            name="Payment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Racun',
+            name="Racun",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('broj', models.CharField(max_length=20)),
-                ('datum', models.DateField()),
-                ('iznos', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('status', models.CharField(choices=[('draft', 'Nacrt'), ('issued', 'Izdan'), ('paid', 'Plaćen'), ('canceled', 'Storniran')], default='draft', max_length=20)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("broj", models.CharField(max_length=20)),
+                ("datum", models.DateField()),
+                ("iznos", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("draft", "Nacrt"),
+                            ("issued", "Izdan"),
+                            ("paid", "Plaćen"),
+                            ("canceled", "Storniran"),
+                        ],
+                        default="draft",
+                        max_length=20,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Račun',
-                'verbose_name_plural': 'Računi',
-                'ordering': ['-datum'],
+                "verbose_name": "Račun",
+                "verbose_name_plural": "Računi",
+                "ordering": ["-datum"],
             },
         ),
         migrations.CreateModel(
-            name='Salary',
+            name="Salary",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('gross_amount', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Bruto iznos')),
-                ('net_amount', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Neto iznos')),
-                ('taxes', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Porezi')),
-                ('date', models.DateField(blank=True, null=True, verbose_name='Datum obračuna plaće')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "gross_amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Bruto iznos"
+                    ),
+                ),
+                (
+                    "net_amount",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Neto iznos"
+                    ),
+                ),
+                (
+                    "taxes",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Porezi"
+                    ),
+                ),
+                (
+                    "date",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Datum obračuna plaće"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='SalaryAddition',
+            name="SalaryAddition",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('amount', models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("amount", models.DecimalField(decimal_places=2, max_digits=10)),
             ],
         ),
         migrations.CreateModel(
-            name='SalesContract',
+            name="SalesContract",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contract_number', models.CharField(max_length=50, unique=True, verbose_name='Contract Number')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "contract_number",
+                    models.CharField(
+                        max_length=50, unique=True, verbose_name="Contract Number"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Tax',
+            name="Tax",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('rate', models.DecimalField(decimal_places=2, max_digits=5)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("rate", models.DecimalField(decimal_places=2, max_digits=5)),
             ],
         ),
         migrations.CreateModel(
-            name='TaxConfiguration',
+            name="TaxConfiguration",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Naziv konfiguracije poreza')),
-                ('tax_rate', models.DecimalField(decimal_places=2, max_digits=5, verbose_name='Stopa poreza (%)')),
-                ('mirovinsko_1', models.DecimalField(decimal_places=2, default=Decimal('0.15'), max_digits=4, verbose_name='Mirovinsko 1')),
-                ('mirovinsko_2', models.DecimalField(decimal_places=2, default=Decimal('0.05'), max_digits=4, verbose_name='Mirovinsko 2')),
-                ('zdravstveno', models.DecimalField(decimal_places=3, default=Decimal('0.165'), max_digits=5, verbose_name='Zdravstveno')),
-                ('niza_stopa', models.DecimalField(decimal_places=2, default=Decimal('0.20'), max_digits=4, verbose_name='Niža stopa poreza')),
-                ('visa_stopa', models.DecimalField(decimal_places=2, default=Decimal('0.30'), max_digits=4, verbose_name='Viša stopa poreza')),
-                ('osobni_odbitak', models.DecimalField(decimal_places=2, default=Decimal('560.00'), max_digits=10, verbose_name='Osobni odbitak')),
-                ('prirez', models.DecimalField(decimal_places=2, default=Decimal('0.50'), max_digits=4, verbose_name='Prirez')),
-                ('granica_visa_stopa', models.DecimalField(decimal_places=2, default=Decimal('1800.00'), max_digits=10, verbose_name='Granica za višu stopu poreza')),
-                ('minimal_salary', models.DecimalField(decimal_places=2, default=Decimal('780.00'), max_digits=10, verbose_name='Minimalna plaća (€)')),
-                ('opis', models.TextField(blank=True, null=True, verbose_name='Opis konfiguracije')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        max_length=100, verbose_name="Naziv konfiguracije poreza"
+                    ),
+                ),
+                (
+                    "tax_rate",
+                    models.DecimalField(
+                        decimal_places=2, max_digits=5, verbose_name="Stopa poreza (%)"
+                    ),
+                ),
+                (
+                    "mirovinsko_1",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.15"),
+                        max_digits=4,
+                        verbose_name="Mirovinsko 1",
+                    ),
+                ),
+                (
+                    "mirovinsko_2",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.05"),
+                        max_digits=4,
+                        verbose_name="Mirovinsko 2",
+                    ),
+                ),
+                (
+                    "zdravstveno",
+                    models.DecimalField(
+                        decimal_places=3,
+                        default=Decimal("0.165"),
+                        max_digits=5,
+                        verbose_name="Zdravstveno",
+                    ),
+                ),
+                (
+                    "niza_stopa",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.20"),
+                        max_digits=4,
+                        verbose_name="Niža stopa poreza",
+                    ),
+                ),
+                (
+                    "visa_stopa",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.30"),
+                        max_digits=4,
+                        verbose_name="Viša stopa poreza",
+                    ),
+                ),
+                (
+                    "osobni_odbitak",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("560.00"),
+                        max_digits=10,
+                        verbose_name="Osobni odbitak",
+                    ),
+                ),
+                (
+                    "prirez",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.50"),
+                        max_digits=4,
+                        verbose_name="Prirez",
+                    ),
+                ),
+                (
+                    "granica_visa_stopa",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("1800.00"),
+                        max_digits=10,
+                        verbose_name="Granica za višu stopu poreza",
+                    ),
+                ),
+                (
+                    "minimal_salary",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("780.00"),
+                        max_digits=10,
+                        verbose_name="Minimalna plaća (€)",
+                    ),
+                ),
+                (
+                    "opis",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Opis konfiguracije"
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Tax Configuration',
-                'verbose_name_plural': 'Tax Configurations',
+                "verbose_name": "Tax Configuration",
+                "verbose_name_plural": "Tax Configurations",
             },
         ),
         migrations.CreateModel(
-            name='VariablePayRule',
+            name="VariablePayRule",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('variable_pay', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Varijabilni dio (€)')),
-                ('bonus', models.DecimalField(decimal_places=2, default=Decimal('0.00'), max_digits=10, verbose_name='Bonus (€)')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "variable_pay",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Varijabilni dio (€)",
+                    ),
+                ),
+                (
+                    "bonus",
+                    models.DecimalField(
+                        decimal_places=2,
+                        default=Decimal("0.00"),
+                        max_digits=10,
+                        verbose_name="Bonus (€)",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Pravilo za varijabilni dio plaće',
-                'verbose_name_plural': 'Pravila za varijabilni dio plaće',
+                "verbose_name": "Pravilo za varijabilni dio plaće",
+                "verbose_name_plural": "Pravila za varijabilni dio plaće",
             },
         ),
     ]

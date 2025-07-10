@@ -9,115 +9,209 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('client_app', '0001_initial'),
+        ("client_app", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ClientProfile',
+            name="ClientProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('loyalty_level', models.CharField(choices=[('bronze', 'Bronze'), ('silver', 'Silver'), ('gold', 'Gold'), ('platinum', 'Platinum')], default='bronze', max_length=20, verbose_name='Razina lojalnosti')),
-                ('feedback', models.TextField(blank=True, null=True, verbose_name='Povratne informacije')),
-                ('post_sales_feedback', models.TextField(blank=True, null=True, verbose_name='Post-prodajne povratne informacije')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "loyalty_level",
+                    models.CharField(
+                        choices=[
+                            ("bronze", "Bronze"),
+                            ("silver", "Silver"),
+                            ("gold", "Gold"),
+                            ("platinum", "Platinum"),
+                        ],
+                        default="bronze",
+                        max_length=20,
+                        verbose_name="Razina lojalnosti",
+                    ),
+                ),
+                (
+                    "feedback",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Povratne informacije"
+                    ),
+                ),
+                (
+                    "post_sales_feedback",
+                    models.TextField(
+                        blank=True,
+                        null=True,
+                        verbose_name="Post-prodajne povratne informacije",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Profil klijenta',
-                'verbose_name_plural': 'Profili klijenata',
+                "verbose_name": "Profil klijenta",
+                "verbose_name_plural": "Profili klijenata",
             },
         ),
         migrations.AlterModelOptions(
-            name='citypostalcode',
-            options={'verbose_name': 'Poštanski broj', 'verbose_name_plural': 'Poštanski brojevi'},
+            name="citypostalcode",
+            options={
+                "verbose_name": "Poštanski broj",
+                "verbose_name_plural": "Poštanski brojevi",
+            },
         ),
         migrations.AlterModelOptions(
-            name='clientactivitylog',
-            options={'ordering': ['-timestamp'], 'verbose_name': 'Log aktivnosti', 'verbose_name_plural': 'Logovi aktivnosti'},
+            name="clientactivitylog",
+            options={
+                "ordering": ["-timestamp"],
+                "verbose_name": "Log aktivnosti",
+                "verbose_name_plural": "Logovi aktivnosti",
+            },
         ),
         migrations.AlterModelOptions(
-            name='clientsupplier',
-            options={'ordering': ['name'], 'verbose_name': 'Klijent/Dobavljač', 'verbose_name_plural': 'Klijenti/Dobavljači'},
+            name="clientsupplier",
+            options={
+                "ordering": ["name"],
+                "verbose_name": "Klijent/Dobavljač",
+                "verbose_name_plural": "Klijenti/Dobavljači",
+            },
         ),
         migrations.RemoveField(
-            model_name='clientactivitylog',
-            name='activity_date',
+            model_name="clientactivitylog",
+            name="activity_date",
         ),
         migrations.RemoveField(
-            model_name='clientactivitylog',
-            name='activity_description',
+            model_name="clientactivitylog",
+            name="activity_description",
         ),
         migrations.RemoveField(
-            model_name='clientsupplier',
-            name='feedback',
+            model_name="clientsupplier",
+            name="feedback",
         ),
         migrations.RemoveField(
-            model_name='clientsupplier',
-            name='loyalty_level',
+            model_name="clientsupplier",
+            name="loyalty_level",
         ),
         migrations.RemoveField(
-            model_name='clientsupplier',
-            name='post_sales_feedback',
+            model_name="clientsupplier",
+            name="post_sales_feedback",
         ),
         migrations.AddField(
-            model_name='clientactivitylog',
-            name='activity_type',
-            field=models.CharField(choices=[('create', 'Kreiranje'), ('update', 'Ažuriranje'), ('delete', 'Brisanje'), ('status_change', 'Promjena statusa'), ('other', 'Ostalo')], default='other', max_length=20, verbose_name='Tip aktivnosti'),
+            model_name="clientactivitylog",
+            name="activity_type",
+            field=models.CharField(
+                choices=[
+                    ("create", "Kreiranje"),
+                    ("update", "Ažuriranje"),
+                    ("delete", "Brisanje"),
+                    ("status_change", "Promjena statusa"),
+                    ("other", "Ostalo"),
+                ],
+                default="other",
+                max_length=20,
+                verbose_name="Tip aktivnosti",
+            ),
         ),
         migrations.AlterField(
-            model_name='citypostalcode',
-            name='postal_code',
-            field=models.CharField(max_length=10, unique=True, validators=[django.core.validators.RegexValidator('^\\d{5}$')], verbose_name='Postal Code'),
+            model_name="citypostalcode",
+            name="postal_code",
+            field=models.CharField(
+                max_length=10,
+                unique=True,
+                validators=[django.core.validators.RegexValidator("^\\d{5}$")],
+                verbose_name="Postal Code",
+            ),
         ),
         migrations.AlterField(
-            model_name='clientactivitylog',
-            name='timestamp',
-            field=models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='Timestamp'),
+            model_name="clientactivitylog",
+            name="timestamp",
+            field=models.DateTimeField(
+                db_index=True,
+                default=django.utils.timezone.now,
+                verbose_name="Timestamp",
+            ),
         ),
         migrations.AlterField(
-            model_name='clientsupplier',
-            name='name',
-            field=models.CharField(db_index=True, max_length=255, verbose_name='Naziv (ime tvrtke ili osobe)'),
+            model_name="clientsupplier",
+            name="name",
+            field=models.CharField(
+                db_index=True,
+                max_length=255,
+                verbose_name="Naziv (ime tvrtke ili osobe)",
+            ),
         ),
         migrations.AlterField(
-            model_name='clientsupplier',
-            name='relationship_status',
-            field=models.CharField(choices=[('active', 'Aktivan'), ('inactive', 'Neaktivan'), ('prospective', 'Potencijalni'), ('former', 'Bivši'), ('blocked', 'Blokiran')], default='active', max_length=20, verbose_name='Status odnosa'),
+            model_name="clientsupplier",
+            name="relationship_status",
+            field=models.CharField(
+                choices=[
+                    ("active", "Aktivan"),
+                    ("inactive", "Neaktivan"),
+                    ("prospective", "Potencijalni"),
+                    ("former", "Bivši"),
+                    ("blocked", "Blokiran"),
+                ],
+                default="active",
+                max_length=20,
+                verbose_name="Status odnosa",
+            ),
         ),
         migrations.AlterUniqueTogether(
-            name='citypostalcode',
-            unique_together={('postal_code', 'city')},
+            name="citypostalcode",
+            unique_together={("postal_code", "city")},
         ),
         migrations.AddIndex(
-            model_name='citypostalcode',
-            index=models.Index(fields=['postal_code'], name='client_app__postal__8c341e_idx'),
+            model_name="citypostalcode",
+            index=models.Index(
+                fields=["postal_code"], name="client_app__postal__8c341e_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='citypostalcode',
-            index=models.Index(fields=['city'], name='client_app__city_79d885_idx'),
+            model_name="citypostalcode",
+            index=models.Index(fields=["city"], name="client_app__city_79d885_idx"),
         ),
         migrations.AddIndex(
-            model_name='clientactivitylog',
-            index=models.Index(fields=['-timestamp'], name='client_app__timesta_b6ca4c_idx'),
+            model_name="clientactivitylog",
+            index=models.Index(
+                fields=["-timestamp"], name="client_app__timesta_b6ca4c_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='clientactivitylog',
-            index=models.Index(fields=['client', '-timestamp'], name='client_app__client__277058_idx'),
+            model_name="clientactivitylog",
+            index=models.Index(
+                fields=["client", "-timestamp"], name="client_app__client__277058_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='clientsupplier',
-            index=models.Index(fields=['name', 'email'], name='client_app__name_d320c3_idx'),
+            model_name="clientsupplier",
+            index=models.Index(
+                fields=["name", "email"], name="client_app__name_d320c3_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='clientsupplier',
-            index=models.Index(fields=['oib'], name='client_app__oib_0c918a_idx'),
+            model_name="clientsupplier",
+            index=models.Index(fields=["oib"], name="client_app__oib_0c918a_idx"),
         ),
         migrations.AddIndex(
-            model_name='clientsupplier',
-            index=models.Index(fields=['relationship_status', 'is_active'], name='client_app__relatio_181d73_idx'),
+            model_name="clientsupplier",
+            index=models.Index(
+                fields=["relationship_status", "is_active"],
+                name="client_app__relatio_181d73_idx",
+            ),
         ),
         migrations.AddField(
-            model_name='clientprofile',
-            name='client',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='clientprofile', to='client_app.clientsupplier'),
+            model_name="clientprofile",
+            name="client",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="clientprofile",
+                to="client_app.clientsupplier",
+            ),
         ),
     ]
