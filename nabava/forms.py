@@ -1,17 +1,9 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-
-from .models import (
-    Dobavljac,
-    GrupaDobavljaca,
-    Narudzbenica,
-    NarudzbenicaStavka,
-    ProcurementPlan,
-    ProcurementRequest,
-    PurchaseOrder,
-    PurchaseOrderLine,
-)
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
 
 
 class ProcurementPlanForm(forms.ModelForm):

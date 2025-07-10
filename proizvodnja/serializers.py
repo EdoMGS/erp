@@ -10,25 +10,10 @@ from financije.services import calculate_project_costs
 from ljudski_resursi.serializers import EmployeeSerializer
 
 from .models import (  # Remove Nagrada from imports; Oprema,  # Removed Oprema; RadniProces,  # Removed RadniProces; AnotherModel,  # Removed AnotherModel
-    Angazman,
-    DodatniAngazman,
-    GrupaPoslova,
-    MonthlyWorkRecord,
-    Notifikacija,
-    OcjenaKvalitete,
-    PovijestPromjena,
-    ProizvodniResurs,
-    Proizvodnja,
-    Projekt,
-    RadniNalog,
-    RadniNalogMaterijal,
-    TemplateRadniNalog,
-    TipProjekta,
-    TipVozila,
-    Usteda,
-    VideoMaterijal,
-    VideoPitanje,
-)
+    Angazman, DodatniAngazman, GrupaPoslova, MonthlyWorkRecord, Notifikacija,
+    OcjenaKvalitete, PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
+    RadniNalog, RadniNalogMaterijal, TemplateRadniNalog, TipProjekta,
+    TipVozila, Usteda, VideoMaterijal, VideoPitanje)
 
 User = get_user_model()
 

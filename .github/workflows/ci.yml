@@ -43,13 +43,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-django flake8 black isort
+          pip install pytest pytest-django flake8 black isort autoflake
 
-      - name: Lint (flake8 + black + isort)
-        run: |
-          flake8 .
-          black --check .
-          isort --check .
+      - name: Lint (flake8)
+        run: flake8 .
+
+      - name: Format check (black)
+        run: black --check .
+
+      - name: Import sort check (isort)
+        run: isort --check-only .
+
+      - name: Remove unused imports/vars (autoflake)
+        run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables .
 
       - name: Run tests
         env:
@@ -58,5 +64,5 @@ jobs:
           DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
           SECRET_KEY: dummy
           DEBUG: "False"
-        run: |
-          pytest -q
+          DJANGO_SETTINGS_MODULE: erp_system.settings.test
+        run: pytest --maxfail=1 --disable-warnings -v

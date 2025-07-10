@@ -2,21 +2,9 @@
 
 from django import forms
 
-
-from .models import (
-    Alat,
-    Artikl,
-    DnevnikDogadaja,
-    HTZOprema,
-    Izdatnica,
-    IzdatnicaStavka,
-    Lokacija,
-    Materijal,
-    Primka,
-    PrimkaStavka,
-    SkladisteResurs,
-    Zona,
-)
+from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
+                     IzdatnicaStavka, Lokacija, Materijal, Primka,
+                     PrimkaStavka, SkladisteResurs, Zona)
 
 
 ###############################################################################

@@ -4,20 +4,11 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import (
-    ArtiklCreateView,
-    ArtiklDetailView,
-    ArtiklListView,
-    IzdatnicaCreateView,
-    IzdatnicaDetailView,
-    IzdatnicaListView,
-    LokacijaListView,
-    MaterijalListView,
-    PrimkaCreateView,
-    PrimkaDetailView,
-    PrimkaListView,
-    ZonaListView,
-)
+from .views import (ArtiklCreateView, ArtiklDetailView, ArtiklListView,
+                    IzdatnicaCreateView, IzdatnicaDetailView,
+                    IzdatnicaListView, LokacijaListView, MaterijalListView,
+                    PrimkaCreateView, PrimkaDetailView, PrimkaListView,
+                    ZonaListView)
 
 app_name = "skladiste"
 

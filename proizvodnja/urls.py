@@ -5,39 +5,24 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 
 from . import views
-from .views_angazmani import (
-    AzurirajAngazmanView,
-    DetaljiAngazmanaView,
-    DodajAngazmanView,
-    DodajDodatniAngazmanView,
-    ListaAngazmanaView,
-    ObrisiAngazmanView,
-)
-from .views_dnevni_izvjestaj import DnevniIzvjestajView, GenerirajPDFDnevniIzvjestajView
-from .views_ocjene import (
-    AzurirajOcjenuView,
-    DetaljiOcjeneKvaliteteView,
-    DodajOcjenuView,
-    ListaOcjenaKvaliteteView,
-    ObrisiOcjenuView,
-)
+from .views_angazmani import (AzurirajAngazmanView, DetaljiAngazmanaView,
+                              DodajAngazmanView, DodajDodatniAngazmanView,
+                              ListaAngazmanaView, ObrisiAngazmanView)
+from .views_dnevni_izvjestaj import (DnevniIzvjestajView,
+                                     GenerirajPDFDnevniIzvjestajView)
+from .views_ocjene import (AzurirajOcjenuView, DetaljiOcjeneKvaliteteView,
+                           DodajOcjenuView, ListaOcjenaKvaliteteView,
+                           ObrisiOcjenuView)
 from .views_projekti import AzurirajProjektView  # Add this import
-from .views_tehnicka_dokumentacija import (
-    AzurirajTehnickuDokumentacijuView,
-    DetaljiTehnickeDokumentacijeView,
-    DodajTehnickuDokumentacijuView,
-    ListaTehnickeDokumentacijeView,
-    ObrisiTehnickuDokumentacijuView,
-)
-from .views_video import (
-    AzurirajVideoMaterijalView,
-    DodajVideoMaterijalView,
-    DodajVideoPitanjeView,
-    ListaVideoMaterijalaView,
-    ListaVideoPitanjaView,
-    ObrisiVideoMaterijalView,
-    ObrisiVideoPitanjeView,
-)
+from .views_tehnicka_dokumentacija import (AzurirajTehnickuDokumentacijuView,
+                                           DetaljiTehnickeDokumentacijeView,
+                                           DodajTehnickuDokumentacijuView,
+                                           ListaTehnickeDokumentacijeView,
+                                           ObrisiTehnickuDokumentacijuView)
+from .views_video import (AzurirajVideoMaterijalView, DodajVideoMaterijalView,
+                          DodajVideoPitanjeView, ListaVideoMaterijalaView,
+                          ListaVideoPitanjaView, ObrisiVideoMaterijalView,
+                          ObrisiVideoPitanjeView)
 
 # Ako želiš koristiti "protected_view", import ga iz utils
 # from .utils import protected_view

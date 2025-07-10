@@ -2,33 +2,16 @@
 
 from django import forms
 from django.apps import apps  # Added import for apps
-from django.utils.translation import (
-    gettext_lazy as _,
-)  # Added import for translation function
+from django.utils.translation import \
+    gettext_lazy as _  # Added import for translation function
 
 from client_app.models import ClientSupplier  # Changed: import from client_app
 
-from .models import (
-    BankTransaction,
-    Budget,
-    CashFlow,
-    Debt,
-    FinancialDetails,
-    FinancialReport,
-    Invoice,
-    InvoiceLine,
-    MonthlyOverhead,
-    Municipality,
-    Overhead,
-    OverheadCategory,
-    Payment,
-    Salary,
-    SalaryAddition,
-    SalesContract,
-    Tax,
-    TaxConfiguration,
-    VariablePayRule,
-)
+from .models import (BankTransaction, Budget, CashFlow, Debt, FinancialDetails,
+                     FinancialReport, Invoice, InvoiceLine, MonthlyOverhead,
+                     Municipality, Overhead, OverheadCategory, Payment, Salary,
+                     SalaryAddition, SalesContract, Tax, TaxConfiguration,
+                     VariablePayRule)
 
 
 #############################################

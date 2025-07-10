@@ -14,24 +14,18 @@ from rest_framework import generics, viewsets
 
 from financije.models import Invoice  # Only for read operations
 from prodaja.models import (  # Updated to import SalesOrder from prodaja
-    SalesOpportunity,
-    SalesOrder,
-)
+    SalesOpportunity, SalesOrder)
 
-from .forms import SalesOpportunityForm  # Only forms we actually define in our app
-from .forms import (
-    ClientActivityLogForm,
-    ClientForm,  # Add this import
-    ClientSupplierForm,
-)
+from .forms import ClientForm  # Add this import
+from .forms import \
+    SalesOpportunityForm  # Only forms we actually define in our app
+from .forms import ClientActivityLogForm, ClientSupplierForm
 from .models import ClientActivityLog, ClientSupplier
-from .serializers import SalesOpportunitySerializer  # Added SalesOpportunitySerializer
+from .serializers import \
+    SalesOpportunitySerializer  # Added SalesOpportunitySerializer
 from .serializers import SalesOrderSerializer  # Added SalesOrderSerializer
-from .serializers import (
-    ClientActivityLogSerializer,
-    ClientSupplierSerializer,
-    InvoiceSerializer,
-)
+from .serializers import (ClientActivityLogSerializer,
+                          ClientSupplierSerializer, InvoiceSerializer)
 
 logger = logging.getLogger(__name__)
 

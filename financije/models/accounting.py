@@ -30,6 +30,7 @@ class Account(models.Model):
     )
 
     class Meta:
+        app_label = "financije"
         verbose_name = _("Konto (Account)")
         verbose_name_plural = _("Konta (Accounts)")
         ordering = ["number"]
@@ -94,6 +95,7 @@ class JournalEntry(models.Model):
             )
 
     class Meta:
+        app_label = "financije"
         indexes = [models.Index(fields=["date"]), models.Index(fields=["created_at"])]
 
     def __str__(self):
@@ -119,6 +121,7 @@ class JournalItem(models.Model):
             )
 
     class Meta:
+        app_label = "financije"
         indexes = [
             models.Index(fields=["debit"]),
             models.Index(fields=["credit"]),

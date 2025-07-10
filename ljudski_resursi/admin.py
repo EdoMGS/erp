@@ -2,22 +2,10 @@
 
 from django.contrib import admin
 
-from .forms import (
-    DepartmentForm,
-    EmployeeForm,
-    ExpertiseLevelForm,
-    HierarchicalLevelForm,
-    PositionForm,
-)
-from .models import (
-    Department,
-    Employee,
-    ExpertiseLevel,
-    HierarchicalLevel,
-    Nagrada,
-    Position,
-    RadnaEvaluacija,
-)
+from .forms import (DepartmentForm, EmployeeForm, ExpertiseLevelForm,
+                    HierarchicalLevelForm, PositionForm)
+from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
+                     Nagrada, Position, RadnaEvaluacija)
 
 
 @admin.register(Department)
