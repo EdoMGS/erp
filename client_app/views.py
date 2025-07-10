@@ -16,10 +16,9 @@ from financije.models import Invoice  # Only for read operations
 from prodaja.models import (  # Updated to import SalesOrder from prodaja
     SalesOpportunity, SalesOrder)
 
-from .forms import ClientForm  # Add this import
 from .forms import \
     SalesOpportunityForm  # Only forms we actually define in our app
-from .forms import ClientActivityLogForm, ClientSupplierForm
+from .forms import ClientSupplierForm
 from .models import ClientActivityLog, ClientSupplier
 from .serializers import \
     SalesOpportunitySerializer  # Added SalesOpportunitySerializer
@@ -132,9 +131,7 @@ class InvoiceListView(BaseListView):
         return Invoice.objects.select_related("client").order_by("-issue_date")
 
     def get_search_filter(self, query):
-        return Q(invoice_number__icontains=query) | Q(
-            client__name__icontains(query)
-        )  # Fixed parenthesis
+        return Q(invoice_number__icontains=query) | Q(client__name__icontains=query)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -304,9 +301,9 @@ def opportunity_list(request):
 
     if query:
         opportunities = opportunities.filter(
-            Q(name__icontains(query))
-            | Q(client__name__icontains(query))
-            | Q(stage__icontains(query))
+            Q(name__icontains=query)
+            | Q(client__name__icontains=query)
+            | Q(stage__icontains=query)
         )
 
     paginator = Paginator(opportunities, 10)

@@ -10,13 +10,13 @@ from financije.models import FinancialDetails
 from proizvodnja.models import RadniNalog
 from skladiste.models import Artikl
 
-from .models import Notifikacija
+from .models import Notification
 
 logger = logging.getLogger(__name__)
 
 
-@receiver(post_save, sender=Notifikacija)
-def send_notification(sender, instance, created, **kwargs):
+@receiver(post_save, sender=Notification)
+def send_notification_signal(sender, instance, created, **kwargs):
     if created:
         channel_layer = get_channel_layer()
         if channel_layer:
