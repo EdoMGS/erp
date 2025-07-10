@@ -11,6 +11,7 @@ redis>=5.0
 channels>=4.0
 django-redis>=5.4
 django-celery-beat
+django-celery-results
 
 ########  REST / AUTH  ########
 djangorestframework>=3.15
@@ -42,3 +43,13 @@ Pillow>=10.3
 
 ########  GRAFI / ANALITIKA (scoreboard)  ########
 matplotlib>=3.9
+
+# TESTING
+pytest>=8.0
+pytest-django>=4.8
+environ>=1.0
+pluggy>=1.5
+pygments>=2.18
+iniconfig>=2.0
+asgiref>=3.8
+sqlparse>=0.5

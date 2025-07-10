@@ -1,13 +1,14 @@
 from django.test import TestCase
-from ..models import Projekt, Zadaci
+from proizvodnja.models import Projekt
+from financije.models.others import FinancialDetails
 
+# Zadaci model ne postoji, pa je test uklonjen ili treba prilagoditi
 class ProjektModelTest(TestCase):
     def test_projekt_creation(self):
-        projekt = Projekt.objects.create(naziv="Test Projekt", datum_pocetka="2024-10-10")
-        self.assertEqual(projekt.naziv, "Test Projekt")
-
-class ZadaciModelTest(TestCase):
-    def test_zadaci_creation(self):
-        projekt = Projekt.objects.create(naziv="Test Projekt", datum_pocetka="2024-10-10")
-        zadatak = Zadaci.objects.create(projekt=projekt, naziv="Test Zadatak", status="u tijeku")
-        self.assertEqual(zadatak.naziv, "Test Zadatak")
+        # Minimalni potrebni podaci za kreiranje Projekta
+        financial_details = FinancialDetails.objects.create()
+        projekt = Projekt.objects.create(
+            naziv_projekta="Test Projekt",
+            financial_details=financial_details
+        )
+        self.assertEqual(projekt.naziv_projekta, "Test Projekt")
