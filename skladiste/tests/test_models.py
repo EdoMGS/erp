@@ -1,7 +1,6 @@
 import pytest
-from skladiste.employee_factory import create_minimal_employee
-from django.db import IntegrityError
 
+from skladiste.employee_factory import create_minimal_employee
 from skladiste.models import (Alat, Artikl, DnevnikDogadaja, HTZOprema,
                               Izdatnica, IzdatnicaStavka, Kategorija, Lokacija,
                               Materijal, Primka, PrimkaStavka, SkladisteResurs,
@@ -30,6 +29,7 @@ def test_kategorija_str():
 @pytest.mark.django_db
 def test_artikl_str():
     from nabava.models import Dobavljac, GrupaDobavljaca
+
     kat = Kategorija.objects.create(naziv="Kat1")
     zona = Zona.objects.create(naziv="Zona 1")
     lok = Lokacija.objects.create(naziv="Lokacija 1", zona=zona)
@@ -49,6 +49,7 @@ def test_artikl_str():
 @pytest.mark.django_db
 def test_materijal_str():
     from nabava.models import Dobavljac, GrupaDobavljaca
+
     kat = Kategorija.objects.create(naziv="Kat1")
     zona = Zona.objects.create(naziv="Zona 1")
     lok = Lokacija.objects.create(naziv="Lokacija 1", zona=zona)
@@ -83,6 +84,7 @@ def test_htzoprema_str():
 @pytest.mark.django_db
 def test_dnevnikdogadaja_str():
     from nabava.models import Dobavljac, GrupaDobavljaca
+
     kat = Kategorija.objects.create(naziv="Kat1")
     zona = Zona.objects.create(naziv="Zona 1")
     lok = Lokacija.objects.create(naziv="Lokacija 1", zona=zona)
@@ -109,6 +111,7 @@ def test_skladisteresurs_str():
 @pytest.mark.django_db
 def test_primka_str():
     from django.contrib.auth import get_user_model
+
     from nabava.models import Dobavljac, GrupaDobavljaca
 
     User = get_user_model()
@@ -124,6 +127,7 @@ def test_primka_str():
 @pytest.mark.django_db
 def test_primkastavka_str():
     from django.contrib.auth import get_user_model
+
     from nabava.models import Dobavljac, GrupaDobavljaca
 
     User = get_user_model()
@@ -153,7 +157,7 @@ def test_primkastavka_str():
 @pytest.mark.django_db
 def test_izdatnica_str():
     from django.contrib.auth import get_user_model
-    from ljudski_resursi.models import Employee
+
 
     User = get_user_model()
     user = User.objects.create(username="testuser")
@@ -167,8 +171,8 @@ def test_izdatnica_str():
 @pytest.mark.django_db
 def test_izdatnicastavka_str():
     from django.contrib.auth import get_user_model
+
     from nabava.models import Dobavljac, GrupaDobavljaca
-    from ljudski_resursi.models import Employee
 
     User = get_user_model()
     user = User.objects.create(username="testuser")

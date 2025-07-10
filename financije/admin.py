@@ -14,8 +14,6 @@ from .models import (BankTransaction, Budget, CashFlow, FinancialDetails,
 # financije/admin.py
 
 
-
-
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     form = InvoiceForm

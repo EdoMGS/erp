@@ -179,3 +179,5 @@ class Command(BaseCommand):
             unos_artikala_csv("artikli.csv")
 
             self.stdout.write(self.style.SUCCESS("Proširene funkcionalnosti uspješno testirane."))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Dogodila se greška: {e}"))
