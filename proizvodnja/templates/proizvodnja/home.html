@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Početna - Radni Nalozi{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Dobrodošli, {{ user.first_name }}!</h1>
+    <p class="text-center">Izaberite opciju:</p>
+
+    {% if user.is_authenticated and user.employee_profile or user.is_superuser %}
+        <div class="row g-4 justify-content-center">
+            <!-- Kartica za Projekti -->
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-truck fa-3x text-primary mb-3" aria-hidden="true"></i>
+                        <span class="visually-hidden">Ikona za projekte</span>
+                        <h5 class="card-title fw-bold">Projekti</h5>
+                        <p class="card-text">Pregledajte i upravljajte projektima</p>
+                        <a href="{% url 'proizvodnja:lista_projekata' %}" class="btn btn-primary">Pristupi</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartica za Dashboard -->
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-tachometer-alt fa-3x text-success mb-3"></i>
+                        <h5 class="card-title fw-bold">Moj Dashboard</h5>
+                        <p class="card-text">Ključni podaci i izvještaji</p>
+                        <a href="{% url 'proizvodnja:dashboard' %}" class="btn btn-success">Pristupi</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartica za Centralni Panel -->
+            <div class="col-md-4">
+                <div class="card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-cogs fa-3x text-danger mb-3"></i>
+                        <h5 class="card-title fw-bold">Centralni Panel</h5>
+                        <p class="card-text">Upravljajte svime na jednom mjestu</p>
+                        <a href="{% url 'proizvodnja:centralni_panel' %}" class="btn btn-danger">Otvori</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if user.is_superuser %}
+        <div class="mt-4">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Pristup omogućen zbog superuser statusa.
+            </div>
+        </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-info text-center">
+            {% if user.is_authenticated %}
+                Nemate zaposlenički profil. Molimo kontaktirajte administratora.
+            {% else %}
+                Molimo <a href="{% url 'login' %}">prijavite se</a> za pristup funkcionalnostima.
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

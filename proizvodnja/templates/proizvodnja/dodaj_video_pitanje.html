@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            {% if sadrzaj %} Uredi Sadržaj {% else %} Dodaj Novi Sadržaj {% endif %}
+        </h1>
+        <h2 class="text-secondary">
+            {% if projekt %} Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+        </h2>
+    </div>
+
+    <!-- Prikaz validacijskih grešaka -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Greške pri unosu:</strong>
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                    <li><strong>{{ field.label }}</strong>: {{ field.errors|join:", " }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Forma za unos/uređivanje -->
+    <form method="POST" enctype="multipart/form-data" class="card shadow-lg p-4">
+        {% csrf_token %}
+
+        <div class="row g-3">
+            <!-- Naziv sadržaja -->
+            <div class="col-md-6">
+                {{ form.naziv.label_tag }}
+                {{ form.naziv|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite naziv videozapisa ili pitanja.</small>
+            </div>
+
+            <!-- Tip sadržaja -->
+            <div class="col-md-6">
+                {{ form.tip.label_tag }}
+                {{ form.tip|add_class:"form-select" }}
+                <small class="form-text text-muted">Odaberite tip (Video ili Pitanje).</small>
+            </div>
+        </div>
+
+        <!-- Video ili tekst pitanja -->
+        <div class="row g-3 mt-3">
+            <!-- URL ili datoteka za video -->
+            <div class="col-md-6" id="video-section" style="display: none;">
+                {{ form.video_url.label_tag }}
+                {{ form.video_url|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite URL videozapisa ili priložite datoteku.</small>
+            </div>
+
+            <!-- Tekst pitanja -->
+            <div class="col-md-6" id="pitanje-section" style="display: none;">
+                {{ form.tekst_pitanja.label_tag }}
+                {{ form.tekst_pitanja|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite tekst pitanja.</small>
+            </div>
+        </div>
+
+        <!-- Gumbi za spremanje i povratak -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                {% if sadrzaj %} Spremi Promjene {% else %} Dodaj Sadržaj {% endif %}
+            </button>
+            <a href="{% url 'lista_videa_pitanja' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+                Povratak na Listu
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tipSelect = document.getElementById("id_tip");
+        const videoSection = document.getElementById("video-section");
+        const pitanjeSection = document.getElementById("pitanje-section");
+
+        function toggleFields() {
+            const selectedValue = tipSelect.value;
+            videoSection.style.display = selectedValue === "Video" ? "block" : "none";
+            pitanjeSection.style.display = selectedValue === "Pitanje" ? "block" : "none";
+        }
+
+        tipSelect.addEventListener("change", toggleFields);
+        toggleFields();
+    });
+</script>
+{% endblock %}

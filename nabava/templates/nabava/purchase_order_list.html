@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Pregled narudžbi</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Artikl</th>
+            <th>Dobavljač</th>
+            <th>Status</th>
+            <th>Datum narudžbe</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.stock.naziv }}</td>
+            <td>{{ order.supplier.name }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>
+                <a href="{% url 'nabava:purchase_order_detail' order.pk %}" class="btn btn-info btn-sm">Detalji</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

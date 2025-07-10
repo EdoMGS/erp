@@ -1,0 +1,736 @@
+[
+    {
+      "model": "ljudski_resursi.hierarchicallevel",
+      "pk": 1,
+      "fields": {
+        "name": "Operator",
+        "level": 1,
+        "description": "Entry-level position responsible for operational tasks."
+      }
+    },
+    {
+      "model": "ljudski_resursi.hierarchicallevel",
+      "pk": 2,
+      "fields": {
+        "name": "Technician",
+        "level": 2,
+        "description": "Responsible for maintenance and technical support."
+      }
+    },
+    {
+      "model": "ljudski_resursi.hierarchicallevel",
+      "pk": 3,
+      "fields": {
+        "name": "Engineer",
+        "level": 3,
+        "description": "Handles design, development, and engineering tasks."
+      }
+    },
+    {
+      "model": "ljudski_resursi.hierarchicallevel",
+      "pk": 4,
+      "fields": {
+        "name": "Supervisor",
+        "level": 4,
+        "description": "Oversees teams and ensures operational efficiency."
+      }
+    },
+    {
+      "model": "ljudski_resursi.hierarchicallevel",
+      "pk": 5,
+      "fields": {
+        "name": "Manager",
+        "level": 5,
+        "description": "Manages departments and strategic planning."
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 1,
+      "fields": {
+        "name": "Production",
+        "description": "Handles the manufacturing of firefighting vehicles.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 2,
+      "fields": {
+        "name": "Quality Control",
+        "description": "Ensures products meet quality standards.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 3,
+      "fields": {
+        "name": "Maintenance",
+        "description": "Responsible for equipment maintenance and repairs.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 4,
+      "fields": {
+        "name": "Procurement",
+        "description": "Manages procurement of materials and supplies.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 5,
+      "fields": {
+        "name": "Research & Development",
+        "description": "Focuses on innovation and new product development.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 6,
+      "fields": {
+        "name": "Sales",
+        "description": "Handles sales and customer relationships.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 7,
+      "fields": {
+        "name": "Administration",
+        "description": "Manages administrative tasks and support.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 8,
+      "fields": {
+        "name": "Finance",
+        "description": "Handles financial planning and management.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 9,
+      "fields": {
+        "name": "General & Administrative Tasks",
+        "description": "Manages general and administrative duties.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 10,
+      "fields": {
+        "name": "Paint & Finishing",
+        "description": "Handles painting and finishing processes for vehicles",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 11,
+      "fields": {
+        "name": "Engineering",
+        "description": "Responsible for design, testing, and engineering tasks.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.department",
+      "pk": 12,
+      "fields": {
+        "name": "Logistics",
+        "description": "Coordinates shipping, receiving, and internal logistics.",
+        "parent": null,
+        "manager": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.expertiselevel",
+      "pk": 1,
+      "fields": {
+        "name": "Početnik",
+        "description": "Osnovna stručnost s temeljnim vještinama."
+      }
+    },
+    {
+      "model": "ljudski_resursi.expertiselevel",
+      "pk": 2,
+      "fields": {
+        "name": "Srednji",
+        "description": "Srednja stručnost s mogućnošću samostalnog obavljanja standardnih zadataka."
+      }
+    },
+    {
+      "model": "ljudski_resursi.expertiselevel",
+      "pk": 3,
+      "fields": {
+        "name": "Napredni",
+        "description": "Visoka razina stručnosti s mogućnošću upravljanja složenim zadacima i mentoriranja drugih."
+      }
+    },
+    {
+      "model": "ljudski_resursi.expertiselevel",
+      "pk": 4,
+      "fields": {
+        "name": "Ekspert",
+        "description": "Izvanredna stručnost sa specijaliziranim vještinama i liderskim sposobnostima."
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 1,
+      "fields": {
+        "title": "Production Operator",
+        "department": 1,
+        "hierarchical_level": 1,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 2,
+      "fields": {
+        "title": "Quality Control Technician",
+        "department": 2,
+        "hierarchical_level": 2,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 3,
+      "fields": {
+        "title": "Maintenance Engineer",
+        "department": 3,
+        "hierarchical_level": 3,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 4,
+      "fields": {
+        "title": "Procurement Manager",
+        "department": 4,
+        "hierarchical_level": 5,
+        "is_managerial": true,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 5,
+      "fields": {
+        "title": "R&D Engineer",
+        "department": 5,
+        "hierarchical_level": 3,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 6,
+      "fields": {
+        "title": "Sales Representative",
+        "department": 6,
+        "hierarchical_level": 2,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 7,
+      "fields": {
+        "title": "Administrative Assistant",
+        "department": 7,
+        "hierarchical_level": 1,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 8,
+      "fields": {
+        "title": "Finance Analyst",
+        "department": 8,
+        "hierarchical_level": 3,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 9,
+      "fields": {
+        "title": "Office Manager",
+        "department": 7,
+        "hierarchical_level": 4,
+        "is_managerial": true,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 10,
+      "fields": {
+        "title": "General Administrator",
+        "department": 9,
+        "hierarchical_level": 2,
+        "is_managerial": false,
+        "expertise_level": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 11,
+      "fields": {
+        "title": "Bravar",
+        "department": 1,
+        "hierarchical_level": 1,
+        "expertise_level": 1,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 12,
+      "fields": {
+        "title": "Varioc",
+        "department": 1,
+        "hierarchical_level": 1,
+        "expertise_level": 1,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 13,
+      "fields": {
+        "title": "Mehaničar",
+        "department": 1,
+        "hierarchical_level": 1,
+        "expertise_level": 1,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 14,
+      "fields": {
+        "title": "Cjevar",
+        "department": 1,
+        "hierarchical_level": 2,
+        "expertise_level": 2,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 15,
+      "fields": {
+        "title": "Električar",
+        "department": 1,
+        "hierarchical_level": 2,
+        "expertise_level": 2,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 16,
+      "fields": {
+        "title": "Tokar",
+        "department": 1,
+        "hierarchical_level": 2,
+        "expertise_level": 2,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 17,
+      "fields": {
+        "title": "Montažer",
+        "department": 1,
+        "hierarchical_level": 3,
+        "expertise_level": 3,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 18,
+      "fields": {
+        "title": "Operater CNC Strojeva",
+        "department": 1,
+        "hierarchical_level": 3,
+        "expertise_level": 3,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 19,
+      "fields": {
+        "title": "Vođa Tima za Proizvodnju",
+        "department": 1,
+        "hierarchical_level": 4,
+        "expertise_level": 4,
+        "is_managerial": true
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 20,
+      "fields": {
+        "title": "Chief Engineer",
+        "department": 11,
+        "hierarchical_level": 5,
+        "expertise_level": 4,
+        "is_managerial": true
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 21,
+      "fields": {
+        "title": "Design Engineer",
+        "department": 11,
+        "hierarchical_level": 3,
+        "expertise_level": 3,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 22,
+      "fields": {
+        "title": "Testing Engineer",
+        "department": 11,
+        "hierarchical_level": 3,
+        "expertise_level": 3,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 23,
+      "fields": {
+        "title": "Paint Technician",
+        "department": 10,
+        "hierarchical_level": 2,
+        "expertise_level": 2,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 24,
+      "fields": {
+        "title": "Paint Manager",
+        "department": 10,
+        "hierarchical_level": 4,
+        "expertise_level": 4,
+        "is_managerial": true
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 25,
+      "fields": {
+        "title": "Logistics Coordinator",
+        "department": 12,
+        "hierarchical_level": 3,
+        "expertise_level": 2,
+        "is_managerial": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.position",
+      "pk": 26,
+      "fields": {
+        "title": "Logistics Manager",
+        "department": 12,
+        "hierarchical_level": 4,
+        "expertise_level": 4,
+        "is_managerial": true
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 1,
+      "fields": {
+        "user": 1,
+        "first_name": "Marko",
+        "last_name": "Maric",
+        "email": "marko.maric@example.com",
+        "department": 1,
+        "position": 11,
+        "manager": null,
+        "expertise_level": 1,
+        "hierarchical_level": 1,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.00",
+        "onboarding_date": null,
+        "onboarding_timeline": null,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 2,
+      "fields": {
+        "user": 2,
+        "first_name": "Ivana",
+        "last_name": "Ivic",
+        "email": "ivana.ivic@example.com",
+        "department": 2,
+        "position": 2,
+        "manager": null,
+        "expertise_level": 2,
+        "hierarchical_level": 2,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.20",
+        "onboarding_date": "2024-01-15",
+        "onboarding_timeline": 60,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 3,
+      "fields": {
+        "user": null,
+        "first_name": "Goran",
+        "last_name": "Matic",
+        "email": "goran.matic@example.com",
+        "department": 10,
+        "position": 23,
+        "manager": 2,
+        "expertise_level": 1,
+        "hierarchical_level": 2,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.05",
+        "onboarding_date": "2024-03-10",
+        "onboarding_timeline": 30,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 4,
+      "fields": {
+        "user": null,
+        "first_name": "Mirko",
+        "last_name": "Jovic",
+        "email": "mirko.jovic@example.com",
+        "department": 10,
+        "position": 24,
+        "manager": 2,
+        "expertise_level": 2,
+        "hierarchical_level": 4,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.30",
+        "onboarding_date": null,
+        "onboarding_timeline": null,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 5,
+      "fields": {
+        "user": null,
+        "first_name": "Petra",
+        "last_name": "Babic",
+        "email": "petra.babic@example.com",
+        "department": 11,
+        "position": 21,
+        "manager": 2,
+        "expertise_level": 2,
+        "hierarchical_level": 3,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.25",
+        "onboarding_date": "2024-02-01",
+        "onboarding_timeline": 45,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 6,
+      "fields": {
+        "user": null,
+        "first_name": "Igor",
+        "last_name": "Novak",
+        "email": "igor.novak@example.com",
+        "department": 11,
+        "position": 22,
+        "manager": null,
+        "expertise_level": 1,
+        "hierarchical_level": 3,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.15",
+        "onboarding_date": "2024-03-01",
+        "onboarding_timeline": 30,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 7,
+      "fields": {
+        "user": null,
+        "first_name": "Hrvoje",
+        "last_name": "Tomic",
+        "email": "hrvoje.tomic@example.com",
+        "department": 12,
+        "position": 25,
+        "manager": null,
+        "expertise_level": 2,
+        "hierarchical_level": 3,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.10",
+        "onboarding_date": null,
+        "onboarding_timeline": null,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 8,
+      "fields": {
+        "user": null,
+        "first_name": "Ana",
+        "last_name": "Radic",
+        "email": "ana.radic@example.com",
+        "department": 12,
+        "position": 26,
+        "manager": 2,
+        "expertise_level": 3,
+        "hierarchical_level": 4,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.40",
+        "onboarding_date": null,
+        "onboarding_timeline": null,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.employee",
+      "pk": 9,
+      "fields": {
+        "user": null,
+        "first_name": "Zoran",
+        "last_name": "Knez",
+        "email": "zoran.knez@example.com",
+        "department": 11,
+        "position": 20,
+        "manager": 2,
+        "expertise_level": 3,
+        "hierarchical_level": 5,
+        "is_active": true,
+        "tax_configuration": null,
+        "salary_coefficient": "1.50",
+        "onboarding_date": "2024-04-01",
+        "onboarding_timeline": 90,
+        "employee_satisfaction": null,
+        "satisfaction_score": null
+      }
+    },
+    {
+      "model": "ljudski_resursi.evaluacija",
+      "pk": 1,
+      "fields": {
+        "employee": 1,
+        "ocjena": 4,
+        "komentar": "Dobar rad, treba samo malo više efikasnosti.",
+        "datum_evaluacije": "2024-04-15",
+        "efikasnost": true,
+        "kvaliteta": true,
+        "izuzetni_rad": false
+      }
+    },
+    {
+      "model": "ljudski_resursi.evaluacija",
+      "pk": 2,
+      "fields": {
+        "employee": 2,
+        "ocjena": 5,
+        "komentar": "Izvanredni rezultati i visoka efikasnost.",
+        "datum_evaluacije": "2024-04-20",
+        "efikasnost": true,
+        "kvaliteta": true,
+        "izuzetni_rad": true
+      }
+    },
+    {
+      "model": "ljudski_resursi.ocjenakvalitete",
+      "pk": 1,
+      "fields": {
+        "radni_nalog": 1,
+        "employee": 1,
+        "razina": "MEDIUM",
+        "ocjena": 4,
+        "komentar": "Zadovoljavajuća kvaliteta izrade.",
+        "video": null,
+        "tezinski_faktor": "1.00"
+      }
+    },
+    {
+      "model": "ljudski_resursi.ocjenakvalitete",
+      "pk": 2,
+      "fields": {
+        "radni_nalog": 2,
+        "employee": 2,
+        "razina": "HIGH",
+        "ocjena": 5,
+        "komentar": "Odlično riješen kompleksni detalj.",
+        "video": null,
+        "tezinski_faktor": "1.20"
+      }
+    }
+  ]
+  

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Prodaja Modul{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">
+        <i class="fas fa-chart-line"></i> 
+        Prodaja Modul
+    </h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Glavne funkcije</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'prodaja:opportunity_list' %}" class="btn btn-link"><i class="fas fa-users"></i> Leads / Opportunities</a></li>
+                        <li><a href="{% url 'prodaja:quotation_list' %}" class="btn btn-link"><i class="fas fa-file-invoice"></i> Ponude</a></li>
+                        <li><a href="{% url 'prodaja:salesorder_list' %}" class="btn btn-link"><i class="fas fa-shopping-cart"></i> Narudžbe</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Ugovori i tenderi</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'prodaja:salescontract_list' %}" class="btn btn-link"><i class="fas fa-file-contract"></i> Ugovori</a></li>
+                        <li><a href="{% url 'prodaja:tender_list' %}" class="btn btn-link"><i class="fas fa-gavel"></i> Pripreme tendera</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

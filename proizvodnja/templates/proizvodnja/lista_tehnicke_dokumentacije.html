@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        Lista Tehničke Dokumentacije{% if projekt %} za Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} za Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+    </h2>
+
+    <!-- Filtar po tipu dokumentacije -->
+    <form method="get" action="{% url 'lista_tehnicke_dokumentacije' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="naziv" placeholder="Pretraži po nazivu..." class="form-control" value="{{ request.GET.naziv }}">
+            </div>
+            <div class="col-md-4">
+                <select name="tip" class="form-select">
+                    <option value="">Svi Tipovi</option>
+                    {% for tip in tipovi_dokumentacije %}
+                        <option value="{{ tip }}" {% if request.GET.tip == tip %}selected{% endif %}>{{ tip }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-filter"></i> Filtriraj
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Akcije -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'dodaj_tehnicku_dokumentaciju' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Dodaj Dokumentaciju
+        </a>
+        <a href="{% url 'lista_tehnicke_dokumentacije' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary">
+            <i class="fas fa-redo"></i> Resetiraj
+        </a>
+    </div>
+
+    <!-- Lista dokumentacije -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Tip</th>
+                <th>Datum Dodavanja</th>
+                <th>Opcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dokument in dokumentacija %}
+            <tr>
+                <td>{{ dokument.naziv }}</td>
+                <td>{{ dokument.tip }}</td>
+                <td>{{ dokument.created_at|date:"j. F Y." }}</td>
+                <td>
+                    <a href="{% url 'detalji_tehnicke_dokumentacije' dokument.id %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="{% url 'azuriraj_tehnicku_dokumentaciju' dokument.id %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'obrisi_tehnicku_dokumentaciju' dokument.id %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">Nema dostupne tehničke dokumentacije.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginacija -->
+    <div class="d-flex justify-content-center mt-4">
+        {% if dokumentacija.has_other_pages %}
+        <nav aria-label="Paginacija">
+            <ul class="pagination">
+                {% if dokumentacija.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ dokumentacija.previous_page_number }}">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for num in dokumentacija.paginator.page_range %}
+                <li class="page-item {% if dokumentacija.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if dokumentacija.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ dokumentacija.next_page_number }}">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

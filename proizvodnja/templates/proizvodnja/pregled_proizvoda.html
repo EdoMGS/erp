@@ -1,0 +1,19 @@
+
+<table>
+    <tr>
+        <th>Naziv</th>
+        <th>Opis</th>
+        <th>Količina</th>
+        <th>Datum Proizvodnje</th>
+        <th>Radni Nalog</th>
+    </tr>
+    {% for proizvod in proizvodi %}
+    <tr>
+        <td>{{ proizvod.naziv }}</td>
+        <td>{{ proizvod.opis }}</td>
+        <td>{{ proizvod.kolicina }}</td>
+        <td>{{ proizvod.datum_proizvodnje }}</td>
+        <td>{{ proizvod.radni_nalog.id }}</td>
+    </tr>
+    {% endfor %}
+</table>

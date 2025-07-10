@@ -1,0 +1,74 @@
+[
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 1,
+        "fields": {
+            "naziv": "Šasija i mehanički dijelovi",
+            "opis": "Dobavljači šasija i mehaničkih komponenti vozila",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 2,
+        "fields": {
+            "naziv": "Vatrogasna oprema",
+            "opis": "Dobavljači specijalizirane vatrogasne opreme",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 3,
+        "fields": {
+            "naziv": "Hidraulika i pneumatika",
+            "opis": "Dobavljači hidrauličnih i pneumatskih sustava",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 4,
+        "fields": {
+            "naziv": "Pumpe i armatura",
+            "opis": "Dobavljači vatrogasnih pumpi i prateće opreme",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 5,
+        "fields": {
+            "naziv": "Elektro oprema",
+            "opis": "Dobavljači električnih komponenti i opreme",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 6,
+        "fields": {
+            "naziv": "Signalizacija",
+            "opis": "Dobavljači svjetlosne i zvučne signalizacije",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 7,
+        "fields": {
+            "naziv": "Materijali za nadogradnju",
+            "opis": "Dobavljači materijala za vatrogasne nadogradnje",
+            "is_active": true
+        }
+    },
+    {
+        "model": "nabava.grupaDobavljaca",
+        "pk": 8,
+        "fields": {
+            "naziv": "Alati i potrošni materijal",
+            "opis": "Dobavljači alata i potrošnog materijala",
+            "is_active": true
+        }
+    }
+]

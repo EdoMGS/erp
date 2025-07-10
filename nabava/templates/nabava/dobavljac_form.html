@@ -1,0 +1,16 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if edit_mode %}Uredi dobavljača{% else %}Novi dobavljač{% endif %}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            {% if edit_mode %}Spremi promjene{% else %}Kreiraj dobavljača{% endif %}
+        </button>
+        <a href="{% url 'nabava:dobavljac_list' %}" class="btn btn-secondary">Odustani</a>
+    </form>
+</div>
+{% endblock %}

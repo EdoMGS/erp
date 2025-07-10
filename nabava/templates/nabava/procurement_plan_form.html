@@ -1,0 +1,14 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="procurement-plan-form">
+    <h2>{% if form.instance.pk %}Uredi plan{% else %}Novi plan nabave{% endif %}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Spremi</button>
+        <a href="{% url 'nabava:plan_list' %}" class="btn btn-secondary">Odustani</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+# ...existing dependencies...
+beautifulsoup4>=4.9.3
+# beautifulsoup==3.2.2  # Removed outdated package
+xhtml2pdf>=0.2.5
+# ...existing dependencies...
+Django>=3.0,<4.0

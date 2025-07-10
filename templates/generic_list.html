@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object_name_plural|title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ object_name_plural|title }}</h1>
+
+    <a href="{% url object_name|add:'-create' %}" class="btn btn-primary">Create New {{ object_name|title }}</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+                {% for field in fields %}
+                    <th>{{ field|title }}</th>
+                {% endfor %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{ object|getattr:field }}</td>
+                    {% endfor %}
+                    <td>
+                        <a href="{% url object_name|add:'-detail' object.pk %}" class="btn btn-sm btn-info">View</a>
+                        <a href="{% url object_name|add:'-update' object.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="{% url object_name|add:'-delete' object.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

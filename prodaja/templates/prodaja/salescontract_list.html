@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Ugovori{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-file-contract"></i> Ugovori</h1>
+        <a href="{% url 'prodaja:salescontract_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Novi Ugovor
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Broj ugovora</th>
+                    <th>Klijent</th>
+                    <th>Status</th>
+                    <th>Iznos (€)</th>
+                    <th>Garancija</th>
+                    <th>Akcije</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contract in sales_contracts %}
+                <tr>
+                    <td>{{ contract.contract_number }}</td>
+                    <td>{{ contract.client }}</td>
+                    <td>
+                        <span class="badge {% if contract.status == 'draft' %}bg-secondary{% elif contract.status == 'active' %}bg-success{% elif contract.status == 'closed' %}bg-info{% else %}bg-danger{% endif %}">
+                            {{ contract.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ contract.total_amount|floatformat:2 }}</td>
+                    <td>
+                        {% if contract.bank_guarantee_required %}
+                        <i class="fas fa-check-circle text-success"></i>
+                        {% else %}
+                        <i class="fas fa-times-circle text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'prodaja:salescontract_detail' contract.pk %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'prodaja:salescontract_edit' contract.pk %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'prodaja:salescontract_delete' contract.pk %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center">Nema evidentiranih ugovora.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Nova Faktura{% endblock %}
+
+{% block content %}
+<h1>Unos Nove Fakture</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Spremi Fakturu</button>
+</form>
+<a href="{% url 'prikaz_faktura' %}" class="btn btn-secondary">Povratak na Pregled Faktura</a>
+{% endblock %}

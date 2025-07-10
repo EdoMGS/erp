@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        Lista Materijala
+        {% if projekt %}
+            za Projekt: {{ projekt.naziv_projekta }}
+        {% elif radni_nalog %}
+            za Radni Nalog: {{ radni_nalog.naziv_naloga }}
+        {% endif %}
+    </h2>
+
+    {% if radni_nalog %}
+        <h2>Materijali za Radni Nalog: {{ radni_nalog.naziv_naloga }}</h2>
+    {% else %}
+        <h2>Svi Materijali</h2>
+    {% endif %}
+
+    <!-- Filtar po statusu, npr. -->
+    <form method="get" action="{% url 'lista_materijala' %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <select name="status" class="form-select">
+                    <option value="">Svi Statusi</option>
+                    <option value="Na skladištu" {% if request.GET.status == "Na skladištu" %}selected{% endif %}>Na skladištu</option>
+                    <option value="Naručeno - Čeka dostavu" {% if request.GET.status == "Naručeno - Čeka dostavu" %}selected{% endif %}>Naručeno - Čeka dostavu</option>
+                    <option value="Naručeno - Čeka plaćanje" {% if request.GET.status == "Naručeno - Čeka plaćanje" %}selected{% endif %}>Naručeno - Čeka plaćanje</option>
+                    <option value="Nije naručeno" {% if request.GET.status == "Nije naručeno" %}selected{% endif %}>Nije naručeno</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-filter"></i> Filtriraj
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Akcije -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'dodaj_materijal' %}" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Dodaj Materijal
+        </a>
+        <a href="{% url 'lista_materijala' %}" class="btn btn-secondary">
+            <i class="fas fa-redo"></i> Resetiraj
+        </a>
+    </div>
+
+    <!-- Lista materijala -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Status</th>
+                <th>Datum Dostave</th>
+                <th>Inventory Stanje</th>
+                <th>Opcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materijal in materijali %}
+            <tr>
+                <td>{{ materijal.naziv }}</td>
+                <td>
+                    {% if materijal.status == "Na skladištu" %}
+                        <span class="badge bg-success">{{ materijal.status }}</span>
+                    {% elif materijal.status == "Naručeno - Čeka dostavu" %}
+                        <span class="badge bg-warning">{{ materijal.status }}</span>
+                    {% elif materijal.status == "Naručeno - Čeka plaćanje" %}
+                        <span class="badge bg-info">{{ materijal.status }}</span>
+                    {% else %}
+                        <span class="badge bg-danger">{{ materijal.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ materijal.datum_dostave|date:"j. F Y." }}</td>
+                <td>
+                    {% if materijal.inventory_item %}
+                        <strong>Količina:</strong> {{ materijal.inventory_item.quantity }}<br>
+                        <strong>Lokacija:</strong> {{ materijal.inventory_item.location }}<br>
+                        <strong>Posljednje Ažurirano:</strong> {{ materijal.inventory_item.last_updated }}
+                    {% else %}
+                        Nema povezane inventure
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Ako imaš "detalji_materijala" ili "azuriraj_materijal" rute... -->
+                    {% if perms.nalozi.change_materijal %}
+                    <a href="{% url 'azuriraj_materijal' materijal.id %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    {% endif %}
+                    {% if perms.nalozi.delete_materijal %}
+                    <a href="{% url 'obrisi_materijal' materijal.id %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% if materijal.radni_nalog %}
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-warning text-center">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            {% if materijal.radni_nalog.projekt %}
+                                Materijal je povezan s projektom <strong>{{ materijal.radni_nalog.projekt.naziv_projekta }}</strong>.
+                            {% else %}
+                                Materijal je povezan s radnim nalogom <strong>{{ materijal.radni_nalog.naziv_naloga }}</strong>.
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">
+                    <i class="fas fa-box-open fa-2x"></i><br>
+                    Nema materijala za prikaz.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginacija -->
+    <div class="d-flex justify-content-center mt-4">
+        {% if materijali.has_other_pages %}
+        <nav aria-label="Paginacija">
+            <ul class="pagination">
+                {% if materijali.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ materijali.previous_page_number }}&status={{ request.GET.status|default_if_none:'' }}">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for num in materijali.paginator.page_range %}
+                <li class="page-item {% if materijal.paginator.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}&status={{ request.GET.status|default_if_none:'' }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if materijali.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ materijali.next_page_number }}&status={{ request.GET.status|default_if_none:'' }}">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

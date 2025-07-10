@@ -1,0 +1,73 @@
+﻿SOP za Odjel Financija i HR - MGS Grupa
+1. Uvod
+• Svrha SOP-a: Ovaj SOP definira standardne operativne procedure za upravljanje financijama i ljudskim resursima (HR) u MGS Grupi. Cilj je osigurati učinkovitu koordinaciju s vanjskim pružateljima knjigovodstvenih usluga, unutarnje upravljanje HR procesima i administracijom, te nadzor nad financijama putem ERP sustava i vanjske suradnje.
+• Opseg: SOP obuhvaća suradnju s vanjskom knjigovodstvenom firmom, upravljanje HR procesima, administrativnim poslovima, te nadzor nad plaćanjima i financijama, uključujući in-house financijsko izvještavanje putem ERP sustava i komunikaciju s bankama.
+• Odgovornost: Financijska funkcija je odgovorna za plaćanja, koordinaciju s voditeljem ureda, te suradnju s vanjskim partnerima i bankama.
+2. Organizacijska Struktura Odjela Financija i HR
+• Uloge i odgovornosti:
+o Financijska funkcija (voditelj financija/prokurist):
+• Odgovorna za praćenje financija, plaćanja i osiguravanje likvidnosti tvrtke.
+• Komunicira s bankama u vezi s financijama, bankarskim garancijama, kreditnim linijama i ostalim bankarskim poslovima.
+• Koordinira s voditeljem ureda oko svih financijskih poslova i osigurava pravovremenu provedbu plaćanja.
+• Priprema financijske izvještaje u ERP sustavu, koji omogućava pravovremene i točne financijske podatke za donošenje odluka.
+• Priprema bankarske garancije, potvrde o solventnosti, izjave o plaćanjima poreza i doprinosa te ostalu financijsku dokumentaciju potrebnu za natječaje.
+o Voditelj ureda:
+• Odgovorna osoba za HR procese i administrativne poslove, vođenje kadrovske evidencije, obračun plaća (u suradnji s vanjskim knjigovodstvom), te koordinaciju s vanjskim partnerima.
+• Upravljanje ugovorima o radu, onboarding novih zaposlenika, praćenje radnog učinka i edukacija zaposlenika.
+• Priprema dokumenata za vanjsko knjigovodstvo (fakture, platne liste, izvješća).
+o Vanjska knjigovodstvena firma:
+• Odgovorna za vođenje glavne knjige, pripremu financijskih izvještaja, obračun plaća, upravljanje porezima i usklađivanje s regulatornim okvirima.
+• Pruža podršku u poreznom planiranju, pripremi financijskih izvještaja i računovodstvenom savjetovanju.
+3. Suradnja s Vanjskom Knjigovodstvenom Firmom
+• Dostavljanje dokumentacije:
+o Opis: Voditelj ureda prikuplja i priprema sve potrebne dokumente (fakture, platne liste, troškove, evidencije o prihodima) te ih dostavlja vanjskom knjigovodstvu na tjednoj ili mjesečnoj bazi.
+o Alati: Korištenje ERP sustava za prikupljanje financijskih podataka, koji se zatim šalju knjigovodstvenoj firmi.
+• Obrada plaća i poreza:
+o Opis: Vanjska knjigovodstvena firma obrađuje plaće zaposlenika na temelju podataka dostavljenih od voditelja ureda. Uključuje obračun poreza, doprinosa i drugih naknada.
+o Suradnja: Voditelj ureda komunicira sve promjene u broju zaposlenika, radnim satima i beneficijama.
+• Priprema financijskih izvještaja i poreznih prijava:
+o Opis: Vanjska firma priprema financijske izvještaje (bilanca, račun dobiti i gubitka) te osigurava pravovremeno podnošenje poreznih prijava.
+4. Upravljanje HR Procesima
+• Zapošljavanje i onboarding:
+o Opis: Voditelj ureda upravlja procesom zapošljavanja, uključujući oglašavanje radnih mjesta i prikupljanje prijava. Selekcijske intervjue provode voditelji odjela u kojem se potencijalni zaposlenik zapošljava, uz podršku voditelja ureda za administrativne i HR procese.
+o Dokumentacija: Svi zaposlenici potpisuju ugovore o radu pripremljene i revidirane od strane voditelja ureda, pravnog vanjskog suradnika i uprave firme.
+• Praćenje radnog učinka i edukacija:
+o Opis: Voditelj ureda prati radni učinak zaposlenika, vodi kadrovsku evidenciju te organizira interne obuke i edukacije u skladu s potrebama tvrtke.
+• Obračun plaća:
+o Opis: Voditelj ureda prikuplja podatke o radnim satima, bonusima i beneficijama te ih dostavlja vanjskoj knjigovodstvenoj firmi za obračun plaća.
+5. Opći Poslovi i Pravni Poslovi
+• Vođenje administracije:
+o Opis: Voditelj ureda vodi sve administrativne i opće poslove, uključujući organizaciju poslovne dokumentacije, internu komunikaciju i logističku podršku poslovanju.
+• Suradnja s pravnim savjetnicima:
+o Opis: U slučaju pravnih pitanja ili sporova, voditelj ureda koordinira s vanjskim pravnim savjetnicima za savjetovanje i podršku u pravnim postupcima, pripremi ugovora ili rješavanju sporova.
+6. Financijske Odgovornosti Financijskog Voditelja/Prokurista
+• Plaćanja i financijski nadzor:
+o Opis: Financijski voditelj/prokurist je odgovoran za pravovremenu provedbu svih plaćanja i osiguranje likvidnosti tvrtke.
+• Komunikacija s bankama:
+o Opis: Financijski voditelj/prokurist upravlja komunikacijom s bankama, uključujući pregovore o bankarskim garancijama, kreditima i ostalim financijskim instrumentima potrebnim za poslovanje.
+• Priprema financijske dokumentacije za ponude na natječajima:
+o Opis: Financijski voditelj/prokurist priprema bankarske garancije, potvrde o solventnosti, izjave o plaćanjima poreza i doprinosa te sve ostale financijske potvrde potrebne za sudjelovanje na javnim natječajima. Također, osigurava da su svi dokumenti pravovremeno dostavljeni kako bi se zadovoljili uvjeti natječaja.
+o Suradnja: Financijski voditelj/prokurist blisko surađuje s voditeljem ureda i vanjskim pravnim savjetnicima kako bi se osigurala pravna i financijska ispravnost dokumentacije.
+7. Metrike Uspješnosti (KPI-ovi)
+1. Točnost financijskih izvještaja:
+o Metrika: Postotak financijskih izvještaja pripremljenih bez pogrešaka i u zadanom vremenskom roku.
+o Cilj: 100% točnost izvještaja, uz "in-time" financijske podatke putem ERP sustava.
+o Praćenje: Financijski izvještaji generirani iz ERP sustava i revidirani od strane financijskog voditelja/prokurista.
+2. Usklađenost s poreznim propisima:
+o Metrika: Postotak pravovremeno podnesenih poreznih prijava bez naknadnih ispravki.
+o Cilj: 100% pravovremena usklađenost.
+o Praćenje: Praćenje rokova i izvještaja od strane vanjskog knjigovodstva.
+3. Točnost obračuna plaća:
+o Metrika: Broj ispravnih obračuna plaća bez grešaka.
+o Cilj: 100% točnost.
+o Praćenje: Suradnja između voditelja ureda i vanjskog knjigovodstva.
+4. Vrijeme zapošljavanja i onboarding:
+o Metrika: Vrijeme potrebno za popunjavanje otvorenih radnih mjesta i uspješnost onboardinga.
+o Cilj: Zapošljavanje novih radnika unutar 30 dana.
+o Praćenje: Evidencija procesa zapošljavanja.
+8. Obuka i Razvoj Zaposlenika
+• Onboarding program: Uvođenje novih zaposlenika kroz obuku o internim procedurama i pravilima rada.
+• Kontinuirana obuka: Redovite edukacije za HR i financijsko osoblje o promjenama u zakonima, propisima, te financijskim i bankarskim procedurama.
+9. Revizija i Održavanje SOP-a
+• Redovite revizije: SOP će se revidirati jednom godišnje ili prema potrebi kako bi se prilagodio promjenama u zakonodavstvu, financijskim procesima i potrebama vanjskih partnera.
+

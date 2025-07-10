@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Ažuriraj Fakturu{% endblock %}
+
+{% block content %}
+<h1>Ažuriraj Fakturu</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Ažuriraj Fakturu</button>
+</form>
+<a href="{% url 'prikaz_faktura' %}" class="btn btn-secondary">Povratak na Pregled Faktura</a>
+{% endblock %}

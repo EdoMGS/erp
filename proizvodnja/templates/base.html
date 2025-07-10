@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Radni Nalozi{% endblock %}</title>
+    {% load static %}
+    {% load custom_filters %}
+    <meta name="theme-color" content="#007bff">
+    <meta name="description" content="Sustav za upravljanje radnim nalozima - MGS Grupa d.o.o.">
+    <meta name="keywords" content="radni nalozi, projekti, upravljanje, MGS Grupa">
+    <meta name="author" content="MGS Grupa d.o.o.">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Radni Nalozi - MGS Grupa d.o.o.">
+    <meta property="og:description" content="Sustav za upravljanje projektima i radnim nalozima.">
+    <meta property="og:image" content="{% static 'nalozi/og-image.png' %}">
+    <meta property="og:url" content="https://mgs-grupa.hr">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'nalozi/favicon.ico' %}">
+    <link rel="apple-touch-icon" href="{% static 'nalozi/favicon.png' %}">
+
+    <!-- CSS -->
+    <link href="{% static 'bootstrap/5.1.3/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/6.0.0-beta3/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'nalozi/css/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="{% static 'nalozi/manifest.json' %}">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color, #f8f9fa);
+            color: var(--text-color, #000);
+        }
+        .navbar {
+            background-color: var(--navbar-color, #007bff);
+        }
+        .navbar a {
+            color: #fff !important;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .messages .alert {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <!-- Logo and Title -->
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'nalozi/mgs-logo.png' %}" alt="MGS Grupa d.o.o." style="height: 40px;" loading="lazy">
+                Radni Nalozi - MGS Grupa d.o.o.
+            </a>
+            <!-- Mobile Navigation Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_projekata' %}">Projekti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'lista_radnih_naloga' projekt_id=1 %}">Radni Nalozi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'inventory_list' %}">Inventar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_inventory_item' %}">Dodaj Inventarni Stav</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}?next={% url 'home' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} mt-3" role="alert">
+                        <i class="fas 
+                            {% if message.tags == 'success' %}fa-check-circle
+                            {% elif message.tags == 'error' %}fa-exclamation-circle
+                            {% else %}fa-info-circle{% endif %}
+                        "></i>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% if radni_nalog_id %}
+            <a href="{% url 'lista_materijala' radni_nalog_id=radni_nalog_id %}" class="btn btn-primary">
+                Lista Materijala
+            </a>
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">&copy; {% now "Y" %} MGS Grupa d.o.o. Sva prava pridržana.</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'bootstrap/5.1.3/js/bootstrap.bundle.min.js' %}" defer></script>
+    <script src="{% static 'nalozi/js/scripts.js' %}" defer></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register("{% static 'nalozi/service-worker.js' %}");
+        });
+      }
+    </script>
+</body>
+</html>

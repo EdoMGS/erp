@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Radni Nalozi za Projekt</title>
+</head>
+<body>
+    <h1>Radni Nalozi za Projekt: {{ projekt.naziv_projekta }}</h1>
+    <table border="1" cellspacing="0" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Opis</th>
+                <th>Prioritet</th>
+                <th>Status</th>
+                <th>Grupa Posla</th>
+                <th>Zadužena Osoba</th>
+                <th>Datum Početka</th>
+                <th>Datum Završetka</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nalog in radni_nalozi %}
+            <tr>
+                <td>{{ nalog.naziv_naloga }}</td>
+                <td>{{ nalog.opis }}</td>
+                <td>{{ nalog.prioritet }}</td>
+                <td>{{ nalog.status }}</td>
+                <td>{{ nalog.get_grupa_posla_display }}</td>
+                <td>{{ nalog.zadužena_osoba }}</td>
+                <td>{{ nalog.datum_pocetka|date:"d.m.Y" }}</td>
+                <td>{{ nalog.datum_zavrsetka|date:"d.m.Y" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

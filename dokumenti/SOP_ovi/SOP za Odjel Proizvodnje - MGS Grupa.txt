@@ -1,0 +1,73 @@
+﻿SOP za Odjel Proizvodnje - MGS Grupa
+1. Uvod
+• Svrha SOP-a: Definirati operativne procedure za odjel proizvodnje, koji uključuje pododjele bravarije, montaže, elektrike, mehanike, završne obrade (bojanje-lakiranje), upravljanje voznim i strojnim parkom, te servis i nadogradnje specijalnih vozila.
+• Opseg: SOP pokriva sve faze proizvodnog procesa, kontrolu kvalitete, planiranje i praćenje resursa, upravljanje opremom i vozilima, kao i specijalne zadatke poput servisiranja vatrogasnih i drugih specijalnih vozila.
+• Odgovornost: Voditelj proizvodnje odgovoran je za koordinaciju svih pododjela, održavanje opreme i vozila, te nadzor nad svim proizvodnim aktivnostima putem ERP sustava.
+2. Organizacijska Struktura Odjela Proizvodnje
+• Voditelj proizvodnje:
+o Upravljanje svim segmentima proizvodnje, praćenje dinamike rada pododjela i resursa te nadzor nad voznim i strojnim parkom.
+o Odgovoran za provođenje međufaznih i faznih kontrola te odobravanje nastavka proizvodnje.
+o Upravlja dinamičkim planovima i gantogramima kroz ERP sustav, izrađenim od strane odjela projektiranja.
+• Voditelji pododjela (bravarija, montaža, elektrika, mehanika, završna obrada):
+o Svaki voditelj pododjela odgovoran je za operativne aktivnosti u svom području, praćenje kvalitete rada i koordinaciju s ostalim pododjelima.
+• Operativno osoblje:
+o Provodi radne zadatke u skladu s tehničkom dokumentacijom, planovima i sigurnosnim standardima, odgovorni za pravilan rad sa strojevima i opremom.
+3. Upravljanje Voznim i Strojnim Parkom
+• Zaduživanje i razduživanje opreme i vozila:
+o Održavanje evidencije zaduženja i razduženja vozila i opreme putem ERP sustava. Svaka promjena u statusu opreme i vozila evidentira se za praćenje resursa.
+• Održavanje i servis:
+o Redoviti servisi i održavanje opreme i vozila planiraju se unaprijed, a svaki kvar ili problem se odmah prijavljuje.
+o Servisi vozila i opreme moraju biti dokumentirani i uneseni u ERP sustav radi praćenja stanja i troškova.
+• Kontrola i nadzor:
+o Redovni pregledi vozila i strojeva osiguravaju njihovu funkcionalnost i sigurnost. Sva oprema mora biti u ispravnom stanju, a kvarovi se prioritetno otklanjaju.
+4. Proizvodni Procesi po Pododjelima
+• Bravarija: Izrada metalnih konstrukcija prema tehničkoj dokumentaciji, odgovornost za preciznost i točnost prema zadanim specifikacijama.
+• Montaža: Montaža vatrogasnih i specijalnih vozila, usklađivanje radova s bravarskim, mehaničkim i električnim pododjelima.
+• Elektrika: Instalacija električnih sustava u vozilima, uključujući svjetlosnu i signalizacijsku opremu.
+• Mehanika: Instalacija i održavanje mehaničkih komponenti vozila, poput motora, prijenosnika i ostalih ključnih sustava.
+• Završna obrada (bojanje-lakiranje): Priprema i završna obrada vozila kroz proces bojanja i lakiranja, osiguravajući visoku kvalitetu i estetiku.
+5. Planiranje i Praćenje Proizvodnje
+• Dinamički planovi i gantogrami:
+o Dinamičke planove i gantograme izrađuje odjel projektiranja, dok je voditelj proizvodnje odgovoran za provođenje tih planova u proizvodnji i praćenje napretka kroz ERP sustav.
+o Voditelj proizvodnje može savjetovati pri izradi ili redizajnu planova, te prati njihovu provedbu kako bi osigurao točnost rokova i resursa.
+• Upravljanje resursima:
+o Odjel Nabave i skladišta odgovoran je za osiguranje potrebnih materijala i resursa prema zahtjevima iz dinamičkih planova. Sve promjene u potrebama proizvodnje evidentiraju se kroz ERP sustav, čime se omogućava pravovremena reakcija odjela nabave.
+6. Kontrola Kvalitete
+• Međufazna i fazna kontrola:
+o Voditelj proizvodnje provodi međufazne i fazne kontrole, ovjerava svaku fazu proizvodnje i odobrava nastavak rada. Svaka faza mora biti dokumentirana putem kontrolnih listi.
+• Završna kontrola:
+o Završna kontrola uključuje testiranje svih ključnih komponenti vatrogasnog vozila (vatrogasna pumpa, vitlo, mlaznice itd.). Završnu kontrolu provode voditelj projekta, projektant i operativna osoba iz proizvodnje, uz evidentiranje rezultata testiranja.
+• ERP unos:
+o Sve kontrolne liste i rezultati testiranja unose se u ERP sustav, čime se omogućava uvid ostalim odjelima (prodaja, nabava, financije) u status projekta, potrebne narudžbe i očekivane dinamike plaćanja.
+7. Metrike Uspješnosti (KPI-ovi):
+• Učinkovitost proizvodnje:
+o Metrika: Output po radniku/satu i prosječno vrijeme ciklusa po proizvodu.
+o Cilj: Postići X jedinica outputa po radniku/satu i završiti proizvod unutar predviđenih rokova.
+• Kvaliteta proizvoda:
+o Metrika: Stopa defektnih proizvoda i broj vraćenih proizvoda.
+o Cilj: Manje od 2% defektnih proizvoda i manje od 5% vraćenih proizvoda.
+• Iskorištenost resursa:
+o Metrika: Potrošnja materijala i optimizacija resursa prema planu proizvodnje.
+o Cilj: Održavati potrošnju materijala unutar 5% od planiranih količina.
+• Troškovna učinkovitost:
+o Metrika: Trošak proizvodnje po jedinici, uključujući materijale, rad i energiju.
+o Cilj: Održati troškove unutar 5% varijacije od predviđenog budžeta.
+• Ispunjenje rokova (OTD):
+o Metrika: Postotak isporuka proizvoda unutar ugovorenih rokova.
+o Cilj: Minimalno 95% isporuka unutar ugovorenih rokova.
+• Sigurnost na radu:
+o Metrika: Broj incidenata na radu.
+o Cilj: Manje od 1 incidenta na 100 zaposlenih godišnje.
+• Zadovoljstvo zaposlenika:
+o Metrika: Stopa fluktuacije zaposlenika.
+o Cilj: Manje od 10% godišnje fluktuacije zaposlenika.
+8. Servisi i Nadogradnje Specijalnih Vozila
+• Opseg servisa:
+o Odjel proizvodnje također uključuje servis vatrogasnih i drugih specijalnih vozila (npr. kamioni za pranje cesta, kamioni s pumpama za vodu). Servisi se vrše prema tehničkoj dokumentaciji i specifičnim zahtjevima kupaca.
+• Ugradnje i nadogradnje:
+o Instalacija dodatne opreme kao što su električni sustavi, signalizacija i potezni vinčevi na specijalna i komercijalna vozila. Svaka nadogradnja detaljno se evidentira kroz kontrolne liste i unosi u ERP sustav.
+• Kontrolne liste i ERP unos:
+o Za svaki servis i nadogradnju koristi se kontrolna lista koja se unosi u ERP sustav, omogućujući praćenje napretka i transparentnost prema ostalim odjelima.
+9. Održavanje i Revizija SOP-a
+• Redovita revizija SOP-a provodi se jednom godišnje ili prema potrebi kako bi se osigurala usklađenost s promjenama u tehnologiji, procedurama ili tržišnim uvjetima.
+

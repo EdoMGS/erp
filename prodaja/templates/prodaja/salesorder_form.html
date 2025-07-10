@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ action|title }} Narudžba{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        <i class="fas fa-shopping-cart"></i>
+        {% if action == 'create' %}Nova Narudžba{% else %}Uredi Narudžbu{% endif %}
+    </h2>
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+
+        <!-- Osnovni podaci -->
+        <div class="col-md-6">
+            <label class="form-label">Broj narudžbe</label>
+            {{ form.order_number }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Klijent</label>
+            {{ form.client }}
+        </div>
+
+        <!-- Iznosi i ponuda -->
+        <div class="col-md-6">
+            <label class="form-label">Ponuda</label>
+            {{ form.quotation }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Status</label>
+            {{ form.status }}
+        </div>
+
+        <!-- Datumi i dodatne informacije -->
+        <div class="col-md-6">
+            <label class="form-label">Datum potvrde</label>
+            {{ form.date_approved_by_client }}
+        </div>
+
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Spremi
+            </button>
+            <a href="{% url 'prodaja:salesorder_list' %}" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

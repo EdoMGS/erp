@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Obriši Odjel{% endblock %}
+
+{% block content %}
+    <h2>Obriši Odjel</h2>
+    <p>Da li ste sigurni da želite da obrišete odjel <strong>{{ department.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Potvrdi Brisanje</button>
+        <a href="{% url 'ljudski_resursi:department_list' %}" class="btn btn-secondary">Poništi</a>
+    </form>
+{% endblock %}

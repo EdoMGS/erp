@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">Detalji Ocjene Kvalitete</h1>
+        <h2 class="text-secondary">Radni Nalog: {{ radni_nalog.naziv_naloga }}</h2>
+    </div>
+
+    <!-- Osnovni podaci o ocjeni -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Osnovni Podaci</h4>
+            <p><strong>Razina:</strong> {{ ocjena.razina }}</p>
+            <p><strong>Ocjenjivač:</strong> {{ ocjena.ocjenjivac }}</p>
+            <p><strong>Ocjena:</strong> {{ ocjena.ocjena }}</p>
+            <p><strong>Datum Ocjenjivanja:</strong> {{ ocjena.created_at|date:"j. F Y." }}</p>
+        </div>
+    </div>
+
+    <!-- Vizualni sadržaj -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Vizualni Sadržaj</h4>
+
+            <!-- Prikaz videozapisa -->
+            {% if ocjena.video %}
+            <div class="mb-3">
+                <video controls style="width: 100%; max-height: 400px;">
+                    <source src="{{ ocjena.video.url }}" type="video/mp4">
+                    Vaš preglednik ne podržava videozapise.
+                </video>
+            </div>
+            {% else %}
+            <p class="text-muted">Nema priloženih videozapisa.</p>
+            {% endif %}
+
+            <!-- Prikaz slika -->
+            {% if ocjena.slika %}
+            <div>
+                <img src="{{ ocjena.slika.url }}" alt="Priložena slika" class="img-fluid rounded shadow-sm">
+            </div>
+            {% else %}
+            <p class="text-muted">Nema priloženih slika.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Gumbi za povratak i uređivanje -->
+    <div class="text-center">
+        <a href="{% url 'lista_ocjena_kvalitete' radni_nalog_id=radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+            Povratak na Listu
+        </a>
+        <a href="{% url 'azuriraj_ocjenu_kvalitete' ocjena.id %}" class="btn btn-warning btn-lg px-5">
+            Uredi Ocjenu
+        </a>
+    </div>
+</div>
+{% endblock %}

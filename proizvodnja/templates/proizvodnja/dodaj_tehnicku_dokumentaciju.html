@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            {% if dokumentacija %} Uredi Tehničku Dokumentaciju {% else %} Dodaj Novu Tehničku Dokumentaciju {% endif %}
+        </h1>
+        <h2 class="text-secondary">
+            {% if projekt %} Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+        </h2>
+    </div>
+
+    <!-- Prikaz validacijskih grešaka -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Greške pri unosu:</strong>
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                    <li><strong>{{ field.label }}</strong>: {{ field.errors|join:", " }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Forma za tehničku dokumentaciju -->
+    <form method="POST" enctype="multipart/form-data" class="card shadow-lg p-4">
+        {% csrf_token %}
+
+        <div class="row g-3">
+            <!-- Naziv dokumentacije -->
+            <div class="col-md-6">
+                {{ form.naziv.label_tag }}
+                {{ form.naziv|add_class:"form-control" }}
+            </div>
+
+            <!-- Tip dokumentacije -->
+            <div class="col-md-6">
+                {{ form.tip.label_tag }}
+                {{ form.tip|add_class:"form-select" }}
+                <small class="form-text text-muted">Odaberite tip dokumentacije (npr. nacrt, opis).</small>
+            </div>
+        </div>
+
+        <!-- Prilozi -->
+        <div class="row g-3 mt-3">
+            <div class="col-md-12">
+                {{ form.prilog.label_tag }}
+                {{ form.prilog|add_class:"form-control" }}
+                <small class="form-text text-muted">Dodajte priloženu datoteku (PDF, DOCX, sliku, itd.).</small>
+            </div>
+        </div>
+
+        <!-- Gumbi za spremanje i povratak -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                {% if dokumentacija %} Spremi Promjene {% else %} Dodaj Dokumentaciju {% endif %}
+            </button>
+            <a href="{% url 'lista_tehnicke_dokumentacije' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+                Povratak na Listu
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

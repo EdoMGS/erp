@@ -1,0 +1,35 @@
+{% extends "financije/base.html" %}
+
+{% block title %}Invoice List{% endblock %}
+
+{% block financije_content %}
+<h2>Fakture</h2>
+<a href="{% url 'financije:invoice_create' %}" class="btn btn-primary mb-3">Nova faktura</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Broj</th>
+            <th>Klijent</th>
+            <th>Iznos</th>
+            <th>Status</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{ invoice.invoice_number }}</td>
+            <td>{{ invoice.client.name }}</td>
+            <td>{{ invoice.amount }} €</td>
+            <td>{{ invoice.get_status_fakture_display }}</td>
+            <td>
+                <a href="{% url 'financije:invoice_detail' invoice.pk %}" class="btn btn-sm btn-info">Detalji</a>
+                <a href="{% url 'financije:invoice_update' invoice.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'financije:invoice_delete' invoice.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

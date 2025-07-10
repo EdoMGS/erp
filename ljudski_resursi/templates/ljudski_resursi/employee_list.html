@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Employee List" %}{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Employee List" %}</h2>
+    <a href="{% url 'ljudski_resursi:employee_create' %}" class="btn btn-success mb-3">{% trans "Add Employee" %}</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{% trans "First Name" %}</th>
+                <th>{% trans "Last Name" %}</th>
+                <th>{% trans "Email" %}</th>
+                <th>{% trans "Department" %}</th>
+                <th>{% trans "Position" %}</th>
+                <th>{% trans "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.first_name }}</td>
+                    <td>{{ employee.last_name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.department.name }}</td>
+                    <td>{{ employee.position.title }}</td>
+                    <td>
+                        <a href="{% url 'ljudski_resursi:employee_update' employee.pk %}" class="btn btn-primary btn-sm">{% trans "Edit" %}</a>
+                        <a href="{% url 'ljudski_resursi:employee_delete' employee.pk %}" class="btn btn-danger btn-sm">{% trans "Delete" %}</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">{% trans "No employees." %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,792 @@
+{% extends "base.html" %}
+{% load static i18n custom_filters %}
+
+{% block content %}
+<div class="container mt-4">
+  <!-- Naslov / Zaglavlje -->
+  <div class="row mb-3">
+    <div class="col">
+      <h2 class="text-primary">
+        {% if action == 'edit' %} Uredi Radni Nalog 
+        {% elif action == 'create' %} Novi Radni Nalog 
+        {% else %} Detalji Radnog Naloga {% endif %}
+      </h2>
+      <p class="text-muted fst-italic">
+        Ovdje možete pregledati i uređivati podatke o radnom nalogu.
+        <br>
+        <strong>MGS Grupa</strong> – specijalna vozila, bravarski poslovi, ograde i sl.
+      </p>
+    </div>
+  </div>
+
+  <!-- Poruke (success/error) -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Ako smo u režimu edit/create, prikaži <form> -->
+  {% if action != 'view' %}
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+  {% endif %}
+
+
+  <!-- ************ 1) Ako je RADNIK ili SKLADIŠTAR ************ -->
+  {% if user.employee.access_level in "Radnik,Skladištar" %}
+
+    <!-- POJEDNOSTAVLJENI Prikaz za radnike, ali im dajmo i Materijale/Dokumentaciju:
+         - Polja: naziv_naloga, datum pocetka/zavrsetka, opis, postotak_napretka (ako želiš),
+           i read/write Materijali, Dokumentacija, te Video Pitanja za nejasnoće. 
+    -->
+
+    <div class="card mb-4">
+      <div class="card-header bg-light">
+        <h4 class="mb-0">
+          <i class="fas fa-hammer me-2 text-danger"></i>Radni nalog (jednostavan prikaz)
+        </h4>
+      </div>
+      <div class="card-body row">
+        <div class="col-md-6">
+          <!-- Naziv Naloga -->
+          {% if form.naziv_naloga %}
+          <div class="mb-3">
+            <label for="{{ form.naziv_naloga.id_for_label }}" class="form-label fw-bold">
+              {{ form.naziv_naloga.label }}
+            </label>
+            {{ form.naziv_naloga }}
+            {% for error in form.naziv_naloga.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Datum Početka -->
+          {% if form.datum_pocetka %}
+          <div class="mb-3">
+            <label for="{{ form.datum_pocetka.id_for_label }}" class="form-label fw-bold">
+              Datum početka
+            </label>
+            {{ form.datum_pocetka }}
+            {% for error in form.datum_pocetka.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Datum Završetka -->
+          {% if form.datum_zavrsetka %}
+          <div class="mb-3">
+            <label for="{{ form.datum_zavrsetka.id_for_label }}" class="form-label fw-bold">
+              Datum završetka
+            </label>
+            {{ form.datum_zavrsetka }}
+            {% for error in form.datum_zavrsetka.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="col-md-6">
+          <!-- Opis -->
+          {% if form.opis %}
+          <div class="mb-3">
+            <label for="{{ form.opis.id_for_label }}" class="form-label fw-bold">
+              {{ form.opis.label }}
+            </label>
+            {{ form.opis }}
+            {% for error in form.opis.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+            <small class="text-muted">
+              Ukratko što radnik treba napraviti.
+            </small>
+          </div>
+          {% endif %}
+
+          <!-- Postotak napretka (ako želimo da radnik unosi) -->
+          {% if form.postotak_napretka %}
+          <div class="mb-3">
+            <label for="{{ form.postotak_napretka.id_for_label }}" class="form-label fw-bold">
+              {{ form.postotak_napretka.label }}
+            </label>
+            {{ form.postotak_napretka }}
+            {% for error in form.postotak_napretka.errors %}
+              <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Materijali (Radnik/Skladištar mogu bar vidjeti, 
+         a Skladištar može izmjenjivati. 
+         Ovdje ćemo dopustiti svima, ali ti možeš u views-u ograničiti. 
+    -->
+    <div class="card mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+          <i class="fas fa-box-open me-2 text-warning"></i>Materijali
+        </h4>
+        {% if action != 'view' %}
+          <!-- Ako želiš ograničiti da samo Skladištar vidi ovo dugme, 
+               napravi: 
+               {% if user.employee.access_level == "Skladištar" %} 
+                 <button>...</button>
+               {% endif %} 
+          -->
+          <button type="button" class="btn btn-sm btn-secondary" id="add-materijal">
+            <i class="fas fa-plus-circle"></i> Dodaj Materijal
+          </button>
+        {% endif %}
+      </div>
+      <div class="card-body" id="materijali_formset">
+        {{ materijal_formset.management_form }}
+        {% for f in materijal_formset %}
+          <div class="border p-3 mb-3 position-relative materijali-form">
+            {% if action != 'view' %}
+            <button type="button" 
+                    class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-materijal">
+              &times;
+            </button>
+            {% endif %}
+            {% for field in f %}
+              <div class="mb-2">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Tehnička Dokumentacija (Radnik treba vidjeti dokumente, 
+         menadžment definira. 
+    -->
+    <div class="card mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">
+          <i class="fas fa-file-alt me-2 text-muted"></i>Tehnička Dokumentacija
+        </h4>
+        {% if action != 'view' %}
+          <button type="button" class="btn btn-sm btn-secondary" id="add-dokumentacija">
+            <i class="fas fa-plus-circle"></i> Dodaj Dokumentaciju
+          </button>
+        {% endif %}
+      </div>
+      <div class="card-body" id="dokumentacije_formset">
+        {{ dokumentacija_formset.management_form }}
+        {% for f in dokumentacija_formset %}
+          <div class="border p-3 mb-3 position-relative dokumentacije-form">
+            {% if action != 'view' %}
+            <button type="button" 
+                    class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-dokumentacija">
+              &times;
+            </button>
+            {% endif %}
+            {% for field in f %}
+              <div class="mb-2">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                  {{ field.label }}
+                </label>
+                {{ field }}
+                {% for error in field.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Video Pitanja (da radnik postavi nejasnoću) -->
+    <div class="card mb-4">
+      <div class="card-header bg-light d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="fas fa-question-circle me-2 text-primary"></i>Video Pitanja / Nejasnoće</h4>
+        {% if action != 'view' %}
+          <button type="button" class="btn btn-sm btn-secondary" id="add-video-pitanje">
+            <i class="fas fa-plus-circle"></i> Dodaj Pitanje
+          </button>
+        {% endif %}
+      </div>
+      <div class="card-body" id="video_pitanja_formset">
+        {{ video_pitanje_formset.management_form }}
+        {% for f in video_pitanje_formset %}
+          <div class="border p-3 mb-3 position-relative video_pitanja-form">
+            {% if action != 'view' %}
+            <button type="button" 
+                    class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-video-pitanje">
+              &times;
+            </button>
+            {% endif %}
+            {% for field in f %}
+              <div class="mb-2">
+                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  {% endif %}
+  <!-- ************ KRAJ dijela za RADNIKA/SKLADIŠTAR ************ -->
+
+
+
+  <!-- ************ 2) Ako je MENADŽMENT ili netko tko treba punu kontrolu ************ -->
+  {% if user.employee.access_level not in "Radnik,Skladištar" %}
+  <!-- Osnovni Podaci (Menadžerski) + sve sekcije (Angažmani, Materijali, Dok., Video, Ocjene, Nagrade, Uštede...) -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">
+        <i class="fas fa-user-tie me-2 text-info"></i>Osnovni Podaci (Menadžment)
+      </h4>
+    </div>
+    <div class="card-body row">
+      <div class="col-md-6">
+        <!-- Primjer polja: naziv_naloga, tip_posla, prioritet, zaduzena_osoba, datum_pocetka, ... -->
+        {% if form.naziv_naloga %}
+        <div class="mb-3">
+          <label for="{{ form.naziv_naloga.id_for_label }}" class="form-label fw-bold">
+            {{ form.naziv_naloga.label }}
+          </label>
+          {{ form.naziv_naloga }}
+          {% for error in form.naziv_naloga.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.tip_posla %}
+        <div class="mb-3">
+          <label for="{{ form.tip_posla.id_for_label }}" class="form-label fw-bold">
+            {{ form.tip_posla.label }}
+          </label>
+          {{ form.tip_posla }}
+          {% for error in form.tip_posla.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.prioritet %}
+        <div class="mb-3">
+          <label for="{{ form.prioritet.id_for_label }}" class="form-label fw-bold">
+            {{ form.prioritet.label }}
+          </label>
+          {{ form.prioritet }}
+          {% for error in form.prioritet.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.zaduzena_osoba %}
+        <div class="mb-3">
+          <label for="{{ form.zaduzena_osoba.id_for_label }}" class="form-label fw-bold">
+            {{ form.zaduzena_osoba.label }}
+          </label>
+          {{ form.zaduzena_osoba }}
+          {% for error in form.zaduzena_osoba.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        {% if form.dodatne_osobe %}
+        <div class="mb-3">
+          <label for="{{ form.dodatne_osobe.id_for_label }}" class="form-label fw-bold">
+            {{ form.dodatne_osobe.label }}
+          </label>
+          {{ form.dodatne_osobe }}
+          {% for error in form.dodatne_osobe.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+          <small class="text-muted">
+            Možete izabrati više radnika. (CTRL/CMD za multi selection)
+          </small>
+        </div>
+        {% endif %}
+
+        {% if form.datum_pocetka %}
+        <div class="mb-3">
+          <label for="{{ form.datum_pocetka.id_for_label }}" class="form-label fw-bold">
+            Datum početka
+          </label>
+          {{ form.datum_pocetka }}
+          {% for error in form.datum_pocetka.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if form.datum_zavrsetka %}
+        <div class="mb-3">
+          <label for="{{ form.datum_zavrsetka.id_for_label }}" class="form-label fw-bold">
+            Datum završetka
+          </label>
+          {{ form.datum_zavrsetka }}
+          {% for error in form.datum_zavrsetka.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Opis ako želiš ovdje -->
+      {% if form.opis %}
+      <div class="col-12">
+        <div class="mb-3">
+          <label for="{{ form.opis.id_for_label }}" class="form-label fw-bold">
+            {{ form.opis.label }}
+          </label>
+          {{ form.opis }}
+          {% for error in form.opis.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Angažmani (Menadžment) -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">
+        <i class="fas fa-users-cog me-2 text-secondary"></i>Angažmani
+      </h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-angazman">
+          <i class="fas fa-plus-circle"></i> Dodaj Angažman
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="angazmani_formset">
+      {{ angazman_formset.management_form }}
+      {% for f in angazman_formset %}
+        <div class="border p-3 mb-3 position-relative angazmani-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-angazman">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+              </label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Materijali (Menadžment) -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">
+        <i class="fas fa-box-open me-2 text-warning"></i>Materijali
+      </h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-materijal">
+          <i class="fas fa-plus-circle"></i> Dodaj Materijal
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="materijali_formset">
+      {{ materijal_formset.management_form }}
+      {% for f in materijal_formset %}
+        <div class="border p-3 mb-3 position-relative materijali-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-materijal">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Tehnička Dokumentacija -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0">
+        <i class="fas fa-file-alt me-2 text-muted"></i>Tehnička Dokumentacija
+      </h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-dokumentacija">
+          <i class="fas fa-plus-circle"></i> Dodaj Dokumentaciju
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="dokumentacije_formset">
+      {{ dokumentacija_formset.management_form }}
+      {% for f in dokumentacija_formset %}
+        <div class="border p-3 mb-3 position-relative dokumentacije-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-dokumentacija">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">
+                {{ field.label }}
+              </label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Video Materijali (ako manager želi dodavati) -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-video me-2 text-dark"></i>Video Materijali</h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-video-materijal">
+          <i class="fas fa-plus-circle"></i> Dodaj Video
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="video_materijali_formset">
+      {{ video_materijal_formset.management_form }}
+      {% for f in video_materijal_formset %}
+        <div class="border p-3 mb-3 position-relative video_materijali-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-video-materijal">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Video Pitanja (Menadžment), radnik ima gore, 
+       ali zapravo je jedan te isti formset. 
+       Ovdje pokazujemo kako manager može i tu pratiti. 
+  -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-question-circle me-2 text-primary"></i>Video Pitanja / Nejasnoće</h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-video-pitanje">
+          <i class="fas fa-plus-circle"></i> Dodaj Pitanje
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="video_pitanja_formset">
+      {{ video_pitanja_formset.management_form }}
+      {% for f in video_pitanja_formset %}
+        <div class="border p-3 mb-3 position-relative video_pitanja-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-video-pitanje">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Ocjene Kvalitete -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-star-half-alt me-2 text-warning"></i>Ocjene Kvalitete</h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-ocjena">
+          <i class="fas fa-plus-circle"></i> Dodaj Ocjenu
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="ocjene_kvalitete_formset">
+      {{ ocjena_kvalitete_formset.management_form }}
+      {% for f in ocjena_kvalitete_formset %}
+        <div class="border p-3 mb-3 position-relative ocjene_kvalitete-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-ocjena">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Nagrade -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-award me-2 text-success"></i>Nagrade</h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-nagrada">
+          <i class="fas fa-plus-circle"></i> Dodaj Nagradu
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="nagrade_formset">
+      {{ nagrada_formset.management_form }}
+      {% for f in nagrada_formset %}
+        <div class="border p-3 mb-3 position-relative nagrade-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-nagrada">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Uštede -->
+  <div class="card mb-4">
+    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+      <h4 class="mb-0"><i class="fas fa-piggy-bank me-2 text-danger"></i>Uštede</h4>
+      {% if action != 'view' %}
+        <button type="button" class="btn btn-sm btn-secondary" id="add-usteda">
+          <i class="fas fa-plus-circle"></i> Dodaj Uštedu
+        </button>
+      {% endif %}
+    </div>
+    <div class="card-body" id="ustede_formset">
+      {{ usteda_formset.management_form }}
+      {% for f in usteda_formset %}
+        <div class="border p-3 mb-3 position-relative ustede-form">
+          {% if action != 'view' %}
+          <button type="button" 
+                  class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-usteda">
+            &times;
+          </button>
+          {% endif %}
+          {% for field in f %}
+            <div class="mb-2">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% for error in field.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  <!-- ************ KRAJ dijela za MENADŽMENT ************ -->
+
+
+
+  <!-- Povijest promjena (read-only) za sve role -->
+  {% if povijest_promjena %}
+  <div class="card mb-4">
+    <div class="card-header bg-light">
+      <h4 class="mb-0">
+        <i class="fas fa-clipboard-list me-2 text-secondary"></i>Povijest Promjena
+      </h4>
+    </div>
+    <div class="card-body">
+      {% for prom in povijest_promjena %}
+        <div class="border p-2 mb-2">
+          <strong>{{ prom.created_at|date:"j. F Y. H:i" }}:</strong>
+          <code>{{ prom.promjene }}</code> 
+          {% if prom.user %} 
+            <small>(Korisnik: {{ prom.user.username }})</small> 
+          {% endif %}
+        </div>
+      {% empty %}
+        <p class="text-muted">Nema evidentiranih promjena.</p>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Gumb 'Spremi' (ako smo u edit/create) -->
+  {% if action != 'view' %}
+  <div class="d-flex justify-content-end mb-5">
+    <button type="submit" class="btn btn-primary btn-lg">
+      <i class="fas fa-save"></i> Spremi
+    </button>
+  </div>
+  </form>
+  {% endif %}
+</div>
+
+<!-- ======================================
+     JavaScript za dinamičko dodavanje 
+     i uklanjanje formset-ova
+     ====================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function addForm(prefix) {
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        const currentCount = parseInt(totalForms.value, 10);
+        const formContainer = document.querySelector(`#${prefix}_formset .${prefix}-form`);
+        if(!formContainer){
+          console.warn("Nema ni jednog postojećeg form-a za", prefix);
+          return;
+        }
+        let newForm = formContainer.cloneNode(true);
+
+        // reset polja u newForm
+        newForm.querySelectorAll('input, select, textarea').forEach(function(el){
+           let oldName = el.getAttribute('name');
+           if(oldName){
+              let newName = oldName.replace(/-(\d+)-/, `-${currentCount}-`);
+              el.setAttribute('name', newName);
+              el.setAttribute('id', `id_${newName}`);
+           }
+           if(el.type === 'checkbox' || el.type === 'radio'){
+              el.checked = false;
+           } else {
+              el.value = '';
+           }
+        });
+
+        // makni error-e
+        newForm.querySelectorAll('.text-danger').forEach(e => e.remove());
+        
+        // dodaj gumb za uklanjanje ako ga nema
+        let removeBtn = newForm.querySelector(`.remove-${prefix}`);
+        if(!removeBtn){
+          removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = `btn btn-sm btn-outline-danger position-absolute top-0 end-0 remove-${prefix}`;
+          removeBtn.innerHTML = '&times;';
+          newForm.appendChild(removeBtn);
+        }
+
+        document.getElementById(`${prefix}_formset`).appendChild(newForm);
+        totalForms.value = currentCount + 1;
+    }
+
+    function removeForm(button, prefix){
+        let formEl = button.closest(`.${prefix}-form`);
+        formEl.remove();
+        const totalForms = document.getElementById(`id_${prefix}-TOTAL_FORMS`);
+        const currentCount = parseInt(totalForms.value, 10);
+        totalForms.value = currentCount - 1;
+
+        // reindeksiraj
+        let forms = document.querySelectorAll(`#${prefix}_formset .${prefix}-form`);
+        forms.forEach((f, index)=>{
+          f.querySelectorAll('input, select, textarea').forEach((el)=>{
+             let oldName = el.getAttribute('name');
+             if(oldName){
+               let newName = oldName.replace(/-(\d+)-/, `-${index}-`);
+               el.setAttribute('name', newName);
+               el.setAttribute('id', `id_${newName}`);
+             }
+          });
+        });
+    }
+
+    let mappings = [
+      {prefix:'angazmani',   addBtn:'add-angazman',   removeClass:'remove-angazman'},
+      {prefix:'materijali',  addBtn:'add-materijal',  removeClass:'remove-materijal'},
+      {prefix:'dokumentacije', addBtn:'add-dokumentacija', removeClass:'remove-dokumentacija'},
+      {prefix:'video_materijali', addBtn:'add-video-materijal', removeClass:'remove-video-materijal'},
+      {prefix:'video_pitanja', addBtn:'add-video-pitanje', removeClass:'remove-video-pitanje'},
+      {prefix:'ocjene_kvalitete', addBtn:'add-ocjena', removeClass:'remove-ocjena'},
+      {prefix:'nagrade',       addBtn:'add-nagrada',   removeClass:'remove-nagrada'},
+      {prefix:'ustede',        addBtn:'add-usteda',    removeClass:'remove-usteda'}
+    ];
+
+    mappings.forEach(m => {
+      let addButton = document.getElementById(m.addBtn);
+      if(addButton){
+        addButton.addEventListener('click', (e)=>{
+           e.preventDefault();
+           addForm(m.prefix);
+        });
+      }
+      document.addEventListener('click', function(e){
+        if(e.target && e.target.classList.contains(m.removeClass)){
+           e.preventDefault();
+           removeForm(e.target, m.prefix);
+        }
+      });
+    });
+});
+</script>
+{% endblock %}

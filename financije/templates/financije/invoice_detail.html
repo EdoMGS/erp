@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{% trans "Invoice Details" %}</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ invoice.invoice_number }}</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>{% trans "Client" %}:</strong> {{ invoice.client }}</p>
+                    <p><strong>{% trans "Amount" %}:</strong> {{ invoice.amount }} €</p>
+                    <p><strong>{% trans "Issue Date" %}:</strong> {{ invoice.issue_date }}</p>
+                    <p><strong>{% trans "Due Date" %}:</strong> {{ invoice.due_date }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>{% trans "Status" %}:</strong> {{ invoice.get_status_fakture_display }}</p>
+                    <p><strong>{% trans "Payment Method" %}:</strong> {{ invoice.get_payment_method_display }}</p>
+                    <p><strong>{% trans "VAT Rate" %}:</strong> {{ invoice.pdv_rate }}%</p>
+                    <p><strong>{% trans "Total Amount" %}:</strong> {{ invoice.total_amount }} €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'invoice_list' %}" class="btn btn-secondary">{% trans "Back to List" %}</a>
+        <a href="{% url 'invoice_edit' invoice.pk %}" class="btn btn-primary">{% trans "Edit" %}</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            {% if angazman %} Uredi Angažman {% else %} Dodaj Novi Angažman {% endif %}
+        </h1>
+        <h2 class="text-secondary">
+            {% if projekt %} Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+        </h2>
+    </div>
+
+    <!-- Prikaz validacijskih grešaka -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Greške pri unosu:</strong>
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                    <li><strong>{{ field.label }}</strong>: {{ field.errors|join:", " }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Forma za angažman -->
+    <form method="POST" class="card shadow-lg p-4">
+        {% csrf_token %}
+
+        <div class="row g-3">
+            <!-- Zaposlenik -->
+            <div class="col-md-6">
+                {{ form.zaposlenik.label_tag }}
+                {{ form.zaposlenik|add_class:"form-select" }}
+                <small class="form-text text-muted">Odaberite zaposlenika koji će biti angažiran.</small>
+            </div>
+
+            <!-- Status angažmana -->
+            <div class="col-md-6">
+                {{ form.status.label_tag }}
+                {{ form.status|add_class:"form-select" }}
+                <small class="form-text text-muted">Odaberite status angažmana (Aktivan ili Završen).</small>
+            </div>
+        </div>
+
+        <!-- Datum početka i završetka -->
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.pocetak.label_tag }}
+                {{ form.pocetak|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite datum početka angažmana.</small>
+            </div>
+            <div class="col-md-6">
+                {{ form.zavrsetak.label_tag }}
+                {{ form.zavrsetak|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite datum završetka angažmana.</small>
+            </div>
+        </div>
+
+        <!-- Gumbi za spremanje i povratak -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                {% if angazman %} Spremi Promjene {% else %} Dodaj Angažman {% endif %}
+            </button>
+            <a href="{% url 'lista_angazmana' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+                Povratak na Listu
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

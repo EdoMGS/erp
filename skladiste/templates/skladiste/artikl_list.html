@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Artikli</h2>
+        <a href="{% url 'skladiste:artikl_create' %}" class="btn btn-primary mb-3">Novi Artikl</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Šifra</th>
+                            <th>Naziv</th>
+                            <th>Količina</th>
+                            <th>Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for artikl in artikli %}
+                        <tr>
+                            <td>{{ artikl.sifra }}</td>
+                            <td>{{ artikl.naziv }}</td>
+                            <td>{{ artikl.trenutna_kolicina }} {{ artikl.jm }}</td>
+                            <td>
+                                <a href="{% url 'skladiste:artikl_detail' artikl.pk %}" class="btn btn-sm btn-info">Detalji</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">Nema artikala u bazi.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

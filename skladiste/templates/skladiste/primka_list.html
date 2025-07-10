@@ -1,0 +1,37 @@
+{% extends 'skladiste/base.html' %}
+
+{% block skladiste_content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1>Primke</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{% url 'skladiste:primka_create' %}" class="btn btn-primary">Nova primka</a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Broj primke</th>
+                <th>Datum</th>
+                <th>Dobavljač</th>
+                <th>Kreirao</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for primka in primke %}
+            <tr>
+                <td>{{ primka.broj_primke }}</td>
+                <td>{{ primka.datum }}</td>
+                <td>{{ primka.dobavljac }}</td>
+                <td>{{ primka.created_by }}</td>
+                <td>
+                    <a href="{% url 'skladiste:primka_detail' primka.pk %}" class="btn btn-sm btn-info">Detalji</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

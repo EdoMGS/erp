@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">Detalji Sadržaja</h1>
+        <h2 class="text-secondary">
+            {% if projekt %} Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+        </h2>
+    </div>
+
+    <!-- Osnovni podaci o sadržaju -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Osnovni Podaci</h4>
+            <p><strong>Naziv:</strong> {{ sadrzaj.naziv }}</p>
+            <p><strong>Tip:</strong> {{ sadrzaj.tip }}</p>
+            <p><strong>Datum Dodavanja:</strong> {{ sadrzaj.created_at|date:"j. F Y." }}</p>
+        </div>
+    </div>
+
+    <!-- Prikaz videozapisa -->
+    {% if sadrzaj.tip == "Video" %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Video</h4>
+            {% if sadrzaj.video_url %}
+            <div class="mb-3">
+                <video controls style="width: 100%; max-height: 400px;">
+                    <source src="{{ sadrzaj.video_url }}" type="video/mp4">
+                    Vaš preglednik ne podržava videozapise.
+                </video>
+            </div>
+            {% else %}
+            <p class="text-muted">Videozapis nije dostupan.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Prikaz pitanja -->
+    {% if sadrzaj.tip == "Pitanje" %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Pitanje</h4>
+            <p>{{ sadrzaj.tekst_pitanja }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Gumbi za povratak i uređivanje -->
+    <div class="text-center">
+        <a href="{% url 'lista_videa_pitanja' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+            Povratak na Listu
+        </a>
+        <a href="{% url 'azuriraj_video_pitanje' sadrzaj.id %}" class="btn btn-warning btn-lg px-5">
+            Uredi Sadržaj
+        </a>
+    </div>
+</div>
+{% endblock %}

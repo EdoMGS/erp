@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Obriši Fakturu{% endblock %}
+
+{% block content %}
+<h1>Obriši Fakturu</h1>
+<p>Jeste li sigurni da želite obrisati fakturu <strong>{{ faktura.broj_fakture }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Obriši</button>
+    <a href="{% url 'prikaz_faktura' %}" class="btn btn-secondary">Otkazi</a>
+</form>
+{% endblock %}

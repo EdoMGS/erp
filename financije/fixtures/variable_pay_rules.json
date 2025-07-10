@@ -1,0 +1,13 @@
+[
+    {
+        "model": "financije.variablepayrule",
+        "pk": 1,
+        "fields": {
+            "position": 11,
+            "expertise_level": 1,
+            "variable_pay": "100.00",
+            "bonus": "50.00"
+        }
+    },
+    // ...existing variable pay rules...
+]

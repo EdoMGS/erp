@@ -1,0 +1,70 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Dobrodošli u modul Nabave</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Narudžbe</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'nabava:order_list' %}">Pregled narudžbi</a></li>
+                        <li><a href="{% url 'nabava:order_create' %}">Nova narudžba</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Dobavljači</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'nabava:dobavljac_list' %}">Pregled dobavljača</a></li>
+                        <li><a href="{% url 'nabava:dobavljac_create' %}">Novi dobavljač</a></li>
+                        <li><a href="{% url 'nabava:grupa_list' %}">Grupe dobavljača</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Planiranje</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'nabava:plan_list' %}">Planovi nabave</a></li>
+                        <li><a href="{% url 'nabava:plan_create' %}">Novi plan</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if user.is_staff %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Administracija</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'admin:nabava_purchaseorder_changelist' %}">Administracija narudžbi</a></li>
+                        <li><a href="{% url 'admin:nabava_dobavljac_changelist' %}">Administracija dobavljača</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

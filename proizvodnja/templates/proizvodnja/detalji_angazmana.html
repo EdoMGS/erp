@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">Detalji Angažmana</h1>
+        <h2 class="text-secondary">
+            {% if projekt %} Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+        </h2>
+    </div>
+
+    <!-- Osnovni podaci o angažmanu -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Osnovni Podaci</h4>
+            <p><strong>Zaposlenik:</strong> {{ angazman.zaposlenik.ime }} {{ angazman.zaposlenik.prezime }}</p>
+            <p><strong>Status:</strong> 
+                {% if angazman.status == "Aktivan" %}
+                <span class="badge bg-success">{{ angazman.status }}</span>
+                {% else %}
+                <span class="badge bg-secondary">{{ angazman.status }}</span>
+                {% endif %}
+            </p>
+            <p><strong>Datum Početka:</strong> {{ angazman.pocetak|date:"j. F Y." }}</p>
+            <p><strong>Datum Završetka:</strong> {{ angazman.zavrsetak|date:"j. F Y." }}</p>
+        </div>
+    </div>
+
+    <!-- Dodatni podaci (ako su predviđeni) -->
+    {% if angazman.opis %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Opis Angažmana</h4>
+            <p>{{ angazman.opis }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Gumbi za povratak i uređivanje -->
+    <div class="text-center">
+        <a href="{% url 'lista_angazmana' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+            Povratak na Listu
+        </a>
+        <a href="{% url 'azuriraj_angazman' angazman.id %}" class="btn btn-warning btn-lg px-5">
+            Uredi Angažman
+        </a>
+    </div>
+</div>
+{% endblock %}

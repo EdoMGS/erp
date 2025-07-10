@@ -1,0 +1,105 @@
+{
+    "tip_projekta": [
+        {
+            "model": "proizvodnja.tipprojekta",
+            "pk": 1,
+            "fields": {
+                "naziv": "Izrada novih vatrogasnih vozila",
+                "opis": "Proizvodnja novih vatrogasnih vozila različitih tipova",
+                "aktivan": true
+            }
+        },
+        {
+            "model": "proizvodnja.tipprojekta",
+            "pk": 2,
+            "fields": {
+                "naziv": "Nadogradnja postojećih vozila",
+                "opis": "Nadogradnja postojećih vozila u vatrogasna vozila",
+                "aktivan": true
+            }
+        },
+        {
+            "model": "proizvodnja.tipprojekta",
+            "pk": 3,
+            "fields": {
+                "naziv": "Servis i održavanje",
+                "opis": "Servis i održavanje vatrogasnih vozila",
+                "aktivan": true
+            }
+        }
+    ],
+    "grupa_poslova": [
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 1,
+            "fields": {
+                "naziv": "Projektiranje",
+                "opis": "Izrada tehničke dokumentacije i nacrta",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 2,
+            "fields": {
+                "naziv": "Priprema šasije",
+                "opis": "Priprema osnovnog vozila za nadogradnju",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 3,
+            "fields": {
+                "naziv": "Izrada nadogradnje",
+                "opis": "Izrada vatrogasne nadogradnje",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 4,
+            "fields": {
+                "naziv": "Montaža opreme",
+                "opis": "Ugradnja vatrogasne opreme",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 5,
+            "fields": {
+                "naziv": "Elektroinstalacije",
+                "opis": "Ugradnja i spajanje elektroinstalacija",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 6,
+            "fields": {
+                "naziv": "Hidraulika i pneumatika",
+                "opis": "Ugradnja hidrauličnih i pneumatskih sustava",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 7,
+            "fields": {
+                "naziv": "Bojanje i završna obrada",
+                "opis": "Bojanje i finalna obrada vozila",
+                "tip_projekta": 1
+            }
+        },
+        {
+            "model": "proizvodnja.grupaposlova",
+            "pk": 8,
+            "fields": {
+                "naziv": "Testiranje",
+                "opis": "Testiranje funkcionalnosti i sigurnosti",
+                "tip_projekta": 1
+            }
+        }
+    ]
+}

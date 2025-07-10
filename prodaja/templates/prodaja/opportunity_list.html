@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}Lista Leadova (Opportunities) - Prodaja{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-3 text-primary">
+    <i class="fas fa-users"></i> Leadovi / Prilike
+  </h1>
+
+  <!-- Filtriranje po stage-u -->
+  <form method="get" class="row g-3 mb-3">
+    <div class="col-md-4">
+      <label for="id_stage" class="form-label">Faza</label>
+      <select name="stage" id="id_stage" class="form-select">
+        <option value="">-- Sve faze --</option>
+        <option value="new" {% if filter_stage == "new" %}selected{% endif %}>Novi lead</option>
+        <option value="qualified" {% if filter_stage == "qualified" %}selected{% endif %}>Kvalificiran</option>
+        <option value="negotiation" {% if filter_stage == "negotiation" %}selected{% endif %}>Pregovori</option>
+        <option value="won" {% if filter_stage == "won" %}selected{% endif %}>Zatvoren - Dobiveno</option>
+        <option value="lost" {% if filter_stage == "lost" %}selected{% endif %}>Zatvoren - Izgubljeno</option>
+      </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100 mt-2">
+        <i class="fas fa-filter"></i> Primijeni filter
+      </button>
+    </div>
+    <div class="col-md-4 d-flex align-items-end justify-content-end">
+      <a href="{% url 'opportunity_create' %}" class="btn btn-success mt-2">
+        <i class="fas fa-plus"></i> Novi Lead
+      </a>
+    </div>
+  </form>
+
+  <table class="table table-bordered align-middle">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Lead / Prilika</th>
+        <th>Klijent</th>
+        <th>Faza</th>
+        <th>Akcije</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for opp in opportunities %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ opp.name }}</td>
+        <td>{{ opp.client }}</td>
+        <td>
+          {% if opp.stage == 'new' %}
+            <span class="badge bg-secondary">Novi lead</span>
+          {% elif opp.stage == 'qualified' %}
+            <span class="badge bg-info text-dark">Kvalificiran</span>
+          {% elif opp.stage == 'negotiation' %}
+            <span class="badge bg-warning text-dark">Pregovori</span>
+          {% elif opp.stage == 'won' %}
+            <span class="badge bg-success">Dobiveno</span>
+          {% else %}
+            <span class="badge bg-danger">Izgubljeno</span>
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'opportunity_detail' opp.pk %}" class="btn btn-sm btn-primary">
+            <i class="fas fa-eye"></i>
+          </a>
+          <a href="{% url 'opportunity_edit' opp.pk %}" class="btn btn-sm btn-warning">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a href="{% url 'opportunity_delete' opp.pk %}" class="btn btn-sm btn-danger">
+            <i class="fas fa-trash"></i>
+          </a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5">Nema leadova.</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

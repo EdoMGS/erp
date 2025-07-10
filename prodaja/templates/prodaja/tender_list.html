@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Tender Pripreme{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-gavel"></i> Tender Pripreme</h1>
+        <a href="{% url 'prodaja:tender_create' %}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Novi tender
+        </a>
+    </div>
+
+    {% if tenders %}
+        <div class="row">
+            {% for tender in tenders %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tender.opportunity.name }}</h5>
+                        <div class="tender-meta mb-3">
+                            <span class="badge bg-{{ tender.status|status_to_class }}">
+                                {{ tender.get_status_display }}
+                            </span>
+                            <span class="ms-2 text-muted">
+                                <i class="fas fa-clock"></i>
+                                Rok: {{ tender.delivery_opening_datetime|date:"d.m.Y H:i" }}
+                            </span>
+                        </div>
+                        
+                        <!-- Progress indicators -->
+                        <div class="progress mb-3" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar" 
+                                style="width: {{ tender.completion_percentage }}%">
+                            </div>
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="btn-group">
+                            <a href="{% url 'prodaja:tender_preparation' tender.pk 'view' %}" 
+                               class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i> Pregled
+                            </a>
+                            <a href="{% url 'prodaja:tender_preparation' tender.pk 'edit' %}" 
+                               class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Uredi
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                    onclick="cloneTender({{ tender.pk }})">
+                                <i class="fas fa-copy"></i> Kloniraj
+                            </button>
+                            <a href="#" class="btn btn-sm btn-primary"
+                               onclick="openCalculator({{ tender.pk }})">
+                                <i class="fas fa-calculator"></i> Kalkulator
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Nema dostupnih tender priprema.
+        </div>
+    {% endif %}
+</div>
+
+<!-- Calculator Modal -->
+<div class="modal fade" id="calculatorModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kalkulator troškova</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="calculatorContent">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function cloneTender(tenderId) {
+    if (confirm('Želite li klonirati ovaj tender?')) {
+        fetch(`/prodaja/tender/${tenderId}/clone/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirect_url;
+            }
+        });
+    }
+}
+
+function openCalculator(tenderId) {
+    const modal = new bootstrap.Modal(document.getElementById('calculatorModal'));
+    fetch(`/prodaja/tender/${tenderId}/calculator/`)
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('calculatorContent').innerHTML = html;
+            modal.show();
+        });
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    // ... existing getCookie implementation ...
+}
+</script>
+{% endblock %}

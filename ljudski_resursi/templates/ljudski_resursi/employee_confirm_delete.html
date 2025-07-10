@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Obriši Zaposlenika{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Confirm Delete" %}</h2>
+    <p>{% blocktrans %}Are you sure you want to delete employee {{ employee.first_name }} {{ employee.last_name }}?{% endblocktrans %}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+        <a href="{% url 'ljudski_resursi:employee_list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+    </form>
+{% endblock %}

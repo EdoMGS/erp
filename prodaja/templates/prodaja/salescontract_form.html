@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ action|title }} Ugovor{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">
+        <i class="fas fa-file-contract"></i>
+        {% if action == 'create' %}Novi Ugovor{% else %}Uredi Ugovor{% endif %}
+    </h2>
+
+    <form method="post" class="row g-3">
+        {% csrf_token %}
+
+        <!-- Osnovni podaci -->
+        <div class="col-md-6">
+            <label class="form-label">Broj ugovora</label>
+            {{ form.contract_number }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Klijent</label>
+            {{ form.client }}
+        </div>
+
+        <!-- Narudžba i status -->
+        <div class="col-md-6">
+            <label class="form-label">Narudžba</label>
+            {{ form.sales_order }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Status</label>
+            {{ form.status }}
+        </div>
+
+        <!-- Iznosi i garancije -->
+        <div class="col-md-6">
+            <label class="form-label">Ukupan iznos (€)</label>
+            {{ form.total_amount }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Bankarska garancija</label>
+            {{ form.bank_guarantee_required }}
+        </div>
+
+        <!-- Uvjeti i zahtjevi -->
+        <div class="col-12">
+            <label class="form-label">Raspored isporuke</label>
+            {{ form.delivery_schedule }}
+        </div>
+        <div class="col-12">
+            <label class="form-label">Posebni zahtjevi</label>
+            {{ form.client_specific_reqs }}
+        </div>
+
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Spremi
+            </button>
+            <a href="{% url 'prodaja:salescontract_list' %}" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

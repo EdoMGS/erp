@@ -1,0 +1,38 @@
+{% extends 'ljudski_resursi/base.html' %}
+
+{% block title %}{{ form.instance.pk|yesno:"Ažuriraj,Dodaj" }} Poziciju{% endblock %}
+
+{% block content %}
+    <h2>{{ form.instance.pk|yesno:"Ažuriraj,Dodaj" }} Poziciju</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.department.label_tag }}
+            {{ form.department }}
+            {{ form.department.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.hierarchical_level.label_tag }}
+            {{ form.hierarchical_level }}
+            {{ form.hierarchical_level.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.is_managerial.label_tag }}
+            {{ form.is_managerial }}
+            {{ form.is_managerial.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.expertise_level.label_tag }}
+            {{ form.expertise_level }}
+            {{ form.expertise_level.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.instance.pk|yesno:"Ažuriraj,Dodaj" }}</button>
+        <a href="{% url 'ljudski_resursi:position_list' %}" class="btn btn-secondary">Poništi</a>
+    </form>
+{% endblock %}

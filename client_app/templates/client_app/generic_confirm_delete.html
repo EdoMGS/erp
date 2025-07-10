@@ -1,0 +1,19 @@
+{% extends 'client_app/base_client.html' %}
+
+{% block client_content %}
+<div class="container-fluid py-3">
+    <div class="card shadow">
+        <div class="card-header">
+            <h2 class="h4 mb-0">Brisanje {{ object_type }}</h2>
+        </div>
+        <div class="card-body">
+            <p>Jeste li sigurni da želite izbrisati "{{ object_name }}"?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Potvrdi brisanje</button>
+                <a href="{{ cancel_url }}" class="btn btn-secondary">Odustani</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

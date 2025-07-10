@@ -1,0 +1,43 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="dobavljaci-list">
+    <h2>Dobavljači</h2>
+    
+    <a href="{% url 'nabava:dobavljac_create' %}" class="btn btn-primary mb-3">
+        Novi dobavljač
+    </a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>OIB</th>
+                <th>Grad</th>
+                <th>Rejting</th>
+                <th>Grupa</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dobavljac in dobavljaci %}
+            <tr>
+                <td>{{ dobavljac.naziv }}</td>
+                <td>{{ dobavljac.oib }}</td>
+                <td>{{ dobavljac.grad }}</td>
+                <td>{{ dobavljac.get_rejting_display }}</td>
+                <td>{{ dobavljac.grupa.naziv }}</td>
+                <td>
+                    <a href="{% url 'nabava:dobavljac_detail' pk=dobavljac.pk %}" class="btn btn-sm btn-info">
+                        Detalji
+                    </a>
+                    <a href="{% url 'nabava:dobavljac_edit' pk=dobavljac.pk %}" class="btn btn-sm btn-warning">
+                        Uredi
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ grupa.naziv }}</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <p><strong>Opis:</strong> {{ grupa.opis|default:"Nema opisa" }}</p>
+            <p><strong>Status:</strong> {% if grupa.is_active %}Aktivno{% else %}Neaktivno{% endif %}</p>
+        </div>
+    </div>
+
+    <h3>Dobavljači u grupi</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Grad</th>
+                <th>Rejting</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dobavljac in dobavljaci %}
+            <tr>
+                <td>{{ dobavljac.naziv }}</td>
+                <td>{{ dobavljac.grad }}</td>
+                <td>{{ dobavljac.get_rejting_display }}</td>
+                <td>
+                    <a href="{% url 'nabava:dobavljac_detail' pk=dobavljac.pk %}" 
+                       class="btn btn-sm btn-info">Detalji</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Nema dobavljača u ovoj grupi.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a href="{% url 'nabava:grupa_list' %}" class="btn btn-secondary">Povratak na listu</a>
+        {% if user.is_staff %}
+        <a href="{% url 'admin:nabava_grupadobavljaca_change' grupa.pk %}" 
+           class="btn btn-warning">Uredi u administraciji</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Pregled Faktura{% endblock %}
+
+{% block content %}
+<h1>Popis Faktura</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Broj Fakture</th>
+            <th>Datum Izdavanja</th>
+            <th>Datum Dospijeća</th>
+            <th>Iznos</th>
+            <th>PDV</th>
+            <th>Status</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for faktura in fakture %}
+        <tr>
+            <td>{{ faktura.invoice_number }}</td>
+            <td>{{ faktura.issue_date }}</td>
+            <td>{{ faktura.delivery_date }}</td>
+            <td>{{ faktura.amount }}</td>
+            <td>{{ faktura.pdv_amount }}</td>
+            <td>{{ faktura.status_fakture }}</td>
+            <td>
+                <a href="{% url 'invoice_update' faktura.id %}">Ažuriraj</a>
+                <a href="{% url 'invoice_delete' faktura.id %}">Obriši</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'invoice_create' %}" class="btn btn-primary">Dodaj Novu Fakturu</a>
+{% endblock %}

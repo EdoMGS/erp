@@ -1,0 +1,85 @@
+<div class="calculator-container">
+    <form id="calculatorForm" method="post" action="{% url 'prodaja:tender_calculate' tender.pk %}">
+        {% csrf_token %}
+        
+        <!-- Materijal -->
+        <div class="mb-3">
+            <label class="form-label">Troškovi materijala (€)</label>
+            <input type="number" class="form-control" name="material_costs" 
+                   value="{{ tender.material_costs|default:0 }}" step="0.01">
+        </div>
+
+        <!-- Rad -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Radni sati</label>
+                <input type="number" class="form-control" name="labor_hours" 
+                       value="{{ tender.labor_hours|default:0 }}" step="0.5">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Satnica (€)</label>
+                <input type="number" class="form-control" name="hourly_rate" 
+                       value="{{ tender.hourly_rate }}" step="0.01">
+            </div>
+        </div>
+
+        <!-- Garancije -->
+        <div class="mb-3">
+            <label class="form-label">Ukupne garancije</label>
+            <input type="text" class="form-control" readonly 
+                   value="{{ tender.total_guarantee_amount|default:0|currency }}">
+        </div>
+
+        <!-- Grafički prikaz -->
+        <div class="mb-3">
+            <canvas id="costBreakdown"></canvas>
+        </div>
+
+        <!-- Ukupno -->
+        <div class="alert alert-info">
+            <div class="row">
+                <div class="col-md-6">
+                    <strong>Ukupni trošak:</strong> 
+                    <span id="totalCost">{{ tender.total_cost|currency }}</span>
+                </div>
+                <div class="col-md-6">
+                    <strong>Očekivana marža:</strong> 
+                    <span id="margin">{{ tender.calculate_margin|default:0 }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Spremi kalkulaciju
+        </button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('costBreakdown').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Materijal', 'Rad', 'Garancije'],
+            datasets: [{
+                data: [
+                    {{ tender.material_costs|default:0 }},
+                    {{ tender.total_labor_cost|default:0 }},
+                    {{ tender.total_guarantee_amount|default:0 }}
+                ],
+                backgroundColor: ['#4e73df', '#1cc88a', '#f6c23e']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+});
+</script>

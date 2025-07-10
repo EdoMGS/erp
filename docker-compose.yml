@@ -1,0 +1,63 @@
+# docker-compose.yml  – minimalni, validni skeleton
+# (Flower je zakomentiran; odkomentiraj ako stvarno trebaš)
+
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: erp
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
+      interval: 10s
+      retries: 5
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+
+  web:
+    build: .
+    restart: unless-stopped
+    command: gunicorn erp_system.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  worker:
+    build: .
+    restart: unless-stopped
+    command: celery -A erp_system.celery worker -l info
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+
+  # flower:
+  #   image: mher/flower
+  #   restart: unless-stopped
+  #   command: celery -A erp_system.celery flower --broker=redis://redis:6379/0 --port=5555
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - redis
+  #   ports:
+  #     - "5555:5555"
+
+volumes:
+  db-data:

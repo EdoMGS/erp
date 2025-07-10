@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            {% if ocjena %} Uredi Ocjenu Kvalitete {% else %} Dodaj Ocjenu Kvalitete {% endif %}
+        </h1>
+        <h2 class="text-secondary">
+            Radni Nalog: {{ radni_nalog.naziv_naloga }}
+        </h2>
+    </div>
+
+    <!-- Prikaz validacijskih grešaka -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        <strong>Greške pri unosu:</strong>
+        <ul>
+            {% for field in form %}
+                {% if field.errors %}
+                    <li><strong>{{ field.label }}</strong>: {{ field.errors|join:", " }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Forma za ocjenu kvalitete -->
+    <form method="POST" enctype="multipart/form-data" class="card shadow-lg p-4">
+        {% csrf_token %}
+
+        <div class="row g-3">
+            <!-- Razina ocjene -->
+            <div class="col-md-6">
+                {{ form.razina.label_tag }}
+                {{ form.razina|add_class:"form-select" }}
+                <small class="form-text text-muted">Odaberite razinu ocjenjivanja.</small>
+            </div>
+
+            <!-- Ocjenjivač -->
+            <div class="col-md-6">
+                {{ form.ocjenjivac.label_tag }}
+                {{ form.ocjenjivac|add_class:"form-control" }}
+                <small class="form-text text-muted">Korisnik koji daje ovu ocjenu.</small>
+            </div>
+        </div>
+
+        <!-- Ocjena -->
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.ocjena.label_tag }}
+                {{ form.ocjena|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite brojčanu ocjenu (1-10).</small>
+            </div>
+        </div>
+
+        <!-- Multimedija -->
+        <div class="row g-3 mt-3">
+            <!-- Prijenos videozapisa -->
+            <div class="col-md-6">
+                {{ form.video.label_tag }}
+                {{ form.video|add_class:"form-control" }}
+                <small class="form-text text-muted">Dodajte videozapis (MP4, AVI, itd.).</small>
+            </div>
+
+            <!-- Prijenos slika -->
+            <div class="col-md-6">
+                {{ form.slika.label_tag }}
+                {{ form.slika|add_class:"form-control" }}
+                <small class="form-text text-muted">Dodajte sliku (JPEG, PNG, itd.).</small>
+            </div>
+        </div>
+
+        <!-- Gumbi za spremanje i povratak -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                {% if ocjena %} Spremi Promjene {% else %} Dodaj Ocjenu {% endif %}
+            </button>
+            <a href="{% url 'lista_ocjena_kvalitete' radni_nalog_id=radni_nalog.id %}" class="btn btn-secondary btn-lg px-5">
+                Povratak na Listu
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

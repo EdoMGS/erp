@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ title }}</h2>
+        <a href="{% url 'add_inventory_item' %}" class="btn btn-primary">Dodaj novi artikl</a>
+    </div>
+
+    <!-- Artikli -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="h5 mb-0">Artikli</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Šifra</th>
+                            <th>Naziv</th>
+                            <th>Lokacija</th>
+                            <th>Status</th>
+                            <th>Akcije</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for artikl in artikli %}
+                        <tr>
+                            <td>{{ artikl.sifra }}</td>
+                            <td>{{ artikl.naziv }}</td>
+                            <td>{{ artikl.lokacija }}</td>
+                            <td>{{ artikl.status }}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Uredi</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zalihe -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="h5 mb-0">Stanje zaliha</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Artikl</th>
+                            <th>Količina</th>
+                            <th>Zadnje ažuriranje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for zaliha in zalihe %}
+                        <tr>
+                            <td>{{ zaliha.artikl.naziv }}</td>
+                            <td>{{ zaliha.kolicina }}</td>
+                            <td>{{ zaliha.datum_azuriranja|date:"d.m.Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Materijali -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="h5 mb-0">Materijali</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Artikl</th>
+                            <th>Radni nalog</th>
+                            <th>Količina</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for materijal in materijali %}
+                        <tr>
+                            <td>{{ materijal.artikl.naziv }}</td>
+                            <td>{{ materijal.radni_nalog }}</td>
+                            <td>{{ materijal.kolicina }}</td>
+                            <td>{{ materijal.status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

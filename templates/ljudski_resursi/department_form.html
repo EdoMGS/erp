@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Department Form' %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'Department Form' %}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <table class="table">
+            {{ form.as_table }}
+        </table>
+        <button type="submit" class="btn btn-primary">{% trans 'Save' %}</button>
+        <a href="{% url 'ljudski_resursi:department_list' %}" class="btn btn-secondary">{% trans 'Cancel' %}</a>
+    </form>
+{% endblock %}

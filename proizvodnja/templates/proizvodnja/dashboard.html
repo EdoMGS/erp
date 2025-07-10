@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3 text-primary">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </h1>
+
+    <!-- Filtriranje -->
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-md-4">
+            <label for="id_projekt" class="form-label">Odaberi projekt</label>
+            <select name="projekt_id" id="id_projekt" class="form-select">
+                <option value="">-- Svi projekti --</option>
+                {% for proj in lista_projekata %}
+                <option value="{{ proj.id }}"
+                  {% if odabrani_projekt_id|stringformat:"s" == proj.id|stringformat:"s" %}selected{% endif %}>
+                  {{ proj.naziv_projekta }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="id_radnik" class="form-label">Odaberi radnika</label>
+            <select name="radnik_id" id="id_radnik" class="form-select">
+                <option value="">-- Svi radnici --</option>
+                {% for r in lista_radnika %}
+                <option value="{{ r.id }}"
+                  {% if odabrani_radnik_id|stringformat:"s" == r.id|stringformat:"s" %}selected{% endif %}>
+                  {{ r.first_name }} {{ r.last_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100 mt-2">
+                <i class="fas fa-filter"></i> Primijeni filter
+            </button>
+        </div>
+    </form>
+
+    <!-- KPI kartice -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-success text-white fw-bold">
+                    <i class="fas fa-tasks"></i> Ukupni radni nalozi
+                </div>
+                <div class="card-body">
+                    <h4>{{ ukupni_nalozi|default:"0" }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-info text-white fw-bold">
+                    <i class="fas fa-check-circle"></i> Završeni radni nalozi
+                </div>
+                <div class="card-body">
+                    <h4>{{ zavrseni_nalozi|default:"0" }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    <i class="fas fa-chart-line"></i> Napredak
+                </div>
+                <div class="card-body">
+                    <h4>{{ progres|default:"0" }}%</h4>
+                    <div class="progress mt-2" style="height: 8px;">
+                        <div class="progress-bar bg-warning" 
+                             role="progressbar" 
+                             style="width: {{ progres|default:"0" }}%;" 
+                             aria-valuenow="{{ progres|default:"0" }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-danger text-white fw-bold">
+                    <i class="fas fa-envelope-open-text"></i> Nepročitane notifikacije
+                </div>
+                <div class="card-body">
+                    <h4>{{ notifikacije_neprocitane|default:"0" }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zadnje aktivnosti -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h5 class="mb-3"><i class="fas fa-history"></i> Zadnje Aktivnosti</h5>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    {% if aktivnosti %}
+                    <ul class="list-group list-group-flush">
+                        {% for akt in aktivnosti %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ akt.promjene }} 
+                            <small class="text-muted">{{ akt.created_at|date:"j. F Y. H:i" }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">Nema zabilježenih aktivnosti.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista radnih naloga -->
+    {% if radni_nalozi %}
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h5 class="mb-3"><i class="fas fa-list"></i> Lista radnih naloga</h5>
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th><i class="fas fa-sticky-note"></i> Naziv</th>
+                        <th>Status</th>
+                        <th>Projekt</th>
+                        <th class="text-center">Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for nalog in radni_nalozi %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <i class="fas fa-clipboard-list text-secondary me-1"></i>
+                            {{ nalog.naziv_naloga }}
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ nalog.status|status_to_class }}">{{ nalog.status }}</span>
+                        </td>
+                        <td>
+                            {% if nalog.projekt %}
+                            <i class="fas fa-truck me-1"></i> {{ nalog.projekt.naziv_projekta }}
+                            {% else %}
+                            <span class="text-muted">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if nalog.zaduzena_osoba %}
+                                {{ nalog.zaduzena_osoba.first_name }} {{ nalog.zaduzena_osoba.last_name }}
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <!-- Linkovi na detalje/uredi itd. -->
+                            <a href="{% url 'detalji_radnog_naloga' nalog.projekt.id nalog.id %}"
+                               class="btn btn-sm btn-primary">
+                               <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'uredi_radni_nalog' nalog.projekt.id nalog.id %}"
+                               class="btn btn-sm btn-warning">
+                               <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Financije i Materijali (samo za direktore/voditelje/superuser) -->
+    {% if user.is_superuser or is_vlasnik_or_direktor or is_voditelj_or_admin %}
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-dark text-white fw-bold">
+                    <i class="fas fa-coins"></i> Ukupna potrošnja materijala
+                </div>
+                <div class="card-body">
+                    <h4>{{ total_materijal_cost|floatformat:2 }} €</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-danger text-white fw-bold">
+                    <i class="fas fa-exclamation-circle"></i> Probijen budžet
+                </div>
+                <div class="card-body">
+                    <h4>{{ probijen_budget_count|default:"0" }}</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-secondary text-white fw-bold">
+                    <i class="fas fa-chart-pie"></i> Stvarni troškovi (svih projekata)
+                </div>
+                <div class="card-body">
+                    <h4>{{ total_stvarni_troskovi|floatformat:2 }} €</h4>
+                </div>
+            </div>
+        </div>
+        {% if projekt_s_najvecim_troskom %}
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm border-0">
+                <div class="card-header bg-warning text-dark fw-bold">
+                    <i class="fas fa-balance-scale"></i> Najveći trošak
+                </div>
+                <div class="card-body">
+                    <h5>{{ projekt_s_najvecim_troskom.naziv_projekta }}</h5>
+                    <small class="text-muted d-block">{{ najveci_trosak|floatformat:2 }} €</small>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Gantt Chart -->
+    <div class="mb-4">
+        <h5 class="mb-3">
+            <i class="fas fa-project-diagram"></i> Gantt Chart
+        </h5>
+        <p class="text-muted fst-italic">
+            Vizualni prikaz radnih naloga (datum početka, trajanje, napredak)...
+        </p>
+        <div id="gantt_here" style="width:100%; height:400px; border:1px solid #ccc;"></div>
+    </div>
+
+    <!-- Workload Bar Chart (opterećenje radnika) -->
+    <div class="mb-4">
+        <h5 class="mb-3">
+            <i class="fas fa-user-clock"></i> Opterećenje radnika (sati)
+        </h5>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="workloadChart" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted">
+                    Graf prikazuje zbroj sati iz svih angažmana po radniku (trenutno aktivnih). 
+                    Ovo pomaže uvidjeti tko je najviše opterećen te rasporediti zadatke ravnomjernije.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+<!-- FA i dhtmlx + chart.js CDN -->
+<link rel="stylesheet" href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" />
+<script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    // ========== GANTT ==============
+    var ganttData = JSON.parse(`{{ gantt_data_json|safe }}`);
+    if (ganttData && ganttData.length > 0) {
+        gantt.config.date_format = "%Y-%m-%d"; 
+        gantt.init("gantt_here");
+        gantt.parse({ data: ganttData, links: [] });
+    } else {
+        document.getElementById('gantt_here').innerHTML = 
+            '<div class="alert alert-info mt-3">Nema aktivnih radnih naloga za prikaz.</div>';
+    }
+
+    // ========== WORKLOAD CHART (Chart.js) ==========
+    var ctx = document.getElementById('workloadChart').getContext('2d');
+    var workloadData = JSON.parse(`{{ workload_chart_data|safe }}`);
+    if (workloadData.length === 0) {
+        document.querySelector('#workloadChart').closest('.row').innerHTML = 
+            '<div class="alert alert-info">Nema podataka o opterećenju radnika.</div>';
+    } else {
+        var labels = workloadData.map(function(item){ return item.radnik; });
+        var hours = workloadData.map(function(item){ return item.hours; });
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Ukupno sati',
+                    data: hours,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Sati'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Radnik'
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

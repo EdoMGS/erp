@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+{% load static crispy_forms_tags %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@11.1.0/dist/handsontable.full.min.css">
+  <link href="{% static 'prodaja/css/tender.css' %}" rel="stylesheet">
+  <style>
+    .nav-tabs .nav-link.active {
+      font-weight: bold;
+      border-bottom: 2px solid #007bff;
+    }
+    .tab-content {
+      padding: 20px;
+      border: 1px solid #dee2e6;
+      border-top: none;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+  <!-- Header section -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+      <i class="fas fa-gavel"></i>
+      {% if action == "create" %}
+        Kreiraj Novi Tender
+      {% elif action == "edit" %}
+        Uredi Tender - {{ tender.opportunity.name|default:"" }}
+      {% else %}
+        Pregled Tendera - {{ tender.opportunity.name|default:"" }}
+      {% endif %}
+    </h1>
+    
+    {% if tender %}
+      <div class="d-flex align-items-center">
+        <span class="badge bg-{{ tender.status|yesno:'success,warning' }} me-2">
+          {{ tender.get_status_display }}
+        </span>
+        {% if action != "view" %}
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+              Promijeni status
+            </button>
+            <ul class="dropdown-menu">
+              {% for status, label in tender.STATUS_CHOICES %}
+                <li>
+                  <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="change_status" value="1">
+                    <input type="hidden" name="new_status" value="{{ status }}">
+                    <button type="submit" class="dropdown-item">
+                      {{ label }}
+                    </button>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Main form -->
+  <form id="tenderForm" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- Tabs navigation -->
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#basic" role="tab">Osnovni podaci</a>
+      </li>
+      <li class="nav-item"></li>
+        <a class="nav-link" data-bs-toggle="tab" href="#material" role="tab">Materijal</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#labor" role="tab">Rad</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#costs" role="tab">Troškovi</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#docs" role="tab">Dokumentacija</a>
+      </li>
+      {% if tender %}
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" href="#history" role="tab">Povijest</a>
+        </li>
+      {% endif %}
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+      <!-- Basic info tab -->
+      <div class="tab-pane fade show active" id="basic" role="tabpanel">
+        <div class="row">
+          <div class="col-md-6">
+            {{ form.opportunity|as_crispy_field }}
+            {{ form.tender_validity|as_crispy_field }}
+            {{ form.delivery_opening_datetime|as_crispy_field }}
+          </div>
+          <div class="col-md-6">
+            {{ form.status|as_crispy_field }}
+            {{ form.project_manager|as_crispy_field }}
+            {{ form.notes|as_crispy_field }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Material tab with Handsontable -->
+      <div class="tab-pane fade" id="material" role="tabpanel">
+        <div id="materialTable" style="width: 100%; height: 400px;"></div>
+      </div>
+
+      <!-- Labor tab -->
+      <div class="tab-pane fade" id="labor" role="tabpanel">
+        {{ labor_formset.management_form }}
+        <div id="labor_forms">
+          {% for form in labor_formset %}
+            <div class="labor-form row mb-3">
+              {{ form|crispy }}
+            </div>
+          {% endfor %}
+        </div>
+        <button type="button" class="btn btn-outline-primary add-labor">
+          <i class="fas fa-plus"></i> Dodaj stavku rada
+        </button>
+      </div>
+
+      <!-- Costs tab -->
+      <div class="tab-pane fade" id="costs" role="tabpanel">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Neposredni troškovi</h4>
+            {{ neposredni_formset.management_form }}
+            <div id="neposredni_forms">
+              {% for form in neposredni_formset %}
+                <div class="neposredni-form mb-3">
+                  {{ form|crispy }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h4>Posredni troškovi</h4>
+            {{ posredni_formset.management_form }}
+            <div id="posredni_forms">
+              {% for form in posredni_formset %}
+                <div class="posredni-form mb-3">
+                  {{ form|crispy }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documents tab -->
+      <div class="tab-pane fade" id="docs" role="tabpanel">
+        {{ document_formset.management_form }}
+        <div id="document_forms">
+          {% for form in document_formset %}
+            <div class="document-form card mb-3">
+              <div class="card-body">
+                {{ form|crispy }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <button type="button" class="btn btn-outline-primary add-document">
+          <i class="fas fa-plus"></i> Dodaj dokument
+        </button>
+      </div>
+
+      <!-- History tab -->
+      {% if tender %}
+        <div class="tab-pane fade" id="history" role="tabpanel">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Datum</th>
+                <th>Stari status</th>
+                <th>Novi status</th>
+                <th>Korisnik</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for change in status_history %}
+                <tr>
+                  <td>{{ change.changed_at }}</td>
+                  <td>{{ change.get_old_status_display }}</td>
+                  <td>{{ change.get_new_status_display }}</td>
+                  <td>{{ change.changed_by }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Form controls -->
+    <div class="d-flex justify-content-between mt-4">
+      <a href="{% url 'prodaja:tender_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Natrag
+      </a>
+      {% if action != "view" %}
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> Spremi
+        </button>
+      {% endif %}
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/handsontable@11.1.0/dist/handsontable.full.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Handsontable
+  const container = document.getElementById('materialTable');
+  const hot = new Handsontable(container, {
+    data: {{ material_data|safe|default:"[]" }},
+    columns: [
+      {data: 'item_name', title: 'Naziv materijala'},
+      {data: 'unit_price', title: 'Cijena (€)', type: 'numeric', numericFormat: {pattern: '0.00'}},
+      {data: 'quantity', title: 'Količina', type: 'numeric'},
+      {data: 'tax', title: 'PDV (%)', type: 'numeric', numericFormat: {pattern: '0.00'}},
+      {data: 'total_price', title: 'Ukupno (€)', type: 'numeric', numericFormat: {pattern: '0.00'}, readOnly: true}
+    ],
+    rowHeaders: true,
+    colHeaders: true,
+    licenseKey: 'non-commercial-and-evaluation'
+  });
+
+  // Dynamic form handling
+  function initializeFormsetHandlers(formsetPrefix) {
+    const addButton = document.querySelector(`.add-${formsetPrefix}`);
+    if (addButton) {
+      addButton.addEventListener('click', function() {
+        const forms = document.getElementById(`${formsetPrefix}_forms`);
+        const total = document.getElementById(`id_${formsetPrefix}-TOTAL_FORMS`);
+        const newIndex = parseInt(total.value);
+        
+        const tmpl = forms.children[0].cloneNode(true);
+        tmpl.innerHTML = tmpl.innerHTML.replace(/-\d+-/g, `-${newIndex}-`);
+        tmpl.querySelectorAll('input, select, textarea').forEach(input => {
+          input.value = '';
+        });
+        
+        forms.appendChild(tmpl);
+        total.value = newIndex + 1;
+      });
+    }
+  }
+
+  // Initialize handlers for each formset
+  ['labor', 'document'].forEach(initializeFormsetHandlers);
+
+  // Form submission handling
+  const form = document.getElementById('tenderForm');
+  form.addEventListener('submit', function(e) {
+    // Add material data to form
+    const materialData = hot.getData();
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'material_data';
+    input.value = JSON.stringify(materialData);
+    form.appendChild(input);
+  });
+});
+</script>
+{% endblock %}

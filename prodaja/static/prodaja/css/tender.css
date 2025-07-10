@@ -1,0 +1,88 @@
+.guarantee-field {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.total-guarantee {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0047ab;
+    padding: 0.5rem;
+    border-top: 1px solid #dee2e6;
+    margin-top: 1rem;
+}
+
+.formset-form {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.remove-form-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.tab-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+}
+
+.document-form {
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.labor-form, .neposredni-form, .posredni-form {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Handsontable customizations */
+.handsontable {
+    font-size: 14px;
+}
+
+.handsontable td {
+    padding: 8px 4px;
+}
+
+/* Status badges */
+.badge {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+/* Form controls */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Button customizations */
+.btn-group .dropdown-menu {
+    min-width: 200px;
+}
+
+/* History table */
+.table-history {
+    font-size: 0.9em;
+}
+
+.table-history th {
+    background: #f8f9fa;
+}

@@ -1,0 +1,36 @@
+{% extends 'financije/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Bank Transactions</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.referenca }}</td>
+                    <td>{{ transaction.datum_transakcije }}</td>
+                    <td>{{ transaction.get_tip_transakcije_display }}</td>
+                    <td>{{ transaction.iznos }} €</td>
+                    <td>{{ transaction.opis }}</td>
+                    <td>{{ transaction.saldo }} €</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Angažmana</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati angažman zaposlenika <strong>{{ angazman.zaposlenik.ime }} {{ angazman.zaposlenik.prezime }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i može utjecati na radni nalog ili projekt s kojim je angažman povezan.
+    </p>
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Angažman
+            </button>
+            <a href="{% url 'lista_angazmana' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-primary text-center">Dnevni Izvještaj</h1>
+    <p class="text-center text-muted">Prikaz aktivnosti i napretka za odabrani dan.</p>
+    <hr>
+
+    <!-- Filtar za datum -->
+    <form method="get" action="{% url 'dnevni_izvjestaj' %}" class="mb-4">
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-4">
+                <input type="date" name="datum" class="form-control" value="{{ request.GET.datum }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Prikaži
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Statistike -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-header bg-success text-white">Završeni Projekti</div>
+                <div class="card-body">
+                    <h3>{{ zavrseni_projekti }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-header bg-info text-white">Završeni Radni Nalozi</div>
+                <div class="card-body">
+                    <h3>{{ zavrseni_radni_nalozi }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-header bg-warning text-dark">Aktivni Angažmani</div>
+                <div class="card-body">
+                    <h3>{{ aktivni_angazmani }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center shadow-sm">
+                <div class="card-header bg-danger text-white">Dodane Ocjene Kvalitete</div>
+                <div class="card-body">
+                    <h3>{{ ocjene_kvalitete }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Detalji aktivnosti -->
+    <h3 class="mt-4">Detalji Aktiviteta</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Tip</th>
+                <th>Opis</th>
+                <th>Vrijeme</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aktivnost in aktivnosti %}
+            <tr>
+                <td>{{ aktivnost.tip }}</td>
+                <td>{{ aktivnost.opis }}</td>
+                <td>{{ aktivnost.created_at|date:"H:i" }}</td>
+                <td>
+                    {% if aktivnost.tip == "Radni Nalog" %}
+                    <a href="{% url 'detalji_radnog_naloga' aktivnost.projekt.id aktivnost.id %}" class="btn btn-primary btn-sm">Detalji</a>
+                    {% elif aktivnost.tip == "Projekt" %}
+                    <a href="{% url 'detalji_projekta' aktivnost.id %}" class="btn btn-primary btn-sm">Detalji</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">Nema aktivnosti za odabrani datum.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Generiraj PDF -->
+    <div class="text-center mt-4">
+        <a href="{% url 'pdf_dnevni_izvjestaj' datum=request.GET.datum %}" class="btn btn-danger btn-lg">
+            <i class="fas fa-file-pdf"></i> Generiraj PDF
+        </a>
+    </div>
+</div>
+{% endblock %}

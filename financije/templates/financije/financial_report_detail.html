@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>{% trans "Financial Report Details" %}</h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ report.get_period_display }} Report - {{ report.year }}</h5>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>{% trans "Period" %}:</strong> {{ report.get_period_display }}</p>
+                    <p><strong>{% trans "Year" %}:</strong> {{ report.year }}</p>
+                    {% if report.month %}
+                        <p><strong>{% trans "Month" %}:</strong> {{ report.month }}</p>
+                    {% endif %}
+                    {% if report.kvartal %}
+                        <p><strong>{% trans "Quarter" %}:</strong> {{ report.kvartal }}</p>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <p><strong>{% trans "Total Income" %}:</strong> {{ report.priljev_ukupno|floatformat:2 }} €</p>
+                    <p><strong>{% trans "Total Expenses" %}:</strong> {{ report.odljev_ukupno|floatformat:2 }} €</p>
+                    <p><strong>{% trans "Net Cash Flow" %}:</strong> {{ report.neto_cash_flow|floatformat:2 }} €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'financial_report_list' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> {% trans "Back to List" %}
+        </a>
+        <a href="{% url 'financial_report_edit' report.pk %}" class="btn btn-primary">
+            <i class="fas fa-edit"></i> {% trans "Edit Report" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

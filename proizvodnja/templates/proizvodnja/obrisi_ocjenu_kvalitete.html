@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Ocjene Kvalitete</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati ocjenu kvalitete s razine <strong>{{ ocjena.razina }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i može utjecati na povezan radni nalog.
+    </p>
+
+    <!-- Upozorenje za multimediju -->
+    {% if ocjena.video or ocjena.slika %}
+    <div class="alert alert-warning text-center">
+        <i class="fas fa-exclamation-triangle"></i>
+        Ova akcija će također obrisati sve priložene slike i videozapise.
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Ocjenu
+            </button>
+            <a href="{% url 'lista_ocjena_kvalitete' radni_nalog_id=ocjena.radni_nalog.id %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

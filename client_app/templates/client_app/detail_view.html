@@ -1,0 +1,68 @@
+{% extends 'client_app/base_client.html' %}
+
+{% block client_content %}
+<div class="container-fluid py-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="card-title h4 mb-0">{{ title }}</h2>
+                        <div class="btn-group">
+                            <a href="{{ edit_url }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-edit"></i> Uredi
+                            </a>
+                            <a href="{{ delete_url }}" class="btn btn-sm btn-outline-danger">
+                                <i class="fas fa-trash"></i> Izbriši
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for field in fields %}
+                        <div class="col-md-6 mb-3">
+                            <strong>{{ field.label }}:</strong>
+                            <p class="mb-0">{{ field.value|default:"-" }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if related_data %}
+                    <div class="mt-4">
+                        <h3 class="h5">Povezani podaci</h3>
+                        {% for section in related_data %}
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <h4 class="h6 mb-0">{{ section.title }}</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            {% for header in section.headers %}
+                                            <th>{{ header }}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in section.items %}
+                                        <tr>
+                                            {% for value in item.values %}
+                                            <td>{{ value }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

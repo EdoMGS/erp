@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Home - Ljudski Resursi" %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Dobrodošli u Ljudski Resursi Modul!" %}</h1>
+    <p>{% trans "Korišćenjem ovog modula možete upravljati zaposlenicima, odeljenjima i ostalim HR operacijama." %}</p>
+    
+    <!-- Dashboard Statistics -->
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">{% trans "Zaposlenici" %}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ employees_count }}</h5>
+                    <p class="card-text">{% trans "Ukupno zaposlenika" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">{% trans "Odeljenja" %}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ departments_count }}</h5>
+                    <p class="card-text">{% trans "Ukupno odeljenja" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-header">{% trans "Pozicije" %}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ positions_count }}</h5>
+                    <p class="card-text">{% trans "Ukupno pozicija" %}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">{% trans "Evaluacije" %}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ evaluations_count }}</h5>
+                    <p class="card-text">{% trans "Ukupno evaluacija" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="mt-4">
+        <a href="{% url 'ljudski_resursi:employee_list' %}" class="btn btn-primary">{% trans "Pregled Zaposlenika" %}</a>
+        <a href="{% url 'ljudski_resursi:department_list' %}" class="btn btn-secondary">{% trans "Pregled Odeljenja" %}</a>
+        <a href="{% url 'ljudski_resursi:position_list' %}" class="btn btn-info">{% trans "Pregled Pozicija" %}</a>
+        <a href="{% url 'ljudski_resursi:evaluacija_list' %}" class="btn btn-warning">{% trans "Pregled Evaluacija" %}</a>
+    </div>
+{% endblock %}

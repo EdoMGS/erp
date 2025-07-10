@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load custom_filters i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            {% if form.instance.pk %}
+                Uredi Projekt
+            {% else %}
+                Dodaj Novi Projekt
+            {% endif %}
+        </h1>
+    </div>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <strong>Greške pri unosu:</strong>
+            <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li><strong>{{ field.label }}</strong>: {{ field.errors|join:", " }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST" class="card shadow-lg p-4" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="id_naziv_projekta">Naziv projekta</label>
+                    {{ form.naziv_projekta.errors }}
+                    {{ form.naziv_projekta }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                {{ form.tip_projekta.label_tag }}
+                <select id="id_tip_projekta" name="{{ form.tip_projekta.name }}" class="form-select">
+                    <option value="">{% trans "---------" %}</option>
+                    {% for tip in form.tip_projekta.field.queryset %}
+                        <option value="{{ tip.pk }}"
+                            {% if form.tip_projekta.value == tip.pk %}selected{% endif %}
+                            {% if tip.naziv == "Izrada novih vatrogasnih vozila" %}data-kod="izrada_vozila"{% endif %}>
+                            {{ tip.naziv }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <small class="form-text text-muted">Odaberite odgovarajući tip projekta.</small>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.erp_id.label_tag }}
+                {{ form.erp_id|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                {{ form.ugovorena_cijena_neto.label_tag }}
+                {{ form.ugovorena_cijena_neto|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite ugovorenu cijenu (neto) projekta.</small>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-12">
+                {{ form.opis.label_tag }}
+                {{ form.opis|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.pocetak_projekta.label_tag }}
+                {{ form.pocetak_projekta|add_class:"form-control" }}
+            </div>
+            <div class="col-md-6">
+                {{ form.rok_za_isporuku.label_tag }}
+                {{ form.rok_za_isporuku|add_class:"form-control" }}
+            </div>
+        </div>
+        
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.status.label_tag }}
+                {{ form.status|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.predvidjeni_sati_rada.label_tag }}
+                {{ form.predvidjeni_sati_rada|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite ukupne predviđene sate rada za projekt.</small>
+            </div>
+            <div class="col-md-6">
+                {{ form.predvidjeni_troskovi.label_tag }}
+                {{ form.predvidjeni_troskovi|add_class:"form-control" }}
+                <small class="form-text text-muted">Unesite ukupne predviđene troškove projekta (materijal, rad, overhead...).</small>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.ugradnja_na_lokaciji.label_tag }}
+                {{ form.ugradnja_na_lokaciji }}
+                <small class="form-text text-muted">Označite ako projekt uključuje montažu na lokaciji.</small>
+            </div>
+            <div class="col-md-6">
+                {{ form.ručni_unos_radnih_naloga.label_tag }}
+                {{ form.ručni_unos_radnih_naloga }}
+                <small class="form-text text-muted">Označite ako ćete ručno unositi radne naloge.</small>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-3" id="tip_vozila_container">
+            <div class="col-md-6">
+                {{ form.tip_vozila.label_tag }}
+                {{ form.tip_vozila|add_class:"form-control" }}
+                <small class="form-text text-muted">Odaberite tip vozila ako je projekt "Izrada novih vozila".</small>
+            </div>
+        </div>
+
+        {% if form.fields.ukupna_cijena %}
+        <div class="row g-3 mt-3">
+            <div class="col-md-6">
+                {{ form.ukupna_cijena.label_tag }}
+                {{ form.ukupna_cijena|add_class:"form-control" }}
+                <small class="form-text text-muted">Ukupna cijena projekta (vidljivo samo vlasnicima i direktorima).</small>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-success btn-lg px-5">
+                {% if form.instance.pk %} Spremi Promjene {% else %} Dodaj Projekt {% endif %}
+            </button>
+            <a href="{% url 'proizvodnja:lista_projekata' %}" class="btn btn-secondary btn-lg px-5">Povratak</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    #tip_vozila_container {
+        display: none; /* Skriveno po defaultu */
+    }
+    #tip_vozila_container.show {
+        display: block !important;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tipProjektaSelect = document.getElementById('id_tip_projekta');
+        const tipVozilaContainer = document.getElementById('tip_vozila_container');
+
+        function toggleFields() {
+            const selectedOption = tipProjektaSelect.options[tipProjektaSelect.selectedIndex];
+            const selectedKod = selectedOption ? selectedOption.getAttribute('data-kod') : null;
+            const isIzradaVozila = selectedKod === 'izrada_vozila';
+
+            if (isIzradaVozila) {
+                tipVozilaContainer.classList.add('show');
+            } else {
+                tipVozilaContainer.classList.remove('show');
+            }
+        }
+
+        tipProjektaSelect.addEventListener('change', toggleFields);
+        toggleFields();
+    });
+</script>
+{% endblock %}

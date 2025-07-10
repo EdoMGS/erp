@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Centralni Panel{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">Centralni Panel</h1>
+    <div class="row g-4 justify-content-center">
+
+        <!-- Projekti -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <!-- Ikona i naslov -->
+                    <i class="fas fa-project-diagram fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title fw-bold">Projekti</h5>
+                    <p class="card-text">Pregled i upravljanje projektima</p>
+                    <!-- Gumb s bojom npr. btn-primary -->
+                    <a href="{% url 'lista_projekata' %}" class="btn btn-primary">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Radni Nalozi (dropdown) -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <i class="fas fa-tasks fa-3x text-success mb-3"></i>
+                    <h5 class="card-title fw-bold">Radni Nalozi</h5>
+                    <p class="card-text">Prikaži radne naloge za odabrani projekt</p>
+
+                    <!-- Dropdown za projekte, npr. -->
+                    <div class="mb-3">
+                        <select id="projectSelectRadniNalozi" class="form-select">
+                            <option value="">-- Odaberi projekt --</option>
+                            {% for p in projekti %}
+                                <option value="{{ p.id }}">{{ p.naziv_projekta }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button class="btn btn-success" onclick="openRadniNalozi()">
+                        Otvori
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Materijali -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-boxes fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title fw-bold">Materijali</h5>
+                    <p class="card-text">Evidentirajte i pratite materijale</p>
+                    <a href="{% url 'lista_materijala' %}" class="btn btn-warning">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tehnička Dokumentacija -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-file-alt fa-3x text-secondary mb-3"></i>
+                    <h5 class="card-title fw-bold">Tehnička Dokumentacija</h5>
+                    <p class="card-text">Pregled tehničke dokumentacije</p>
+                    <a href="{% url 'lista_tehnicke_dokumentacije' %}" class="btn btn-secondary">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Angažmani -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-handshake fa-3x text-danger mb-3"></i>
+                    <h5 class="card-title fw-bold">Angažmani</h5>
+                    <p class="card-text">Upravljajte angažmanima zaposlenika</p>
+                    <a href="{% url 'lista_angazmana' %}" class="btn btn-danger">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Materijali -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-video fa-3x text-dark mb-3"></i>
+                    <h5 class="card-title fw-bold">Video Materijali</h5>
+                    <p class="card-text">Pregled i dodavanje video materijala</p>
+                    <a href="{% url 'lista_video_materijala' %}" class="btn btn-dark">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Pitanja -->
+        <div class="col-md-4">
+            <div class="card shadow-sm text-center">
+                <div class="card-body">
+                    <i class="fas fa-question-circle fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title fw-bold">Video Pitanja</h5>
+                    <p class="card-text">Dodavanje i pregled video pitanja</p>
+                    <a href="{% url 'lista_video_pitanja' %}" class="btn btn-primary">
+                        Otvori
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- row -->
+</div> <!-- container -->
+
+<!-- JS za dropdown radni nalozi -->
+<script>
+function openRadniNalozi() {
+    var select = document.getElementById("projectSelectRadniNalozi");
+    if (!select) {
+        alert("Nije pronađen dropdown za projekte.");
+        return;
+    }
+    var projectId = select.value;
+    if (!projectId) {
+        alert("Molimo odaberite projekt.");
+        return;
+    }
+    // Konstruiši URL
+    var urlTemplate = "{% url 'lista_radnih_naloga' 99999 %}";
+    var finalUrl = urlTemplate.replace('99999', projectId);
+    window.location.href = finalUrl;
+}
+</script>
+{% endblock %}

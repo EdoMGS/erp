@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Sadržaja</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati sadržaj <strong>{{ sadrzaj.naziv }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i trajno će ukloniti sadržaj iz sustava.
+    </p>
+
+    <!-- Detalji o sadržaju -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h4 class="card-title text-primary">Osnovni Podaci</h4>
+            <p><strong>Tip:</strong> {{ sadrzaj.tip }}</p>
+            <p><strong>Datum Dodavanja:</strong> {{ sadrzaj.created_at|date:"j. F Y." }}</p>
+            {% if sadrzaj.tip == "Video" %}
+            <p><strong>Video URL:</strong> {{ sadrzaj.video_url }}</p>
+            {% elif sadrzaj.tip == "Pitanje" %}
+            <p><strong>Tekst Pitanja:</strong> {{ sadrzaj.tekst_pitanja }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Akcije -->
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Sadržaj
+            </button>
+            <a href="{% url 'lista_videa_pitanja' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Radnog Naloga</h1>
+    <p class="text-center text-secondary">Jeste li sigurni da želite obrisati radni nalog <strong>{{ nalog.naziv_naloga }}</strong>?</p>
+    <p class="text-center">Ova akcija je nepovratna i obrisat će sve povezane podatke.</p>
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">Obriši Radni Nalog</button>
+            <a href="{% url 'lista_radnih_naloga' projekt_id=nalog.projekt.id %}" class="btn btn-secondary btn-lg">Odustani</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

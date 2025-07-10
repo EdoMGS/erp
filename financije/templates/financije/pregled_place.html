@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Payroll Overview{% endblock %}
+
+{% block content %}
+<h1>Payroll Overview</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Bruto Iznos (€)</th>
+            <th>Mirovinsko 1 (%)</th>
+            <th>Mirovinsko 2 (%)</th>
+            <th>Zdravstveno (%)</th>
+            <th>Porezi (€)</th>
+            <th>Net Amount (€)</th>
+            <th>Net Pay Date</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for payroll in payrolls %}
+        <tr>
+            <td>{{ payroll.employee.first_name }} {{ payroll.employee.last_name }}</td>
+            <td>{{ payroll.bruto_iznos }}</td>
+            <td>{{ payroll.mirovinsko_1 }}</td>
+            <td>{{ payroll.mirovinsko_2 }}</td>
+            <td>{{ payroll.zdravstveno }}</td>
+            <td>{{ payroll.porezi }}</td>
+            <td>{{ payroll.neto_iznos }}</td>
+            <td>{{ payroll.net_pay_date }}</td>
+            <td>
+                <a href="{% url 'payroll_update' payroll.id %}">Ažuriraj</a>
+                <a href="{% url 'payroll_delete' payroll.id %}">Obriši</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'payroll_create' %}" class="btn btn-primary">Dodaj Novu Plaću</a>
+{% endblock %}

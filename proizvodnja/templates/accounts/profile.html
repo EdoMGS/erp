@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>Profil Korisnika</h1>
+<p>Ime: {{ user.first_name }}</p>
+<p>Prezime: {{ user.last_name }}</p>
+<p>Email: {{ user.email }}</p>
+{% else %}
+<p>Molimo prijavite se.</p>
+{% endif %}
+{% endblock %}

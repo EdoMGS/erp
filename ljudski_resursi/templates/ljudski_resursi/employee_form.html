@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{{ form.instance.pk|yesno:"Ažuriraj,Zaposli" }} Zaposlenika{% endblock %}
+
+{% block content %}
+    <h2>{{ form.instance.pk|yesno:"Ažuriraj,Zaposli" }} Zaposlenika</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+            {{ form.first_name.label_tag|trans }}
+            {{ form.first_name }}
+            {{ form.first_name.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.last_name.label_tag|trans }}
+            {{ form.last_name }}
+            {{ form.last_name.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.email.label_tag|trans }}
+            {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.department.label_tag|trans }}
+            {{ form.department }}
+            {{ form.department.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.position.label_tag|trans }}
+            {{ form.position }}
+            {{ form.position.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.manager.label_tag|trans }}
+            {{ form.manager }}
+            {{ form.manager.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.expertise_level.label_tag|trans }}
+            {{ form.expertise_level }}
+            {{ form.expertise_level.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.hierarchical_level.label_tag|trans }}
+            {{ form.hierarchical_level }}
+            {{ form.hierarchical_level.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.is_active.label_tag|trans }}
+            {{ form.is_active }}
+            {{ form.is_active.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.access_level.label_tag|trans }}
+            {{ form.access_level }}
+            {{ form.access_level.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.tax_configuration.label_tag|trans }}
+            {{ form.tax_configuration }}
+            {{ form.tax_configuration.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.salary_coefficient.label_tag|trans }}
+            {{ form.salary_coefficient }}
+            {{ form.salary_coefficient.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.onboarding_date.label_tag|trans }}
+            {{ form.onboarding_date }}
+            {{ form.onboarding_date.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.onboarding_timeline.label_tag|trans }}
+            {{ form.onboarding_timeline }}
+            {{ form.onboarding_timeline.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.employee_satisfaction.label_tag|trans }}
+            {{ form.employee_satisfaction }}
+            {{ form.employee_satisfaction.errors }}
+        </div>
+        <div class="mb-3">
+            {{ form.satisfaction_score.label_tag|trans }}
+            {{ form.satisfaction_score }}
+            {{ form.satisfaction_score.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.instance.pk|yesno:"Ažuriraj,Zaposli" }}</button>
+        <a href="{% url 'ljudski_resursi:employee_list' %}" class="btn btn-secondary">Poništi</a>
+    </form>
+{% endblock %}

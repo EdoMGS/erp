@@ -1,0 +1,32 @@
+
+{% extends 'projektiranje_app/base.html' %}
+
+{% block title %}Detalji Design Task{% endblock %}
+
+{% block content %}
+    <h1>{{ designtask }}</h1>
+    <p><strong>Projekt:</strong> {{ designtask.projekt }}</p>
+    <p><strong>Projektant:</strong> {{ designtask.projektant }}</p>
+    <p><strong>Tip Vozila:</strong> {{ designtask.tip_vozila }}</p>
+    <p><strong>Predviđeni Sati Dizajna:</strong> {{ designtask.predvidjeni_sati_dizajna }}</p>
+    <p><strong>Utrošeni Sati:</strong> {{ designtask.utroseni_sati }}</p>
+    <p><strong>Status:</strong> {{ designtask.status }}</p>
+    <p><strong>Datum Početka:</strong> {{ designtask.datum_pocetka }}</p>
+    <p><strong>Datum Završetka:</strong> {{ designtask.datum_zavrsetka }}</p>
+    <p><strong>BOM Generiran:</strong> {{ designtask.bom_generiran }}</p>
+    <p><strong>Plan Izrađen:</strong> {{ designtask.plan_izrađen }}</p>
+    <p><strong>Napomena:</strong> {{ designtask.napomena }}</p>
+    <p><strong>Broj Revizija Dokumentacije:</strong> {{ designtask.revizija_dokumentacije }}</p>
+    <p><strong>Dinamički Plan:</strong> {{ designtask.dynamic_plan }}</p>
+    <p><strong>BOM:</strong> {{ designtask.bill_of_materials }}</p>
+    
+    <h2>Dinamički Plan</h2>
+    {% if designtask.dinamicki_plan %}
+        <p>{{ designtask.dinamicki_plan }}</p>
+    {% else %}
+        <p>Nema dinamičkog plana.</p>
+    {% endif %}
+    
+    <a href="{% url 'projektiranje_app:designtask_update' designtask.id %}" class="btn btn-secondary">Uredi Design Task</a>
+    <a href="{% url 'projektiranje_app:designtask_list' %}" class="btn btn-primary">Nazad na Listu</a>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'ljudski_resursi/base.html' %}
+
+{% block title %}Lista Pozicija{% endblock %}
+
+{% block content %}
+    <h2>Lista Pozicija</h2>
+    <a href="{% url 'ljudski_resursi:position_create' %}" class="btn btn-success mb-3">Dodaj Poziciju</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Odjel</th>
+                <th>Hijerarhijski Nivo</th>
+                <th>Menadžerska</th>
+                <th>Stručna Razina</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for position in positions %}
+                <tr>
+                    <td>{{ position.title }}</td>
+                    <td>{{ position.department.name if position.department }}</td>
+                    <td>{{ position.hierarchical_level.name }}</td>
+                    <td>{{ position.is_managerial|yesno:"Da,Ne" }}</td>
+                    <td>{{ position.expertise_level.name if position.expertise_level }}</td>
+                    <td>
+                        <a href="{% url 'ljudski_resursi:position_update' position.pk %}" class="btn btn-primary btn-sm">Izmeni</a>
+                        <a href="{% url 'ljudski_resursi:position_delete' position.pk %}" class="btn btn-danger btn-sm">Obriši</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Nema pozicija.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h1>Positions</h1>
+    <ul>
+        {% for position in positions %}
+            <li>{{ position.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

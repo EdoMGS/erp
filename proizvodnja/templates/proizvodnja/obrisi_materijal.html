@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Materijala</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati materijal <strong>{{ materijal.naziv }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i može utjecati na povezane projekte ili radne naloge.
+    </p>
+
+    {% if materijal.inventory_item %}
+        <p class="text-center text-info"><strong>Inventar prije brisanja:</strong></p>
+        <ul class="text-center list-unstyled">
+            <li>Količina: {{ materijal.inventory_item.quantity }}</li>
+            <li>Lokacija: {{ materijal.inventory_item.location }}</li>
+            <li>Posljednje Ažurirano: {{ materijal.inventory_item.last_updated }}</li>
+        </ul>
+    {% endif %}
+
+    {% if materijal.radni_nalog %}
+    {% if materijal.radni_nalog.projekt %}
+        <div class="alert alert-warning text-center">
+            <i class="fas fa-exclamation-triangle"></i>
+            Projekt: <strong>{{ materijal.radni_nalog.projekt.naziv_projekta }}</strong>.
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            <i class="fas fa-exclamation-triangle"></i>
+            Radni Nalog: <strong>{{ materijal.radni_nalog.naziv_naloga }}</strong>.
+        </div>
+    {% endif %}
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Materijal
+            </button>
+            <a href="{% url 'lista_materijala' radni_nalog_id=materijal.radni_nalog.id %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

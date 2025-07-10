@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        Lista Angažmana{% if projekt %} za Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} za Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+    </h2>
+
+    <!-- Filtar -->
+    <form method="get" action="{% url 'lista_angazmana' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <select name="zaposlenik" class="form-select">
+                    <option value="">Svi Zaposlenici</option>
+                    {% for zaposlenik in zaposlenici %}
+                    <option value="{{ zaposlenik.id }}" {% if request.GET.zaposlenik == zaposlenik.id|stringformat:"s" %}selected{% endif %}>
+                        {{ zaposlenik.ime }} {{ zaposlenik.prezime }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <select name="status" class="form-select">
+                    <option value="">Svi Statusi</option>
+                    <option value="Aktivan" {% if request.GET.status == "Aktivan" %}selected{% endif %}>Aktivan</option>
+                    <option value="Završen" {% if request.GET.status == "Završen" %}selected{% endif %}>Završen</option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-filter"></i> Primijeni Filtar
+            </button>
+        </div>
+    </form>
+
+    <!-- Akcije -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'dodaj_angazman' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Dodaj Angažman
+        </a>
+    </div>
+
+    <!-- Lista angažmana -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Zaposlenik</th>
+                <th>Status</th>
+                <th>Početak</th>
+                <th>Završetak</th>
+                <th>Opcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for angazman in angazmani %}
+            <tr>
+                <td>{{ angazman.zaposlenik.ime }} {{ angazman.zaposlenik.prezime }}</td>
+                <td>
+                    {% if angazman.status == "Aktivan" %}
+                    <span class="badge bg-success">{{ angazman.status }}</span>
+                    {% else %}
+                    <span class="badge bg-secondary">{{ angazman.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ angazman.pocetak|date:"j. F Y." }}</td>
+                <td>{{ angazman.zavrsetak|date:"j. F Y." }}</td>
+                <td>
+                    <a href="{% url 'detalji_angazmana' angazman.id %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="{% url 'azuriraj_angazman' angazman.id %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'obrisi_angazman' angazman.id %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">Nema dostupnih angažmana.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginacija -->
+    <div class="d-flex justify-content-center mt-4">
+        {% if angazmani.has_other_pages %}
+        <nav aria-label="Paginacija">
+            <ul class="pagination">
+                {% if angazmani.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ angazmani.previous_page_number }}">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for num in angazmani.paginator.page_range %}
+                <li class="page-item {% if angazmani.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if angazmani.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ angazmani.next_page_number }}">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

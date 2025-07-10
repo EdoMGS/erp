@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Pregled zaliha</h2>
+<a href="{% url 'skladiste:zaliha_create' %}" class="btn btn-primary mb-3">Nova zaliha</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Artikl</th>
+            <th>Količina</th>
+            <th>Minimalna količina</th>
+            <th>Zadnja izmjena</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for zaliha in zalihe %}
+        <tr>
+            <td>{{ zaliha.artikl.naziv }}</td>
+            <td>{{ zaliha.kolicina }}</td>
+            <td>{{ zaliha.min_kolicina }}</td>
+            <td>{{ zaliha.datum_izmjene }}</td>
+            <td>
+                <a href="{% url 'skladiste:zaliha_update' zaliha.pk %}" class="btn btn-sm btn-info">Uredi</a>
+                <a href="{% url 'skladiste:zaliha_delete' zaliha.pk %}" class="btn btn-sm btn-danger">Obriši</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

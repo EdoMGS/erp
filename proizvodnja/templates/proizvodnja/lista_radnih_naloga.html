@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load query_transform %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        Radni Nalozi za Projekt: {{ projekt.naziv_projekta }}
+    </h2>
+
+    <!-- Sekcija za napredne filtere i pretragu -->
+    <form method="get" action="{% url 'lista_radnih_naloga' projekt.id %}" class="mb-4">
+        <div class="row g-3 align-items-end">
+            <!-- Filter po nazivu naloga -->
+            <div class="col-md-3">
+                <label for="id_naziv_filter" class="form-label">
+                    Pretraži po nazivu:
+                </label>
+                <input
+                    type="text"
+                    name="naziv"
+                    id="id_naziv_filter"
+                    placeholder="npr. Monteracija kabine..."
+                    class="form-control"
+                    value="{{ request.GET.naziv }}"
+                >
+            </div>
+
+            <!-- Filter po statusu -->
+            <div class="col-md-3">
+                <label for="id_status_filter" class="form-label">
+                    Status naloga:
+                </label>
+                <select name="status" id="id_status_filter" class="form-select">
+                    <option value="">{% trans "Svi statusi" %}</option>
+                    {% for status, label in radni_nalozi.model.STATUSI_NALOGA %}
+                        <option
+                            value="{{ status }}"
+                            {% if request.GET.status == status %}selected{% endif %}
+                        >
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter po grupi posla (ako postoji polje grupa_posla) -->
+            <div class="col-md-3">
+                <label for="id_grupa_filter" class="form-label">
+                    Grupa posla:
+                </label>
+                <select name="grupa_posla" id="id_grupa_filter" class="form-select">
+                    <option value="">Sve grupe</option>
+                    {% for grupa in grupe_poslova %}
+                        <option
+                            value="{{ grupa.id }}"
+                            {% if request.GET.grupa_posla == grupa.id|stringformat:"s" %}selected{% endif %}
+                        >
+                            {{ grupa.naziv }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Filter po tipu posla (instalacija, održavanje, ...) -->
+            <div class="col-md-3">
+                <label for="id_tip_filter" class="form-label">
+                    Tip posla:
+                </label>
+                <select name="tip_posla" id="id_tip_filter" class="form-select">
+                    <option value="">Svi tipovi</option>
+                    {% for tip, tip_label in radni_nalozi.model.TIP_POSLA_CHOICES %}
+                        <option
+                            value="{{ tip }}"
+                            {% if request.GET.tip_posla == tip %}selected{% endif %}
+                        >
+                            {{ tip_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Drugi red filtera, npr. zadužena osoba, prioritet, datum_pocetka, itd. -->
+        <div class="row g-3 mt-3 align-items-end">
+            <!-- Filter po zaduženoj osobi (ako imaš polje zaduzena_osoba) -->
+            <div class="col-md-3">
+                <label for="id_zaduzena_osoba_filter" class="form-label">
+                    Zadužena osoba:
+                </label>
+                <select name="zaduzena_osoba" id="id_zaduzena_osoba_filter" class="form-select">
+                    <option value="">Sve osobe</option>
+                    {% for radnik in zaduzeni_radnici %}
+                        <option
+                            value="{{ radnik.id }}"
+                            {% if request.GET.zaduzena_osoba == radnik.id|stringformat:"s" %}selected{% endif %}
+                        >
+                            {{ radnik.first_name }} {{ radnik.last_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Primjer filter po prioritetu -->
+            <div class="col-md-3">
+                <label for="id_prioritet_filter" class="form-label">
+                    Prioritet:
+                </label>
+                <select name="prioritet" id="id_prioritet_filter" class="form-select">
+                    <option value="">Svi</option>
+                    {% for prio_val, prio_label in radni_nalozi.model.PRIORITETI_CHOICES %}
+                        <option
+                            value="{{ prio_val }}"
+                            {% if request.GET.prioritet == prio_val %}selected{% endif %}
+                        >
+                            {{ prio_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Gumb "Primijeni" filtere -->
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-filter"></i> Primijeni
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Dodaj novi radni nalog -->
+    <div class="mb-4 text-end">
+        <a href="{% url 'dodaj_radni_nalog' projekt.id %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Dodaj Novi Radni Nalog
+        </a>
+    </div>
+
+    <!-- Lista radnih naloga -->
+    {% if page_obj and page_obj.object_list %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Naziv naloga</th>
+                        <th>Grupa posla</th>
+                        <th>Tip posla</th>
+                        <th>Datum početka</th>
+                        <th>Status</th>
+                        <th>Akcije</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for nalog in page_obj.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {{ nalog.naziv_naloga }}
+                            {% if nalog.opis %}
+                                <br><small class="text-muted">{{ nalog.opis|truncatechars:60 }}</small>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if nalog.grupa_posla %}
+                                {{ nalog.grupa_posla.naziv }}
+                            {% endif %}
+                        </td>
+                        <td>{{ nalog.get_tip_posla_display }}</td>
+                        <td>{{ nalog.datum_pocetka|date:"j. F Y." }}</td>
+                        <td>
+                            <span class="badge
+                              {% if nalog.status == "ZAVRSENO" %}bg-success
+                              {% elif nalog.status == "U_TIJEKU" %}bg-info
+                              {% else %}bg-warning{% endif %}">
+                                {{ nalog.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Radni nalog akcije">
+                                <a href="{% url 'detalji_radnog_naloga' projekt.id nalog.id %}"
+                                   class="btn btn-primary btn-sm"
+                                   title="Detalji">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'uredi_radni_nalog' projekt.id nalog.id %}"
+                                   class="btn btn-warning btn-sm"
+                                   title="Uredi">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'obrisi_radni_nalog' pk=nalog.id %}"
+                                   class="btn btn-danger btn-sm"
+                                   title="Obriši"
+                                   onclick="return confirm('Jeste li sigurni da želite obrisati ovaj radni nalog?');">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINACIJA -->
+        <div class="d-flex justify-content-center">
+            {% if page_obj.has_other_pages %}
+              <nav aria-label="Paginacija">
+                <ul class="pagination">
+
+                  <!-- Gumb "Prethodna" stranica -->
+                  {% if page_obj.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?{% query_transform request page=page_obj.previous_page_number %}"
+                         aria-label="Prethodna">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link">&laquo;</span>
+                    </li>
+                  {% endif %}
+
+                  <!-- Brojčana paginacija -->
+                  {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                      <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                      </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                      <li class="page-item">
+                        <a class="page-link" href="?{% query_transform request page=num %}">
+                          {{ num }}
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+
+                  <!-- Gumb "Sljedeća" stranica -->
+                  {% if page_obj.has_next %}
+                    <li class="page-item">
+                      <a class="page-link"
+                         href="?{% query_transform request page=page_obj.next_page_number %}"
+                         aria-label="Sljedeća">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link">&raquo;</span>
+                    </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p class="text-center text-muted">
+            Nema radnih naloga za prikaz prema zadanim kriterijima.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

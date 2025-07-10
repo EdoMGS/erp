@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">
+        Lista Videozapisa i Pitanja{% if projekt %} za Projekt: {{ projekt.naziv_projekta }}{% elif radni_nalog %} za Radni Nalog: {{ radni_nalog.naziv_naloga }}{% endif %}
+    </h2>
+
+    <!-- Filtar i pretraga -->
+    <form method="get" action="{% url 'lista_videa_pitanja' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="naziv" placeholder="Pretraži po nazivu videozapisa..." class="form-control" value="{{ request.GET.naziv }}">
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="kljucne_rijeci" placeholder="Pretraži po ključnim riječima pitanja..." class="form-control" value="{{ request.GET.kljucne_rijeci }}">
+            </div>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-filter"></i> Primijeni Filtar
+            </button>
+        </div>
+    </form>
+
+    <!-- Akcije -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'dodaj_video_pitanje' projekt_id=projekt.id if projekt else radni_nalog.id %}" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Dodaj Novi Sadržaj
+        </a>
+    </div>
+
+    <!-- Lista videozapisa i pitanja -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Naziv</th>
+                <th>Tip</th>
+                <th>Datum Dodavanja</th>
+                <th>Opcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sadrzaj in sadrzaji %}
+            <tr>
+                <td>{{ sadrzaj.naziv }}</td>
+                <td>
+                    {% if sadrzaj.tip == "Video" %}
+                    <span class="badge bg-primary">Video</span>
+                    {% else %}
+                    <span class="badge bg-secondary">Pitanje</span>
+                    {% endif %}
+                </td>
+                <td>{{ sadrzaj.created_at|date:"j. F Y." }}</td>
+                <td>
+                    <a href="{% url 'detalji_video_pitanje' sadrzaj.id %}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="{% url 'azuriraj_video_pitanje' sadrzaj.id %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'obrisi_video_pitanje' sadrzaj.id %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">Nema dostupnih sadržaja.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginacija -->
+    <div class="d-flex justify-content-center mt-4">
+        {% if sadrzaji.has_other_pages %}
+        <nav aria-label="Paginacija">
+            <ul class="pagination">
+                {% if sadrzaji.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ sadrzaji.previous_page_number }}">&laquo;</a>
+                </li>
+                {% endif %}
+                {% for num in sadrzaji.paginator.page_range %}
+                <li class="page-item {% if sadrzaji.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if sadrzaji.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ sadrzaji.next_page_number }}">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

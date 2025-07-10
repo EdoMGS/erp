@@ -1,0 +1,124 @@
+{
+    "kategorije": [
+        {
+            "model": "skladiste.kategorija",
+            "pk": 1,
+            "fields": {
+                "naziv": "Šasija i mehanički dijelovi",
+                "opis": "Dijelovi vezani uz šasiju i mehaničke komponente vozila",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 2,
+            "fields": {
+                "naziv": "Vatrogasna nadogradnja",
+                "opis": "Komponente za vatrogasnu nadogradnju",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 3,
+            "fields": {
+                "naziv": "Pumpe i armatura",
+                "opis": "Vatrogasne pumpe, armatura i pripadajuća oprema",
+                "parent": 2,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 4,
+            "fields": {
+                "naziv": "Spremnici",
+                "opis": "Spremnici za vodu, pjenu i druge medije",
+                "parent": 2,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 5,
+            "fields": {
+                "naziv": "Elektro oprema",
+                "opis": "Električna oprema i komponente",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 6,
+            "fields": {
+                "naziv": "Signalizacija",
+                "opis": "Svjetlosna i zvučna signalizacija",
+                "parent": 5,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 7,
+            "fields": {
+                "naziv": "Hidraulika",
+                "opis": "Hidraulični sustavi i komponente",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 8,
+            "fields": {
+                "naziv": "Pneumatika",
+                "opis": "Pneumatski sustavi i komponente",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 9,
+            "fields": {
+                "naziv": "Vatrogasna oprema",
+                "opis": "Specijalizirana vatrogasna oprema",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 10,
+            "fields": {
+                "naziv": "Vitla i dizalice",
+                "opis": "Oprema za vuču i podizanje",
+                "parent": 9,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 11,
+            "fields": {
+                "naziv": "Potrošni materijal",
+                "opis": "Potrošni materijal i sitni dijelovi",
+                "parent": null,
+                "is_active": true
+            }
+        },
+        {
+            "model": "skladiste.kategorija",
+            "pk": 12,
+            "fields": {
+                "naziv": "Alati",
+                "opis": "Alati i pomoćna sredstva",
+                "parent": null,
+                "is_active": true
+            }
+        }
+    ]
+}

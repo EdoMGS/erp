@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Projekta</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati projekt <strong>{{ projekt.naziv_projekta }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i može obrisati povezane radne naloge i dokumentaciju.
+    </p>
+
+    {% if projekt.radni_nalozi.count > 0 %}
+    <div class="alert alert-warning text-center">
+        <i class="fas fa-exclamation-triangle"></i> Projekt ima aktivne radne naloge. Brisanjem projekta obrisat ćete i sve povezane naloge.
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Projekt
+            </button>
+            <a href="{% url 'lista_projekata' %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+        <hr class="my-4">
+        <p class="text-muted">
+            Alternativno, možete deaktivirati projekt kako bi podaci ostali dostupni, ali neaktivni.
+        </p>
+        <form method="POST" action="{% url 'deaktiviraj_projekt' projekt.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning btn-lg">
+                <i class="fas fa-ban"></i> Deaktiviraj Projekt
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

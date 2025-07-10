@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load query_transform %}
+{% load i18n %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Lista Projekata</h2>
+
+    <!-- Filtar i pretraga -->
+    <form method="get" action="{% url 'proizvodnja:lista_projekata' %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <input type="text" name="naziv" placeholder="Pretraži po nazivu..." 
+                       class="form-control" value="{{ request.GET.naziv }}">
+            </div>
+            <div class="col-md-4">
+                <select name="status" class="form-select">
+                    <option value="">{% trans "Svi statusi" %}</option>
+                    {% for status, label in projekti.model.STATUSI_PROJEKTA %}
+                        <option value="{{ status }}" {% if request.GET.status == status %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-filter"></i> Primijeni
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Dodaj novi projekt button -->
+    <div class="mb-4 text-end">
+        <a href="{% url 'proizvodnja:projekt_add' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Dodaj Novi Projekt
+        </a>
+    </div>
+
+    <!-- Lista projekata -->
+    {% if projekti %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for projekt in projekti %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ projekt.naziv_projekta }}</h5>
+                            <p>{{ projekt.opis|default:"(nema opisa)" }}</p>
+                            <p>
+                                <strong>Početak:</strong> {{ projekt.pocetak_projekta|date:"j. F Y." }}<br>
+                                <strong>Rok za isporuku:</strong> {{ projekt.rok_za_isporuku|date:"j. F Y." }}<br>
+                                <strong>Status:</strong> {{ projekt.get_status_display }}
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <!-- Link DETALJI PROJEKTA -->
+                                    <a href="{% url 'proizvodnja:projekt_detail' projekt.id %}" class="btn btn-info btn-sm">
+                                        Detalji
+                                    </a>
+                                    <!-- Link UREDI PROJEKT -->
+                                    <a href="{% url 'proizvodnja:projekt_edit' pk=projekt.id %}" class="btn btn-warning btn-sm">
+                                        Uredi
+                                    </a>
+                                    <!-- Link OBRIŠI PROJEKT -->
+                                    <a href="{% url 'obrisi_projekt' pk=projekt.id %}" class="btn btn-danger btn-sm">
+                                        Obriši
+                                    </a>
+                                </div>
+                                <div>
+                                    <!-- Link do radnih naloga (lista_radnih_naloga) -->
+                                    <a href="{% url 'proizvodnja:lista_radnih_naloga' projekt_id=projekt.id %}" class="btn btn-primary btn-sm">
+                                        Radni Nalozi
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- PAGINACIJA -->
+        {% if projekti.has_other_pages %}
+          <nav aria-label="Paginacija" class="mt-4">
+            <ul class="pagination justify-content-center">
+              
+              <!-- Gumb "Prethodna" stranica -->
+              {% if projekti.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" 
+                     href="?{% query_transform request page=projekti.previous_page_number %}" 
+                     aria-label="Prethodna">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">&laquo;</span>
+                </li>
+              {% endif %}
+              
+              <!-- Brojčana paginacija -->
+              {% for num in projekti.paginator.page_range %}
+                {% if num == projekti.number %}
+                  <li class="page-item active">
+                    <span class="page-link">{{ num }}</span>
+                  </li>
+                {% elif num > projekti.number|add:'-3' and num < projekti.number|add:'3' %}
+                  <li class="page-item">
+                    <a class="page-link" 
+                       href="?{% query_transform request page=num %}">{{ num }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              
+              <!-- Gumb "Sljedeća" stranica -->
+              {% if projekti.has_next %}
+                <li class="page-item">
+                  <a class="page-link" 
+                     href="?{% query_transform request page=projekti.next_page_number %}" 
+                     aria-label="Sljedeća">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link">&raquo;</span>
+                </li>
+              {% endif %}
+            </ul>
+          </nav>
+        {% endif %}
+    {% else %}
+        <p class="text-center">Nema projekata za prikaz.</p>
+    {% endif %}
+</div>
+{% endblock %}

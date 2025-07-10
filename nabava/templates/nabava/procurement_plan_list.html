@@ -1,0 +1,41 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="procurement-plans">
+    <h2>Planovi nabave</h2>
+    <a href="{% url 'nabava:plan_create' %}" class="btn btn-primary mb-3">
+        Novi plan nabave
+    </a>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Projekt</th>
+                <th>Artikl</th>
+                <th>Količina</th>
+                <th>Traženi datum</th>
+                <th>Status</th>
+                <th>Prioritet</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plan in plans %}
+            <tr>
+                <td>{{ plan.project_name }}</td>
+                <td>{{ plan.item }}</td>
+                <td>{{ plan.quantity }}</td>
+                <td>{{ plan.required_date }}</td>
+                <td>{{ plan.status }}</td>
+                <td>{{ plan.get_priority_display }}</td>
+                <td>
+                    <a href="{% url 'nabava:plan_detail' pk=plan.pk %}" class="btn btn-sm btn-info">
+                        Detalji
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

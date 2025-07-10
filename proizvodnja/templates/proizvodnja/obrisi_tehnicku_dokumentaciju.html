@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-danger text-center fw-bold">Potvrda Brisanja Tehničke Dokumentacije</h1>
+    <p class="text-center text-secondary">
+        Jeste li sigurni da želite obrisati dokumentaciju <strong>{{ dokumentacija.naziv }}</strong>?
+    </p>
+    <p class="text-center text-warning">
+        Ova akcija je <strong>nepovratna</strong> i može utjecati na povezane procese.
+    </p>
+
+    {% if dokumentacija.projekt or dokumentacija.radni_nalog %}
+    <div class="alert alert-warning text-center">
+        <i class="fas fa-exclamation-triangle"></i>
+        {% if dokumentacija.projekt %}
+        Dokumentacija je povezana s projektom <strong>{{ dokumentacija.projekt.naziv_projekta }}</strong>.
+        {% elif dokumentacija.radni_nalog %}
+        Dokumentacija je povezana s radnim nalogom <strong>{{ dokumentacija.radni_nalog.naziv_naloga }}</strong>.
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Obriši Dokumentaciju
+            </button>
+            <a href="{% url 'lista_tehnicke_dokumentacije' projekt_id=dokumentacija.projekt.id if dokumentacija.projekt else dokumentacija.radni_nalog.id %}" class="btn btn-secondary btn-lg">
+                <i class="fas fa-times"></i> Odustani
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}

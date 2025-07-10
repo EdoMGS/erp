@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object_name|title }} Details
+{% endblock %}
+
+{% block content %}
+    <h1>{{ object_name|title }} Details</h1>
+
+    <table class="table">
+        <tbody>
+            {% for field, value in fields.items %}
+                <tr>
+                    <th>{{ field|title }}</th>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url object_name|add:'-update' object.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url object_name|add:'-delete' object.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url object_name|add:'-list' %}" class="btn btn-secondary">Back to List</a>
+{% endblock %}

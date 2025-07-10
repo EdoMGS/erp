@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Lista Financijskih Detalja{% endblock %}
+
+{% block content %}
+<h1>Lista Financijskih Detalja</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ukupna Cijena</th>
+            <th>Ugovorena Cijena Neto</th>
+            <th>PDV Stopa</th>
+            <th>Ugovorena Cijena Bruto</th>
+            <th>Predviđeni Troškovi</th>
+            <th>Stvarni Troškovi</th>
+            <th>Predviđeni Profit</th>
+            <th>Stvarni Profit</th>
+            <th>Akcije</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detail in financial_details %}
+        <tr>
+            <td>{{ detail.id }}</td>
+            <td>{{ detail.ukupna_cijena }}</td>
+            <td>{{ detail.ugovorena_cijena_neto }}</td>
+            <td>{{ detail.pdv_stopa }}</td>
+            <td>{{ detail.ugovorena_cijena_bruto }}</td>
+            <td>{{ detail.predvidjeni_troskovi }}</td>
+            <td>{{ detail.stvarni_troskovi }}</td>
+            <td>{{ detail.predvidjeni_profit }}</td>
+            <td>{{ detail.stvarni_profit }}</td>
+            <td>
+                <a href="{% url 'financije:azuriraj_financial_detail' detail.id %}">Ažuriraj</a>
+                <a href="{% url 'financije:obrisi_financial_detail' detail.id %}">Obriši</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'financije:unos_financial_detail' %}" class="btn btn-primary">Dodaj Novi Financijski Detalj</a>
+{% endblock %}

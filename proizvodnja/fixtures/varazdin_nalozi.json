@@ -1,0 +1,1122 @@
+[
+  {
+    "model": "nalozi.radninalog",
+    "pk": 1,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 1,
+      "naziv_naloga": "Premještaj dijelova na šasiji",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2024-12-17",
+      "datum_zavrsetka": "2024-12-19",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 2,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 1,
+      "naziv_naloga": "Demontaža i montaža branika i blatobrana",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2024-12-18",
+      "datum_zavrsetka": "2024-12-21",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 3,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 1,
+      "naziv_naloga": "Farbanje blatobrana i branika (RAL9010)",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2024-12-20",
+      "datum_zavrsetka": "2024-12-23",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 4,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 1,
+      "naziv_naloga": "PTO",
+      "opis": "Sati rada: 8.00",
+      "datum_pocetka": "2024-12-23",
+      "datum_zavrsetka": "2024-12-24",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 5,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 1,
+      "naziv_naloga": "Kardani",
+      "opis": "Sati rada: 8.00",
+      "datum_pocetka": "2024-12-24",
+      "datum_zavrsetka": "2024-12-26",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 6,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Izrada polušasije",
+      "opis": "Sati rada: 45.00",
+      "datum_pocetka": "2024-12-27",
+      "datum_zavrsetka": "2025-01-02",
+      "postotak_napretka": 0,
+      "prioritet": "Visok",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 7,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "dizalica za rezervni kotač",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2024-12-29",
+      "datum_zavrsetka": "2024-12-30",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 8,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Pjeskarenje i bojanje polušasije",
+      "opis": "Sati rada: 4.00",
+      "datum_pocetka": "2025-01-02",
+      "datum_zavrsetka": "2025-01-03",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 9,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Montaža polušasije",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-01-03",
+      "datum_zavrsetka": "2025-01-05",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 10,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "preklopni branik",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-05",
+      "datum_zavrsetka": "2025-01-06",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 11,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Izrada nadogradnje",
+      "opis": "Sati rada: 150.00",
+      "datum_pocetka": "2025-01-06",
+      "datum_zavrsetka": "2025-01-18",
+      "postotak_napretka": 0,
+      "prioritet": "Visok",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 12,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Montaža nadogradnje",
+      "opis": "Sati rada: 20.00",
+      "datum_pocetka": "2025-01-15",
+      "datum_zavrsetka": "2025-01-18",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 13,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Oblaganje nadogradnje",
+      "opis": "Sati rada: 50.00",
+      "datum_pocetka": "2025-01-18",
+      "datum_zavrsetka": "2025-01-23",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 14,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Bojanje nadogradnje - unutarnja konstrukcija",
+      "opis": "Sati rada: 30.00",
+      "datum_pocetka": "2025-01-22",
+      "datum_zavrsetka": "2025-01-26",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 15,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Bojanje nadogradnje - vanjsko RAL3000",
+      "opis": "Sati rada: 30.00",
+      "datum_pocetka": "2025-01-25",
+      "datum_zavrsetka": "2025-01-29",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 16,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Gazišta 4 kom",
+      "opis": "Sati rada: 30.00",
+      "datum_pocetka": "2025-01-28",
+      "datum_zavrsetka": "2025-01-31",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 17,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Zaštita podvozja - kobit",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-01-30",
+      "datum_zavrsetka": "2025-02-01",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 18,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "premaz krova",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-01-31",
+      "datum_zavrsetka": "2025-02-01",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 19,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Rolete 7 kom (1500x1300)",
+      "opis": "Sati rada: 8.00",
+      "datum_pocetka": "2025-01-31",
+      "datum_zavrsetka": "2025-02-02",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 20,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Izrada stražnjih blatobrana + zavjesice",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-02-02",
+      "datum_zavrsetka": "2025-02-05",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 21,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Ljestve za na krov",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-02-04",
+      "datum_zavrsetka": "2025-02-06",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 22,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Vrata stražnja",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-06",
+      "datum_zavrsetka": "2025-02-07",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 23,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Dišni aparati u sjedalima",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-07",
+      "datum_zavrsetka": "2025-02-08",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 24,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 2,
+      "naziv_naloga": "Blende i rasvjeta (kupnja i postavljanje)",
+      "opis": "Sati rada: 16.00",
+      "datum_pocetka": "2025-02-08",
+      "datum_zavrsetka": "2025-02-10",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 25,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Spremnik vode 3.000 i pjenila 300",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-20",
+      "datum_zavrsetka": "2025-01-22",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 26,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Izrada priključaka za spremnik vode (1)",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-01-25",
+      "datum_zavrsetka": "2025-01-28",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 27,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Montaža spremnika vode",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-01-28",
+      "datum_zavrsetka": "2025-01-31",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 28,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Preljev - prekotlačni ventil",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-01-31",
+      "datum_zavrsetka": "2025-02-02",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 29,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Izrada priključaka za spremnik vode (2)",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-02-01",
+      "datum_zavrsetka": "2025-02-03",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 30,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 3,
+      "naziv_naloga": "Spremnik praha 250 kg",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-03",
+      "datum_zavrsetka": "2025-02-05",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 31,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Pumpa C25.10",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-25",
+      "datum_zavrsetka": "2025-01-26",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 32,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Uključivanje visokog tlaka",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-26",
+      "datum_zavrsetka": "2025-01-27",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 33,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Izrada kadice ispod pumpe",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-01-27",
+      "datum_zavrsetka": "2025-01-29",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 34,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Vanjski usis u pumpu",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-01-28",
+      "datum_zavrsetka": "2025-01-30",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 35,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Usis iz spremnika",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-01-30",
+      "datum_zavrsetka": "2025-01-31",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 36,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Kuglasti ventili 1/2 140 bar",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-31",
+      "datum_zavrsetka": "2025-02-01",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 37,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Cjevovod recirkulacije",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-02-01",
+      "datum_zavrsetka": "2025-02-02",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 38,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Punjenje spremnika vode",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-02-02",
+      "datum_zavrsetka": "2025-02-03",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 39,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Mješač emitter",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-02-03",
+      "datum_zavrsetka": "2025-02-05",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 40,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Pražnjenje spremnika vode preko ventila DN20",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-05",
+      "datum_zavrsetka": "2025-02-06",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 41,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Pražnjenje spremnika pjenila DN25",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-06",
+      "datum_zavrsetka": "2025-02-07",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 42,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Pražnjenje spremnika pjenila DN25 + MS spojke",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-07",
+      "datum_zavrsetka": "2025-02-08",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 43,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Usis u mješač pjenila (spremnik + vanjski)",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-02-08",
+      "datum_zavrsetka": "2025-02-09",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 44,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Ručna drenaža pumpe",
+      "opis": "Sati rada: 5.00",
+      "datum_pocetka": "2025-02-09",
+      "datum_zavrsetka": "2025-02-10",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 45,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "tlačni cijevovod",
+      "opis": "Sati rada: 20.00",
+      "datum_pocetka": "2025-02-10",
+      "datum_zavrsetka": "2025-02-13",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 46,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Demontažni monitor",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-13",
+      "datum_zavrsetka": "2025-02-14",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 47,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Vitlo s cijevi 60m",
+      "opis": "Sati rada: 15.00",
+      "datum_pocetka": "2025-02-14",
+      "datum_zavrsetka": "2025-02-17",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 48,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Cijev za vitlo fi19 - 100 m",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-02-16",
+      "datum_zavrsetka": "2025-02-17",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 49,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Cjevovod vitla",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-02-17",
+      "datum_zavrsetka": "2025-02-19",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 50,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Izrada kontrolne ploče (Pumpa)",
+      "opis": "Sati rada: 10.00",
+      "datum_pocetka": "2025-02-19",
+      "datum_zavrsetka": "2025-02-21",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 51,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "mlaznica za vitlo",
+      "opis": "Sati rada: 3.00",
+      "datum_pocetka": "2025-02-21",
+      "datum_zavrsetka": "2025-02-22",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 52,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 4,
+      "naziv_naloga": "Monitor",
+      "opis": "Sati rada: 20.00",
+      "datum_pocetka": "2025-02-22",
+      "datum_zavrsetka": "2025-02-24",
+      "postotak_napretka": 0,
+      "prioritet": "Srednji",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 53,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 5,
+      "naziv_naloga": "Signalizacija - most",
+      "opis": "Sati rada: 150.00",
+      "datum_pocetka": "2025-01-20",
+      "datum_zavrsetka": "2025-01-31",
+      "postotak_napretka": 0,
+      "prioritet": "Visok",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 54,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 5,
+      "naziv_naloga": "Vanjska rasvjeta s integriranim plavim bljeskalicama (6 kom)",
+      "opis": "(bez definirane satnice)",
+      "datum_pocetka": "2025-01-28",
+      "datum_zavrsetka": "2025-01-29",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 99,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 7,
+      "naziv_naloga": "Isporuka i obuka",
+      "opis": "Sati rada: 24.00",
+      "datum_pocetka": "2025-03-06",
+      "datum_zavrsetka": "2025-03-08",
+      "postotak_napretka": 0,
+      "prioritet": "Visok",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  },
+  {
+    "model": "nalozi.radninalog",
+    "pk": 100,
+    "fields": {
+      "projekt": 1,
+      "grupa_posla": 7,
+      "naziv_naloga": "Pun spremnik goriva (200 lit)",
+      "opis": "Sati rada: 0.50",
+      "datum_pocetka": "2025-03-08",
+      "datum_zavrsetka": "2025-03-08",
+      "postotak_napretka": 0,
+      "prioritet": "Nizak",
+      "dokumentacija_bypass": false,
+      "bypass_materijala": false,
+      "status": "OTVOREN",
+      "odgovorna_osoba": null,
+      "zaduzena_osoba": null,
+      "dodatne_osobe": []
+    }
+  }
+]

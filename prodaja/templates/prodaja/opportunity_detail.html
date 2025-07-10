@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}Pregled Leada {{ opportunity.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-3 text-primary">
+    <i class="fas fa-info-circle"></i> Detalji Leada
+  </h1>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <h4 class="card-title">{{ opportunity.name }}</h4>
+      <p class="card-text">
+        <strong>Klijent:</strong> {{ opportunity.client }} <br>
+        <strong>Faza:</strong> {{ opportunity.get_stage_display }}<br>
+        <strong>Izvor Leada:</strong> {{ opportunity.get_lead_source_display }}
+      </p>
+      <p>
+        <strong>Budget:</strong> {{ opportunity.budget|floatformat:2 }} €<br>
+        <strong>Authority:</strong> {% if opportunity.authority %}Da{% else %}Ne{% endif %}<br>
+        <strong>Need:</strong> {% if opportunity.need %}Da{% else %}Ne{% endif %}<br>
+        <strong>Timeframe:</strong> {{ opportunity.timeframe }}
+      </p>
+      <p class="text-muted">
+        Kreirao: 
+        {% if opportunity.assigned_to %}
+          {{ opportunity.assigned_to.username }}
+        {% else %}
+          -Nepoznato-
+        {% endif %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Terenske posjete -->
+  <h5>Terenske posjete</h5>
+  <a href="{% url 'fieldvisit_create' opportunity.pk %}" class="btn btn-sm btn-primary mb-2">
+    <i class="fas fa-plus"></i> Nova posjeta
+  </a>
+  {% if visits %}
+    <ul class="list-group">
+      {% for v in visits %}
+      <li class="list-group-item d-flex justify-content-between">
+        <div>
+          <strong>Datum:</strong> {{ v.date_of_visit }} 
+          <br><strong>Klijent:</strong> {{ v.visited_client }}
+          <br><strong>Svrha:</strong> {{ v.purpose }}
+        </div>
+        <div>
+          <span class="text-muted small">Kreirao: {% if v.created_by %}{{ v.created_by.username }}{% endif %}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Nema terenskih posjeta evidentiranih.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

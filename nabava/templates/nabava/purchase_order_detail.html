@@ -1,0 +1,47 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="order-detail">
+    <h2>Detalji narudžbe #{{ order.id }}</h2>
+    
+    <div class="order-info">
+        <p><strong>Dobavljač:</strong> {{ order.supplier.naziv }}</p>
+        <p><strong>Datum:</strong> {{ order.order_date }}</p>
+        <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+        <p><strong>JIT:</strong> {% if order.is_jit %}Da{% else %}Ne{% endif %}</p>
+        {% if order.work_order %}
+            <p><strong>Radni nalog:</strong> {{ order.work_order }}</p>
+        {% endif %}
+    </div>
+
+    <div class="order-lines">
+        <h3>Stavke narudžbe</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Artikl</th>
+                    <th>Količina</th>
+                    <th>Cijena</th>
+                    <th>Popust</th>
+                    <th>Ukupno</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in order.lines.all %}
+                <tr>
+                    <td>{{ line.artikl.naziv }}</td>
+                    <td>{{ line.quantity }}</td>
+                    <td>{{ line.unit_price }}</td>
+                    <td>{{ line.discount }}%</td>
+                    <td>{{ line.line_total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="{% url 'nabava:order_add_line' pk=order.pk %}" class="btn btn-primary">
+            Dodaj stavku
+        </a>
+    </div>
+</div>
+{% endblock %}

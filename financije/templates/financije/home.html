@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Financije Modul{% endblock %}
+
+{% block content %}
+<h1>Dobrodošli u Modul Financije!</h1>
+<div class="mb-3">
+    <a href="{% url 'nova_faktura' %}" class="btn btn-primary">Unesi Novu Fakturu</a>
+    <a href="{% url 'prikaz_faktura' %}" class="btn btn-info">Pregledaj Sve Fakture</a>
+    <a href="{% url 'pregled_place' %}" class="btn btn-secondary">Pregled Plaća</a>
+    <!-- New Cash Flow Features -->
+    <a href="{% url 'cash_flow_dashboard' %}" class="btn btn-success">Cash Flow Dashboard</a>
+    <a href="{% url 'cash_plan_dashboard' %}" class="btn btn-warning">Cash Plan Dashboard</a>
+    <a href="{% url 'bank_account_dashboard' %}" class="btn btn-dark">Bank Accounts</a>
+    <a href="{% url 'payment_tracking' %}" class="btn btn-danger">Payment Tracking</a>
+</div>
+{% endblock %}

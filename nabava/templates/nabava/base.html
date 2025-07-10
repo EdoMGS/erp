@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+<nav class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'nabava:dashboard' %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'nabava:plan_list' %}">Planovi nabave</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'nabava:order_list' %}">Narudžbe</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'nabava:narudzbenica_list' %}">Narudžbenice</a>
+        </li>
+    </ul>
+</nav>
+{% endblock %}

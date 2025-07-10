@@ -1,0 +1,31 @@
+{% extends 'nabava/base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <h2>Dashboard Nabave</h2>
+    
+    <div class="quick-stats">
+        <div class="stat-card">
+            <h3>Nedavne narudžbe</h3>
+            <ul>
+                {% for order in recent_orders %}
+                    <li>
+                        <a href="{% url 'nabava:order_detail' pk=order.pk %}">
+                            {{ order.supplier.naziv }} - {{ order.order_date }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Planovi nabave</h3>
+            <ul>
+                {% for plan in recent_plans %}
+                    <li>{{ plan.project_name }} - {{ plan.required_date }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,459 @@
+[
+    {
+        "model": "ljudski_resursi.expertiselevel",
+        "pk": 1,
+        "fields": {
+            "name": "Početnik",
+            "description": "Osnovna stručnost s temeljnim vještinama."
+        }
+    },
+    {
+        "model": "ljudski_resursi.expertiselevel",
+        "pk": 2,
+        "fields": {
+            "name": "Srednji",
+            "description": "Srednja stručnost s mogućnošću samostalnog obavljanja standardnih zadataka."
+        }
+    },
+    {
+        "model": "ljudski_resursi.expertiselevel",
+        "pk": 3,
+        "fields": {
+            "name": "Napredni",
+            "description": "Visoka razina stručnosti s mogućnošću upravljanja složenim zadacima i mentoriranja drugih."
+        }
+    },
+    {
+        "model": "ljudski_resursi.expertiselevel",
+        "pk": 4,
+        "fields": {
+            "name": "Ekspert",
+            "description": "Izvanredna stručnost sa specijaliziranim vještinama i liderskim sposobnostima."
+        }
+    },
+    {
+        "model": "ljudski_resursi.hierarchicallevel",
+        "pk": 1,
+        "fields": {
+            "name": "Operator",
+            "level": 1,
+            "description": "Entry-level position responsible for operational tasks."
+        }
+    },
+    {
+        "model": "ljudski_resursi.hierarchicallevel",
+        "pk": 2,
+        "fields": {
+            "name": "Technician",
+            "level": 2,
+            "description": "Responsible for maintenance and technical support."
+        }
+    },
+    {
+        "model": "ljudski_resursi.hierarchicallevel",
+        "pk": 3,
+        "fields": {
+            "name": "Engineer",
+            "level": 3,
+            "description": "Handles design, development, and engineering tasks."
+        }
+    },
+    {
+        "model": "ljudski_resursi.hierarchicallevel",
+        "pk": 4,
+        "fields": {
+            "name": "Supervisor",
+            "level": 4,
+            "description": "Oversees teams and ensures operational efficiency."
+        }
+    },
+    {
+        "model": "ljudski_resursi.hierarchicallevel",
+        "pk": 5,
+        "fields": {
+            "name": "Manager",
+            "level": 5,
+            "description": "Manages departments and strategic planning."
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 1,
+        "fields": {
+            "name": "Production",
+            "description": "Handles the manufacturing of firefighting vehicles.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 2,
+        "fields": {
+            "name": "Quality Control",
+            "description": "Ensures products meet quality standards.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 3,
+        "fields": {
+            "name": "Maintenance",
+            "description": "Responsible for equipment maintenance and repairs.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 4,
+        "fields": {
+            "name": "Procurement",
+            "description": "Manages procurement of materials and supplies.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 5,
+        "fields": {
+            "name": "Research & Development",
+            "description": "Focuses on innovation and new product development.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 6,
+        "fields": {
+            "name": "Sales",
+            "description": "Handles sales and customer relationships.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 7,
+        "fields": {
+            "name": "Administration",
+            "description": "Manages administrative tasks and support.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 8,
+        "fields": {
+            "name": "Finance",
+            "description": "Handles financial planning and management.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.department",
+        "pk": 9,
+        "fields": {
+            "name": "General & Administrative Tasks",
+            "description": "Manages general and administrative duties.",
+            "parent": null
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 1,
+        "fields": {
+            "title": "Production Operator",
+            "department": 1,
+            "hierarchical_level": 1,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 2,
+        "fields": {
+            "title": "Quality Control Technician",
+            "department": 2,
+            "hierarchical_level": 2,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 3,
+        "fields": {
+            "title": "Maintenance Engineer",
+            "department": 3,
+            "hierarchical_level": 3,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 4,
+        "fields": {
+            "title": "Procurement Manager",
+            "department": 4,
+            "hierarchical_level": 5,
+            "expertise_level": 1,
+            "is_managerial": true
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 5,
+        "fields": {
+            "title": "R&D Engineer",
+            "department": 5,
+            "hierarchical_level": 3,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 6,
+        "fields": {
+            "title": "Sales Representative",
+            "department": 6,
+            "hierarchical_level": 2,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 7,
+        "fields": {
+            "title": "Administrative Assistant",
+            "department": 7,
+            "hierarchical_level": 1,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 8,
+        "fields": {
+            "title": "Finance Analyst",
+            "department": 8,
+            "hierarchical_level": 3,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 9,
+        "fields": {
+            "title": "Office Manager",
+            "department": 7,
+            "hierarchical_level": 4,
+            "expertise_level": 1,
+            "is_managerial": true
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 10,
+        "fields": {
+            "title": "General Administrator",
+            "department": 9,
+            "hierarchical_level": 2,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 11,
+        "fields": {
+            "title": "Bravar",
+            "department": 1,
+            "hierarchical_level": 1,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 12,
+        "fields": {
+            "title": "Varioc",
+            "department": 1,
+            "hierarchical_level": 1,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 13,
+        "fields": {
+            "title": "Mehaničar",
+            "department": 1,
+            "hierarchical_level": 1,
+            "expertise_level": 1,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 14,
+        "fields": {
+            "title": "Cjevar",
+            "department": 1,
+            "hierarchical_level": 2,
+            "expertise_level": 2,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 15,
+        "fields": {
+            "title": "Električar",
+            "department": 1,
+            "hierarchical_level": 2,
+            "expertise_level": 2,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 16,
+        "fields": {
+            "title": "Tokar",
+            "department": 1,
+            "hierarchical_level": 2,
+            "expertise_level": 2,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 17,
+        "fields": {
+            "title": "Montažer",
+            "department": 1,
+            "hierarchical_level": 3,
+            "expertise_level": 3,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 18,
+        "fields": {
+            "title": "Operater CNC Strojeva",
+            "department": 1,
+            "hierarchical_level": 3,
+            "expertise_level": 3,
+            "is_managerial": false
+        }
+    },
+    {
+        "model": "ljudski_resursi.position",
+        "pk": 19,
+        "fields": {
+            "title": "Vođa Tima za Proizvodnju",
+            "department": 1,
+            "hierarchical_level": 4,
+            "expertise_level": 4,
+            "is_managerial": true
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 1,
+        "fields": {
+            "position": 11,
+            "expertise_level": 1,
+            "variable_pay": "100.00",
+            "bonus": "50.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 2,
+        "fields": {
+            "position": 12,
+            "expertise_level": 1,
+            "variable_pay": "100.00",
+            "bonus": "50.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 3,
+        "fields": {
+            "position": 13,
+            "expertise_level": 1,
+            "variable_pay": "100.00",
+            "bonus": "50.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 4,
+        "fields": {
+            "position": 14,
+            "expertise_level": 2,
+            "variable_pay": "200.00",
+            "bonus": "100.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 5,
+        "fields": {
+            "position": 15,
+            "expertise_level": 2,
+            "variable_pay": "200.00",
+            "bonus": "100.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 6,
+        "fields": {
+            "position": 16,
+            "expertise_level": 2,
+            "variable_pay": "200.00",
+            "bonus": "100.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 7,
+        "fields": {
+            "position": 17,
+            "expertise_level": 3,
+            "variable_pay": "300.00",
+            "bonus": "150.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 8,
+        "fields": {
+            "position": 18,
+            "expertise_level": 3,
+            "variable_pay": "300.00",
+            "bonus": "150.00"
+        }
+    },
+    {
+        "model": "ljudski_resursi.variablepayrule",
+        "pk": 9,
+        "fields": {
+            "position": 19,
+            "expertise_level": 4,
+            "variable_pay": "400.00",
+            "bonus": "200.00"
+        }
+    }
+]

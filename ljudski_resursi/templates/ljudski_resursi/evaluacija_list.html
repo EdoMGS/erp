@@ -1,0 +1,35 @@
+{% extends 'ljudski_resursi/base.html' %}
+
+{% block title %}Evaluation List{% endblock %}
+
+{% block content %}
+    <h2>Evaluation List</h2>
+    <a href="{% url 'ljudski_resursi:evaluacija_create' %}" class="btn btn-success mb-3">Create Evaluation</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Evaluator</th>
+                <th>Evaluation Period</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evaluacija in evaluacije %}
+                <tr>
+                    <td>{{ evaluacija.employee }}</td>
+                    <td>{{ evaluacija.evaluator }}</td>
+                    <td>{{ evaluacija.evaluation_period }}</td>
+                    <td>
+                        <a href="{% url 'ljudski_resursi:evaluacija_update' evaluacija.pk %}" class="btn btn-primary btn-sm">Update</a>
+                        <a href="{% url 'ljudski_resursi:evaluacija_delete' evaluacija.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No evaluations found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
