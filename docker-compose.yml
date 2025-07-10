@@ -48,16 +48,16 @@ services:
       - redis
       - db
 
-  # flower:
-  #   image: mher/flower
-  #   restart: unless-stopped
-  #   command: celery -A erp_system.celery flower --broker=redis://redis:6379/0 --port=5555
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - redis
-  #   ports:
-  #     - "5555:5555"
+  flower:
+    image: mher/flower
+    restart: unless-stopped
+    command: celery -A erp_system.celery flower --port=5555 --broker=${REDIS_URL}
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    ports:
+      - "5555:5555"
 
 volumes:
   db-data:
