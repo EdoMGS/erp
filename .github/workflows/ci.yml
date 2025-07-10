@@ -32,18 +32,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-django flake8 black isort autoflake
+          pip install pytest pytest-django flake8 black isort autoflake pre-commit
+
+      - name: Run pre-commit hooks
+        run: pre-commit run --all-files
 
       - name: Lint (flake8)
         run: flake8 .
@@ -56,6 +56,10 @@ jobs:
 
       - name: Remove unused imports/vars (autoflake)
         run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables .
+
+      - name: Load test fixture
+        run: |
+          python manage.py loaddata erp_system/fixtures/minimal.json
 
       - name: Run tests
         env:
