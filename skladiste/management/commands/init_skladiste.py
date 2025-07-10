@@ -1,20 +1,21 @@
-import os
-import django
-import json
-import sys
 import csv
+import json
+import os
+import sys
+
+import django
+from django.conf import settings
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.core.exceptions import ValidationError
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.urls import path
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required, permission_required
-from django.conf import settings
-from django.contrib.auth.models import User
-from skladiste.models import Artikl, Lokacija, DnevnikDogadaja
+
+from skladiste.models import Artikl, DnevnikDogadaja, Lokacija
 
 # Postavljanje Django okruženja
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'erp_system.settings')

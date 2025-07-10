@@ -1,5 +1,6 @@
 from financije.models import Invoice
 
+
 def generate_vat_report():
     # Logika za generiranje izvještaja o PDV-u
     invoices = Invoice.objects.all()

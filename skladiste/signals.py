@@ -1,7 +1,10 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save  # post_delete unused, removed
 from django.dispatch import receiver
-from .models import Artikl, Materijal
+
 from financije.models import FinancijskaTransakcija
+
+from .models import Artikl, Materijal
+
 
 @receiver(post_save, sender=Artikl)
 def update_financije_artikl(sender, instance, created, **kwargs):

@@ -1,14 +1,13 @@
 # skladiste/admin.py
 
 from django.contrib import admin
-from .models import (
-    Zona, Lokacija, Artikl, 
-    Materijal, Alat, HTZOprema, 
-    DnevnikDogadaja, SkladisteResurs,
-    Kategorija, Primka, PrimkaStavka,
-    Izdatnica, IzdatnicaStavka
-)
+
 from nabava.models import Dobavljac
+
+from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
+                     IzdatnicaStavka, Kategorija, Lokacija, Materijal, Primka,
+                     PrimkaStavka, SkladisteResurs, Zona)
+
 
 @admin.register(Zona)
 class ZonaAdmin(admin.ModelAdmin):

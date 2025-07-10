@@ -1,7 +1,9 @@
 # proizvodnja/permissions.py
-from rest_framework import permissions
 from django.conf import settings
+from rest_framework import permissions
+
 from ljudski_resursi.models import Employee
+
 
 class BaseProizvodnjaPermission(permissions.BasePermission):
     """Base permission class for Proizvodnja app"""

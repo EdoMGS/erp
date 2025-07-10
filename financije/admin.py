@@ -1,19 +1,18 @@
 # financije/admin.py
 
 from django.contrib import admin
-from .models import (
-    Invoice, FinancialDetails, TaxConfiguration, VariablePayRule,
-    Overhead, Municipality, Salary, Tax, SalaryAddition,
-    CashFlow, FinancialReport, Debt, BankTransaction,
-    OverheadCategory, MonthlyOverhead, Budget,
-    SalesContract, MjesecniOverheadPregled, Payment  # New models
-)
-from .forms import (
-    FinancialReportForm, DebtForm, BankTransactionForm,
-    MonthlyOverheadForm, BudgetForm, OverheadForm,
-    InvoiceForm, TaxConfigurationForm, VariablePayRuleForm
-)
+
+from .forms import (BankTransactionForm, BudgetForm, DebtForm,
+                    FinancialReportForm, InvoiceForm, MonthlyOverheadForm,
+                    OverheadForm, TaxConfigurationForm, VariablePayRuleForm)
+from .models import (BankTransaction, Budget, CashFlow, Debt,  # New models
+                     FinancialDetails, FinancialReport, Invoice,
+                     MjesecniOverheadPregled, MonthlyOverhead, Municipality,
+                     Overhead, OverheadCategory, Payment, Salary,
+                     SalaryAddition, SalesContract, Tax, TaxConfiguration,
+                     VariablePayRule)
 from .models.taxconfig import Municipality
+
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):

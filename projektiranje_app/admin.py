@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import (
-    DesignTask, DesignSegment, DynamicPlan, 
-    BillOfMaterials, BOMItem, CADDocument, DesignRevision
-)
+
+from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
+                     DesignSegment, DesignTask, DynamicPlan)
+
 
 @admin.register(DesignTask)
 class DesignTaskAdmin(admin.ModelAdmin):

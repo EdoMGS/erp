@@ -1,22 +1,24 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import UpdateView, DetailView
-from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, UpdateView
 
-from .views_dashboard import dashboard_view
-from financije.services import (
-    calculate_project_costs,
-    update_project_financials,
-    process_completed_work_order,
-    calculate_work_order_savings
-)
-from .models import RadniNalog, Projekt
+from financije.services import (calculate_project_costs,
+                                calculate_work_order_savings,
+                                process_completed_work_order,
+                                update_project_financials)
 from ljudski_resursi.models import Employee
 from projektiranje_app.models import CADDocument
 from skladiste.models import Materijal
-from .forms import CentralniPanelForm, ProjektForm, RadniNalogForm, RadniNalogMaterijalForm, VideoMaterijalForm, VideoPitanjeForm, OcjenaKvaliteteForm, AngazmanForm
+
+from .forms import (AngazmanForm, CentralniPanelForm, OcjenaKvaliteteForm,
+                    ProjektForm, RadniNalogForm, RadniNalogMaterijalForm,
+                    VideoMaterijalForm, VideoPitanjeForm)
+from .models import Projekt, RadniNalog
+from .views_dashboard import dashboard_view
+
 
 @login_required
 def proizvodnja_home(request):
@@ -244,6 +246,7 @@ class ProjektFinancialsView(DetailView):
         return context
 
 from django.contrib.auth.decorators import login_required
+
 
 @login_required
 def home(request):

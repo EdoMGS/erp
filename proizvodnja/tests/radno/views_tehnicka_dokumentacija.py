@@ -1,10 +1,12 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .models import TehnickaDokumentacija, RadniNalog, Projekt
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import TehnickaDokumentacijaForm
+from .models import Projekt, RadniNalog, TehnickaDokumentacija
 from .utils import log_action
 
 

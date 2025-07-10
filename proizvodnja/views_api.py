@@ -1,24 +1,23 @@
 # proizvodnja/views_api.py
 
-from rest_framework import generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
-from django.http import FileResponse
-from .models import RadniNalog, OcjenaKvalitete, Projekt, Notifikacija
-from projektiranje_app.models import CADDocument
-from .serializers import (
-    RadniNalogSerializer,
-    OcjenaKvaliteteSerializer,
-    ProjektSerializer,
-    NotifikacijaSerializer,
-)
-from projektiranje_app.serializers import CADDocumentSerializer
-from .utils import log_action, informiraj_ocjenjivace
-from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from ljudski_resursi.models import Nagrada  # Uvezite ako je potreban
+from projektiranje_app.models import CADDocument
+from projektiranje_app.serializers import CADDocumentSerializer
+
+from .models import Notifikacija, OcjenaKvalitete, Projekt, RadniNalog
+from .serializers import (NotifikacijaSerializer, OcjenaKvaliteteSerializer,
+                          ProjektSerializer, RadniNalogSerializer)
+from .utils import informiraj_ocjenjivace, log_action
+
 
 # ==============================
 # 1️⃣ API za radne naloge

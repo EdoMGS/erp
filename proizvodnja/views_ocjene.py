@@ -1,17 +1,19 @@
 # proizvodnja/views_ocjene.py
 
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-from proizvodnja.models import OcjenaKvalitete, RadniNalog
 from ljudski_resursi.models import Employee
+from proizvodnja.models import OcjenaKvalitete, RadniNalog
 
 from .forms import OcjenaKvaliteteForm
 from .utils import informiraj_ocjenjivace, log_action
+
 
 # ==============================
 # 1️⃣ Lista ocjena kvalitete

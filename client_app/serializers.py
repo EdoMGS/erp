@@ -1,10 +1,13 @@
+from django.core.validators import RegexValidator
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.core.validators import RegexValidator
-from .models import ClientSupplier, ClientActivityLog
 
-from prodaja.models import SalesOpportunity, SalesOrder  # Updated to import from prodaja
 from financije.models import Invoice  # Updated to import from financije
+from prodaja.models import (SalesOpportunity,  # Updated to import from prodaja
+                            SalesOrder)
+
+from .models import ClientActivityLog, ClientSupplier
+
 
 class ClientSupplierSerializer(serializers.ModelSerializer):
     class Meta:

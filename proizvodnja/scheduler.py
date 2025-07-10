@@ -1,6 +1,7 @@
 import logging
+
 from django.utils import timezone
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
 logger = logging.getLogger(__name__)
 

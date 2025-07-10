@@ -1,42 +1,26 @@
 # Accounting related
 from .accounting import *
-
 # Audit related
 from .audit import *
-
 # Bank and cash flow related
 from .bank import *
-
-# Tax and salary related
-from .salary import Salary, SalaryAddition, Tax
-from .taxconfig import TaxConfiguration, Municipality  # Changed from .tax to .taxconfig
-
 # Budget and financial planning
 from .budget import *
-
-# Overhead related
-from .overhead import (
-    Overhead,
-    OverheadCategory,
-    MonthlyOverhead,
-    MjesecniOverheadPregled
-)
-
 # Financial reporting
 from .finreports import *
-
 # Invoice and payment related
 from .invoice import *
-
 # Other financial models
-from .others import (
-    FinancialDetails,
-    VariablePayRule,
-    SalesContract,
-    FinancijskaTransakcija,
-    Racun,
-    FinancialAnalysis
-)
+from .others import (FinancialAnalysis, FinancialDetails,
+                     FinancijskaTransakcija, Racun, SalesContract,
+                     VariablePayRule)
+# Overhead related
+from .overhead import (MjesecniOverheadPregled, MonthlyOverhead, Overhead,
+                       OverheadCategory)
+# Tax and salary related
+from .salary import Salary, SalaryAddition, Tax
+from .taxconfig import (Municipality,  # Changed from .tax to .taxconfig
+                        TaxConfiguration)
 
 __all__ = [
     # Accounting

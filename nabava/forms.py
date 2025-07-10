@@ -1,10 +1,12 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    ProcurementPlan, ProcurementRequest, PurchaseOrder, PurchaseOrderLine,
-    Narudzbenica, NarudzbenicaStavka, GrupaDobavljaca, Dobavljac
-)
+
 from skladiste.models import Artikl
+
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
+
 
 class ProcurementPlanForm(forms.ModelForm):
     class Meta:

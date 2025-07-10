@@ -1,23 +1,22 @@
-from rest_framework import viewsets
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, CreateView
-from .models import (
-    ProcurementPlan, ProcurementRequest, PurchaseOrder, 
-    Narudzbenica, NarudzbenicaStavka, Dobavljac, GrupaDobavljaca, PurchaseOrderLine
-)
-from .serializers import (
-    ProcurementPlanSerializer, ProcurementRequestSerializer,
-    PurchaseOrderSerializer, NarudzbenicaSerializer, NarudzbenicaStavkaSerializer,
-    DobavljacSerializer, GrupaDobavljacaSerializer, PurchaseOrderLineSerializer
-)
-from .forms import (
-    PurchaseOrderForm, NarudzbenicaForm, NarudzbenicaStavkaForm,
-    DobavljacForm, GrupaDobavljacaForm
-)
-from skladiste.models import Artikl
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from rest_framework import generics
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import CreateView, TemplateView
+from rest_framework import generics, viewsets
+
+from skladiste.models import Artikl
+
+from .forms import (DobavljacForm, GrupaDobavljacaForm, NarudzbenicaForm,
+                    NarudzbenicaStavkaForm, PurchaseOrderForm)
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
+from .serializers import (DobavljacSerializer, GrupaDobavljacaSerializer,
+                          NarudzbenicaSerializer, NarudzbenicaStavkaSerializer,
+                          ProcurementPlanSerializer,
+                          ProcurementRequestSerializer,
+                          PurchaseOrderLineSerializer, PurchaseOrderSerializer)
+
 
 class ProcurementPlanViewSet(viewsets.ModelViewSet):
     queryset = ProcurementPlan.objects.all()

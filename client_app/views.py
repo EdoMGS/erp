@@ -1,39 +1,33 @@
 import logging
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
-from django.db.models import Q
-from django.utils import timezone
-from django.http import JsonResponse
-from django.core.exceptions import ValidationError
-from django.contrib import messages
-from django.core.paginator import Paginator
-import pandas as pd
 
+import pandas as pd
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 from rest_framework import generics, viewsets
 
-from .models import (
-    ClientSupplier,
-    ClientActivityLog,
-)
-from .forms import (  # Add this import
-    ClientSupplierForm,
-    ClientForm,
-    ClientActivityLogForm,
-    SalesOpportunityForm,  # Only forms we actually define in our app
-)
-
-from prodaja.models import SalesOpportunity, SalesOrder  # Updated to import SalesOrder from prodaja
 from financije.models import Invoice  # Only for read operations
+from prodaja.models import (  # Updated to import SalesOrder from prodaja
+    SalesOpportunity, SalesOrder)
 
-from .serializers import (
-    ClientSupplierSerializer,
-    ClientActivityLogSerializer,
-    InvoiceSerializer,
-    SalesOrderSerializer,        # Added SalesOrderSerializer
-    SalesOpportunitySerializer,  # Added SalesOpportunitySerializer
-)
+from .forms import \
+    SalesOpportunityForm  # Only forms we actually define in our app
+from .forms import (ClientActivityLogForm, ClientForm,  # Add this import
+                    ClientSupplierForm)
+from .models import ClientActivityLog, ClientSupplier
+from .serializers import \
+    SalesOpportunitySerializer  # Added SalesOpportunitySerializer
+from .serializers import SalesOrderSerializer  # Added SalesOrderSerializer
+from .serializers import (ClientActivityLogSerializer,
+                          ClientSupplierSerializer, InvoiceSerializer)
 
 logger = logging.getLogger(__name__)
 

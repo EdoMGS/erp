@@ -1,5 +1,6 @@
 from .models import RadnaEvaluacija
 
+
 class EvaluacijaService:
     @staticmethod
     def kreiraj_evaluaciju(employee, evaluator, period, efikasnost, kvaliteta_rada, timski_rad, inicijativa, komentar):

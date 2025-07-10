@@ -1,4 +1,5 @@
 import os
+
 from celery import Celery
 
 # 1. Koje postavke Django koristi

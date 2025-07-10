@@ -2,26 +2,24 @@
 
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+
+from financije.services import calculate_project_costs
 from ljudski_resursi.models import Nagrada
 
-from .models import (
-    TipProjekta, TipVozila, GrupaPoslova,
-    Projekt, Proizvodnja, ProizvodnjaStatistika,
-    RadniNalog, TemplateRadniNalog, RadniNalogMaterijal,
-    Angazman, DodatniAngazman,
-    OcjenaKvalitete, VideoMaterijal, VideoPitanje,
-    Notifikacija, PovijestPromjena, MonthlyWorkRecord,
-    Usteda, ProizvodniResurs
-)
-from financije.services import calculate_project_costs
+from .forms import (AngazmanForm, DodatniAngazmanForm, GrupaPoslovaForm,
+                    NotifikacijaForm, OcjenaKvaliteteForm,
+                    PovijestPromjenaForm, ProizvodniResursForm,
+                    ProizvodnjaForm, ProjektForm, RadniNalogForm,
+                    RadniNalogMaterijalForm, TemplateRadniNalogForm,
+                    TipProjektaForm, TipVozilaForm, UstedaForm,
+                    VideoMaterijalForm, VideoPitanjeForm)
+from .models import (Angazman, DodatniAngazman, GrupaPoslova,
+                     MonthlyWorkRecord, Notifikacija, OcjenaKvalitete,
+                     PovijestPromjena, ProizvodniResurs, Proizvodnja,
+                     ProizvodnjaStatistika, Projekt, RadniNalog,
+                     RadniNalogMaterijal, TemplateRadniNalog, TipProjekta,
+                     TipVozila, Usteda, VideoMaterijal, VideoPitanje)
 
-from .forms import (
-    TipProjektaForm, TipVozilaForm, GrupaPoslovaForm, ProjektForm,
-    RadniNalogForm, PovijestPromjenaForm, NotifikacijaForm, AngazmanForm,
-    OcjenaKvaliteteForm, UstedaForm, VideoMaterijalForm,
-    VideoPitanjeForm, DodatniAngazmanForm, RadniNalogMaterijalForm,
-    ProizvodniResursForm, ProizvodnjaForm, TemplateRadniNalogForm
-)
 
 ###############################################################################
 # 1) TIP PROJEKTA, TIP VOZILA, GRUPA POSLOVA

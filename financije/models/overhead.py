@@ -1,6 +1,8 @@
+from decimal import Decimal
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from decimal import Decimal
+
 
 class OverheadManager(models.Manager):
     def get_by_year_month(self, godina, mjesec):

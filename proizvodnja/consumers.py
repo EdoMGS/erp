@@ -1,6 +1,8 @@
 # proizvodnja/consumers.py
 import json
+
 from channels.generic.websocket import AsyncWebsocketConsumer
+
 
 class NotifikacijaConsumer(AsyncWebsocketConsumer):
     async def connect(self):

@@ -1,13 +1,13 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from .models import Angazman, RadniNalog, Zaposlenik
-from .forms import AngazmanForm, DodatniAngazmanForm
-from .utils import log_action
-from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
+from .forms import AngazmanForm, DodatniAngazmanForm
+from .models import Angazman, RadniNalog, Zaposlenik
+from .utils import log_action
 
 
 # -------- 1. Lista angažmana -------- #

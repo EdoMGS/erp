@@ -1,12 +1,15 @@
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import models, transaction
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
 from django.utils import timezone
-from decimal import Decimal
-from financije.models.accounting import JournalEntry, JournalItem, Account
-from financije.models.invoice import Invoice
+
+from financije.models.accounting import Account, JournalEntry, JournalItem
 from financije.models.audit import AuditLog  # Updated import
+from financije.models.invoice import Invoice
+
 
 class AuditLog(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

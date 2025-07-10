@@ -1,20 +1,17 @@
 # nalozi/views_projekti.py
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib import messages
-from django.db import transaction
 import logging
 
-from .models import (
-    Projekt, 
-    RadniNalog, 
-    Notifikacija,
-    TemplateRadniNalog
-)
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import ProjektForm  # Pretpostavka da je ProjektForm u forms.py
+from .models import Notifikacija, Projekt, RadniNalog, TemplateRadniNalog
 
 logger = logging.getLogger(__name__)
 

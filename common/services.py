@@ -1,11 +1,14 @@
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
-from django.core.mail import send_mail
-from django.conf import settings
 from decimal import Decimal
-from django.db import transaction
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.conf import settings
 from django.core.cache import cache
+from django.core.mail import send_mail
+from django.db import transaction
+
 from common.events import EventManager
+
 
 class NotificationService:
     @staticmethod
@@ -48,8 +51,8 @@ class FinancialTrackingService:
     @staticmethod
     def calculate_project_finances(project_id: int) -> dict:
         """Calculate financial metrics for a project"""
-        from proizvodnja.models import Projekt
         from financije.models import FinancialDetails
+        from proizvodnja.models import Projekt
         
         project = Projekt.objects.get(id=project_id)
         return {

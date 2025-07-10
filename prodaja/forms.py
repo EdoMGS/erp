@@ -1,23 +1,14 @@
 from decimal import Decimal
+
 from django import forms
-from django.forms import ModelForm, inlineformset_factory
 from django.core.exceptions import ValidationError
-from .models import (
-    SalesOpportunity,
-    FieldVisit,
-    Quotation,
-    SalesOrder,
-    SalesContract,
-    WorkOrderInput,
-    TenderDocument,
-    TenderPreparation,
-    TenderMaterial,
-    TenderLabor,
-    TenderCost,
-    TenderRasclamba,
-    TenderNeposredniTroskovi,
-    TenderPosredniTroskovi
-)
+from django.forms import ModelForm, inlineformset_factory
+
+from .models import (FieldVisit, Quotation, SalesContract, SalesOpportunity,
+                     SalesOrder, TenderCost, TenderDocument, TenderLabor,
+                     TenderMaterial, TenderNeposredniTroskovi,
+                     TenderPosredniTroskovi, TenderPreparation,
+                     TenderRasclamba, WorkOrderInput)
 
 # Osnovne forme
 

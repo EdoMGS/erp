@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
-from nalozi.models import RadniNalog, Projekt, Osoba
 from django.utils import timezone
+from nalozi.models import Osoba, Projekt, RadniNalog
+
 
 class Command(BaseCommand):
     help = 'Unosi radne naloge od 51 do 68 u projekt Cisterna Sarajevo'

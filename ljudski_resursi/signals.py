@@ -1,7 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Evaluacija, Nagrada, Bonus
 from django.utils.translation import gettext as _
+
+from .models import Bonus, Evaluacija, Nagrada
+
 
 @receiver(post_save, sender=Evaluacija)
 def handle_evaluation(sender, instance, created, **kwargs):

@@ -1,5 +1,7 @@
 import csv
-from nalozi.models import TipProjekta, GrupaPoslova, TipVozila
+
+from nalozi.models import GrupaPoslova, TipProjekta, TipVozila
+
 
 # 1. Unos podataka za TipProjekta
 def import_tip_projekta(file_path):
@@ -19,6 +21,7 @@ def import_tip_projekta(file_path):
 # 2. Unos podataka za GrupaPoslova
 def import_grupa_poslova(file_path):
     import csv
+
     from nalozi.models import GrupaPoslova, TipProjekta
 
     with open(file_path, encoding='utf-8') as f:

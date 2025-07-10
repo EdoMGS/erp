@@ -1,11 +1,13 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
 from django.contrib import messages
-from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Avg
-from .models import OcjenaKvalitete, RadniNalog, Zaposlenik
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import OcjenaKvaliteteForm
+from .models import OcjenaKvalitete, RadniNalog, Zaposlenik
 from .utils import informiraj_ocjenjivace, log_action
 
 

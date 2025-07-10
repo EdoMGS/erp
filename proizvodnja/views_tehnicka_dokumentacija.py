@@ -1,16 +1,19 @@
 # proizvodnja/views_tehnicka_dokumentacija.py
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
-from django.db.models import Avg, Sum, Count, Q
+from django.db.models import Avg, Count, Q, Sum
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
 from projektiranje_app.forms import CADDocumentForm
 from projektiranje_app.models import CADDocument
-from .utils import log_action, informiraj_korisnika
+
+from .utils import informiraj_korisnika, log_action
+
 
 # ==============================
 # 1️⃣ Lista tehničke dokumentacije

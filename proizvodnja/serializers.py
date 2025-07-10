@@ -1,25 +1,19 @@
 # proizvodnja/serializers.py
 
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import (
-    TipProjekta, TipVozila, GrupaPoslova, Projekt,
-    RadniNalog, PovijestPromjena, Notifikacija, Angazman,
-    VideoMaterijal, VideoPitanje, 
-    # Remove Nagrada from imports
-    Usteda,
-    TemplateRadniNalog, ProizvodniResurs, DodatniAngazman,
-    RadniNalogMaterijal, Proizvodnja, 
-    MonthlyWorkRecord, OcjenaKvalitete
-    # Oprema,  # Removed Oprema
-    # RadniProces,  # Removed RadniProces
-    # AnotherModel,  # Removed AnotherModel
-)
+from rest_framework import serializers
+
 # Uvoz modela iz drugih aplikacija:
 # from skladiste.models import Materijal
 from financije.serializers import FinancialDetailsSerializer
 from financije.services import calculate_project_costs
 from ljudski_resursi.serializers import EmployeeSerializer
+
+from .models import (  # Remove Nagrada from imports; Oprema,  # Removed Oprema; RadniProces,  # Removed RadniProces; AnotherModel,  # Removed AnotherModel
+    Angazman, DodatniAngazman, GrupaPoslova, MonthlyWorkRecord, Notifikacija,
+    OcjenaKvalitete, PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
+    RadniNalog, RadniNalogMaterijal, TemplateRadniNalog, TipProjekta,
+    TipVozila, Usteda, VideoMaterijal, VideoPitanje)
 
 User = get_user_model()
 

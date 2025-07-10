@@ -1,20 +1,19 @@
-from rest_framework import viewsets
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
+from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView, RetrieveAPIView
 
-from .serializers import (
-    DesignTaskSerializer, DesignSegmentSerializer, DynamicPlanSerializer,
-    BillOfMaterialsSerializer, BOMItemSerializer, CADDocumentSerializer,
-    DesignRevisionSerializer
-)
-from .models import (
-    DesignTask, DesignSegment, DynamicPlan, 
-    BillOfMaterials, BOMItem, CADDocument, DesignRevision
-)
-from .forms import DesignTaskForm, BillOfMaterialsForm
+from .forms import BillOfMaterialsForm, DesignTaskForm
+from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
+                     DesignSegment, DesignTask, DynamicPlan)
+from .serializers import (BillOfMaterialsSerializer, BOMItemSerializer,
+                          CADDocumentSerializer, DesignRevisionSerializer,
+                          DesignSegmentSerializer, DesignTaskSerializer,
+                          DynamicPlanSerializer)
+
 
 class DesignTaskViewSet(viewsets.ModelViewSet):
     queryset = DesignTask.objects.all()

@@ -1,21 +1,22 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Employee, RadnaEvaluacija
-from .forms import EmployeeForm, DepartmentForm, PositionForm, ExpertiseLevelForm, RadnaEvaluacijaForm
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
+from django.views import View
+from rest_framework import viewsets
 
 # ...existing imports...
 from proizvodnja.models import RadniNalog  # Updated import
-from rest_framework import viewsets
-from .models import Position, Department, ExpertiseLevel, HierarchicalLevel, Employee
-from .serializers import (
-    PositionSerializer, DepartmentSerializer,
-    ExpertiseLevelSerializer, HierarchicalLevelSerializer,
-    EmployeeSerializer
-)
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+
+from .forms import (DepartmentForm, EmployeeForm, ExpertiseLevelForm,
+                    PositionForm, RadnaEvaluacijaForm)
+from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
+                     Position, RadnaEvaluacija)
+from .serializers import (DepartmentSerializer, EmployeeSerializer,
+                          ExpertiseLevelSerializer,
+                          HierarchicalLevelSerializer, PositionSerializer)
+
 
 def index(request):
     return render(request, 'ljudski_resursi/index.html')
@@ -94,6 +95,7 @@ class EmployeeCreateView(LoginRequiredMixin, View):
 # Example of lazy import within a method to prevent circular dependency
 def some_view(request):
     from proizvodnja.models import SomeModel  # Lazy import
+
     # ...use SomeModel as needed...
     return render(request, 'some_template.html', {})
 

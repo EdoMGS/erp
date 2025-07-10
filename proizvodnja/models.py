@@ -1,20 +1,21 @@
 # proizvodnja/models.py
 
 import logging
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from decimal import Decimal
+
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from common.choices import OCJENE_CHOICES
+from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
-from common.models import BaseModel  
+from common.choices import OCJENE_CHOICES
+from common.models import BaseModel
 from financije.models import FinancialDetails  # i dalje ako treba
-from skladiste.models import Materijal, Artikl
+from skladiste.models import Artikl, Materijal
 
 User = get_user_model()
 
@@ -493,8 +494,8 @@ class RadniNalog(BaseModel):
     def complete_work_order(self):
         """When work order is finished, trigger evaluations and rewards"""
         if self.status == 'ZAVRSENO':
-            from ljudski_resursi.models import Nagrada, Evaluacija
-            
+            from ljudski_resursi.models import Evaluacija, Nagrada
+
             # Create evaluation
             evaluation = Evaluacija.objects.create(
                 employee=self.employee,

@@ -1,50 +1,43 @@
 # erp_system/proizvodnja/urls.py
 
-from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path
 
-from .views_dashboard import home_view, DashboardView, api_dashboard_data
-from .views_projekti import (
-    ListaProjekataView, DetaljiProjektaView, KreirajProjektView,
-    AzurirajProjektView, ObrisiProjektView, projekt_detail  # Add this import
-)
-from .views_radni_nalozi import (
-    ListaRadnihNalogaView, UniverzalniRadniNalogView, ObrisiRadniNalogView,
-    PrintPDFRadniNalogView, PrintPDFSviNaloziView
-)
-from .views_tehnicka_dokumentacija import (
-    ListaTehnickeDokumentacijeView, DodajTehnickuDokumentacijuView,
-    AzurirajTehnickuDokumentacijuView, ObrisiTehnickuDokumentacijuView,
-    DetaljiTehnickeDokumentacijeView
-)
-from .views_ocjene import (
-    ListaOcjenaKvaliteteView,
-    DetaljiOcjeneKvaliteteView,
-    DodajOcjenuView,
-    AzurirajOcjenuView,
-    ObrisiOcjenuView
-)
-from .views_angazmani import (
-    ListaAngazmanaView, DodajAngazmanView, AzurirajAngazmanView,
-    DodajDodatniAngazmanView, ObrisiAngazmanView, DetaljiAngazmanaView
-)
-from .views_video import (
-    ListaVideoMaterijalaView, DodajVideoMaterijalView, AzurirajVideoMaterijalView,
-    ObrisiVideoMaterijalView, ListaVideoPitanjaView, DodajVideoPitanjeView,
-    ObrisiVideoPitanjeView
-)
-from .views_dnevni_izvjestaj import DnevniIzvjestajView, GenerirajPDFDnevniIzvjestajView
-from .views_evaluacija import (
-    EvaluacijaRadnikaView, EvaluacijaProjektaView, GenerirajIzvjestajView
-)
-from .views import centralni_panel, proizvodnja_home
 from skladiste import views as skladiste_views
-from .views_api import (
-    RadniNalogListCreateAPIView, RadniNalogRetrieveUpdateDestroyAPIView
-)
+
 from . import views
+from .views import centralni_panel, proizvodnja_home
+from .views_angazmani import (AzurirajAngazmanView, DetaljiAngazmanaView,
+                              DodajAngazmanView, DodajDodatniAngazmanView,
+                              ListaAngazmanaView, ObrisiAngazmanView)
+from .views_api import (RadniNalogListCreateAPIView,
+                        RadniNalogRetrieveUpdateDestroyAPIView)
+from .views_dashboard import DashboardView, api_dashboard_data, home_view
+from .views_dnevni_izvjestaj import (DnevniIzvjestajView,
+                                     GenerirajPDFDnevniIzvjestajView)
+from .views_evaluacija import (EvaluacijaProjektaView, EvaluacijaRadnikaView,
+                               GenerirajIzvjestajView)
+from .views_ocjene import (AzurirajOcjenuView, DetaljiOcjeneKvaliteteView,
+                           DodajOcjenuView, ListaOcjenaKvaliteteView,
+                           ObrisiOcjenuView)
+from .views_projekti import (AzurirajProjektView,  # Add this import
+                             DetaljiProjektaView, KreirajProjektView,
+                             ListaProjekataView, ObrisiProjektView,
+                             projekt_detail)
+from .views_radni_nalozi import (ListaRadnihNalogaView, ObrisiRadniNalogView,
+                                 PrintPDFRadniNalogView, PrintPDFSviNaloziView,
+                                 UniverzalniRadniNalogView)
+from .views_tehnicka_dokumentacija import (AzurirajTehnickuDokumentacijuView,
+                                           DetaljiTehnickeDokumentacijeView,
+                                           DodajTehnickuDokumentacijuView,
+                                           ListaTehnickeDokumentacijeView,
+                                           ObrisiTehnickuDokumentacijuView)
+from .views_video import (AzurirajVideoMaterijalView, DodajVideoMaterijalView,
+                          DodajVideoPitanjeView, ListaVideoMaterijalaView,
+                          ListaVideoPitanjaView, ObrisiVideoMaterijalView,
+                          ObrisiVideoPitanjeView)
 
 # Ako želiš koristiti "protected_view", import ga iz utils
 # from .utils import protected_view

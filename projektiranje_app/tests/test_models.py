@@ -1,6 +1,8 @@
 from django.test import TestCase
-from proizvodnja.models import Projekt
+
 from financije.models.others import FinancialDetails
+from proizvodnja.models import Projekt
+
 
 # Zadaci model ne postoji, pa je test uklonjen ili treba prilagoditi
 class ProjektModelTest(TestCase):

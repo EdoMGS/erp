@@ -1,9 +1,10 @@
 from rest_framework import serializers
-from .models import (
-    ProcurementPlan, ProcurementRequest, PurchaseOrder,
-    Narudzbenica, NarudzbenicaStavka, Dobavljac, GrupaDobavljaca,
-    PurchaseOrderLine  # Dodano
-)
+
+from .models import PurchaseOrderLine  # Dodano
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder)
+
 
 class ProcurementPlanSerializer(serializers.ModelSerializer):
     class Meta:

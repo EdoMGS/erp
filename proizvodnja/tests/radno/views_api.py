@@ -1,19 +1,17 @@
-from rest_framework import generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
 from django.http import FileResponse
-from .models import RadniNalog, OcjenaKvalitete, Projekt, Materijal, TehnickaDokumentacija, Notifikacija
-from .serializers import (
-    RadniNalogSerializer,
-    OcjenaKvaliteteSerializer,
-    ProjektSerializer,
-    MaterijalSerializer,
-    TehnickaDokumentacijaSerializer,
-    NotifikacijaSerializer,
-)
-from .utils import log_action, informiraj_ocjenjivace
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import (Materijal, Notifikacija, OcjenaKvalitete, Projekt,
+                     RadniNalog, TehnickaDokumentacija)
+from .serializers import (MaterijalSerializer, NotifikacijaSerializer,
+                          OcjenaKvaliteteSerializer, ProjektSerializer,
+                          RadniNalogSerializer,
+                          TehnickaDokumentacijaSerializer)
+from .utils import informiraj_ocjenjivace, log_action
 
 
 # -------- 1. API za radne naloge -------- #

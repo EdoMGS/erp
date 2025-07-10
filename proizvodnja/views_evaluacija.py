@@ -1,25 +1,23 @@
 # proizvodnja/views_evaluacija.py
 
-from django.views.generic import ListView, DetailView, View
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import transaction
+from django.db.models import Avg, Count, Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.db import transaction
-from django.db.models import Avg, Sum, Count, Q
+from django.views.generic import DetailView, ListView, View
 
-# Ispravno importamo iz proizvodnja.models:
-from .models import Projekt, RadniNalog
 # A Employee iz ljudski_resursi:
 from ljudski_resursi.models import Employee, RadnaEvaluacija
 from ljudski_resursi.services import EvaluacijaService
 
-from .forms import (
-    EvaluacijaRadnikaForm,
-    EvaluacijaProjektaForm,
-    EvaluacijaRadnogNalogaForm
-)
+from .forms import (EvaluacijaProjektaForm, EvaluacijaRadnikaForm,
+                    EvaluacijaRadnogNalogaForm)
+# Ispravno importamo iz proizvodnja.models:
+from .models import Projekt, RadniNalog
 from .utils import log_action
+
 
 # ==============================
 # 1️⃣ Evaluacija radnika

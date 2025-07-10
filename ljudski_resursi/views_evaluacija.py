@@ -1,7 +1,9 @@
-from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import RadnaEvaluacija, Employee
+from django.views.generic import CreateView, DetailView, ListView
+
+from .models import Employee, RadnaEvaluacija
 from .services import EvaluacijaService
+
 
 class ZaposlenikEvaluacijaListView(LoginRequiredMixin, ListView):
     model = RadnaEvaluacija

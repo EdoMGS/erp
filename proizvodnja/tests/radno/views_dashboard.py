@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, F
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count, F
-from .models import Projekt, RadniNalog, Materijal, TehnickaDokumentacija, Zaposlenik
-from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .models import (Materijal, Projekt, RadniNalog, TehnickaDokumentacija,
+                     Zaposlenik)
 
 
 @login_required

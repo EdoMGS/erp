@@ -1,10 +1,12 @@
 # common/models.py
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
-from django.conf import settings
 from decimal import Decimal
+
+from django.conf import settings
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
 
 class ActiveManager(models.Manager):
     def get_queryset(self):

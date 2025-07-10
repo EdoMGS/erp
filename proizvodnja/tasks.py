@@ -1,14 +1,16 @@
 import logging
+
 from celery import shared_task
 from celery.exceptions import MaxRetriesExceededError
-from django.utils import timezone
-from django.db import transaction
 from django.core.exceptions import ObjectDoesNotExist
-from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from django.db import transaction
+from django.utils import timezone
+from django_celery_beat.models import IntervalSchedule, PeriodicTask
 
-from .models import RadniNalog, Proizvodnja, Projekt
-from .utils import fetch_tax_data
 from financije.services import process_completed_work_order
+
+from .models import Proizvodnja, Projekt, RadniNalog
+from .utils import fetch_tax_data
 
 logger = logging.getLogger(__name__)
 

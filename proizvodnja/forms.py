@@ -1,42 +1,29 @@
 # proizvodnja/forms.py
 
 import json
+
 from django import forms
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.forms import inlineformset_factory
+from django.utils.translation import gettext_lazy as _
 
-from .models import (
-    TipProjekta,
-    TipVozila,
-    GrupaPoslova,
-    Projekt,
-    RadniNalog,
-    PovijestPromjena,
-    Notifikacija,
-    Angazman,
-    VideoMaterijal,
-    VideoPitanje,
-    Usteda,
-    TemplateRadniNalog,
-    ProizvodniResurs,
-    DodatniAngazman,
-    RadniNalogMaterijal,
-    Proizvodnja,
-    MonthlyWorkRecord,
-    OcjenaKvalitete,
-)
-
-from financije.models import Overhead, FinancialDetails
-from skladiste.models import Materijal
+from financije.models import FinancialDetails, Overhead
 from ljudski_resursi.models import Employee
+from skladiste.models import Materijal
+
+from .models import (Angazman, DodatniAngazman, GrupaPoslova,
+                     MonthlyWorkRecord, Notifikacija, OcjenaKvalitete,
+                     PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
+                     RadniNalog, RadniNalogMaterijal, TemplateRadniNalog,
+                     TipProjekta, TipVozila, Usteda, VideoMaterijal,
+                     VideoPitanje)
 
 User = get_user_model()
 
 def get_materijal_formset():
     """Factory function to create MaterialFormSet on demand"""
-    from skladiste.models import Materijal
     from proizvodnja.models import RadniNalog
+    from skladiste.models import Materijal
     return inlineformset_factory(
         RadniNalog,
         Materijal,
@@ -47,9 +34,9 @@ def get_materijal_formset():
 
 def get_radni_nalog_materijal_formset():
     """Factory function to create formset for RadniNalog and Materijal"""
-    from .models import RadniNalog
     from skladiste.models import Materijal
-    from .models import RadniNalogMaterijal
+
+    from .models import RadniNalog, RadniNalogMaterijal
     return inlineformset_factory(
         RadniNalog,
         RadniNalogMaterijal,
@@ -381,8 +368,11 @@ class EvaluacijaRadnogNalogaForm(BaseModelForm):
 
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import Projekt
+
 from ljudski_resursi.models import Employee
+
+from .models import Projekt
+
 
 class CentralniPanelForm(forms.Form):
     project = forms.ModelChoiceField(

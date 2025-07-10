@@ -1,11 +1,12 @@
 # nabava/models.py
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
+from decimal import Decimal
+
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+from django.db import models
 from django.utils import timezone
-from decimal import Decimal
+from django.utils.translation import gettext_lazy as _
 
 ##################################################
 # 1) DOBAVLJAČI I NJIHOVE GRUPE

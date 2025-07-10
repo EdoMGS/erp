@@ -1,48 +1,45 @@
 # nalozi/views_radni_nalozi.py
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, View, DetailView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib import messages
-from django.db import transaction
+import weasyprint
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from django.core.mail import send_mail
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
-from django.template.loader import render_to_string
-import weasyprint
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.core.mail import send_mail
+from django.db import transaction
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, View
 
-# Importi modela iz aplikacije "proizvodnja"
-from proizvodnja.models import (
-    RadniNalog, Projekt, PovijestPromjena,
-    GrupaPoslova, TemplateRadniNalog
-)
+from ljudski_resursi.models import Employee  # Ako treba
 # Import formi (prilagodi točno odakle ih povlačiš)
-from proizvodnja.forms import (
-    RadniNalogForm,
-    MaterijalFormSet,
-    AngazmanFormSet,
-    VideoMaterijalFormSet,
-    VideoPitanjeFormSet,
-    OcjenaKvaliteteFormSet,  # ako je tu
+from proizvodnja.forms import OcjenaKvaliteteFormSet  # ako je tu
+from proizvodnja.forms import \
     UstedaForm  # ako je to individual form, a ne inline formset
-)
+from proizvodnja.forms import (AngazmanFormSet, MaterijalFormSet,
+                               RadniNalogForm, VideoMaterijalFormSet,
+                               VideoPitanjeFormSet)
+# Importi modela iz aplikacije "proizvodnja"
+from proizvodnja.models import (GrupaPoslova, PovijestPromjena, Projekt,
+                                RadniNalog, TemplateRadniNalog)
+
+from .utils import log_action  # Ako imaš custom logging util
+
 # Ako imaš i inline formset za Usteda, Nagrada, TehnickaDokumentacija itd.
 # from proizvodnja.forms import NagradaFormSet, UstedaFormSet, TehnickaDokumentacijaFormSet
 
 # Ako "TehnickaDokumentacijaFormSet" dolazi iz projektiranje_app.forms:
 # from projektiranje_app.forms import TehnickaDokumentacijaFormSet
 
-from .utils import log_action  # Ako imaš custom logging util
 # Ako ti treba 'DesignTaskForm' ili slično:
 # from projektiranje_app.forms import DesignTaskForm
 
-from ljudski_resursi.models import Employee  # Ako treba
 
 
 # ------------------------------------------------------------

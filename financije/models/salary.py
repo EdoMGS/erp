@@ -1,7 +1,10 @@
+from decimal import Decimal
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from decimal import Decimal
+
 from ljudski_resursi.models import Employee, RadnaEvaluacija  # Updated import
+
 
 class Salary(models.Model):
     employee = models.ForeignKey(

@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from .models import Position, Department, ExpertiseLevel, HierarchicalLevel, Employee
+
+from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
+                     Position)
+
 
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,16 +1,16 @@
 # financije/models/bank.py
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from decimal import Decimal, ROUND_HALF_UP
-from django.utils import timezone
 import logging
-import requests
-from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from decimal import ROUND_HALF_UP, Decimal
 
+import requests
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 logger = logging.getLogger(__name__)
 

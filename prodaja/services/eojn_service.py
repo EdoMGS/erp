@@ -1,8 +1,10 @@
+import pdfplumber
 import requests
 from bs4 import BeautifulSoup
-import pdfplumber
 from django.conf import settings
-from ..models import TenderPreparation, TenderDocument
+
+from ..models import TenderDocument, TenderPreparation
+
 
 class EOJNService:
     def __init__(self):

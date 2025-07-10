@@ -1,18 +1,19 @@
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-from django.contrib.auth.models import Group
-from django.db import transaction
-from django.utils import timezone
+import logging
+
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.contrib.auth.models import Group
+from django.db import transaction
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
+from django.utils import timezone
+
+from common.utils import send_notification
+from financije.models import FinancialDetails
 from proizvodnja.models import RadniNalog
 from skladiste.models import Artikl
-from financije.models import FinancialDetails
-from common.utils import send_notification
 
 from .models import Notifikacija
-
-import logging
 
 logger = logging.getLogger(__name__)
 

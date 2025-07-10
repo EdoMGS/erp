@@ -1,4 +1,5 @@
-from nalozi.models import RadniNalog, Materijal
+from nalozi.models import Materijal, RadniNalog
+
 
 def check_resources(task_id):
     task = RadniNalog.objects.get(pk=task_id)

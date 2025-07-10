@@ -1,18 +1,19 @@
 # prodaja/models.py
 
 from decimal import Decimal
+
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.conf import settings
-from django.core.exceptions import ValidationError
 
 # Pretpostavljamo da BaseModel sadrži created_at, updated_at, is_active
 from common.models import BaseModel
-
-# Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
-from projektiranje_app.models import DesignTask, CADDocument
 from proizvodnja.models import Projekt  # Povezan s proizvodnjom
+# Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
+from projektiranje_app.models import CADDocument, DesignTask
+
 # Financijska analiza – pretpostavljamo da postoji model u financije aplikaciji
 # (ako nije definiran, ostavite kao stranicu za kasnije proširenje)
 # from financije.models import FinancialAnalysis
@@ -662,7 +663,7 @@ class TenderPreparation(BaseModel):
         Ovdje se koristi send_mail – u praksi bi se mogla koristiti integracija s sustavom za notifikacije.
         """
         from django.core.mail import send_mail
-        
+
         # Ovdje biste dohvatili kontakte odjela iz konfiguracije ili modela
         departments = {
             'projektiranje': ['projektiranje@tvrtka.com'],

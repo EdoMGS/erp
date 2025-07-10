@@ -1,7 +1,9 @@
-from django.db import models
-from django.core.exceptions import ValidationError
 from decimal import Decimal
+
+from django.core.exceptions import ValidationError
+from django.db import models
 from django.utils import timezone
+
 
 class TimestampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

@@ -3,13 +3,13 @@
 from django import forms
 from django.forms import ModelForm, inlineformset_factory
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    Zona, Lokacija, Artikl, 
-    Materijal, Alat, HTZOprema, 
-    DnevnikDogadaja, SkladisteResurs,
-    Primka, PrimkaStavka, Izdatnica, IzdatnicaStavka
-)
+
 from nabava.models import Dobavljac
+
+from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
+                     IzdatnicaStavka, Lokacija, Materijal, Primka,
+                     PrimkaStavka, SkladisteResurs, Zona)
+
 
 ###############################################################################
 # BAZNA FORMA ZA STIL

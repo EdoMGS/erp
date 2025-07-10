@@ -1,26 +1,25 @@
 # erp_system/proizvodnja/utils.py
 
-import logging
-from django.shortcuts import render
-from django.db.models import Avg, Q
-from decimal import Decimal
-from django.contrib.auth.decorators import user_passes_test
-from datetime import datetime
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
-from bs4 import BeautifulSoup
-import requests
 import csv
+import logging
+from datetime import datetime
+from decimal import Decimal
 
-from ljudski_resursi.models import Employee  # OK: Employee je u ljudski_resursi
+import requests
+from asgiref.sync import async_to_sync
+from bs4 import BeautifulSoup
+from channels.layers import get_channel_layer
+from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Avg, Q
+from django.shortcuts import render
+
+from financije.models import (Municipality,  # ako ih doista koristiš
+                              TaxConfiguration)
+from ljudski_resursi.models import \
+    Employee  # OK: Employee je u ljudski_resursi
 # Ovako ispravno importamo iz 'proizvodnja.models':
-from proizvodnja.models import (
-    PovijestPromjena,
-    RadniNalog,
-    Projekt,
-    Notifikacija
-)
-from financije.models import TaxConfiguration, Municipality  # ako ih doista koristiš
+from proizvodnja.models import (Notifikacija, PovijestPromjena, Projekt,
+                                RadniNalog)
 
 logger = logging.getLogger('nalozi')
 

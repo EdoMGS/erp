@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import ClientSupplier, ClientActivityLog, ClientProfile, CityPostalCode
+
+from .models import (CityPostalCode, ClientActivityLog, ClientProfile,
+                     ClientSupplier)
+
 
 @admin.register(ClientActivityLog)
 class ClientActivityLogAdmin(admin.ModelAdmin):

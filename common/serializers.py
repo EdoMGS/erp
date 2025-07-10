@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import ActiveManager, BaseModel, AuditTrail, Notification, Role
+
+from .models import ActiveManager, AuditTrail, BaseModel, Notification, Role
 
 # ...existing code...
 

@@ -1,8 +1,11 @@
 from decimal import Decimal
+
 from django.db import transaction
-from django.utils import timezone
 from django.db.models import Sum
-from .models import Invoice, Payment, BankTransaction, CashFlow
+from django.utils import timezone
+
+from .models import BankTransaction, CashFlow, Invoice, Payment
+
 
 class InvoiceService:
     @staticmethod
@@ -36,7 +39,7 @@ def calculate_project_costs(project):
     Calculate total costs for a project including labor, materials and overhead
     """
     from proizvodnja.models import RadniNalog
-    
+
     # Calculate labor costs
     labor_costs = Decimal('0.00')
     for nalog in project.radni_nalozi.all():
@@ -113,7 +116,7 @@ def process_completed_work_order(work_order):
 
     # Create financial transaction records
     from .models import FinancijskaTransakcija
-    
+
     # Record labor cost
     FinancijskaTransakcija.objects.create(
         iznos=labor_cost,

@@ -1,16 +1,19 @@
 # nalozi/views_video.py
 
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db import transaction
+from django.db.models import Avg, Count, Q, Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.db import transaction
-from django.db.models import Avg, Sum, Count, Q
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-from .models import VideoMaterijal, VideoPitanje, OcjenaKvalitete, Projekt, RadniNalog
 from .forms import VideoMaterijalForm, VideoPitanjeForm
-from .utils import log_action, informiraj_korisnika  # Dodana funkcija ako je potrebna
+from .models import (OcjenaKvalitete, Projekt, RadniNalog, VideoMaterijal,
+                     VideoPitanje)
+from .utils import (informiraj_korisnika,  # Dodana funkcija ako je potrebna
+                    log_action)
 
 
 # ==============================

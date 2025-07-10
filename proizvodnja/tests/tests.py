@@ -1,7 +1,9 @@
+from datetime import timedelta
+
 import pytest
 from django.utils import timezone
-from datetime import timedelta
-from nalozi.models import Projekt, RadniNalog, Materijal
+from nalozi.models import Materijal, Projekt, RadniNalog
+
 
 @pytest.mark.django_db
 def test_projekt_status_ugrozenosti():
@@ -35,9 +37,10 @@ def test_materijal_unique_together():
     with pytest.raises(Exception):  # Provjera jedinstvenosti
         Materijal.objects.create(naziv="Materijal 1", projekt=projekt)
 
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
 from nalozi.models import Projekt, RadniNalog
+
 
 class ViewsTestCase(TestCase):
     def setUp(self):
@@ -64,6 +67,7 @@ class ViewsTestCase(TestCase):
 
 from django.test import TestCase
 from nalozi.forms import ProjektForm, TehnickaDokumentacijaForm
+
 
 class FormsTestCase(TestCase):
     def test_projekt_form_validacija(self):

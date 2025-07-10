@@ -1,27 +1,26 @@
 import json
 from decimal import Decimal
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ValidationError
 
-from .models import (
-    SalesOpportunity, Quotation, SalesOrder, SalesContract,
-    FieldVisit, TenderPreparation, TenderDocument,
-    TenderMaterial, TenderLabor, TenderCost, TenderRasclamba,
-    TenderNeposredniTroskovi, TenderPosredniTroskovi
-)
-
-from .forms import (
-    OpportunityForm, FieldVisitForm, QuotationForm, SalesOrderForm,
-    SalesContractForm, TenderPreparationForm, TenderDocumentFormSet,
-    TenderMaterialFormSet, TenderLaborFormSet, TenderCostFormSet,
-    TenderRasclambaFormSet, TenderNeposredniFormSet, TenderPosredniFormSet
-)
+from .forms import (FieldVisitForm, OpportunityForm, QuotationForm,
+                    SalesContractForm, SalesOrderForm, TenderCostFormSet,
+                    TenderDocumentFormSet, TenderLaborFormSet,
+                    TenderMaterialFormSet, TenderNeposredniFormSet,
+                    TenderPosredniFormSet, TenderPreparationForm,
+                    TenderRasclambaFormSet)
+from .models import (FieldVisit, Quotation, SalesContract, SalesOpportunity,
+                     SalesOrder, TenderCost, TenderDocument, TenderLabor,
+                     TenderMaterial, TenderNeposredniTroskovi,
+                     TenderPosredniTroskovi, TenderPreparation,
+                     TenderRasclamba)
 
 ########################################
 # OPPORTUNITY VIEWS

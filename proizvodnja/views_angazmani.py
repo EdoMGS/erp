@@ -1,21 +1,21 @@
 # proizvodnja/views_angazmani.py
 
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import (
-    ListView, CreateView, UpdateView, DeleteView, DetailView
-)
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-# Ispravno importamo Angazman, RadniNalog iz proizvodnja.models
-from .models import Angazman, RadniNalog
 # Import Employee iz ljudski_resursi.models
 from ljudski_resursi.models import Employee
 
 from .forms import AngazmanForm, DodatniAngazmanForm
+# Ispravno importamo Angazman, RadniNalog iz proizvodnja.models
+from .models import Angazman, RadniNalog
 from .utils import log_action
+
 
 # ==============================
 # 1️⃣ Lista angažmana

@@ -1,9 +1,11 @@
+from datetime import timedelta
+
 import pytest
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-from datetime import timedelta
-from nalozi.models import Projekt, RadniNalog
 from nalozi.forms import ProjektForm
+from nalozi.models import Projekt, RadniNalog
+
 
 @pytest.mark.django_db
 def test_projekt_status_ugrozenosti():

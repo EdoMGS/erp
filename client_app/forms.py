@@ -1,11 +1,15 @@
-from django import forms
-from django.utils.translation import gettext_lazy as _
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit, Hidden
-from .models import ClientSupplier, CityPostalCode, ClientActivityLog
-from django.core.exceptions import ValidationError
 import re
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Column, Hidden, Layout, Row, Submit
+from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 from prodaja.models import SalesOpportunity
+
+from .models import CityPostalCode, ClientActivityLog, ClientSupplier
+
 
 class ClientSupplierForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

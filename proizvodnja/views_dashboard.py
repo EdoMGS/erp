@@ -1,24 +1,27 @@
-from decimal import Decimal  # Moved to the top
-# nalozi/views_dashboard.py
-
 import json
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import View
-from django.http import JsonResponse
-from django.db.models import Sum, Q, Count
+from decimal import Decimal  # Moved to the top
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
+from django.db.models import Count, Q, Sum
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.views import View
 from django.views.generic import ListView
 
-from .models import (
-    Projekt, RadniNalog, Notifikacija, PovijestPromjena, Angazman, GrupaPoslova
-)
+from financije.services import calculate_project_costs
+from ljudski_resursi.models import Employee
 from projektiranje_app.models import CADDocument
 from skladiste.models import Materijal
-from ljudski_resursi.models import Employee
-from financije.services import calculate_project_costs
+
+from .models import (Angazman, GrupaPoslova, Notifikacija, PovijestPromjena,
+                     Projekt, RadniNalog)
+
+# nalozi/views_dashboard.py
+
+
 
 @login_required
 def home_view(request):

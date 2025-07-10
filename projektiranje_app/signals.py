@@ -1,9 +1,11 @@
 import logging
-from django.db import transaction
-from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_save
+
 from django.core.exceptions import ValidationError
-from .models import DesignTask, DesignSegment, BillOfMaterials
+from django.db import transaction
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+
+from .models import BillOfMaterials, DesignSegment, DesignTask
 from .services import NotificationService
 
 logger = logging.getLogger(__name__)

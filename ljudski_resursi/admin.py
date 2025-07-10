@@ -1,24 +1,13 @@
 # ljudski_resursi/admin.py
 
 from django.contrib import admin
-from .models import (
-    Department,
-    ExpertiseLevel,
-    HierarchicalLevel,
-    Employee,
-    Position,
-    RadnaEvaluacija,
-    Nagrada
-)
-from .forms import (
-    DepartmentForm,
-    ExpertiseLevelForm,
-    HierarchicalLevelForm,
-    EmployeeForm,
-    PositionForm,
-    RadnaEvaluacijaForm)
-
 from django.utils.translation import gettext as _
+
+from .forms import (DepartmentForm, EmployeeForm, ExpertiseLevelForm,
+                    HierarchicalLevelForm, PositionForm, RadnaEvaluacijaForm)
+from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
+                     Nagrada, Position, RadnaEvaluacija)
+
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):

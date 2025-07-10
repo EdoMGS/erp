@@ -1,12 +1,14 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Avg, Sum
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.db.models import Avg, Sum
-from .models import Zaposlenik, Projekt, RadniNalog
-from .forms import EvaluacijaRadnikaForm, EvaluacijaProjektaForm, EvaluacijaRadnogNalogaForm
-from .utils import log_action, informiraj_ocjenjivace
+from django.views.generic import CreateView, DetailView, ListView
+
+from .forms import (EvaluacijaProjektaForm, EvaluacijaRadnikaForm,
+                    EvaluacijaRadnogNalogaForm)
+from .models import Projekt, RadniNalog, Zaposlenik
+from .utils import informiraj_ocjenjivace, log_action
 
 
 # -------- 1. Evaluacija radnika -------- #

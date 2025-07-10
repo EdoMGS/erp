@@ -1,7 +1,9 @@
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 import re
 from typing import Any
+
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 
 def validate_oib(value):
     if not re.match(r'^\d{11}$', value):

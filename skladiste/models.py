@@ -1,10 +1,12 @@
 # skladiste/models.py
 
+from decimal import Decimal
+
+from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MinValueValidator
-from decimal import Decimal
-from django.conf import settings
+
 
 ###############################################################################
 # 1) ZONA, LOKACIJA, ARTIKL, ZALIHA

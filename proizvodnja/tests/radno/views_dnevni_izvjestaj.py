@@ -1,11 +1,14 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, View
-from django.http import HttpResponse
-from django.template.loader import get_template
 from datetime import datetime
-from .models import Projekt, RadniNalog, Angazman, OcjenaKvalitete
-from xhtml2pdf import pisa
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import get_template
+from django.views.generic import TemplateView, View
+from xhtml2pdf import pisa
+
+from .models import Angazman, OcjenaKvalitete, Projekt, RadniNalog
+
 
 class DnevniIzvjestajView(LoginRequiredMixin, TemplateView):
     template_name = "dnevni_izvjestaj.html"

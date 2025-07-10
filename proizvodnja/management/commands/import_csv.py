@@ -1,6 +1,8 @@
 import csv
+
 from django.core.management.base import BaseCommand
-from proizvodnja.models import TipVozila, TipProjekta, GrupaPoslova
+
+from proizvodnja.models import GrupaPoslova, TipProjekta, TipVozila
 
 
 class Command(BaseCommand):

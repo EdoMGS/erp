@@ -1,8 +1,8 @@
 # erp_system/accounts/urls.py
 # This is your central login/logout config.
 
-from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.urls import path
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),

@@ -53,3 +53,6 @@ pygments>=2.18
 iniconfig>=2.0
 asgiref>=3.8
 sqlparse>=0.5
+black>=24.0
+isort>=5.13
+flake8>=7.0

@@ -1,14 +1,16 @@
 # ljudski_resursi/models.py
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.core.exceptions import ValidationError
 from decimal import Decimal
-from django.utils import timezone
 
 # Koristimo CustomUser
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+
 from common.choices import OCJENE_CHOICES
+
 
 ##############################################
 # 1) HIERARCHICAL LEVEL

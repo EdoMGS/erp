@@ -1,23 +1,26 @@
 # skladiste/views.py
 
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.decorators import action
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from .models import (
-    Zona, Lokacija, Kategorija, Artikl, Materijal, Alat, HTZOprema, 
-    DnevnikDogadaja, SkladisteResurs, Primka, PrimkaStavka, Izdatnica, IzdatnicaStavka
-)
-from .serializers import (
-    ZonaSerializer, LokacijaSerializer, ArtiklSerializer, MaterijalSerializer, 
-    AlatSerializer, HTZOpremaSerializer, DnevnikDogadajaSerializer, SkladisteResursSerializer
-)
-from .forms import ArtiklForm, MaterijalForm, PrimkaForm, PrimkaStavkaForm, IzdatnicaForm, IzdatnicaStavkaForm
+from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from .forms import (ArtiklForm, IzdatnicaForm, IzdatnicaStavkaForm,
+                    MaterijalForm, PrimkaForm, PrimkaStavkaForm)
+from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
+                     IzdatnicaStavka, Kategorija, Lokacija, Materijal, Primka,
+                     PrimkaStavka, SkladisteResurs, Zona)
+from .serializers import (AlatSerializer, ArtiklSerializer,
+                          DnevnikDogadajaSerializer, HTZOpremaSerializer,
+                          LokacijaSerializer, MaterijalSerializer,
+                          SkladisteResursSerializer, ZonaSerializer)
+
 
 ########################################
 # 1) ViewSet za Zona

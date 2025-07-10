@@ -1,13 +1,17 @@
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
-from .models import Materijal, RadniNalog, Projekt
-from .forms import MaterijalForm
-from .utils import log_action
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from skladiste.models import InventoryItem
+
+from .forms import MaterijalForm
+from .models import Materijal, Projekt, RadniNalog
+from .utils import log_action
+
 
 # ==============================
 # 1️⃣ Lista materijala
@@ -167,8 +171,10 @@ class ObrisiMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse_lazy('lista_materijala')
 
 # ...existing code...
-from django.shortcuts import render, get_object_or_404
-from .models import RadniNalog, Materijal
+from django.shortcuts import get_object_or_404, render
+
+from .models import Materijal, RadniNalog
+
 
 def lista_materijala(request, radni_nalog_id=None):
     if radni_nalog_id:

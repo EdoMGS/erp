@@ -1,17 +1,13 @@
 # nabava/admin.py
 
 from django.contrib import admin
-from .models import (
-    ProcurementPlan, 
-    ProcurementRequest, 
-    PurchaseOrder, 
-    Narudzbenica, 
-    NarudzbenicaStavka,
-    Dobavljac, 
-    GrupaDobavljaca,
-    PurchaseOrderLine
-)
-from .forms import ProcurementPlanForm, ProcurementRequestForm, PurchaseOrderForm
+
+from .forms import (ProcurementPlanForm, ProcurementRequestForm,
+                    PurchaseOrderForm)
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
+
 
 @admin.register(ProcurementPlan)
 class ProcurementPlanAdmin(admin.ModelAdmin):

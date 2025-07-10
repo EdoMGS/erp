@@ -1,10 +1,11 @@
 # Django script for diagnosing and resolving common issues
 
 import logging
+
 from django.conf import settings
 from django.core.management import call_command
 from django.template.loader import get_template
-from django.urls import get_resolver, Resolver404
+from django.urls import Resolver404, get_resolver
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

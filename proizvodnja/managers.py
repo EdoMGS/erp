@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
+
 class RadniNalogManager(models.Manager):
     def get_active(self):
         return self.filter(is_active=True)

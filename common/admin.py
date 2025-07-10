@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import BaseModel, AuditTrail, Notification, Role
+
+from .models import AuditTrail, BaseModel, Notification, Role
 
 # @admin.register(BaseModel)
 # class BaseModelAdmin(admin.ModelAdmin):

@@ -1,10 +1,13 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.contrib import messages
-from .models import VideoMaterijal, VideoPitanje, OcjenaKvalitete, Projekt, RadniNalog
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
 from .forms import VideoMaterijalForm, VideoPitanjeForm
+from .models import (OcjenaKvalitete, Projekt, RadniNalog, VideoMaterijal,
+                     VideoPitanje)
 from .utils import log_action
 
 

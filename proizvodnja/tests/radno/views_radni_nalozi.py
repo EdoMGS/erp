@@ -1,14 +1,18 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib import messages
+import math
+
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
-from .models import RadniNalog, Projekt, Notifikacija, DodatniRadnik, Angazman, Zaposlenik
-from .forms import RadniNalogForm, DodatniAngazmanForm
-import math
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
+
+from .forms import DodatniAngazmanForm, RadniNalogForm
+from .models import (Angazman, DodatniRadnik, Notifikacija, Projekt,
+                     RadniNalog, Zaposlenik)
 
 
 # -------- 1. Lista radnih naloga -------- #

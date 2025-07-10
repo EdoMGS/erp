@@ -1,5 +1,7 @@
 from functools import wraps
+
 from django.conf import settings
+
 
 def proizvodnja_permission_required(groups=None):
     """

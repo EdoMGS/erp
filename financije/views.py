@@ -1,53 +1,45 @@
-from django.shortcuts import render, redirect, get_object_or_404
+import csv
+import json
+from decimal import Decimal
+
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView, DetailView, UpdateView, View  # Dodali UpdateView
-from django.urls import reverse_lazy
-from django.contrib import messages
-from django.http import JsonResponse, HttpResponse
 from django.core.paginator import Paginator
-from django.db.models import Sum, Q
+from django.db.models import Q, Sum
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 from django.utils import timezone
-from decimal import Decimal
-import json
-import csv
-
+from django.views.generic import (CreateView, DetailView,  # Dodali UpdateView
+                                  ListView, UpdateView, View)
 # Dodajemo REST framework imports
-from rest_framework import viewsets, permissions, status
-from rest_framework.response import Response
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from client_app.models import ClientSupplier
 
-from .models import (
-    Invoice, InvoiceLine, Payment, FinancialDetails,
-    VariablePayRule, Overhead, CashFlow, FinancialReport,
-    Debt, BankTransaction, OverheadCategory, MonthlyOverhead,
-    Budget, SalesContract, AuditLog, Salary, Tax,  
-    TaxConfiguration, SalaryAddition 
-)
-
-from .forms import (
-    InvoiceForm, InvoiceLineForm, PaymentForm,
-    FinancialDetailsForm, OverheadForm
-)
-
+from .forms import (FinancialDetailsForm, InvoiceForm, InvoiceLineForm,
+                    OverheadForm, PaymentForm)
+from .models import (AuditLog, BankTransaction, Budget, CashFlow, Debt,
+                     FinancialDetails, FinancialReport, Invoice, InvoiceLine,
+                     MonthlyOverhead, Overhead, OverheadCategory, Payment,
+                     Salary, SalaryAddition, SalesContract, Tax,
+                     TaxConfiguration, VariablePayRule)
 # Add serializer imports
-from .serializers import (
-    InvoiceSerializer,
-    AuditLogSerializer,
-    SalarySerializer,  # Dodano
-    TaxSerializer,     # Dodano
-    SalaryAdditionSerializer,  # Dodano
-    TaxConfigurationSerializer,  # Dodano
-    VariablePayRuleSerializer,  # Dodano
-    FinancialReportSerializer,  # Dodano
-    DebtSerializer,            # Dodano
-    BankTransactionSerializer, # Dodano
-    OverheadCategorySerializer, # Dodano
-    MonthlyOverheadSerializer,  # Dodano
-    BudgetSerializer           # Dodano
-)
+from .serializers import BankTransactionSerializer  # Dodano
+from .serializers import BudgetSerializer  # Dodano
+from .serializers import DebtSerializer  # Dodano
+from .serializers import FinancialReportSerializer  # Dodano
+from .serializers import MonthlyOverheadSerializer  # Dodano
+from .serializers import OverheadCategorySerializer  # Dodano
+from .serializers import SalaryAdditionSerializer  # Dodano
+from .serializers import SalarySerializer  # Dodano
+from .serializers import TaxConfigurationSerializer  # Dodano
+from .serializers import TaxSerializer  # Dodano
+from .serializers import VariablePayRuleSerializer  # Dodano
+from .serializers import AuditLogSerializer, InvoiceSerializer
 
 # ...existing code...
 
@@ -243,7 +235,9 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
 # Primjer lazy importa unutar metode (da izbjegnemo circular import)
 def tax_configuration_view(request):
-    from ljudski_resursi.models import Employee  # ili hr.models, ovisno gdje se Employee nalazi
+    from ljudski_resursi.models import \
+        Employee  # ili hr.models, ovisno gdje se Employee nalazi
+
     # koristite 'Employee' po potrebi
     return render(request, 'financije/tax_configuration.html', {})
 

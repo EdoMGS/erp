@@ -1,15 +1,10 @@
+from decimal import Decimal
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import (
-    DesignTask,
-    DesignSegment,
-    DynamicPlan,
-    BillOfMaterials,
-    BOMItem,
-    CADDocument,
-    DesignRevision,
-)
-from decimal import Decimal
+
+from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
+                     DesignSegment, DesignTask, DynamicPlan)
 
 
 ###############################################################################

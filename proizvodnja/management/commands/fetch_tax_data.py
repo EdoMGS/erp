@@ -3,6 +3,7 @@
 from django.core.management.base import BaseCommand
 from nalozi.utils import fetch_tax_data
 
+
 class Command(BaseCommand):
     help = 'Dohvaća i ažurira podatke o porezima, doprinosima i općinama'
 

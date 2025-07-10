@@ -1,14 +1,15 @@
 # financije/serializers.py
 
 from rest_framework import serializers
+
 from client_app.models import ClientSupplier
-from .models import (
-    Invoice, InvoiceLine, Salary, Tax, SalaryAddition,
-    TaxConfiguration, VariablePayRule, FinancialReport,
-    FinancialDetails,  # Dodano
-    Debt, BankTransaction, OverheadCategory, MonthlyOverhead,
-    Budget, AuditLog, Overhead, Municipality
-)
+
+from .models import FinancialDetails  # Dodano
+from .models import (AuditLog, BankTransaction, Budget, Debt, FinancialReport,
+                     Invoice, InvoiceLine, MonthlyOverhead, Municipality,
+                     Overhead, OverheadCategory, Salary, SalaryAddition, Tax,
+                     TaxConfiguration, VariablePayRule)
+
 
 class ClientSupplierSerializer(serializers.ModelSerializer):
     class Meta:

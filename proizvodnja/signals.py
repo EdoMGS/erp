@@ -1,35 +1,28 @@
 # proizvodnja/signals.py
 
 import logging
-from django.db.models.signals import post_save, post_delete, pre_save, post_migrate
-from django.dispatch import receiver
-from django.contrib.auth.models import Group
-from django.db import transaction
-from django.utils import timezone
+
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.contrib.auth.models import Group
+from django.db import transaction
+from django.db.models.signals import (post_delete, post_migrate, post_save,
+                                      pre_save)
+from django.dispatch import receiver
+from django.utils import timezone
+
+from financije.models import FinancialDetails
+from financije.services import (process_completed_work_order,
+                                update_project_financials)
+# Import iz ljudski_resursi (ako treba)
+from ljudski_resursi.models import (  # ako imaš Evaluacija, inače ukloni
+    Employee, Evaluacija)
+from skladiste.models import Artikl
 
 # Modelle iz proizvodnja.models:
-from .models import (
-    Projekt, 
-    RadniNalog, 
-    Notifikacija, 
-    DodatniAngazman, 
-    Angazman,
-    Usteda,
-    VideoMaterijal,
-    # AnotherModel,  # Ukloni ili odkomentiraj ako doista postoji
-)
-
-# Import iz ljudski_resursi (ako treba)
-from ljudski_resursi.models import Employee, Evaluacija  # ako imaš Evaluacija, inače ukloni
-
-from skladiste.models import Artikl
-from financije.models import FinancialDetails
-from financije.services import (
-    process_completed_work_order,
-    update_project_financials
-)
+from .models import (  # AnotherModel,  # Ukloni ili odkomentiraj ako doista postoji
+    Angazman, DodatniAngazman, Notifikacija, Projekt, RadniNalog, Usteda,
+    VideoMaterijal)
 
 logger = logging.getLogger(__name__)
 
@@ -143,6 +136,7 @@ def handle_design_requirements(sender, instance, created, **kwargs):
     """Handle design requirements for production projects"""
     if created:
         from projektiranje_app.models import DesignTask
+
         # Create associated design task if needed
         if instance.tip_vozila:
             DesignTask.objects.create(

@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import (
-    Zona, Lokacija, Artikl, Materijal, Alat,
-    HTZOprema, DnevnikDogadaja, SkladisteResurs
-)
+
+from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Lokacija,
+                     Materijal, SkladisteResurs, Zona)
+
 
 class ZonaSerializer(serializers.ModelSerializer):
     class Meta:
