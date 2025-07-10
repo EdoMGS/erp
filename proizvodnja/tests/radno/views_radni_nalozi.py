@@ -16,14 +16,7 @@ from django.views.generic import (
 )
 
 from .forms import DodatniAngazmanForm, RadniNalogForm
-from .models import (
-    Angazman,
-    DodatniRadnik,
-    Notifikacija,
-    Projekt,
-    RadniNalog,
-    Zaposlenik,
-)
+from .models import Angazman, Projekt, RadniNalog, Zaposlenik
 
 
 # -------- 1. Lista radnih naloga -------- #
@@ -114,24 +107,29 @@ class DodajDodatniAngazmanView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         # Provjera prava pristupa, koristi is_staff ili custom permission
-        if not getattr(request.user, 'is_staff', False):
+        if not getattr(request.user, "is_staff", False):
             messages.error(request, "Nemate dozvolu za dodavanje dodatnog angažmana.")
             return redirect("home")
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.radni_nalog = get_object_or_404(RadniNalog, id=self.kwargs["radni_nalog_id"])
+        instance.radni_nalog = get_object_or_404(
+            RadniNalog, id=self.kwargs["radni_nalog_id"]
+        )
         instance.je_dodatni = True
         # Ako postoji povezani zaposlenik, postavi ga, inače preskoči
-        if hasattr(self.request.user, 'zaposlenik'):
+        if hasattr(self.request.user, "zaposlenik"):
             instance.odobreno = self.request.user.zaposlenik
         instance.save()  # Sprema instancu kako bi dobila ID
         form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
         # Logiranje dodavanja (ako postoji log_action)
         try:
             from .utils import log_action
-            log_action(self.request.user, instance, "DODATNI_ANGAZMAN", form.cleaned_data)
+
+            log_action(
+                self.request.user, instance, "DODATNI_ANGAZMAN", form.cleaned_data
+            )
         except ImportError:
             pass
         messages.success(self.request, "Dodatni angažman uspješno dodan.")
@@ -148,18 +146,26 @@ class AzurirajRadniNalogView(LoginRequiredMixin, UpdateView):
         instance = form.save(commit=False)
         instance.save()  # Sprema instancu kako bi dobila ID
         form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
-        if hasattr(instance, 'azuriraj_status'):
+        if hasattr(instance, "azuriraj_status"):
             instance.azuriraj_status()  # Pretpostavlja se da ova metoda postoji u modelu RadniNalog
             instance.save()
         # Provjera i obavijesti za bypass
-        if getattr(instance, 'dokumentacija_bypass', False):
+        if getattr(instance, "dokumentacija_bypass", False):
             poruka = f"Radni nalog '{getattr(instance, 'naziv_naloga', '')}' koristi bypass tehničke dokumentacije."
-            notify_via_websocket(getattr(getattr(instance, 'odgovorna_osoba', None), 'korisnik', None), poruka)
-        if getattr(instance, 'bypass_materijala', False):
+            notify_via_websocket(
+                getattr(getattr(instance, "odgovorna_osoba", None), "korisnik", None),
+                poruka,
+            )
+        if getattr(instance, "bypass_materijala", False):
             poruka = f"Radni nalog '{getattr(instance, 'naziv_naloga', '')}' koristi bypass materijala."
-            notify_via_websocket(getattr(getattr(instance, 'odgovorna_osoba', None), 'korisnik', None), poruka)
+            notify_via_websocket(
+                getattr(getattr(instance, "odgovorna_osoba", None), "korisnik", None),
+                poruka,
+            )
         messages.success(self.request, "Radni nalog uspješno ažuriran!")
-        return redirect("lista_radnih_naloga", projekt_id=getattr(instance, 'projekt_id', None))
+        return redirect(
+            "lista_radnih_naloga", projekt_id=getattr(instance, "projekt_id", None)
+        )
 
 
 # -------- 6. Brisanje radnog naloga -------- #
@@ -169,18 +175,19 @@ class ObrisiRadniNalogView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         # Sigurnije dohvaćanje projekt_id
-        projekt_id = getattr(self.object, 'projekt_id', None)
+        projekt_id = getattr(self.object, "projekt_id", None)
         return reverse_lazy("lista_radnih_naloga", kwargs={"projekt_id": projekt_id})
 
     def delete(self, request, *args, **kwargs):
         radni_nalog = self.get_object()
         # Ako model nema is_active, preskoči
-        if hasattr(radni_nalog, 'is_active'):
+        if hasattr(radni_nalog, "is_active"):
             radni_nalog.is_active = False
             radni_nalog.save()
         # Logiranje brisanja (ako postoji log_action)
         try:
             from .utils import log_action
+
             log_action(request.user, radni_nalog, "OBRISAN_RADNI_NALOG")
         except ImportError:
             pass

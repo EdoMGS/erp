@@ -19,13 +19,11 @@ from ljudski_resursi.models import Employee  # Ako treba
 
 # Import formi (prilagodi točno odakle ih povlačiš)
 from proizvodnja.forms import OcjenaKvaliteteFormSet  # ako je tu
-from proizvodnja.forms import (
-    UstedaForm,
-)  # ako je to individual form, a ne inline formset
-from proizvodnja.forms import (
+from proizvodnja.forms import (  # ako je to individual form, a ne inline formset
     AngazmanFormSet,
     MaterijalFormSet,
     RadniNalogForm,
+    UstedaForm,
     VideoMaterijalFormSet,
     VideoPitanjeFormSet,
 )

@@ -11,7 +11,6 @@ from django.views.generic import (
     UpdateView,
 )
 
-
 from .forms import MaterijalForm
 from .models import Materijal, Projekt, RadniNalog
 from .utils import log_action

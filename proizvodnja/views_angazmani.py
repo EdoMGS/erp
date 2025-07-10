@@ -13,13 +13,13 @@ from django.views.generic import (
     UpdateView,
 )
 
-# Import Employee iz ljudski_resursi.models
-
 from .forms import AngazmanForm, DodatniAngazmanForm
 
 # Ispravno importamo Angazman, RadniNalog iz proizvodnja.models
 from .models import Angazman
 from .utils import log_action
+
+# Import Employee iz ljudski_resursi.models
 
 
 # ==============================
