@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Break-Even Dashboard</h2>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Divizija</th>
+      <th>Datum</th>
+      <th>Prihod</th>
+      <th>Profit</th>
+      <th>Break-even Q</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="be-table-body">
+    {% for s in snapshots %}
+    <tr class="status-{{ s.status }}">
+      <td>{{ s.division }}</td>
+      <td>{{ s.date }}</td>
+      <td>{{ s.revenue }}</td>
+      <td>{{ s.profit }}</td>
+      <td>{{ s.break_even_qty }}</td>
+      <td class="status-{{ s.status }}">{{ s.status|title }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+const ws = new WebSocket(
+  (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/break-even/'
+);
+ws.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  const tbody = document.getElementById('be-table-body');
+  tbody.innerHTML = '';
+  for (const row of data.rows) {
+    tbody.innerHTML += `<tr class="status-${row.status}">
+      <td>${row.division}</td>
+      <td>${row.date}</td>
+      <td>${row.revenue}</td>
+      <td>${row.profit}</td>
+      <td>${row.break_even_qty}</td>
+      <td class="status-${row.status}">${row.status.charAt(0).toUpperCase() + row.status.slice(1)}</td>
+    </tr>`;
+  }
+};
+</script>
+<style>
+.status-green { color: green; }
+.status-red { color: red; }
+</style>
+{% endblock %}

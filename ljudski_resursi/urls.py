@@ -19,10 +19,6 @@ urlpatterns = [
     path("positions/", views.position_list, name="position_list"),
     path("evaluacije/", views.evaluacija_list, name="evaluacija_list"),
     path("evaluacije/create/", views.evaluacija_create, name="evaluacija_create"),
-    path(
-        "evaluacije/update/<int:pk>/", views.evaluacija_update, name="evaluacija_update"
-    ),
-    path(
-        "evaluacije/delete/<int:pk>/", views.evaluacija_delete, name="evaluacija_delete"
-    ),
+    path("evaluacije/update/<int:pk>/", views.evaluacija_update, name="evaluacija_update"),
+    path("evaluacije/delete/<int:pk>/", views.evaluacija_delete, name="evaluacija_delete"),
 ]

@@ -24,27 +24,19 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="banktransaction",
-            index=models.Index(
-                fields=["tip_transakcije"], name="financije_b_tip_tra_25ec3f_idx"
-            ),
+            index=models.Index(fields=["tip_transakcije"], name="financije_b_tip_tra_25ec3f_idx"),
         ),
         migrations.AddIndex(
             model_name="banktransaction",
-            index=models.Index(
-                fields=["bank_account_number"], name="financije_b_bank_ac_03544c_idx"
-            ),
+            index=models.Index(fields=["bank_account_number"], name="financije_b_bank_ac_03544c_idx"),
         ),
         migrations.AddIndex(
             model_name="invoice",
-            index=models.Index(
-                fields=["issue_date"], name="financije_i_issue_d_2b7b08_idx"
-            ),
+            index=models.Index(fields=["issue_date"], name="financije_i_issue_d_2b7b08_idx"),
         ),
         migrations.AddIndex(
             model_name="invoice",
-            index=models.Index(
-                fields=["due_date"], name="financije_i_due_dat_47ec64_idx"
-            ),
+            index=models.Index(fields=["due_date"], name="financije_i_due_dat_47ec64_idx"),
         ),
         migrations.AddConstraint(
             model_name="budget",

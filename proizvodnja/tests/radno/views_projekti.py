@@ -77,9 +77,7 @@ class ObrisiProjektView(LoginRequiredMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         projekt = self.get_object()
         if projekt.radni_nalozi.filter(is_active=True).exists():
-            messages.error(
-                request, "Projekt se ne može obrisati jer ima aktivne radne naloge."
-            )
+            messages.error(request, "Projekt se ne može obrisati jer ima aktivne radne naloge.")
             return redirect("detalji_projekta", pk=projekt.pk)
 
         projekt.is_active = False

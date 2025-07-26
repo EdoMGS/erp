@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Dashboard</title>
+</head>
+<body>
+    <h1>Worker Dashboard</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Worker Name</th>
+                <th>Project</th>
+                <th>Hours Worked</th>
+                <th>Hourly Rate</th>
+                <th>Total Earnings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in labour_entries %}
+            <tr>
+                <td>{{ entry.worker_name }}</td>
+                <td>{{ entry.project.name }}</td>
+                <td>{{ entry.hours_worked }}</td>
+                <td>{{ entry.hourly_rate }}</td>
+                <td>{{ entry.hours_worked|floatformat:2|add:entry.hourly_rate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

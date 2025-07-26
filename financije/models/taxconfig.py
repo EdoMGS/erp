@@ -6,9 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TaxConfiguration(models.Model):
-    name = models.CharField(
-        max_length=100, verbose_name=_("Naziv konfiguracije poreza")
-    )
+    name = models.CharField(max_length=100, verbose_name=_("Naziv konfiguracije poreza"))
     # Osnovni postotak poreza (rate) s validacijom između 0 i 100%
     tax_rate = models.DecimalField(
         max_digits=5,
@@ -20,9 +18,7 @@ class TaxConfiguration(models.Model):
     valid_from = models.DateField(verbose_name=_("Vrijedi od"))
     valid_to = models.DateField(null=True, blank=True, verbose_name=_("Vrijedi do"))
     # Status konfiguracije – ako je aktivna, druge se deaktiviraju
-    is_active = models.BooleanField(
-        default=True, verbose_name=_("Aktivna konfiguracija")
-    )
+    is_active = models.BooleanField(default=True, verbose_name=_("Aktivna konfiguracija"))
 
     # Dodatna polja za obračun različitih aspekata poreza
     mirovinsko_1 = models.DecimalField(
@@ -101,9 +97,7 @@ class TaxConfiguration(models.Model):
         with transaction.atomic():
             if self.is_active:
                 # Deaktiviraj sve ostale aktivne konfiguracije
-                TaxConfiguration.objects.filter(is_active=True).exclude(
-                    pk=self.pk
-                ).update(is_active=False)
+                TaxConfiguration.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
             super().save(*args, **kwargs)
 
     def __str__(self):

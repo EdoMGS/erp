@@ -32,9 +32,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "razlog",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Razlog nagrade"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Razlog nagrade"),
                 ),
                 (
                     "datum_dodjele",

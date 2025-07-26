@@ -8,9 +8,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         try:
             projekt = Projekt.objects.get(id=1)
-            self.stdout.write(
-                self.style.SUCCESS(f"Pronađen projekt: {projekt.naziv_projekta}")
-            )
+            self.stdout.write(self.style.SUCCESS(f"Pronađen projekt: {projekt.naziv_projekta}"))
 
             # Radni nalozi od 51 do 68
             radni_nalozi_data = [
@@ -145,12 +143,8 @@ class Command(BaseCommand):
             ]
 
             for zadatak_data in radni_nalozi_data:
-                odgovorna_osoba = Osoba.objects.filter(
-                    ime=zadatak_data["odgovorna_osoba"]
-                ).first()
-                zadužena_osoba = Osoba.objects.filter(
-                    ime=zadatak_data["zadužena_osoba"]
-                ).first()
+                odgovorna_osoba = Osoba.objects.filter(ime=zadatak_data["odgovorna_osoba"]).first()
+                zadužena_osoba = Osoba.objects.filter(ime=zadatak_data["zadužena_osoba"]).first()
 
                 if odgovorna_osoba and zadužena_osoba:
                     nalog = RadniNalog.objects.create(
@@ -163,11 +157,7 @@ class Command(BaseCommand):
                         rok_za_izradu=zadatak_data["rok_za_izradu"],
                         status="Planirano",  # Početni status
                     )
-                    self.stdout.write(
-                        self.style.SUCCESS(
-                            f"Radni nalog '{nalog.naziv_naloga}' uspješno kreiran."
-                        )
-                    )
+                    self.stdout.write(self.style.SUCCESS(f"Radni nalog '{nalog.naziv_naloga}' uspješno kreiran."))
                 else:
                     self.stdout.write(
                         self.style.ERROR(

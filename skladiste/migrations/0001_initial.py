@@ -38,9 +38,7 @@ class Migration(migrations.Migration):
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
                     "sifra",
-                    models.CharField(
-                        max_length=50, unique=True, verbose_name="Šifra artikla"
-                    ),
+                    models.CharField(max_length=50, unique=True, verbose_name="Šifra artikla"),
                 ),
                 ("jm", models.CharField(max_length=20, verbose_name="Jedinica mjere")),
                 (
@@ -49,9 +47,7 @@ class Migration(migrations.Migration):
                         decimal_places=2,
                         default=Decimal("0.00"),
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Minimalna količina",
                     ),
                 ),
@@ -61,9 +57,7 @@ class Migration(migrations.Migration):
                         decimal_places=2,
                         default=Decimal("0.00"),
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Trenutna količina",
                     ),
                 ),
@@ -73,9 +67,7 @@ class Migration(migrations.Migration):
                         decimal_places=2,
                         default=Decimal("0.00"),
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Nabavna cijena",
                     ),
                 ),
@@ -85,9 +77,7 @@ class Migration(migrations.Migration):
                         decimal_places=2,
                         default=Decimal("0.00"),
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Prodajna cijena",
                     ),
                 ),
@@ -127,9 +117,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "broj_izdatnice",
-                    models.CharField(
-                        max_length=20, unique=True, verbose_name="Broj izdatnice"
-                    ),
+                    models.CharField(max_length=20, unique=True, verbose_name="Broj izdatnice"),
                 ),
                 ("datum", models.DateField(verbose_name="Datum izdavanja")),
                 (
@@ -176,9 +164,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "broj_primke",
-                    models.CharField(
-                        max_length=20, unique=True, verbose_name="Broj primke"
-                    ),
+                    models.CharField(max_length=20, unique=True, verbose_name="Broj primke"),
                 ),
                 ("datum", models.DateField(verbose_name="Datum primke")),
                 (
@@ -229,9 +215,7 @@ class Migration(migrations.Migration):
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
                     "kolicina",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Količina"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Količina"),
                 ),
                 ("lokacija", models.CharField(max_length=255, verbose_name="Lokacija")),
             ],
@@ -277,9 +261,7 @@ class Migration(migrations.Migration):
                     models.DecimalField(
                         decimal_places=2,
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.01"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.01"))],
                         verbose_name="Količina",
                     ),
                 ),
@@ -288,9 +270,7 @@ class Migration(migrations.Migration):
                     models.DecimalField(
                         decimal_places=2,
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Cijena",
                     ),
                 ),
@@ -351,22 +331,16 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "cijena",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Cijena"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Cijena"),
                 ),
                 (
                     "kolicina",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Količina"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Količina"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
                     "datum_dostave",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum dostave"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum dostave"),
                 ),
                 ("current_stock", models.PositiveIntegerField(default=0)),
                 ("min_required_stock", models.PositiveIntegerField(default=0)),
@@ -437,9 +411,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Naziv kategorije"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Naziv kategorije"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
@@ -483,9 +455,7 @@ class Migration(migrations.Migration):
                     models.DecimalField(
                         decimal_places=2,
                         max_digits=10,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.01"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.01"))],
                         verbose_name="Količina",
                     ),
                 ),
@@ -531,15 +501,11 @@ class Migration(migrations.Migration):
                 ("stanje", models.CharField(max_length=50, verbose_name="Stanje")),
                 (
                     "is_assigned",
-                    models.BooleanField(
-                        default=False, verbose_name="Trenutačno zaduženo?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Trenutačno zaduženo?"),
                 ),
                 (
                     "htz_equipment_tracking",
-                    models.BooleanField(
-                        default=False, verbose_name="Praćenje zaduženja HTZ opreme"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Praćenje zaduženja HTZ opreme"),
                 ),
                 (
                     "assigned_to",
@@ -626,9 +592,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "is_assigned",
-                    models.BooleanField(
-                        default=False, verbose_name="Je li dodijeljen?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Je li dodijeljen?"),
                 ),
                 (
                     "assigned_to",

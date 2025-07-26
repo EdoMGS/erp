@@ -44,9 +44,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "risk_assessment",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Risk Assessment"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Risk Assessment"),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),

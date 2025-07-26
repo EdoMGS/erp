@@ -26,9 +26,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "file",
-                    models.FileField(
-                        upload_to="cad_documents/", verbose_name="CAD dokument"
-                    ),
+                    models.FileField(upload_to="cad_documents/", verbose_name="CAD dokument"),
                 ),
                 (
                     "file_type",
@@ -40,9 +38,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "uploaded_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Datum uploada"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Datum uploada"),
                 ),
             ],
             options={
@@ -65,16 +61,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "broj_revizije",
-                    models.PositiveIntegerField(
-                        default=1, verbose_name="Broj revizije"
-                    ),
+                    models.PositiveIntegerField(default=1, verbose_name="Broj revizije"),
                 ),
                 ("opis", models.TextField(verbose_name="Opis promjena")),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Datum revizije"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Datum revizije"),
                 ),
             ],
             options={
@@ -112,9 +104,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "opis",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis segmenta"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis segmenta"),
                 ),
                 (
                     "planirani_sati",
@@ -136,15 +126,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Datum kreiranja segmenta"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Datum kreiranja segmenta"),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, verbose_name="Datum posljednje izmjene segmenta"
-                    ),
+                    models.DateTimeField(auto_now=True, verbose_name="Datum posljednje izmjene segmenta"),
                 ),
             ],
             options={
@@ -167,15 +153,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "json_data",
-                    models.JSONField(
-                        blank=True, null=True, verbose_name="Gantt podaci (JSON)"
-                    ),
+                    models.JSONField(blank=True, null=True, verbose_name="Gantt podaci (JSON)"),
                 ),
                 (
                     "pocetak_plana",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Početak plana"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Početak plana"),
                 ),
                 (
                     "kraj_plana",
@@ -187,9 +169,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, verbose_name="Datum posljednje izmjene"
-                    ),
+                    models.DateTimeField(auto_now=True, verbose_name="Datum posljednje izmjene"),
                 ),
             ],
             options={

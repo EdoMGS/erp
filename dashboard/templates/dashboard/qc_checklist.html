@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Checklist</title>
+    <script>
+        function validateChecklist() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+            if (!allChecked) {
+                alert('All checklist items must be completed before starting the task.');
+                return false;
+            }
+
+            alert('Checklist complete! Task can be started.');
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>QC Checklist</h1>
+    <form onsubmit="return validateChecklist();">
+        <ul>
+            <li><label><input type="checkbox"> Item 1: Verify materials</label></li>
+            <li><label><input type="checkbox"> Item 2: Check equipment</label></li>
+            <li><label><input type="checkbox"> Item 3: Confirm safety protocols</label></li>
+        </ul>
+        <button type="submit">Start Task</button>
+    </form>
+</body>
+</html>

@@ -26,9 +26,7 @@ from .models import (Quotation, SalesContract, SalesOpportunity, SalesOrder,
 @login_required
 def opportunity_list(request):
     opportunities = SalesOpportunity.objects.all()
-    return render(
-        request, "prodaja/opportunity_list.html", {"opportunities": opportunities}
-    )
+    return render(request, "prodaja/opportunity_list.html", {"opportunities": opportunities})
 
 
 @login_required
@@ -41,9 +39,7 @@ def opportunity_create(request):
             return redirect("prodaja:opportunity_list")
     else:
         form = OpportunityForm()
-    return render(
-        request, "prodaja/opportunity_form.html", {"form": form, "action": "create"}
-    )
+    return render(request, "prodaja/opportunity_form.html", {"form": form, "action": "create"})
 
 
 @login_required
@@ -141,9 +137,7 @@ def quotation_create(request):
             return redirect("prodaja:quotation_list")
     else:
         form = QuotationForm()
-    return render(
-        request, "prodaja/quotation_form.html", {"form": form, "action": "create"}
-    )
+    return render(request, "prodaja/quotation_form.html", {"form": form, "action": "create"})
 
 
 @login_required
@@ -205,9 +199,7 @@ def salesorder_create(request):
             return redirect("prodaja:salesorder_list")
     else:
         form = SalesOrderForm()
-    return render(
-        request, "prodaja/salesorder_form.html", {"form": form, "action": "create"}
-    )
+    return render(request, "prodaja/salesorder_form.html", {"form": form, "action": "create"})
 
 
 @login_required
@@ -269,9 +261,7 @@ def salescontract_create(request):
             return redirect("prodaja:salescontract_list")
     else:
         form = SalesContractForm()
-    return render(
-        request, "prodaja/salescontract_form.html", {"form": form, "action": "create"}
-    )
+    return render(request, "prodaja/salescontract_form.html", {"form": form, "action": "create"})
 
 
 @login_required
@@ -327,35 +317,19 @@ def tender_preparation_unified(request, pk=None, action="create"):
                 new_status = request.POST.get("new_status")
                 tender.change_status(new_status, request.user)
                 messages.success(request, f"Status changed to {new_status}")
-                return redirect(
-                    "prodaja:tender_preparation", pk=tender.pk, action="view"
-                )
+                return redirect("prodaja:tender_preparation", pk=tender.pk, action="view")
             except ValidationError as e:
                 messages.error(request, str(e))
-                return redirect(
-                    "prodaja:tender_preparation", pk=tender.pk, action="view"
-                )
+                return redirect("prodaja:tender_preparation", pk=tender.pk, action="view")
 
         form = TenderPreparationForm(request.POST, request.FILES, instance=tender)
-        document_formset = TenderDocumentFormSet(
-            request.POST, request.FILES, instance=tender
-        )
-        material_formset = TenderMaterialFormSet(
-            request.POST, prefix="material", instance=tender
-        )
-        labor_formset = TenderLaborFormSet(
-            request.POST, prefix="labor", instance=tender
-        )
+        document_formset = TenderDocumentFormSet(request.POST, request.FILES, instance=tender)
+        material_formset = TenderMaterialFormSet(request.POST, prefix="material", instance=tender)
+        labor_formset = TenderLaborFormSet(request.POST, prefix="labor", instance=tender)
         cost_formset = TenderCostFormSet(request.POST, prefix="cost", instance=tender)
-        rasclamba_formset = TenderRasclambaFormSet(
-            request.POST, prefix="rasclamba", instance=tender
-        )
-        neposredni_formset = TenderNeposredniFormSet(
-            request.POST, prefix="neposredni", instance=tender
-        )
-        posredni_formset = TenderPosredniFormSet(
-            request.POST, prefix="posredni", instance=tender
-        )
+        rasclamba_formset = TenderRasclambaFormSet(request.POST, prefix="rasclamba", instance=tender)
+        neposredni_formset = TenderNeposredniFormSet(request.POST, prefix="neposredni", instance=tender)
+        posredni_formset = TenderPosredniFormSet(request.POST, prefix="posredni", instance=tender)
 
         if all(
             [
@@ -389,9 +363,7 @@ def tender_preparation_unified(request, pk=None, action="create"):
         labor_formset = TenderLaborFormSet(prefix="labor", instance=tender)
         cost_formset = TenderCostFormSet(prefix="cost", instance=tender)
         rasclamba_formset = TenderRasclambaFormSet(prefix="rasclamba", instance=tender)
-        neposredni_formset = TenderNeposredniFormSet(
-            prefix="neposredni", instance=tender
-        )
+        neposredni_formset = TenderNeposredniFormSet(prefix="neposredni", instance=tender)
         posredni_formset = TenderPosredniFormSet(prefix="posredni", instance=tender)
 
     context = {

@@ -1,0 +1,22 @@
+[
+  {
+    "model": "financije.variablecostpreset",
+    "fields": {
+      "division": "BRAVARIJA",
+      "name": "Plin",
+      "amount_per_unit": "0.85",
+      "unit": "kWh",
+      "tenant": 1
+    }
+  },
+  {
+    "model": "financije.variablecostpreset",
+    "fields": {
+      "division": "FARBANJE",
+      "name": "Boja",
+      "amount_per_unit": "2.50",
+      "unit": "l",
+      "tenant": 1
+    }
+  }
+]

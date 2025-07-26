@@ -62,33 +62,23 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "sati_rada",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=8, verbose_name="Sati rada"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=8, verbose_name="Sati rada"),
                 ),
                 (
                     "nas_materijal",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Naš materijal"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Naš materijal"),
                 ),
                 (
                     "vanjska_usluga",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Vanjska usluga"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Vanjska usluga"),
                 ),
                 (
                     "oprema_dijelovi",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Oprema/dijelovi"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Oprema/dijelovi"),
                 ),
                 (
                     "dobavljac",
-                    models.CharField(
-                        blank=True, max_length=255, null=True, verbose_name="Dobavljač"
-                    ),
+                    models.CharField(blank=True, max_length=255, null=True, verbose_name="Dobavljač"),
                 ),
                 (
                     "created_by",
@@ -153,9 +143,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "monthly_cost",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Mjesečni trošak"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Mjesečni trošak"),
                 ),
                 (
                     "project_cost",
@@ -228,9 +216,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "monthly_cost",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Mjesečni trošak"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Mjesečni trošak"),
                 ),
                 (
                     "project_cost",
@@ -242,9 +228,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "coefficient",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=5, verbose_name="Koeficijent"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Koeficijent"),
                 ),
                 (
                     "created_by",

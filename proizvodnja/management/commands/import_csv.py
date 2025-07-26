@@ -10,12 +10,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("--tipvozila", type=str, help="Path to tipvozila.csv file")
-        parser.add_argument(
-            "--tipprojekta", type=str, help="Path to tipprojekta.csv file"
-        )
-        parser.add_argument(
-            "--grupaposlova", type=str, help="Path to grupaposlova.csv file"
-        )
+        parser.add_argument("--tipprojekta", type=str, help="Path to tipprojekta.csv file")
+        parser.add_argument("--grupaposlova", type=str, help="Path to grupaposlova.csv file")
 
     def handle(self, *args, **options):
         if options["tipvozila"]:

@@ -31,33 +31,23 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_material_cost",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "total_labor_cost",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "total_direct_cost",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "total_indirect_cost",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "final_price",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "tender",
@@ -87,9 +77,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "unit_price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Cijena jedinice"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Cijena jedinice"),
                 ),
                 ("quantity", models.PositiveIntegerField(verbose_name="Količina")),
                 (
@@ -129,15 +117,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "hours",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=6, verbose_name="Broj sati"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Broj sati"),
                 ),
                 (
                     "hourly_rate",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=6, verbose_name="Satnica (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=6, verbose_name="Satnica (€)"),
                 ),
                 (
                     "tender",
@@ -175,9 +159,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Iznos"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Iznos"),
                 ),
                 (
                     "tender",

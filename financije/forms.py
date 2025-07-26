@@ -61,9 +61,7 @@ class InvoiceForm(BaseModelForm):
             "user": forms.Select(),
             "is_guaranteed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "guarantee_details": forms.Textarea(),
-            "financial_guarantee": forms.CheckboxInput(
-                attrs={"class": "form-check-input"}
-            ),
+            "financial_guarantee": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "tender_statement": forms.Textarea(),
             "public_tender_ref": forms.TextInput(),
         }
@@ -340,9 +338,7 @@ class SalesContractForm(forms.ModelForm):
             "client": forms.Select(attrs={"class": "form-select"}),
             "status": forms.Select(attrs={"class": "form-select"}),
             "public_tender_number": forms.TextInput(),
-            "bank_guarantee_required": forms.CheckboxInput(
-                attrs={"class": "form-check-input"}
-            ),
+            "bank_guarantee_required": forms.CheckboxInput(attrs={"class": "form-check-input"}),
             "total_amount": forms.NumberInput(),
             "discount": forms.NumberInput(),
             "sales_order": forms.Select(attrs={"class": "form-select"}),
@@ -363,13 +359,7 @@ class InvoiceLineForm(forms.ModelForm):
         fields = ["description", "quantity", "unit_price", "tax_rate"]
         widgets = {
             "description": forms.TextInput(attrs={"class": "form-control"}),
-            "quantity": forms.NumberInput(
-                attrs={"class": "form-control", "step": "0.01"}
-            ),
-            "unit_price": forms.NumberInput(
-                attrs={"class": "form-control", "step": "0.01"}
-            ),
-            "tax_rate": forms.NumberInput(
-                attrs={"class": "form-control", "step": "0.01"}
-            ),
+            "quantity": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
+            "unit_price": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
+            "tax_rate": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
         }

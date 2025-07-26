@@ -22,17 +22,13 @@ from .utils import log_action
 # 1️⃣ API za radne naloge
 # ==============================
 class ListaRadnihNalogaAPIView(generics.ListCreateAPIView):
-    queryset = (
-        RadniNalog.objects.all()
-    )  # Možete dodati filter(is_active=True) po potrebi
+    queryset = RadniNalog.objects.all()  # Možete dodati filter(is_active=True) po potrebi
     serializer_class = RadniNalogSerializer
     permission_classes = [IsAuthenticated]
 
 
 class DetaljiRadnogNalogaAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = (
-        RadniNalog.objects.all()
-    )  # Možete dodati filter(is_active=True) po potrebi
+    queryset = RadniNalog.objects.all()  # Možete dodati filter(is_active=True) po potrebi
     serializer_class = RadniNalogSerializer
     permission_classes = [IsAuthenticated]
 
@@ -92,9 +88,7 @@ class ListaOcjenaKvaliteteAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
-        return OcjenaKvalitete.objects.filter(
-            radni_nalog_id=radni_nalog_id, is_active=True
-        )
+        return OcjenaKvalitete.objects.filter(radni_nalog_id=radni_nalog_id, is_active=True)
 
 
 class KreirajOcjenuKvaliteteAPIView(generics.CreateAPIView):

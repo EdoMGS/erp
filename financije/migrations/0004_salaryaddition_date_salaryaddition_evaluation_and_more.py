@@ -18,9 +18,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="salaryaddition",
             name="date",
-            field=models.DateField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -75,15 +73,11 @@ class Migration(migrations.Migration):
                 ("base_amount", models.DecimalField(decimal_places=2, max_digits=10)),
                 (
                     "performance_multiplier",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("1.00"), max_digits=3
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("1.00"), max_digits=3),
                 ),
                 (
                     "quality_multiplier",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("1.00"), max_digits=3
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("1.00"), max_digits=3),
                 ),
                 ("final_amount", models.DecimalField(decimal_places=2, max_digits=10)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),

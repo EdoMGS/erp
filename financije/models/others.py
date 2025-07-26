@@ -88,9 +88,7 @@ class FinancialDetails(models.Model):
 
 
 class VariablePayRule(models.Model):
-    position = models.ForeignKey(
-        "ljudski_resursi.Position", on_delete=models.CASCADE, verbose_name=_("Pozicija")
-    )
+    position = models.ForeignKey("ljudski_resursi.Position", on_delete=models.CASCADE, verbose_name=_("Pozicija"))
     expertise_level = models.ForeignKey(
         "ljudski_resursi.ExpertiseLevel",
         on_delete=models.CASCADE,
@@ -120,12 +118,8 @@ class VariablePayRule(models.Model):
 
 
 class SalesContract(models.Model):
-    contract_number = models.CharField(
-        max_length=50, unique=True, verbose_name=_("Contract Number")
-    )
-    client = models.ForeignKey(
-        ClientSupplier, on_delete=models.CASCADE, verbose_name=_("Client")
-    )
+    contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Contract Number"))
+    client = models.ForeignKey(ClientSupplier, on_delete=models.CASCADE, verbose_name=_("Client"))
 
     def __str__(self):
         return f"Sales Contract {self.contract_number} for {self.client}"
@@ -202,9 +196,7 @@ class FinancialAnalysis(models.Model):
         default=Decimal("0.00"),
         verbose_name=_("Expected Profit"),
     )
-    risk_assessment = models.TextField(
-        blank=True, null=True, verbose_name=_("Risk Assessment")
-    )
+    risk_assessment = models.TextField(blank=True, null=True, verbose_name=_("Risk Assessment"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

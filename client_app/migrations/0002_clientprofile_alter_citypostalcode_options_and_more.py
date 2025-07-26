@@ -41,9 +41,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "feedback",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Povratne informacije"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Povratne informacije"),
                 ),
                 (
                     "post_sales_feedback",
@@ -168,9 +166,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="citypostalcode",
-            index=models.Index(
-                fields=["postal_code"], name="client_app__postal__8c341e_idx"
-            ),
+            index=models.Index(fields=["postal_code"], name="client_app__postal__8c341e_idx"),
         ),
         migrations.AddIndex(
             model_name="citypostalcode",
@@ -178,21 +174,15 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="clientactivitylog",
-            index=models.Index(
-                fields=["-timestamp"], name="client_app__timesta_b6ca4c_idx"
-            ),
+            index=models.Index(fields=["-timestamp"], name="client_app__timesta_b6ca4c_idx"),
         ),
         migrations.AddIndex(
             model_name="clientactivitylog",
-            index=models.Index(
-                fields=["client", "-timestamp"], name="client_app__client__277058_idx"
-            ),
+            index=models.Index(fields=["client", "-timestamp"], name="client_app__client__277058_idx"),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",
-            index=models.Index(
-                fields=["name", "email"], name="client_app__name_d320c3_idx"
-            ),
+            index=models.Index(fields=["name", "email"], name="client_app__name_d320c3_idx"),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",

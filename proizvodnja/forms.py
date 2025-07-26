@@ -287,9 +287,7 @@ class UstedaForm(BaseModelForm):
         model = Usteda
         fields = ["predvidjeno_vrijeme", "stvarno_vrijeme"]
         widgets = {
-            "predvidjeno_vrijeme": forms.NumberInput(
-                attrs={"step": "0.01", "min": "0"}
-            ),
+            "predvidjeno_vrijeme": forms.NumberInput(attrs={"step": "0.01", "min": "0"}),
             "stvarno_vrijeme": forms.NumberInput(attrs={"step": "0.01", "min": "0"}),
         }
 

@@ -22,9 +22,7 @@ def test_projekt_status_ugrozenosti():
             projekt=projekt,
             status="Završeno" if i < 7 else "U tijeku",  # 7 završeno, 3 u tijeku
             datum_pocetka=timezone.now().date() - timedelta(days=i * 2),
-            datum_zavrsetka=(
-                timezone.now().date() - timedelta(days=i) if i < 7 else None
-            ),
+            datum_zavrsetka=(timezone.now().date() - timedelta(days=i) if i < 7 else None),
         )
 
     # Ponovno izračunaj status projekta

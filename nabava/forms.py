@@ -68,9 +68,7 @@ class PurchaseOrderForm(forms.ModelForm):
 
         if agreed_price and reference_price:
             if agreed_price > reference_price * 1.20 and not justification:
-                raise forms.ValidationError(
-                    _("Potrebno je obrazloženje kada cijena prelazi referentnu za 20%")
-                )
+                raise forms.ValidationError(_("Potrebno je obrazloženje kada cijena prelazi referentnu za 20%"))
         return cleaned_data
 
 
@@ -79,9 +77,7 @@ class PurchaseOrderLineForm(forms.ModelForm):
         model = PurchaseOrderLine
         fields = ["artikl", "quantity", "unit_price", "discount"]
         widgets = {
-            "discount": forms.NumberInput(
-                attrs={"step": "0.01", "min": "0", "max": "100"}
-            ),
+            "discount": forms.NumberInput(attrs={"step": "0.01", "min": "0", "max": "100"}),
         }
 
     def clean_quantity(self):
@@ -126,12 +122,7 @@ class NarudzbenicaStavkaForm(forms.ModelForm):
         artikl = self.cleaned_data.get("artikl")
         narudzbenica = self.instance.narudzbenica if self.instance else None
 
-        if (
-            narudzbenica
-            and NarudzbenicaStavka.objects.filter(
-                narudzbenica=narudzbenica, artikl=artikl
-            ).exists()
-        ):
+        if narudzbenica and NarudzbenicaStavka.objects.filter(narudzbenica=narudzbenica, artikl=artikl).exists():
             raise forms.ValidationError(_("Ovaj artikl je već dodan u narudžbenicu"))
 
         return artikl
@@ -166,9 +157,7 @@ class DobavljacForm(forms.ModelForm):
         ]
         widgets = {
             "rok_placanja": forms.NumberInput(attrs={"min": "0"}),
-            "popust": forms.NumberInput(
-                attrs={"step": "0.01", "min": "0", "max": "100"}
-            ),
+            "popust": forms.NumberInput(attrs={"step": "0.01", "min": "0", "max": "100"}),
         }
 
     def clean_oib(self):

@@ -17,9 +17,7 @@ class Account(models.Model):
 
     number = models.CharField(max_length=20, unique=True, verbose_name=_("Broj konta"))
     name = models.CharField(max_length=255, verbose_name=_("Naziv konta"))
-    account_type = models.CharField(
-        max_length=10, choices=ACCOUNT_TYPE_CHOICES, verbose_name=_("Tip konta")
-    )
+    account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPE_CHOICES, verbose_name=_("Tip konta"))
     parent_account = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -40,17 +38,9 @@ class Account(models.Model):
 
     @property
     def balance(self):
-        debit = JournalItem.objects.filter(account=self).aggregate(Sum("debit"))[
-            "debit__sum"
-        ] or Decimal("0.00")
-        credit = JournalItem.objects.filter(account=self).aggregate(Sum("credit"))[
-            "credit__sum"
-        ] or Decimal("0.00")
-        return (
-            debit - credit
-            if self.account_type in ["active", "expense"]
-            else credit - debit
-        )
+        debit = JournalItem.objects.filter(account=self).aggregate(Sum("debit"))["debit__sum"] or Decimal("0.00")
+        credit = JournalItem.objects.filter(account=self).aggregate(Sum("credit"))["credit__sum"] or Decimal("0.00")
+        return debit - credit if self.account_type in ["active", "expense"] else credit - debit
 
 
 class JournalEntry(models.Model):
@@ -68,15 +58,11 @@ class JournalEntry(models.Model):
 
     @property
     def total_debit(self):
-        return self.journalitem_set.aggregate(total=Sum("debit"))["total"] or Decimal(
-            "0.00"
-        )
+        return self.journalitem_set.aggregate(total=Sum("debit"))["total"] or Decimal("0.00")
 
     @property
     def total_credit(self):
-        return self.journalitem_set.aggregate(total=Sum("credit"))["total"] or Decimal(
-            "0.00"
-        )
+        return self.journalitem_set.aggregate(total=Sum("credit"))["total"] or Decimal("0.00")
 
     def is_balanced(self):
         return self.total_debit == self.total_credit
@@ -90,9 +76,7 @@ class JournalEntry(models.Model):
     def clean(self):
         super().clean()
         if self.pk and not self.is_balanced():
-            raise ValidationError(
-                _("Journal entry must be balanced (debits = credits)")
-            )
+            raise ValidationError(_("Journal entry must be balanced (debits = credits)"))
 
     class Meta:
         app_label = "financije"
@@ -103,22 +87,14 @@ class JournalEntry(models.Model):
 
 
 class JournalItem(models.Model):
-    entry = models.ForeignKey(
-        JournalEntry, on_delete=models.CASCADE, related_name="journalitem_set"
-    )
+    entry = models.ForeignKey(JournalEntry, on_delete=models.CASCADE, related_name="journalitem_set")
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    debit = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
-    credit = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
+    debit = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    credit = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
 
     def clean(self):
         if self.debit != Decimal("0.00") and self.credit != Decimal("0.00"):
-            raise ValidationError(
-                _("Stavka ne može imati i debit i kredit u isto vrijeme.")
-            )
+            raise ValidationError(_("Stavka ne može imati i debit i kredit u isto vrijeme."))
 
     class Meta:
         app_label = "financije"

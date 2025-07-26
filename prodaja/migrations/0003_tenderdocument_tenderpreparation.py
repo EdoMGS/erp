@@ -27,21 +27,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "file",
-                    models.FileField(
-                        upload_to="tender_documents/", verbose_name="Dokument"
-                    ),
+                    models.FileField(upload_to="tender_documents/", verbose_name="Dokument"),
                 ),
                 (
                     "description",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis dokumenta"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis dokumenta"),
                 ),
                 (
                     "uploaded_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Datum uploada"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Datum uploada"),
                 ),
             ],
             options={
@@ -64,21 +58,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "tender_instructions",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Upute za ponuditelje"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Upute za ponuditelje"),
                 ),
                 (
                     "evaluation_criteria",
-                    models.JSONField(
-                        blank=True, null=True, verbose_name="Kriteriji evaluacije"
-                    ),
+                    models.JSONField(blank=True, null=True, verbose_name="Kriteriji evaluacije"),
                 ),
                 (
                     "tender_validity",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Rok valjanosti ponude"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Rok valjanosti ponude"),
                 ),
                 (
                     "delivery_opening_datetime",
@@ -90,15 +78,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "payment_terms",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Uvjeti plaćanja"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Uvjeti plaćanja"),
                 ),
                 (
                     "warranty_terms",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Uvjeti jamstva"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Uvjeti jamstva"),
                 ),
                 (
                     "seriousness_guarantee_percentage",
@@ -163,9 +147,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "cashflow_plan",
-                    models.JSONField(
-                        blank=True, null=True, verbose_name="Plan cashflow-a"
-                    ),
+                    models.JSONField(blank=True, null=True, verbose_name="Plan cashflow-a"),
                 ),
                 (
                     "nabava_updates",
@@ -177,9 +159,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "notes",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Dodatne napomene"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Dodatne napomene"),
                 ),
                 (
                     "status",
@@ -197,15 +177,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Vrijeme kreiranja"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Vrijeme kreiranja"),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, verbose_name="Zadnje ažuriranje"
-                    ),
+                    models.DateTimeField(auto_now=True, verbose_name="Zadnje ažuriranje"),
                 ),
                 (
                     "opportunity",

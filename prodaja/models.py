@@ -23,9 +23,7 @@ from projektiranje_app.models import CADDocument, DesignTask
 # 1) PROJECT / SERVICE TYPE
 ########################################
 class ProjectServiceType(models.Model):
-    name = models.CharField(
-        max_length=255, unique=True, verbose_name=_("Naziv usluge/projekta")
-    )
+    name = models.CharField(max_length=255, unique=True, verbose_name=_("Naziv usluge/projekta"))
     description = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
 
     def __str__(self):
@@ -83,13 +81,9 @@ class SalesOpportunity(models.Model):
         blank=True,
         verbose_name=_("Budžet (procjena)"),
     )
-    authority = models.BooleanField(
-        default=False, verbose_name=_("Klijent ima ovlasti za potpis?")
-    )
+    authority = models.BooleanField(default=False, verbose_name=_("Klijent ima ovlasti za potpis?"))
     need = models.BooleanField(default=False, verbose_name=_("Jasna potreba klijenta?"))
-    timeframe = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Vremenski okvir (BANT)")
-    )
+    timeframe = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Vremenski okvir (BANT)"))
     public_tender_number = models.CharField(
         max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja")
     )
@@ -107,15 +101,9 @@ class SalesOpportunity(models.Model):
         blank=True,
         verbose_name=_("Vrsta usluge/projekta"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Vrijeme kreiranja")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Zadnje ažuriranje")
-    )
-    amount = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Vrijednost")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Vrijeme kreiranja"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Zadnje ažuriranje"))
+    amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Vrijednost"))
     notes = models.TextField(blank=True, verbose_name=_("Bilješke"))
 
     def __str__(self):
@@ -139,13 +127,9 @@ class FieldVisit(models.Model):
         related_name="field_visits",
         verbose_name=_("Povezana prilika"),
     )
-    visited_client = models.CharField(
-        max_length=255, verbose_name=_("Posjećeni klijent")
-    )
+    visited_client = models.CharField(max_length=255, verbose_name=_("Posjećeni klijent"))
     date_of_visit = models.DateField(verbose_name=_("Datum posjete"))
-    purpose = models.TextField(
-        blank=True, null=True, verbose_name=_("Svrha posjete / bilješke")
-    )
+    purpose = models.TextField(blank=True, null=True, verbose_name=_("Svrha posjete / bilješke"))
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -189,9 +173,7 @@ class Quotation(models.Model):
         related_name="quotations",
         verbose_name=_("Pripadajuća prilika (Opportunity)"),
     )
-    quote_number = models.CharField(
-        max_length=50, unique=True, verbose_name=_("Broj ponude")
-    )
+    quote_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj ponude"))
     valid_until = models.DateField(verbose_name=_("Vrijedi do"))
     status = models.CharField(
         max_length=20,
@@ -199,9 +181,7 @@ class Quotation(models.Model):
         default="draft",
         verbose_name=_("Status ponude"),
     )
-    total_amount = models.DecimalField(
-        max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)")
-    )
+    total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)"))
     discount = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -209,9 +189,7 @@ class Quotation(models.Model):
         blank=True,
         verbose_name=_("Popust (%)"),
     )
-    revision_count = models.PositiveIntegerField(
-        default=0, verbose_name=_("Broj revizija")
-    )
+    revision_count = models.PositiveIntegerField(default=0, verbose_name=_("Broj revizija"))
     created_by = models.CharField(max_length=255, verbose_name=_("Kreirao/la"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -234,18 +212,14 @@ class SalesOrder(models.Model):
     ]
 
     client = models.CharField(max_length=255, verbose_name=_("Klijent"))
-    order_number = models.CharField(
-        max_length=50, unique=True, verbose_name=_("Broj narudžbe")
-    )
+    order_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj narudžbe"))
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
         default="pending",
         verbose_name=_("Status narudžbe"),
     )
-    total_amount = models.DecimalField(
-        max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)")
-    )
+    total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)"))
     discount = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -262,9 +236,7 @@ class SalesOrder(models.Model):
         related_name="orders",
         verbose_name=_("Iz ponude (Quotation)"),
     )
-    date_approved_by_client = models.DateField(
-        null=True, blank=True, verbose_name=_("Klijent potvrdio (datum)")
-    )
+    date_approved_by_client = models.DateField(null=True, blank=True, verbose_name=_("Klijent potvrdio (datum)"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -284,9 +256,7 @@ class SalesContract(models.Model):
     ]
 
     client = models.CharField(max_length=255, verbose_name=_("Klijent"))
-    contract_number = models.CharField(
-        max_length=50, unique=True, verbose_name=_("Broj ugovora")
-    )
+    contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj ugovora"))
     status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
@@ -296,12 +266,8 @@ class SalesContract(models.Model):
     public_tender_number = models.CharField(
         max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja")
     )
-    bank_guarantee_required = models.BooleanField(
-        default=False, verbose_name=_("Bankarska garancija tražena?")
-    )
-    total_amount = models.DecimalField(
-        max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)")
-    )
+    bank_guarantee_required = models.BooleanField(default=False, verbose_name=_("Bankarska garancija tražena?"))
+    total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)"))
     discount = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -317,12 +283,8 @@ class SalesContract(models.Model):
         related_name="sales_contract",
         verbose_name=_("Povezana narudžba"),
     )
-    delivery_schedule = models.TextField(
-        null=True, blank=True, verbose_name=_("Raspored isporuke")
-    )
-    client_specific_reqs = models.TextField(
-        null=True, blank=True, verbose_name=_("Posebni zahtjevi klijenta")
-    )
+    delivery_schedule = models.TextField(null=True, blank=True, verbose_name=_("Raspored isporuke"))
+    client_specific_reqs = models.TextField(null=True, blank=True, verbose_name=_("Posebni zahtjevi klijenta"))
     related_production_order = models.ForeignKey(
         "proizvodnja.RadniNalog",
         on_delete=models.SET_NULL,
@@ -350,9 +312,7 @@ class WorkOrderInput(models.Model):
     )
     proizvod = models.CharField(max_length=255, verbose_name=_("Proizvod/Komponenta"))
     kolicina = models.PositiveIntegerField(verbose_name=_("Količina"))
-    cijena = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Cijena (€)")
-    )
+    cijena = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Cijena (€)"))
 
     def __str__(self):
         return f"{self.proizvod} - {self.kolicina} x {self.cijena} €"
@@ -380,12 +340,8 @@ class TenderDocument(models.Model):
         verbose_name=_("Tender priprema"),
     )
     file = models.FileField(upload_to="tender_documents/", verbose_name=_("Dokument"))
-    description = models.TextField(
-        blank=True, null=True, verbose_name=_("Opis dokumenta")
-    )
-    uploaded_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum uploada")
-    )
+    description = models.TextField(blank=True, null=True, verbose_name=_("Opis dokumenta"))
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum uploada"))
 
     class Meta:
         verbose_name = _("Dokument natječaja")
@@ -401,9 +357,7 @@ class TenderPreparationManager(models.Manager):
         return self.filter(is_active=True)
 
     def pending_submissions(self):
-        return self.filter(
-            status="in_preparation", delivery_opening_datetime__gt=timezone.now()
-        )
+        return self.filter(status="in_preparation", delivery_opening_datetime__gt=timezone.now())
 
     def get_by_opportunity(self, opportunity_id):
         return self.get(opportunity_id=opportunity_id)
@@ -435,24 +389,14 @@ class TenderPreparation(BaseModel):
         related_name="proposal_tender_preparations",
         verbose_name=_("Ponudbeni nacrti"),
     )
-    tender_instructions = models.TextField(
-        blank=True, null=True, verbose_name=_("Upute za ponuditelje")
-    )
-    evaluation_criteria = models.JSONField(
-        blank=True, null=True, verbose_name=_("Kriteriji evaluacije")
-    )
-    tender_validity = models.DateField(
-        blank=True, null=True, verbose_name=_("Rok valjanosti ponude")
-    )
+    tender_instructions = models.TextField(blank=True, null=True, verbose_name=_("Upute za ponuditelje"))
+    evaluation_criteria = models.JSONField(blank=True, null=True, verbose_name=_("Kriteriji evaluacije"))
+    tender_validity = models.DateField(blank=True, null=True, verbose_name=_("Rok valjanosti ponude"))
     delivery_opening_datetime = models.DateTimeField(
         blank=True, null=True, verbose_name=_("Datum i vrijeme otvaranja ponuda")
     )
-    payment_terms = models.TextField(
-        blank=True, null=True, verbose_name=_("Uvjeti plaćanja")
-    )
-    warranty_terms = models.TextField(
-        blank=True, null=True, verbose_name=_("Uvjeti jamstva")
-    )
+    payment_terms = models.TextField(blank=True, null=True, verbose_name=_("Uvjeti plaćanja"))
+    warranty_terms = models.TextField(blank=True, null=True, verbose_name=_("Uvjeti jamstva"))
     # Garancija za ozbiljnost ponude (obično 3%)
     seriousness_guarantee_percentage = models.DecimalField(
         max_digits=5,
@@ -499,12 +443,8 @@ class TenderPreparation(BaseModel):
         blank=True,
         verbose_name=_("Iznos bankarske garancije za jamstveni rok"),
     )
-    cashflow_plan = models.JSONField(
-        blank=True, null=True, verbose_name=_("Plan cashflow-a")
-    )
-    nabava_updates = models.JSONField(
-        blank=True, null=True, verbose_name=_("Ažurirane ponude materijala iz nabave")
-    )
+    cashflow_plan = models.JSONField(blank=True, null=True, verbose_name=_("Plan cashflow-a"))
+    nabava_updates = models.JSONField(blank=True, null=True, verbose_name=_("Ažurirane ponude materijala iz nabave"))
     notes = models.TextField(blank=True, null=True, verbose_name=_("Dodatne napomene"))
     status = models.CharField(
         max_length=50,
@@ -512,12 +452,8 @@ class TenderPreparation(BaseModel):
         default="draft",
         verbose_name=_("Status pripreme tendera"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Vrijeme kreiranja")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Zadnje ažuriranje")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Vrijeme kreiranja"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Zadnje ažuriranje"))
 
     # Kalkulacijski podaci
     material_costs = models.DecimalField(
@@ -540,12 +476,8 @@ class TenderPreparation(BaseModel):
         default=Decimal("50.00"),
         verbose_name=_("Satnica (€)"),
     )
-    required_documents = models.JSONField(
-        default=dict, blank=True, verbose_name=_("Obavezna dokumentacija")
-    )
-    technical_specs = models.JSONField(
-        default=dict, blank=True, verbose_name=_("Tehničke specifikacije")
-    )
+    required_documents = models.JSONField(default=dict, blank=True, verbose_name=_("Obavezna dokumentacija"))
+    technical_specs = models.JSONField(default=dict, blank=True, verbose_name=_("Tehničke specifikacije"))
 
     # Poveznica s Projektiranjem
     technical_drawings = models.ManyToManyField(
@@ -554,9 +486,7 @@ class TenderPreparation(BaseModel):
         blank=True,
         verbose_name=_("Tehnički nacrti"),
     )
-    project_manager = models.CharField(
-        max_length=255, null=True, blank=True, verbose_name=_("Voditelj projekta (ime)")
-    )
+    project_manager = models.CharField(max_length=255, null=True, blank=True, verbose_name=_("Voditelj projekta (ime)"))
     # Poveznica s Proizvodnjom
     production_capacity = models.ForeignKey(
         Projekt,
@@ -577,23 +507,17 @@ class TenderPreparation(BaseModel):
         related_name="tender",
         verbose_name=_("Financijska analiza"),
     )
-    payment_schedule = models.JSONField(
-        default=dict, blank=True, verbose_name=_("Plan plaćanja")
-    )
+    payment_schedule = models.JSONField(default=dict, blank=True, verbose_name=_("Plan plaćanja"))
 
     objects = TenderPreparationManager()
 
     def clean(self):
         if self.tender_validity and self.delivery_opening_datetime:
             if self.tender_validity < self.delivery_opening_datetime.date():
-                raise ValidationError(
-                    {"tender_validity": "Tender validity must be after opening date"}
-                )
+                raise ValidationError({"tender_validity": "Tender validity must be after opening date"})
 
         if self.seriousness_guarantee_percentage > 100:
-            raise ValidationError(
-                {"seriousness_guarantee_percentage": "Percentage cannot exceed 100"}
-            )
+            raise ValidationError({"seriousness_guarantee_percentage": "Percentage cannot exceed 100"})
 
     # Kalkulacijske metode
 
@@ -621,12 +545,8 @@ class TenderPreparation(BaseModel):
         Ako je definiran proizvodni kapacitet (povezani projekt), poziva se metoda izračuna troška iz modula proizvodnje.
         """
         production_cost = Decimal("0.00")
-        if self.production_capacity and hasattr(
-            self.production_capacity, "calculate_cost"
-        ):
-            production_cost = self.production_capacity.calculate_cost(
-                self.estimated_production_time
-            )
+        if self.production_capacity and hasattr(self.production_capacity, "calculate_cost"):
+            production_cost = self.production_capacity.calculate_cost(self.estimated_production_time)
         return production_cost
 
     def calculate_available_work_hours(self):
@@ -639,10 +559,7 @@ class TenderPreparation(BaseModel):
             and hasattr(self.production_capacity, "worker_count")
             and hasattr(self.production_capacity, "monthly_hours")
         ):
-            return (
-                self.production_capacity.worker_count
-                * self.production_capacity.monthly_hours
-            )
+            return self.production_capacity.worker_count * self.production_capacity.monthly_hours
         # Default: npr. 7 radnika * 160 sati = 1120 sati
         return Decimal("1120")
 
@@ -676,10 +593,7 @@ class TenderPreparation(BaseModel):
         Izračunava maržu (ako postoji budžet) kao postotak razlike između budžeta iz prilike i ukupnih troškova.
         """
         if self.opportunity and self.opportunity.budget and self.calculate_total_cost():
-            return (
-                (self.opportunity.budget - self.calculate_total_cost())
-                / self.opportunity.budget
-            ) * 100
+            return ((self.opportunity.budget - self.calculate_total_cost()) / self.opportunity.budget) * 100
         return None
 
     def check_required_documents(self):
@@ -701,16 +615,10 @@ class TenderPreparation(BaseModel):
         """
         if self.opportunity and self.opportunity.budget:
             budget = self.opportunity.budget
-            self.seriousness_guarantee_amount = (
-                budget * self.seriousness_guarantee_percentage
-            ) / Decimal("100.00")
-            self.performance_guarantee_amount = (
-                budget * self.performance_guarantee_percentage
-            ) / Decimal("100.00")
+            self.seriousness_guarantee_amount = (budget * self.seriousness_guarantee_percentage) / Decimal("100.00")
+            self.performance_guarantee_amount = (budget * self.performance_guarantee_percentage) / Decimal("100.00")
             if self.warranty_guarantee_percentage:
-                self.warranty_guarantee_amount = (
-                    budget * self.warranty_guarantee_percentage
-                ) / Decimal("100.00")
+                self.warranty_guarantee_amount = (budget * self.warranty_guarantee_percentage) / Decimal("100.00")
         else:
             self.seriousness_guarantee_amount = None
             self.performance_guarantee_amount = None
@@ -762,18 +670,14 @@ class TenderPreparation(BaseModel):
 
     def change_status(self, new_status, user=None):
         if not self.status_change_allowed(new_status):
-            raise ValidationError(
-                f"Invalid status transition from {self.status} to {new_status}"
-            )
+            raise ValidationError(f"Invalid status transition from {self.status} to {new_status}")
 
         old_status = self.status
         self.status = new_status
         self.save()
 
         # Log status change
-        TenderStatusChange.objects.create(
-            tender=self, old_status=old_status, new_status=new_status, changed_by=user
-        )
+        TenderStatusChange.objects.create(tender=self, old_status=old_status, new_status=new_status, changed_by=user)
 
     def save(self, *args, **kwargs):
         # Prije spremanja, izračunaj garancije
@@ -788,9 +692,7 @@ class TenderStatusChange(models.Model):
     tender = models.ForeignKey(TenderPreparation, on_delete=models.CASCADE)
     old_status = models.CharField(max_length=50)
     new_status = models.CharField(max_length=50)
-    changed_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL
-    )
+    changed_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     changed_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -803,13 +705,9 @@ class TenderStatusChange(models.Model):
 
 
 class TenderMaterial(models.Model):
-    tender = models.ForeignKey(
-        TenderPreparation, on_delete=models.CASCADE, related_name="tender_materials"
-    )
+    tender = models.ForeignKey(TenderPreparation, on_delete=models.CASCADE, related_name="tender_materials")
     item_name = models.CharField(max_length=255, verbose_name=_("Naziv materijala"))
-    unit_price = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Cijena jedinice")
-    )
+    unit_price = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Cijena jedinice"))
     quantity = models.PositiveIntegerField(verbose_name=_("Količina"))
     tax = models.DecimalField(
         max_digits=5,
@@ -826,9 +724,7 @@ class TenderMaterial(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        self.total_price = (
-            self.unit_price * self.quantity * (1 + self.tax / Decimal("100"))
-        )
+        self.total_price = self.unit_price * self.quantity * (1 + self.tax / Decimal("100"))
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -836,16 +732,10 @@ class TenderMaterial(models.Model):
 
 
 class TenderLabor(models.Model):
-    tender = models.ForeignKey(
-        TenderPreparation, on_delete=models.CASCADE, related_name="tender_labor"
-    )
+    tender = models.ForeignKey(TenderPreparation, on_delete=models.CASCADE, related_name="tender_labor")
     labor_category = models.CharField(max_length=255, verbose_name=_("Vrsta rada"))
-    hours = models.DecimalField(
-        max_digits=6, decimal_places=2, verbose_name=_("Broj sati")
-    )
-    hourly_rate = models.DecimalField(
-        max_digits=6, decimal_places=2, verbose_name=_("Satnica (€)")
-    )
+    hours = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_("Broj sati"))
+    hourly_rate = models.DecimalField(max_digits=6, decimal_places=2, verbose_name=_("Satnica (€)"))
     total_cost = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -867,63 +757,34 @@ class TenderCost(models.Model):
         ("direct", _("Neposredni")),
         ("indirect", _("Posredni")),
     ]
-    tender = models.ForeignKey(
-        TenderPreparation, on_delete=models.CASCADE, related_name="tender_costs"
-    )
+    tender = models.ForeignKey(TenderPreparation, on_delete=models.CASCADE, related_name="tender_costs")
     cost_name = models.CharField(max_length=255, verbose_name=_("Naziv troška"))
-    cost_type = models.CharField(
-        max_length=50, choices=COST_TYPE_CHOICES, verbose_name=_("Vrsta troška")
-    )
-    amount = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Iznos")
-    )
+    cost_type = models.CharField(max_length=50, choices=COST_TYPE_CHOICES, verbose_name=_("Vrsta troška"))
+    amount = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Iznos"))
 
     def __str__(self):
         return self.cost_name
 
 
 class TenderSummary(models.Model):
-    tender = models.OneToOneField(
-        TenderPreparation, on_delete=models.CASCADE, related_name="tender_summary"
-    )
-    total_material_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
-    total_labor_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
-    total_direct_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
-    total_indirect_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
-    final_price = models.DecimalField(
-        max_digits=12, decimal_places=2, default=Decimal("0.00")
-    )
+    tender = models.OneToOneField(TenderPreparation, on_delete=models.CASCADE, related_name="tender_summary")
+    total_material_cost = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    total_labor_cost = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    total_direct_cost = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    total_indirect_cost = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    final_price = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
 
     def update_costs(self):
-        self.total_material_cost = sum(
-            material.total_price for material in self.tender.tender_materials.all()
-        )
-        self.total_labor_cost = sum(
-            labor.total_cost for labor in self.tender.tender_labor.all()
-        )
-        self.total_direct_cost = sum(
-            cost.project_cost for cost in self.tender.tender_neposredni_troskovi.all()
-        )
-        self.total_indirect_cost = sum(
-            cost.project_cost for cost in self.tender.tender_posredni_troskovi.all()
-        )
+        self.total_material_cost = sum(material.total_price for material in self.tender.tender_materials.all())
+        self.total_labor_cost = sum(labor.total_cost for labor in self.tender.tender_labor.all())
+        self.total_direct_cost = sum(cost.project_cost for cost in self.tender.tender_neposredni_troskovi.all())
+        self.total_indirect_cost = sum(cost.project_cost for cost in self.tender.tender_posredni_troskovi.all())
         self.calculate_final_price()
         self.save()
 
     def calculate_final_price(self):
         self.final_price = (
-            self.total_material_cost
-            + self.total_labor_cost
-            + self.total_direct_cost
-            + self.total_indirect_cost
+            self.total_material_cost + self.total_labor_cost + self.total_direct_cost + self.total_indirect_cost
         )
 
     def __str__(self):
@@ -931,25 +792,13 @@ class TenderSummary(models.Model):
 
 
 class TenderRasclamba(BaseModel):
-    tender = models.ForeignKey(
-        TenderPreparation, on_delete=models.CASCADE, related_name="rasclamba_items"
-    )
+    tender = models.ForeignKey(TenderPreparation, on_delete=models.CASCADE, related_name="rasclamba_items")
     naziv_stavke = models.CharField(max_length=255, verbose_name=_("Naziv stavke"))
-    sati_rada = models.DecimalField(
-        max_digits=8, decimal_places=2, verbose_name=_("Sati rada")
-    )
-    nas_materijal = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Naš materijal")
-    )
-    vanjska_usluga = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Vanjska usluga")
-    )
-    oprema_dijelovi = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Oprema/dijelovi")
-    )
-    dobavljac = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("Dobavljač")
-    )
+    sati_rada = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_("Sati rada"))
+    nas_materijal = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Naš materijal"))
+    vanjska_usluga = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Vanjska usluga"))
+    oprema_dijelovi = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Oprema/dijelovi"))
+    dobavljac = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Dobavljač"))
 
     def __str__(self):
         return self.naziv_stavke
@@ -962,15 +811,9 @@ class TenderNeposredniTroskovi(BaseModel):
         related_name="tender_neposredni_troskovi",
     )
     description = models.CharField(max_length=255, verbose_name=_("Opis troška"))
-    monthly_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Mjesečni trošak")
-    )
-    project_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Trošak po projektu")
-    )
-    coefficient = models.DecimalField(
-        max_digits=5, decimal_places=2, verbose_name=_("Koeficijent")
-    )
+    monthly_cost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Mjesečni trošak"))
+    project_cost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Trošak po projektu"))
+    coefficient = models.DecimalField(max_digits=5, decimal_places=2, verbose_name=_("Koeficijent"))
 
     def __str__(self):
         return self.description
@@ -983,12 +826,8 @@ class TenderPosredniTroskovi(BaseModel):
         related_name="tender_posredni_troskovi",
     )
     description = models.CharField(max_length=255, verbose_name=_("Opis troška"))
-    monthly_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Mjesečni trošak")
-    )
-    project_cost = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Trošak po projektu")
-    )
+    monthly_cost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Mjesečni trošak"))
+    project_cost = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Trošak po projektu"))
 
     def __str__(self):
         return self.description

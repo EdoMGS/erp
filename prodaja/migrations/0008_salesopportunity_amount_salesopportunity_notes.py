@@ -13,9 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="salesopportunity",
             name="amount",
-            field=models.DecimalField(
-                decimal_places=2, default=0, max_digits=10, verbose_name="Vrijednost"
-            ),
+            field=models.DecimalField(decimal_places=2, default=0, max_digits=10, verbose_name="Vrijednost"),
             preserve_default=False,
         ),
         migrations.AddField(

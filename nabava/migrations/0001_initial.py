@@ -59,9 +59,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "rok_placanja",
-                    models.PositiveIntegerField(
-                        default=30, verbose_name="Rok plaćanja (dana)"
-                    ),
+                    models.PositiveIntegerField(default=30, verbose_name="Rok plaćanja (dana)"),
                 ),
                 (
                     "popust",
@@ -69,9 +67,7 @@ class Migration(migrations.Migration):
                         decimal_places=2,
                         default=Decimal("0.00"),
                         max_digits=5,
-                        validators=[
-                            django.core.validators.MinValueValidator(Decimal("0.00"))
-                        ],
+                        validators=[django.core.validators.MinValueValidator(Decimal("0.00"))],
                         verbose_name="Standardni popust (%)",
                     ),
                 ),
@@ -102,9 +98,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Naziv grupe"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Naziv grupe"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
@@ -172,15 +166,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "kolicina",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Količina"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Količina"),
                 ),
                 (
                     "cijena",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Cijena"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Cijena"),
                 ),
             ],
             options={
@@ -267,15 +257,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "order_date",
-                    models.DateField(
-                        default=django.utils.timezone.now, verbose_name="Order Date"
-                    ),
+                    models.DateField(default=django.utils.timezone.now, verbose_name="Order Date"),
                 ),
                 (
                     "expected_delivery_date",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Expected Delivery"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Expected Delivery"),
                 ),
                 (
                     "status",
@@ -298,9 +284,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "delivery_schedule",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Delivery Schedule"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Delivery Schedule"),
                 ),
                 (
                     "reference_price",
@@ -330,9 +314,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Date Created"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Date Created"),
                 ),
                 (
                     "updated_at",
@@ -354,9 +336,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "quantity",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Količina"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Količina"),
                 ),
                 (
                     "unit_price",

@@ -1,0 +1,24 @@
+{% extends 'projektiranje_app/base.html' %}
+
+{% block title %}Detalji Projekta{% endblock %}
+
+{% block content %}
+    <h1>{{ project.naziv_projekta }}</h1>
+    <p><strong>ERP ID:</strong> {{ project.erp_id }}</p>
+    <p><strong>Status:</strong> {{ project.status }}</p>
+    <p><strong>Početak Projekta:</strong> {{ project.pocetak_projekta }}</p>
+    <p><strong>Rok za Isporuku:</strong> {{ project.rok_za_isporuku }}</p>
+    <p><strong>Financijski Detalji:</strong> {{ project.financial_details }}</p>
+    
+    <h2>Zadaci</h2>
+    <ul>
+        {% for task in project.design_tasks.all %}
+            <li>{{ task }} - <a href="{% url 'projektiranje_app:designtask_detail' task.id %}">Detalji</a></li>
+        {% empty %}
+            <li>Nema zadataka.</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'projektiranje_app:project_update' project.id %}" class="btn btn-secondary">Uredi Projekt</a>
+    <a href="{% url 'projektiranje_app:project_list' %}" class="btn btn-primary">Nazad na Listu</a>
+{% endblock %}

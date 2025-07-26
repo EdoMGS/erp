@@ -73,9 +73,7 @@ class MaterijalForm(BaseSkladisteForm):
 
     class Meta:
         model = Materijal
-        exclude = [
-            "tehnicki_nacrt"
-        ]  # Exclude this field from form to avoid circular import
+        exclude = ["tehnicki_nacrt"]  # Exclude this field from form to avoid circular import
         # Or specify only the fields you want to include:
         # fields = ['artikl', 'radni_nalog', 'status', 'naziv', 'cijena', 'kolicina', 'opis', 'datum_dostave']
 

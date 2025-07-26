@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ERP Dashboard</title>
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reconnecting-websocket@4.4.0/dist/reconnecting-websocket.min.js"></script>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f0f0f0; }
+        .kpi-ok { color: green; font-weight: bold; }
+        .kpi-pending { color: orange; font-weight: bold; }
+    </style>
+</head>
+<body>
+<h2>ERP Dashboard</h2>
+<table id="dashboard-table">
+    <thead>
+        <tr>
+            <th>Job</th>
+            <th>Revenue</th>
+            <th>Cost 50%</th>
+            <th>Owner 20%</th>
+            <th>Workers 30%</th>
+            <th>KPI Status</th>
+        </tr>
+    </thead>
+    <tbody id="dashboard-body" hx-get="{% url 'dashboard_data' %}" hx-trigger="load" hx-target="#dashboard-body" hx-swap="outerHTML">
+        <!-- Rows will be loaded here -->
+    </tbody>
+</table>
+<script>
+    function renderRows(rows) {
+        return rows.map(row => `
+            <tr>
+                <td>${row.name}</td>
+                <td>${row.revenue.toFixed(2)} €</td>
+                <td>${row.cost_50.toFixed(2)} €</td>
+                <td>${row.owner_20.toFixed(2)} €</td>
+                <td>${row.workers_30.toFixed(2)} €</td>
+                <td class="kpi-${row.kpi_status.toLowerCase()}">${row.kpi_status}</td>
+            </tr>
+        `).join('');
+    }
+    const ws = new ReconnectingWebSocket(
+        (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/dashboard/'
+    );
+    ws.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        document.getElementById('dashboard-body').innerHTML = renderRows(data.rows);
+    };
+</script>
+</body>
+</html>

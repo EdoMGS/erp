@@ -1,0 +1,22 @@
+[
+  {
+    "model": "financije.fixedcost",
+    "fields": {
+      "division": "BRAVARIJA",
+      "name": "Najam hale",
+      "amount": "1200.00",
+      "period": "M",
+      "tenant": 1
+    }
+  },
+  {
+    "model": "financije.fixedcost",
+    "fields": {
+      "division": "FARBANJE",
+      "name": "Struja",
+      "amount": "900.00",
+      "period": "M",
+      "tenant": 1
+    }
+  }
+]

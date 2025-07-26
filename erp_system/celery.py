@@ -3,9 +3,7 @@ import os
 from celery import Celery
 
 # 1. Koje postavke Django koristi
-os.environ.setdefault(
-    "DJANGO_SETTINGS_MODULE", "erp_system.settings.dev"  # ili prod.py kad dođe vrijeme
-)
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "erp_system.settings.dev")  # ili prod.py kad dođe vrijeme
 
 # 2. Instanciraj Celery
 app = Celery("erp_system")

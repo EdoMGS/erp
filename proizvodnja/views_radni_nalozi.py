@@ -159,9 +159,7 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
         Tko smije kreirati ili uređivati radne naloge?
         Prilagodi prema grupama ili user.employee.logika
         """
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     def get(self, request, projekt_id, pk=None):
         projekt = get_object_or_404(Projekt, id=projekt_id)
@@ -174,15 +172,9 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
         materijal_formset = MaterijalFormSet(instance=radni_nalog, prefix="materijali")
         # Ako imaš npr. TehnickaDokumentacijaFormSet:
         # dokumentacija_formset = TehnickaDokumentacijaFormSet(instance=radni_nalog, prefix='dokumentacije')
-        video_materijal_formset = VideoMaterijalFormSet(
-            instance=radni_nalog, prefix="video_materijali"
-        )
-        video_pitanje_formset = VideoPitanjeFormSet(
-            instance=radni_nalog, prefix="video_pitanja"
-        )
-        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(
-            instance=radni_nalog, prefix="ocjene_kvalitete"
-        )
+        video_materijal_formset = VideoMaterijalFormSet(instance=radni_nalog, prefix="video_materijali")
+        video_pitanje_formset = VideoPitanjeFormSet(instance=radni_nalog, prefix="video_pitanja")
+        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(instance=radni_nalog, prefix="ocjene_kvalitete")
         # Ako imaš NagradaFormSet i UstedaFormSet:
         # nagrada_formset = NagradaFormSet(instance=radni_nalog, prefix='nagrade')
         # usteda_formset = UstedaFormSet(instance=radni_nalog, prefix='ustede')
@@ -215,16 +207,10 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
         projekt = get_object_or_404(Projekt, id=projekt_id)
         radni_nalog = get_object_or_404(RadniNalog, pk=pk) if pk else None
 
-        form = self.form_class(
-            data=request.POST, files=request.FILES, instance=radni_nalog
-        )
+        form = self.form_class(data=request.POST, files=request.FILES, instance=radni_nalog)
 
-        angazman_formset = AngazmanFormSet(
-            request.POST, request.FILES, instance=radni_nalog, prefix="angazmani"
-        )
-        materijal_formset = MaterijalFormSet(
-            request.POST, request.FILES, instance=radni_nalog, prefix="materijali"
-        )
+        angazman_formset = AngazmanFormSet(request.POST, request.FILES, instance=radni_nalog, prefix="angazmani")
+        materijal_formset = MaterijalFormSet(request.POST, request.FILES, instance=radni_nalog, prefix="materijali")
         # dokumentacija_formset = TehnickaDokumentacijaFormSet(request.POST, request.FILES, instance=radni_nalog, prefix='dokumentacije')
         video_materijal_formset = VideoMaterijalFormSet(
             request.POST, request.FILES, instance=radni_nalog, prefix="video_materijali"
@@ -262,9 +248,7 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
                                 request,
                                 "Ne možete započeti ovaj nalog - preduvjeti nisu ispunjeni.",
                             )
-                            return redirect(
-                                "lista_radnih_naloga", projekt_id=projekt.id
-                            )
+                            return redirect("lista_radnih_naloga", projekt_id=projekt.id)
 
                     nalog_obj.save()
                     form.save_m2m()
@@ -281,9 +265,7 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 
                     # Ako je ZAVRSENO -> postavi stvarno vrijeme = zbroj sati
                     if nalog_obj.status == "ZAVRSENO":
-                        total_sati = sum(
-                            ang.sati_rada for ang in nalog_obj.angazmani.all()
-                        )
+                        total_sati = sum(ang.sati_rada for ang in nalog_obj.angazmani.all())
                         nalog_obj.stvarno_vrijeme = total_sati
                         nalog_obj.save(update_fields=["stvarno_vrijeme"])
 
@@ -348,9 +330,7 @@ class UniverzalniRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 # ------------------------------------------------------------
 class ObrisiRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def post(self, request, pk, *args, **kwargs):
@@ -372,15 +352,11 @@ class ObrisiRadniNalogView(LoginRequiredMixin, UserPassesTestMixin, View):
 class PrintPDFRadniNalogView(LoginRequiredMixin, View):
     def get(self, request, pk, *args, **kwargs):
         nalog = get_object_or_404(RadniNalog, pk=pk, is_active=True)
-        html_string = render_to_string(
-            "nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog}
-        )
+        html_string = render_to_string("nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog})
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = f'attachment; filename="radni_nalog_{pk}.pdf"'
 
-        weasyprint.HTML(
-            string=html_string, base_url=request.build_absolute_uri()
-        ).write_pdf(
+        weasyprint.HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
             response,
             stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )
@@ -399,13 +375,9 @@ class PrintPDFSviNaloziView(LoginRequiredMixin, View):
             {"radni_nalozi": radni_nalozi, "projekt": projekt},
         )
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = (
-            f'attachment; filename="radni_nalozi_projekt_{projekt_id}.pdf"'
-        )
+        response["Content-Disposition"] = f'attachment; filename="radni_nalozi_projekt_{projekt_id}.pdf"'
 
-        weasyprint.HTML(
-            string=html_str, base_url=request.build_absolute_uri()
-        ).write_pdf(
+        weasyprint.HTML(string=html_str, base_url=request.build_absolute_uri()).write_pdf(
             response,
             stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )
@@ -421,15 +393,11 @@ class GenerirajPDFRadniNalogView(LoginRequiredMixin, View):
             return HttpResponseForbidden("Nemate dopuštenje.")
 
         nalog = get_object_or_404(RadniNalog, pk=pk, is_active=True)
-        html_string = render_to_string(
-            "nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog}
-        )
+        html_string = render_to_string("nalozi/pdf_radni_nalog.html", {"radni_nalog": nalog})
         response = HttpResponse(content_type="application/pdf")
         response["Content-Disposition"] = f'attachment; filename="radni_nalog_{pk}.pdf"'
 
-        weasyprint.HTML(
-            string=html_string, base_url=request.build_absolute_uri()
-        ).write_pdf(
+        weasyprint.HTML(string=html_string, base_url=request.build_absolute_uri()).write_pdf(
             response,
             stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + "/css/pdf_styles.css")],
         )

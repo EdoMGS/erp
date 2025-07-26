@@ -49,9 +49,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="estimated_production_time",
-            field=models.DurationField(
-                blank=True, null=True, verbose_name="Procijenjeno vrijeme proizvodnje"
-            ),
+            field=models.DurationField(blank=True, null=True, verbose_name="Procijenjeno vrijeme proizvodnje"),
         ),
         migrations.AddField(
             model_name="tenderpreparation",
@@ -105,9 +103,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="payment_schedule",
-            field=models.JSONField(
-                blank=True, default=dict, verbose_name="Plan plaćanja"
-            ),
+            field=models.JSONField(blank=True, default=dict, verbose_name="Plan plaćanja"),
         ),
         migrations.AddField(
             model_name="tenderpreparation",
@@ -133,9 +129,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="required_documents",
-            field=models.JSONField(
-                blank=True, default=dict, verbose_name="Obavezna dokumentacija"
-            ),
+            field=models.JSONField(blank=True, default=dict, verbose_name="Obavezna dokumentacija"),
         ),
         migrations.AddField(
             model_name="tenderpreparation",
@@ -150,9 +144,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="technical_specs",
-            field=models.JSONField(
-                blank=True, default=dict, verbose_name="Tehničke specifikacije"
-            ),
+            field=models.JSONField(blank=True, default=dict, verbose_name="Tehničke specifikacije"),
         ),
         migrations.AddField(
             model_name="tenderpreparation",

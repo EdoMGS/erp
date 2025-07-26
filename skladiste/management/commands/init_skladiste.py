@@ -33,18 +33,19 @@ def premjesti_artikl(request):
         data = json.loads(request.body)
         artikl = get_object_or_404(Artikl, id=data.get('artikl_id'))
         nova_lokacija = get_object_or_404(Lokacija, id=data.get('nova_lokacija_id'))
-        
+
         with transaction.atomic():
             stara_lokacija = artikl.lokacija
             artikl.lokacija = nova_lokacija
             artikl.save()
-            
+
             DnevnikDogadaja.objects.create(
                 poruka=f"Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' u '{nova_lokacija.naziv}'",
-                tip='info'
+                tip='info',
             )
         return JsonResponse({'status': 'success', 'poruka': f"Artikl '{artikl.naziv}' uspješno premješten."})
     return HttpResponse(status=405)
+
 
 # 2. Rezervacija artikala za potrebe drugih modula
 @csrf_exempt
@@ -55,20 +56,22 @@ def rezerviraj_artikl(request):
         data = json.loads(request.body)
         artikl = get_object_or_404(Artikl, id=data.get('artikl_id'))
         kolicina = data.get('kolicina')
-        
+
         if artikl.kolicina >= kolicina:
             artikl.kolicina -= kolicina
             artikl.status = 'rezervirano'
             artikl.save()
-            
+
             DnevnikDogadaja.objects.create(
-                poruka=f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}' za narudžbu/projekt.",
-                tip='info'
+                poruka=f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}' za narudžbu/projekt.", tip='info'
             )
-            return JsonResponse({'status': 'success', 'poruka': f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}'."})
+            return JsonResponse(
+                {'status': 'success', 'poruka': f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}'."}
+            )
         else:
             return JsonResponse({'status': 'error', 'poruka': 'Nema dovoljno zaliha za rezervaciju.'})
     return HttpResponse(status=405)
+
 
 # 3. API za provjeru dostupnosti artikala (za druge module)
 @csrf_exempt
@@ -80,6 +83,7 @@ def provjeri_dostupnost(request):
         artikl = get_object_or_404(Artikl, id=artikl_id)
         return JsonResponse({'naziv': artikl.naziv, 'kolicina': artikl.kolicina, 'status': artikl.status})
     return HttpResponse(status=405)
+
 
 # 4. Automatizacija premještanja zaliha ako su ispod minimalne razine
 def automatizirano_premjestanje():
@@ -94,8 +98,9 @@ def automatizirano_premjestanje():
             artikl.save()
             DnevnikDogadaja.objects.create(
                 poruka=f"Automatski premještaj: Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' u '{nova_lokacija.naziv}' zbog niske zalihe.",
-                tip='upozorenje'
+                tip='upozorenje',
             )
+
 
 # 5. Integracija s ostalim modulima - primjer funkcije za nabavu
 def obavijesti_nabavu_o_niskim_zalihama():
@@ -104,6 +109,7 @@ def obavijesti_nabavu_o_niskim_zalihama():
     for artikl in artikli:
         # Ovdje bi bila logika za slanje zahtjeva modulu nabave
         print(f"Obavijest nabavi: Artikl '{artikl.naziv}' ima niske zalihe ({artikl.kolicina} jedinica).")
+
 
 # 6. Unos artikala putem CSV datoteke
 def unos_artikala_csv(putanja_do_datoteke):
@@ -119,7 +125,7 @@ def unos_artikala_csv(putanja_do_datoteke):
                         lokacija=lokacija,
                         datum_isteka=red.get('datum_isteka') or None,
                         serijski_broj=red.get('serijski_broj') or None,
-                        status=red.get('status', 'u_skladištu')
+                        status=red.get('status', 'u_skladištu'),
                     )
         print("Artikli uspješno uneseni iz CSV datoteke.")
     except FileNotFoundError:
@@ -129,9 +135,11 @@ def unos_artikala_csv(putanja_do_datoteke):
     except Exception as e:
         print(f"Greška prilikom unosa artikala: {e}")
 
+
 # 7. Home stranica skladišta
 def skladiste_home(request):
     return render(request, 'skladiste/home.html')
+
 
 # 8. URL konfiguracija
 urlpatterns = [
@@ -140,6 +148,7 @@ urlpatterns = [
     path('dodaj_artikl/', rezerviraj_artikl, name='dodaj_artikl'),
     path('premjesti_artikl/', premjesti_artikl, name='premjesti_artikl'),
 ]
+
 
 # 9. Komanda za inicijalizaciju skladišta
 class Command(BaseCommand):
@@ -156,7 +165,15 @@ class Command(BaseCommand):
             self.stdout.write(self.style.SUCCESS(f"Artikl dodan: {artikl}"))
 
             # Testiranje rezervacije
-            rezerviraj_artikl_request = type('Request', (object,), {"method": "POST", "body": json.dumps({"artikl_id": artikl.id, "kolicina": 3}), "user": User.objects.first()})
+            rezerviraj_artikl_request = type(
+                'Request',
+                (object,),
+                {
+                    "method": "POST",
+                    "body": json.dumps({"artikl_id": artikl.id, "kolicina": 3}),
+                    "user": User.objects.first(),
+                },
+            )
             self.stdout.write(rezerviraj_artikl(rezerviraj_artikl_request).content.decode())
 
             # Testiranje automatiziranog premještanja
@@ -168,11 +185,7 @@ class Command(BaseCommand):
             # Testiranje unosa u dnevnik događaja
             korisnik = User.objects.first()
             if korisnik:
-                DnevnikDogadaja.objects.create(
-                    korisnik=korisnik,
-                    poruka="Testiranje unosa u dnevnik",
-                    tip="info"
-                )
+                DnevnikDogadaja.objects.create(korisnik=korisnik, poruka="Testiranje unosa u dnevnik", tip="info")
                 self.stdout.write(self.style.SUCCESS("Dnevnik dogadaja ažuriran."))
 
             # Testiranje unosa artikala putem CSV datoteke

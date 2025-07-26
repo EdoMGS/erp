@@ -1,0 +1,19 @@
+
+{% extends 'projektiranje_app/base.html' %}
+
+{% block title %}Lista Bill of Materials{% endblock %}
+
+{% block content %}
+    <h1>Bill of Materials</h1>
+    <a href="{% url 'projektiranje_app:billofmaterials_create' %}" class="btn btn-primary mb-3">Dodaj BOM</a>
+    <ul class="list-group">
+        {% for bom in billofmaterials %}
+            <li class="list-group-item">
+                <a href="{% url 'projektiranje_app:billofmaterials_detail' bom.id %}">{{ bom.naziv }}</a>
+                <a href="{% url 'projektiranje_app:billofmaterials_update' bom.id %}" class="btn btn-sm btn-secondary float-right">Uredi</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Nema BOM-ova.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

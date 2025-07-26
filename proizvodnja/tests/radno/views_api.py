@@ -48,9 +48,7 @@ class ListaOcjenaKvaliteteAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
-        return OcjenaKvalitete.objects.filter(
-            radni_nalog_id=radni_nalog_id, is_active=True
-        )
+        return OcjenaKvalitete.objects.filter(radni_nalog_id=radni_nalog_id, is_active=True)
 
 
 class KreirajOcjenuKvaliteteAPIView(generics.CreateAPIView):
@@ -86,9 +84,9 @@ class StatistikaProjektaAPIView(APIView):
                 "napredak": projekt.napredak,
                 "status": projekt.status,
                 "ukupni_radni_nalozi": projekt.radni_nalozi.count(),
-                "prosjek_ocjena": projekt.radni_nalozi.aggregate(
-                    avg_ocjena=Avg("ocjene_kvalitete__ocjena")
-                )["avg_ocjena"],
+                "prosjek_ocjena": projekt.radni_nalozi.aggregate(avg_ocjena=Avg("ocjene_kvalitete__ocjena"))[
+                    "avg_ocjena"
+                ],
             }
         )
 

@@ -13,6 +13,4 @@ def create_minimal_employee(user):
         hierarchical_level=hlevel,
         expertise_level=expertise,
     )
-    return Employee.objects.create(
-        user=user, position=position, expertise_level=expertise, department=dept
-    )
+    return Employee.objects.create(user=user, position=position, expertise_level=expertise, department=dept)

@@ -25,15 +25,9 @@ class ListaTehnickeDokumentacijeView(LoginRequiredMixin, ListView):
         projekt_id = self.kwargs.get("projekt_id")
 
         if radni_nalog_id:
-            queryset = (
-                super()
-                .get_queryset()
-                .filter(radni_nalog_id=radni_nalog_id, is_active=True)
-            )
+            queryset = super().get_queryset().filter(radni_nalog_id=radni_nalog_id, is_active=True)
         elif projekt_id:
-            queryset = (
-                super().get_queryset().filter(projekt_id=projekt_id, is_active=True)
-            )
+            queryset = super().get_queryset().filter(projekt_id=projekt_id, is_active=True)
         else:
             queryset = super().get_queryset().filter(is_active=True)
 
@@ -48,13 +42,9 @@ class ListaTehnickeDokumentacijeView(LoginRequiredMixin, ListView):
         context["projekt"] = None
 
         if "radni_nalog_id" in self.kwargs:
-            context["radni_nalog"] = get_object_or_404(
-                RadniNalog, id=self.kwargs["radni_nalog_id"]
-            )
+            context["radni_nalog"] = get_object_or_404(RadniNalog, id=self.kwargs["radni_nalog_id"])
         elif "projekt_id" in self.kwargs:
-            context["projekt"] = get_object_or_404(
-                Projekt, id=self.kwargs["projekt_id"]
-            )
+            context["projekt"] = get_object_or_404(Projekt, id=self.kwargs["projekt_id"])
 
         return context
 
@@ -132,9 +122,7 @@ class AzurirajTehnickuDokumentacijuView(LoginRequiredMixin, UpdateView):
         """
         Vraća korisnika na detalje dokumentacije.
         """
-        return reverse_lazy(
-            "detalji_tehnicke_dokumentacije", kwargs={"pk": self.object.pk}
-        )
+        return reverse_lazy("detalji_tehnicke_dokumentacije", kwargs={"pk": self.object.pk})
 
 
 # -------- 5. Brisanje tehničke dokumentacije -------- #

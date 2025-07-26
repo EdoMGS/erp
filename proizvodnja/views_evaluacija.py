@@ -25,9 +25,7 @@ class EvaluacijaRadnikaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         # Primjer: samo vlasnik/direktor/voditelj
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     def get_queryset(self):
         """
@@ -70,9 +68,7 @@ class EvaluacijaProjektaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor"]).exists()
 
     def get_queryset(self):
         """
@@ -94,9 +90,7 @@ class GenerirajIzvjestajView(LoginRequiredMixin, UserPassesTestMixin, View):
     template_name = "evaluacije/izvjestaj.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor"]).exists()
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
@@ -113,9 +107,7 @@ class GenerirajIzvjestajView(LoginRequiredMixin, UserPassesTestMixin, View):
                 prosjek_ocjena=Avg("ocjene_kvalitete__ocjena"),
                 ukupno_sati=Sum("angazmani__sati_rada"),
             ),
-            "izvjestaj_radnih_naloga": RadniNalog.objects.filter(
-                is_active=True
-            ).annotate(
+            "izvjestaj_radnih_naloga": RadniNalog.objects.filter(is_active=True).annotate(
                 prosjek_ocjena=Avg("ocjene_kvalitete__ocjena"),
                 ukupno_sati=Sum("angazmani__sati_rada"),
             ),
@@ -133,9 +125,7 @@ class ProjektPerformanceView(LoginRequiredMixin, ListView):
         return Projekt.objects.annotate(
             avg_task_quality=Avg("radni_nalozi__ocjene_kvalitete__ocjena"),
             total_tasks=Count("radni_nalozi"),
-            completed_tasks=Count(
-                "radni_nalozi", filter=Q(radni_nalozi__status="ZAVRSENO")
-            ),
+            completed_tasks=Count("radni_nalozi", filter=Q(radni_nalozi__status="ZAVRSENO")),
         ).filter(is_active=True)
 
 

@@ -6,14 +6,10 @@ from nalozi.models import TipProjekta, TipVozila
 # 1. Unos podataka za TipProjekta
 def import_tip_projekta(file_path):
     with open(file_path, encoding="utf-8") as f:
-        reader = csv.DictReader(
-            f, delimiter=";"
-        )  # Prilagodite razdjelnik ako je drugačiji
+        reader = csv.DictReader(f, delimiter=";")  # Prilagodite razdjelnik ako je drugačiji
         for row in reader:
             try:
-                TipProjekta.objects.get_or_create(
-                    naziv=row["naziv"], opis=row["opis"], aktivan=row["aktivan"] == "t"
-                )
+                TipProjekta.objects.get_or_create(naziv=row["naziv"], opis=row["opis"], aktivan=row["aktivan"] == "t")
                 print(f"Uspješno unesen TipProjekta: {row['naziv']}")
             except Exception as e:
                 print(f"Greška pri unosu TipProjekta: {row['naziv']} - {e}")
@@ -33,14 +29,10 @@ def import_grupa_poslova(file_path):
                 tip_projekta = TipProjekta.objects.get(id=row["tip_projekta_id"])
 
                 # Kreiraj ili ažuriraj GrupaPoslova
-                GrupaPoslova.objects.get_or_create(
-                    naziv=row["naziv"], opis=row["opis"], tip_projekta=tip_projekta
-                )
+                GrupaPoslova.objects.get_or_create(naziv=row["naziv"], opis=row["opis"], tip_projekta=tip_projekta)
                 print(f"Uspješno unesena GrupaPoslova: {row['naziv']}")
             except TipProjekta.DoesNotExist:
-                print(
-                    f"TipProjekta s ID-om '{row['tip_projekta_id']}' ne postoji. Preskočen unos."
-                )
+                print(f"TipProjekta s ID-om '{row['tip_projekta_id']}' ne postoji. Preskočen unos.")
             except Exception as e:
                 print(f"Greška pri unosu GrupaPoslova: {row['naziv']} - {e}")
 
@@ -52,9 +44,7 @@ def import_tip_vozila(file_path):
         next(reader)  # Preskoči header
         for row in reader:
             try:
-                TipVozila.objects.get_or_create(
-                    naziv=row[1], opis=row[2], aktivan=row[3] == "t"
-                )
+                TipVozila.objects.get_or_create(naziv=row[1], opis=row[2], aktivan=row[3] == "t")
                 print(f"Uspješno unesen TipVozila: {row[1]}")
             except Exception as e:
                 print(f"Greška pri unosu TipVozila: {row[1]} - {e}")

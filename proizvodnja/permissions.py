@@ -26,10 +26,7 @@ class ProizvodnjaPermission(BaseProizvodnjaPermission):
 
         # Check specific group permissions from settings
         required_groups = getattr(settings, "PROIZVODNJA_EDIT_GROUPS", ["Proizvodnja"])
-        return any(
-            self.check_group_permission(request.user, group)
-            for group in required_groups
-        )
+        return any(self.check_group_permission(request.user, group) for group in required_groups)
 
 
 class IsRadniNalogOwner(permissions.BasePermission):

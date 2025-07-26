@@ -21,30 +21,16 @@ class DnevniIzvjestajView(LoginRequiredMixin, TemplateView):
             datum = datetime.now().date()
 
         # Dohvaćanje statistika
-        context["zavrseni_projekti"] = Projekt.objects.filter(
-            status="ZAVRSENO", updated_at__date=datum
-        ).count()
+        context["zavrseni_projekti"] = Projekt.objects.filter(status="ZAVRSENO", updated_at__date=datum).count()
         context["zavrseni_radni_nalozi"] = RadniNalog.objects.filter(
             postotak_napretka=100, updated_at__date=datum
         ).count()
-        context["aktivni_angazmani"] = Angazman.objects.filter(
-            is_active=True, updated_at__date=datum
-        ).count()
-        context["ocjene_kvalitete"] = OcjenaKvalitete.objects.filter(
-            created_at__date=datum
-        ).count()
+        context["aktivni_angazmani"] = Angazman.objects.filter(is_active=True, updated_at__date=datum).count()
+        context["ocjene_kvalitete"] = OcjenaKvalitete.objects.filter(created_at__date=datum).count()
 
         # Dohvaćanje detalja aktivnosti
-        aktivnosti = list(
-            Projekt.objects.filter(updated_at__date=datum).values(
-                "id", "naziv_projekta", "updated_at"
-            )
-        )
-        aktivnosti += list(
-            RadniNalog.objects.filter(updated_at__date=datum).values(
-                "id", "naziv_naloga", "updated_at"
-            )
-        )
+        aktivnosti = list(Projekt.objects.filter(updated_at__date=datum).values("id", "naziv_projekta", "updated_at"))
+        aktivnosti += list(RadniNalog.objects.filter(updated_at__date=datum).values("id", "naziv_naloga", "updated_at"))
         aktivnosti = sorted(aktivnosti, key=lambda x: x["updated_at"], reverse=True)
 
         # Prikaz podataka za aktivnosti
@@ -74,18 +60,10 @@ class GenerirajPDFDnevniIzvjestajView(LoginRequiredMixin, View):
         # Podaci za PDF
         context = {
             "datum": datum,
-            "zavrseni_projekti": Projekt.objects.filter(
-                status="Završeno", updated_at__date=datum
-            ).count(),
-            "zavrseni_radni_nalozi": RadniNalog.objects.filter(
-                postotak_napretka=100, updated_at__date=datum
-            ).count(),
-            "aktivni_angazmani": Angazman.objects.filter(
-                is_active=True, updated_at__date=datum
-            ).count(),
-            "ocjene_kvalitete": OcjenaKvalitete.objects.filter(
-                created_at__date=datum
-            ).count(),
+            "zavrseni_projekti": Projekt.objects.filter(status="Završeno", updated_at__date=datum).count(),
+            "zavrseni_radni_nalozi": RadniNalog.objects.filter(postotak_napretka=100, updated_at__date=datum).count(),
+            "aktivni_angazmani": Angazman.objects.filter(is_active=True, updated_at__date=datum).count(),
+            "ocjene_kvalitete": OcjenaKvalitete.objects.filter(created_at__date=datum).count(),
         }
 
         # Generiranje PDF-a

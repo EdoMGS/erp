@@ -32,9 +32,7 @@ class BaseModel(models.Model):
 # 1) TIP, PROJEKT, GRUPA POSLOVA
 ##############################################################################
 class TipProjekta(BaseModel):
-    naziv = models.CharField(
-        max_length=255, unique=True, verbose_name=_("Naziv tipa projekta")
-    )
+    naziv = models.CharField(max_length=255, unique=True, verbose_name=_("Naziv tipa projekta"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
     aktivan = models.BooleanField(default=True)
 
@@ -48,9 +46,7 @@ class TipProjekta(BaseModel):
 
 
 class TipVozila(BaseModel):
-    naziv = models.CharField(
-        max_length=255, unique=True, verbose_name=_("Naziv tipa vozila")
-    )
+    naziv = models.CharField(max_length=255, unique=True, verbose_name=_("Naziv tipa vozila"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
     aktivan = models.BooleanField(default=True)
 
@@ -64,13 +60,9 @@ class TipVozila(BaseModel):
 
 
 class GrupaPoslova(BaseModel):
-    naziv = models.CharField(
-        max_length=255, unique=True, verbose_name=_("Naziv grupe poslova")
-    )
+    naziv = models.CharField(max_length=255, unique=True, verbose_name=_("Naziv grupe poslova"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis grupe poslova"))
-    tip_projekta = models.ForeignKey(
-        TipProjekta, on_delete=models.CASCADE, verbose_name=_("Tip Projekta")
-    )
+    tip_projekta = models.ForeignKey(TipProjekta, on_delete=models.CASCADE, verbose_name=_("Tip Projekta"))
 
     def __str__(self):
         return self.naziv
@@ -94,19 +86,11 @@ class Projekt(BaseModel):
         ("ZAVRSENO", "Završeno"),
     ]
 
-    naziv_projekta = models.CharField(
-        max_length=255, verbose_name=_("Naziv projekta"), db_index=True
-    )
-    erp_id = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("ERP ID")
-    )
+    naziv_projekta = models.CharField(max_length=255, verbose_name=_("Naziv projekta"), db_index=True)
+    erp_id = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("ERP ID"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
-    pocetak_projekta = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum početka")
-    )
-    rok_za_isporuku = models.DateField(
-        null=True, blank=True, verbose_name=_("Rok za isporuku")
-    )
+    pocetak_projekta = models.DateField(null=True, blank=True, verbose_name=_("Datum početka"))
+    rok_za_isporuku = models.DateField(null=True, blank=True, verbose_name=_("Rok za isporuku"))
     tip_projekta = models.ForeignKey(
         TipProjekta,
         on_delete=models.SET_NULL,
@@ -127,12 +111,8 @@ class Projekt(BaseModel):
         default="OTVOREN",
         verbose_name=_("Status Projekta"),
     )
-    ugradnja_na_lokaciji = models.BooleanField(
-        default=False, verbose_name=_("Ugradnja na Lokaciji")
-    )
-    ručni_unos_radnih_naloga = models.BooleanField(
-        default=False, verbose_name=_("Ručni Unos Radnih Naloga")
-    )
+    ugradnja_na_lokaciji = models.BooleanField(default=False, verbose_name=_("Ugradnja na Lokaciji"))
+    ručni_unos_radnih_naloga = models.BooleanField(default=False, verbose_name=_("Ručni Unos Radnih Naloga"))
 
     financial_details = models.OneToOneField(
         FinancialDetails,
@@ -180,13 +160,8 @@ class Projekt(BaseModel):
             self.financial_details.contracted_gross_price is not None
             and self.financial_details.contracted_net_price is not None
         ):
-            if (
-                self.financial_details.contracted_gross_price
-                < self.financial_details.contracted_net_price
-            ):
-                raise ValidationError(
-                    _("Ugovorena cijena (bruto) ne može biti manja od (neto).")
-                )
+            if self.financial_details.contracted_gross_price < self.financial_details.contracted_net_price:
+                raise ValidationError(_("Ugovorena cijena (bruto) ne može biti manja od (neto)."))
 
 
 ##############################################################################
@@ -224,9 +199,7 @@ class TemplateRadniNalog(models.Model):
         null=True,
         verbose_name=_("Predviđeno Vrijeme"),
     )
-    broj_izvrsenja = models.PositiveIntegerField(
-        default=0, verbose_name=_("Broj Izvršenja")
-    )
+    broj_izvrsenja = models.PositiveIntegerField(default=0, verbose_name=_("Broj Izvršenja"))
     akumulirani_sati = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -273,12 +246,8 @@ class Proizvodnja(BaseModel):
     )
     naziv = models.CharField(max_length=255, verbose_name=_("Naziv Proizvodnje"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
-    datum_pocetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum Početka")
-    )
-    datum_zavrsetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum Završetka")
-    )
+    datum_pocetka = models.DateField(null=True, blank=True, verbose_name=_("Datum Početka"))
+    datum_zavrsetka = models.DateField(null=True, blank=True, verbose_name=_("Datum Završetka"))
     status = models.CharField(
         max_length=50,
         choices=STATUS_CHOICES,
@@ -311,9 +280,7 @@ class Proizvodnja(BaseModel):
 class ProizvodnjaStatistika(models.Model):
     """Track production statistics and KPIs"""
 
-    proizvodnja = models.OneToOneField(
-        Proizvodnja, on_delete=models.CASCADE, related_name="statistika"
-    )
+    proizvodnja = models.OneToOneField(Proizvodnja, on_delete=models.CASCADE, related_name="statistika")
     ukupno_radnih_sati = models.DecimalField(
         max_digits=10, decimal_places=2, default=0, verbose_name=_("Ukupno radnih sati")
     )
@@ -324,9 +291,7 @@ class ProizvodnjaStatistika(models.Model):
         blank=True,
         verbose_name=_("Prosječna efikasnost"),
     )
-    broj_zavrsenih_naloga = models.PositiveIntegerField(
-        default=0, verbose_name=_("Broj završenih naloga")
-    )
+    broj_zavrsenih_naloga = models.PositiveIntegerField(default=0, verbose_name=_("Broj završenih naloga"))
     prosjecna_ocjena = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -337,23 +302,17 @@ class ProizvodnjaStatistika(models.Model):
 
     def update_statistics(self):
         """Update all statistics"""
-        self.ukupno_radnih_sati = sum(
-            nalog.stvarno_vrijeme or 0 for nalog in self.proizvodnja.radni_nalozi.all()
-        )
+        self.ukupno_radnih_sati = sum(nalog.stvarno_vrijeme or 0 for nalog in self.proizvodnja.radni_nalozi.all())
 
         finished_orders = self.proizvodnja.radni_nalozi.filter(status="ZAVRSENO")
         self.broj_zavrsenih_naloga = finished_orders.count()
 
         if finished_orders.exists():
             self.prosjecna_efikasnost = (
-                sum(nalog.performance_score or 0 for nalog in finished_orders)
-                / finished_orders.count()
+                sum(nalog.performance_score or 0 for nalog in finished_orders) / finished_orders.count()
             )
 
-            self.prosjecna_ocjena = (
-                sum(nalog.quality_score or 0 for nalog in finished_orders)
-                / finished_orders.count()
-            )
+            self.prosjecna_ocjena = sum(nalog.quality_score or 0 for nalog in finished_orders) / finished_orders.count()
 
         self.save()
 
@@ -380,9 +339,7 @@ class RadniNalog(BaseModel):
         ("drugo", "Drugo"),
     ]
 
-    naziv_naloga = models.CharField(
-        max_length=255, db_index=True, verbose_name=_("Naziv Naloga")
-    )
+    naziv_naloga = models.CharField(max_length=255, db_index=True, verbose_name=_("Naziv Naloga"))
     projekt = models.ForeignKey(
         Projekt,
         on_delete=models.CASCADE,
@@ -401,15 +358,9 @@ class RadniNalog(BaseModel):
         default="drugo",
         verbose_name=_("Tip Posla"),
     )
-    datum_pocetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum Početka")
-    )
-    datum_zavrsetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum Završetka")
-    )
-    postotak_napretka = models.PositiveIntegerField(
-        default=0, verbose_name=_("Postotak Napretka")
-    )
+    datum_pocetka = models.DateField(null=True, blank=True, verbose_name=_("Datum Početka"))
+    datum_zavrsetka = models.DateField(null=True, blank=True, verbose_name=_("Datum Završetka"))
+    postotak_napretka = models.PositiveIntegerField(default=0, verbose_name=_("Postotak Napretka"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
 
     dodatne_osobe = models.ManyToManyField(
@@ -441,12 +392,8 @@ class RadniNalog(BaseModel):
         default="srednji",
         verbose_name=_("Prioritet"),
     )
-    bypass_materijala = models.BooleanField(
-        default=False, verbose_name=_("Bypass Materijala")
-    )
-    dokumentacija_bypass = models.BooleanField(
-        default=False, verbose_name=_("Dokumentacija Bypass")
-    )
+    bypass_materijala = models.BooleanField(default=False, verbose_name=_("Bypass Materijala"))
+    dokumentacija_bypass = models.BooleanField(default=False, verbose_name=_("Dokumentacija Bypass"))
     status = models.CharField(
         max_length=30,
         choices=STATUSI_NALOGA,
@@ -485,9 +432,7 @@ class RadniNalog(BaseModel):
         verbose_name=_("Preduvjeti"),
     )
 
-    proizvodnja = models.ForeignKey(
-        Proizvodnja, on_delete=models.CASCADE, verbose_name=_("Proizvodnja")
-    )
+    proizvodnja = models.ForeignKey(Proizvodnja, on_delete=models.CASCADE, verbose_name=_("Proizvodnja"))
     broj_naloga = models.CharField(max_length=100, unique=True)
 
     # Materijali
@@ -542,9 +487,7 @@ class RadniNalog(BaseModel):
         return self.naziv_naloga
 
     def can_start(self):
-        unfinished = self.preduvjeti.filter(
-            status__in=["OTVOREN", "U_TIJEKU", "CEKA_OCJENU"]
-        )
+        unfinished = self.preduvjeti.filter(status__in=["OTVOREN", "U_TIJEKU", "CEKA_OCJENU"])
         return not unfinished.exists()
 
     def azuriraj_status(self):
@@ -564,9 +507,7 @@ class RadniNalog(BaseModel):
             "id": self.pk,
             "name": self.naziv_naloga,
             "start_date": self.datum_pocetka.isoformat() if self.datum_pocetka else "",
-            "end_date": (
-                self.datum_zavrsetka.isoformat() if self.datum_zavrsetka else ""
-            ),
+            "end_date": (self.datum_zavrsetka.isoformat() if self.datum_zavrsetka else ""),
             "dependencies": deps,
             "progress": self.postotak_napretka,
             "status": self.status,
@@ -596,23 +537,13 @@ class RadniNalog(BaseModel):
     def clean(self):
         if self.datum_zavrsetka and self.datum_pocetka:
             if self.datum_zavrsetka < self.datum_pocetka:
-                raise ValidationError(
-                    {
-                        "datum_zavrsetka": _(
-                            "Datum završetka ne može biti prije datuma početka"
-                        )
-                    }
-                )
+                raise ValidationError({"datum_zavrsetka": _("Datum završetka ne može biti prije datuma početka")})
 
         if self.postotak_napretka > 100:
-            raise ValidationError(
-                {"postotak_napretka": _("Postotak napretka ne može biti veći od 100%")}
-            )
+            raise ValidationError({"postotak_napretka": _("Postotak napretka ne može biti veći od 100%")})
 
         if self.predvidjeno_vrijeme and self.predvidjeno_vrijeme < 0:
-            raise ValidationError(
-                {"predvidjeno_vrijeme": _("Predviđeno vrijeme ne može biti negativno")}
-            )
+            raise ValidationError({"predvidjeno_vrijeme": _("Predviđeno vrijeme ne može biti negativno")})
 
 
 ##############################################################################
@@ -624,13 +555,9 @@ class Angazman(BaseModel):
         ("U_TIJEKU", "U tijeku"),
     ]
 
-    radni_nalog = models.ForeignKey(
-        RadniNalog, on_delete=models.CASCADE, related_name="angazmani"
-    )
+    radni_nalog = models.ForeignKey(RadniNalog, on_delete=models.CASCADE, related_name="angazmani")
     employee = models.ForeignKey("ljudski_resursi.Employee", on_delete=models.CASCADE)
-    sati_rada = models.DecimalField(
-        default=Decimal("0.00"), max_digits=5, decimal_places=2
-    )
+    sati_rada = models.DecimalField(default=Decimal("0.00"), max_digits=5, decimal_places=2)
     datum_angazmana = models.DateField(default=timezone.now)
     je_dodatni = models.BooleanField(default=False)
     razlog = models.TextField(blank=True, null=True)
@@ -643,15 +570,11 @@ class Angazman(BaseModel):
         related_name="angazmani_odobreni",
         verbose_name="Odobrio",
     )
-    status = models.CharField(
-        max_length=20, choices=STATUSI_ANGAZMANA, default="U_TIJEKU"
-    )
+    status = models.CharField(max_length=20, choices=STATUSI_ANGAZMANA, default="U_TIJEKU")
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(
-                fields=["radni_nalog", "employee"], name="unique_radni_nalog_zaposlenik"
-            )
+            models.UniqueConstraint(fields=["radni_nalog", "employee"], name="unique_radni_nalog_zaposlenik")
         ]
         indexes = [
             models.Index(fields=["radni_nalog", "employee"]),
@@ -676,9 +599,7 @@ class Angazman(BaseModel):
 
 
 class RadniNalogMaterijal(models.Model):
-    radni_nalog = models.ForeignKey(
-        RadniNalog, on_delete=models.CASCADE, related_name="materijali_stavke"
-    )
+    radni_nalog = models.ForeignKey(RadniNalog, on_delete=models.CASCADE, related_name="materijali_stavke")
     materijal = models.ForeignKey(  # This is the correct field name
         "skladiste.Materijal",
         on_delete=models.PROTECT,
@@ -709,24 +630,16 @@ class RadniNalogMaterijal(models.Model):
 
 
 class DodatniAngazman(BaseModel):
-    angazman = models.ForeignKey(
-        Angazman, on_delete=models.CASCADE, related_name="dodatni_angazmani"
-    )
+    angazman = models.ForeignKey(Angazman, on_delete=models.CASCADE, related_name="dodatni_angazmani")
     employee = models.ForeignKey(
         "ljudski_resursi.Employee",
         on_delete=models.CASCADE,
         related_name="dodatni_angazmani_zaposlenik",
     )
-    sati_rada = models.DecimalField(
-        default=Decimal("0.00"), max_digits=5, decimal_places=2
-    )
+    sati_rada = models.DecimalField(default=Decimal("0.00"), max_digits=5, decimal_places=2)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["angazman", "employee"], name="unique_angazman_zaposlenik"
-            )
-        ]
+        constraints = [models.UniqueConstraint(fields=["angazman", "employee"], name="unique_angazman_zaposlenik")]
         indexes = [
             models.Index(fields=["angazman", "employee"]),
         ]
@@ -753,9 +666,7 @@ class DodatniAngazman(BaseModel):
 
 
 class VideoMaterijal(BaseModel):
-    radni_nalog = models.ForeignKey(
-        RadniNalog, on_delete=models.CASCADE, related_name="video_materijali"
-    )
+    radni_nalog = models.ForeignKey(RadniNalog, on_delete=models.CASCADE, related_name="video_materijali")
     naziv = models.CharField(max_length=255, db_index=True)
     opis = models.TextField(blank=True)
     video_file = models.FileField(upload_to="ocjene/videozapisi/")
@@ -779,15 +690,9 @@ class VideoMaterijal(BaseModel):
 
 
 class VideoPitanje(BaseModel):
-    radni_nalog = models.ForeignKey(
-        RadniNalog, on_delete=models.CASCADE, related_name="video_pitanja"
-    )
-    video = models.FileField(
-        upload_to="video_pitanja/", help_text=_("Video datoteka za pitanje.")
-    )
-    opis = models.TextField(
-        blank=True, null=True, help_text=_("Dodatne informacije o video pitanju.")
-    )
+    radni_nalog = models.ForeignKey(RadniNalog, on_delete=models.CASCADE, related_name="video_pitanja")
+    video = models.FileField(upload_to="video_pitanja/", help_text=_("Video datoteka za pitanje."))
+    opis = models.TextField(blank=True, null=True, help_text=_("Dodatne informacije o video pitanju."))
 
     def __str__(self):
         return f"Pitanje za {self.radni_nalog} (ID: {self.pk})"
@@ -865,9 +770,7 @@ class Notifikacija(BaseModel):
         ("Nagrada", _("Nagrada")),
     ]
 
-    korisnik = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="notifikacije"
-    )
+    korisnik = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notifikacije")
     poruka = models.TextField()
     procitano = models.BooleanField(default=False)
     datum_stvaranja = models.DateTimeField(default=timezone.now)
@@ -888,12 +791,8 @@ class Notifikacija(BaseModel):
 
 
 class PovijestPromjena(BaseModel):
-    radni_nalog = models.ForeignKey(
-        RadniNalog, on_delete=models.CASCADE, related_name="promjene"
-    )
-    content_type = models.ForeignKey(
-        ContentType, on_delete=models.CASCADE, null=True, blank=True
-    )
+    radni_nalog = models.ForeignKey(RadniNalog, on_delete=models.CASCADE, related_name="promjene")
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True, blank=True)
     object_id = models.PositiveIntegerField()
     object_ref = GenericForeignKey("content_type", "object_id")
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -924,9 +823,7 @@ class MonthlyWorkRecord(BaseModel):
     )
     year = models.PositiveIntegerField()
     month = models.PositiveIntegerField()
-    hours_worked = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal("0.00")
-    )
+    hours_worked = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("0.00"))
 
     class Meta:
         unique_together = ("employee", "year", "month")
@@ -939,9 +836,7 @@ class MonthlyWorkRecord(BaseModel):
         if self.hours_worked < 0:
             raise ValidationError(_("Odrađeni sati ne mogu biti negativni."))
         if self.hours_worked > 300:
-            raise ValidationError(
-                _("Odrađeni sati ne mogu biti veći od 300 po mjesecu.")
-            )
+            raise ValidationError(_("Odrađeni sati ne mogu biti veći od 300 po mjesecu."))
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -949,9 +844,7 @@ class MonthlyWorkRecord(BaseModel):
 
 
 class Usteda(BaseModel):
-    radni_nalog = models.OneToOneField(
-        RadniNalog, on_delete=models.CASCADE, related_name="usteda"
-    )
+    radni_nalog = models.OneToOneField(RadniNalog, on_delete=models.CASCADE, related_name="usteda")
     predvidjeno_vrijeme = models.DecimalField(max_digits=10, decimal_places=2)
     stvarno_vrijeme = models.DecimalField(max_digits=10, decimal_places=2)
     usteda_sati = models.DecimalField(default=0, max_digits=10, decimal_places=2)
