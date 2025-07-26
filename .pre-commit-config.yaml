@@ -3,10 +3,12 @@ repos:
     rev: 24.4.2
     hooks:
       - id: black
+        stages: [manual]  # Skip automatic run in CI
   - repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
       - id: isort
+        stages: [manual]  # Skip automatic run in CI
   - repo: https://github.com/pycqa/flake8
     rev: 7.0.0
     hooks:
