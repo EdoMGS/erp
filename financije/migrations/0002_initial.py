@@ -46,9 +46,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="salaryaddition",
             name="salary",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="financije.salary"
-            ),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="financije.salary"),
         ),
         migrations.AddField(
             model_name="salary",

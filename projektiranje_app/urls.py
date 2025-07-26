@@ -34,9 +34,7 @@ urlpatterns = [
         DesignTaskDetailView.as_view(),
         name="designtask_detail",
     ),
-    path(
-        "design-tasks/create/", DesignTaskCreateView.as_view(), name="designtask_create"
-    ),
+    path("design-tasks/create/", DesignTaskCreateView.as_view(), name="designtask_create"),
     path(
         "design-tasks/<int:pk>/update/",
         DesignTaskUpdateView.as_view(),

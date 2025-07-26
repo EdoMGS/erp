@@ -85,9 +85,7 @@ def procurement_dashboard(request):
 @login_required
 def purchaseorder_list(request):
     purchaseorders = PurchaseOrder.objects.all()
-    return render(
-        request, "nabava/purchaseorder_list.html", {"purchaseorders": purchaseorders}
-    )
+    return render(request, "nabava/purchaseorder_list.html", {"purchaseorders": purchaseorders})
 
 
 @login_required
@@ -147,9 +145,7 @@ def add_stavka(request, pk):
             return redirect("nabava:narudzbenica_detail", pk=pk)
     else:
         form = NarudzbenicaStavkaForm()
-    return render(
-        request, "nabava/stavka_form.html", {"form": form, "narudzbenica": narudzbenica}
-    )
+    return render(request, "nabava/stavka_form.html", {"form": form, "narudzbenica": narudzbenica})
 
 
 @login_required
@@ -229,17 +225,13 @@ def purchase_order_detail(request, pk):
 @login_required
 def narudzbenica_list(request):
     narudzbenice = Narudzbenica.objects.all().order_by("-datum")
-    return render(
-        request, "nabava/narudzbenica_list.html", {"narudzbenice": narudzbenice}
-    )
+    return render(request, "nabava/narudzbenica_list.html", {"narudzbenice": narudzbenice})
 
 
 @login_required
 def narudzbenica_detail(request, pk):
     narudzbenica = get_object_or_404(Narudzbenica, pk=pk)
-    return render(
-        request, "nabava/narudzbenica_detail.html", {"narudzbenica": narudzbenica}
-    )
+    return render(request, "nabava/narudzbenica_detail.html", {"narudzbenica": narudzbenica})
 
 
 @login_required
@@ -274,9 +266,7 @@ def purchase_order_add_line(request, pk):
             return redirect("nabava:order_detail", pk=pk)
     else:
         form = PurchaseOrderLineForm()
-    return render(
-        request, "nabava/purchase_order_line_form.html", {"form": form, "order": order}
-    )
+    return render(request, "nabava/purchase_order_line_form.html", {"form": form, "order": order})
 
 
 @login_required

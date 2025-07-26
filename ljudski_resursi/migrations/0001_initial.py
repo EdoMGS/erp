@@ -25,9 +25,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Naziv odjela"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Naziv odjela"),
                 ),
                 (
                     "description",
@@ -79,9 +77,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "hierarchical_level",
-                    models.PositiveIntegerField(
-                        default=1, verbose_name="Hierarchical Level"
-                    ),
+                    models.PositiveIntegerField(default=1, verbose_name="Hierarchical Level"),
                 ),
                 (
                     "is_active",
@@ -98,15 +94,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "onboarding_date",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Onboarding Date"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Onboarding Date"),
                 ),
                 (
                     "onboarding_timeline",
-                    models.PositiveIntegerField(
-                        blank=True, null=True, verbose_name="Onboarding Timeline (days)"
-                    ),
+                    models.PositiveIntegerField(blank=True, null=True, verbose_name="Onboarding Timeline (days)"),
                 ),
                 (
                     "employee_satisfaction",
@@ -160,9 +152,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "datum_evaluacije",
-                    models.DateField(
-                        auto_now_add=True, verbose_name="Datum evaluacije"
-                    ),
+                    models.DateField(auto_now_add=True, verbose_name="Datum evaluacije"),
                 ),
                 ("efikasnost", models.BooleanField(default=False)),
                 ("kvaliteta", models.BooleanField(default=False)),
@@ -188,9 +178,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Expertise Level"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Expertise Level"),
                 ),
                 (
                     "description",
@@ -231,9 +219,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "description",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis hijerarhijskog nivoa"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis hijerarhijskog nivoa"),
                 ),
             ],
             options={
@@ -276,15 +262,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "title",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Naziv pozicije"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Naziv pozicije"),
                 ),
                 (
                     "is_managerial",
-                    models.BooleanField(
-                        default=False, verbose_name="Menadžerska pozicija"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Menadžerska pozicija"),
                 ),
                 (
                     "department",

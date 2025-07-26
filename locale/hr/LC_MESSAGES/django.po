@@ -1,0 +1,2948 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-15 14:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+#: ./accounts/models.py:15
+msgid "Email Address"
+msgstr ""
+
+#: ./accounts/models.py:22
+msgid "The groups this user belongs to."
+msgstr ""
+
+#: ./accounts/models.py:23
+msgid "groups"
+msgstr ""
+
+#: ./accounts/models.py:29
+msgid "Specific permissions for this user."
+msgstr ""
+
+#: ./accounts/models.py:30
+msgid "user permissions"
+msgstr ""
+
+#: ./client/forms.py:45
+msgid "Spremi"
+msgstr ""
+
+#: ./client/forms.py:89
+msgid "Uneseni grad ne odgovara poštanskom broju"
+msgstr ""
+
+#: ./client/forms.py:100
+msgid "Nevažeći poštanski broj ili grad"
+msgstr ""
+
+#: ./client/forms.py:122
+msgid "Klijent ne može imati aktivan status ako nije aktivan"
+msgstr ""
+
+#: ./client/forms.py:181
+msgid "Naziv prilike"
+msgstr ""
+
+#: ./client/forms.py:182 ./client/models.py:98
+#: ./financije/models/invoice.py:31 ./prodaja/models.py:255
+#: ./prodaja/models.py:305
+msgid "Klijent"
+msgstr ""
+
+#: ./client/forms.py:183 ./financije/models/break_even.py:14
+#: ./financije/templates/financije/invoice_detail.html:19
+#: ./nabava/models.py:115 ./nabava/models.py:140 ./nabava/models.py:342
+#: ./projektiranje_app/models.py:58
+msgid "Status"
+msgstr ""
+
+#: ./client/forms.py:184
+msgid "Budžet"
+msgstr ""
+
+#: ./client/forms.py:185
+msgid "Izvor prilike"
+msgstr ""
+
+#: ./client/forms.py:186
+msgid "Vrsta projekta/usluge"
+msgstr ""
+
+#: ./client/forms.py:187
+msgid "Ovlasti za potpis"
+msgstr ""
+
+#: ./client/forms.py:188
+msgid "Jasna potreba"
+msgstr ""
+
+#: ./client/forms.py:189
+msgid "Vremenski okvir"
+msgstr ""
+
+#: ./client/forms.py:190
+msgid "Odgovorna osoba"
+msgstr ""
+
+#: ./client/forms.py:191 ./prodaja/models.py:113 ./prodaja/models.py:316
+msgid "Broj javnog natječaja"
+msgstr ""
+
+#: ./client/models.py:20 ./common/models.py:47
+#: ./ljudski_resursi/models.py:26 ./ljudski_resursi/models.py:36
+#: ./nabava/models.py:25 ./nabava/models.py:35 ./prodaja/models.py:33
+#: ./prodaja/models.py:43 ./proizvodnja/models.py:45
+#: ./proizvodnja/models.py:55 ./skladiste/models.py:21
+msgid "Tenant (Holding/Operativa)"
+msgstr "Tenant (Holding/Operativa)"
+
+#: ./client/models.py:23 ./client/models.py:54
+#: ./ljudski_resursi/models.py:207 ./prodaja/models.py:300
+msgid "Aktivan"
+msgstr ""
+
+#: ./client/models.py:24
+msgid "Neaktivan"
+msgstr ""
+
+#: ./client/models.py:25
+msgid "Potencijalni"
+msgstr ""
+
+#: ./client/models.py:26
+msgid "Bivši"
+msgstr ""
+
+#: ./client/models.py:27
+msgid "Blokiran"
+msgstr ""
+
+#: ./client/models.py:31
+msgid "Bronze"
+msgstr ""
+
+#: ./client/models.py:32
+msgid "Silver"
+msgstr ""
+
+#: ./client/models.py:33
+msgid "Gold"
+msgstr ""
+
+#: ./client/models.py:34
+msgid "Platinum"
+msgstr ""
+
+#: ./client/models.py:39
+msgid "Naziv (ime tvrtke ili osobe)"
+msgstr ""
+
+#: ./client/models.py:42 ./nabava/models.py:60
+msgid "Adresa"
+msgstr ""
+
+#: ./client/models.py:44 ./ljudski_resursi/models.py:175
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:14
+#: ./nabava/models.py:63 ./templates/ljudski_resursi/employee_list.html:16
+msgid "Email"
+msgstr ""
+
+#: ./client/models.py:48
+msgid "Unesite ispravan email format."
+msgstr ""
+
+#: ./client/models.py:53 ./nabava/models.py:64
+msgid "Telefon"
+msgstr ""
+
+#: ./client/models.py:55
+msgid "Dobavljač?"
+msgstr ""
+
+#: ./client/models.py:59 ./nabava/models.py:59
+msgid "OIB"
+msgstr ""
+
+#: ./client/models.py:63
+msgid "OIB mora imati točno 11 znamenki."
+msgstr ""
+
+#: ./client/models.py:69 ./nabava/models.py:62
+msgid "Država"
+msgstr ""
+
+#: ./client/models.py:71 ./nabava/models.py:61
+msgid "Grad"
+msgstr ""
+
+#: ./client/models.py:72 ./client/models.py:162
+msgid "Poštanski broj"
+msgstr ""
+
+#: ./client/models.py:74 ./client/models.py:155
+msgid "Županija"
+msgstr ""
+
+#: ./client/models.py:77
+msgid "Dugoročni odnos"
+msgstr ""
+
+#: ./client/models.py:83
+msgid "Status odnosa"
+msgstr ""
+
+#: ./client/models.py:87 ./projektiranje_app/models.py:71
+#: ./projektiranje_app/models.py:192
+msgid "Datum kreiranja"
+msgstr ""
+
+#: ./client/models.py:90
+msgid "Datum ažuriranja"
+msgstr ""
+
+#: ./client/models.py:98
+msgid "Dob."
+msgstr ""
+
+#: ./client/models.py:102 ./client/models.py:184
+msgid "Klijent/Dobavljač"
+msgstr ""
+
+#: ./client/models.py:103
+msgid "Klijenti/Dobavljači"
+msgstr ""
+
+#: ./client/models.py:129
+msgid "Razina lojalnosti"
+msgstr ""
+
+#: ./client/models.py:132
+msgid "Povratne informacije"
+msgstr ""
+
+#: ./client/models.py:135
+msgid "Post-prodajne povratne informacije"
+msgstr ""
+
+#: ./client/models.py:139
+msgid "Profil klijenta"
+msgstr ""
+
+#: ./client/models.py:140
+msgid "Profili klijenata"
+msgstr ""
+
+#: ./client/models.py:148
+msgid "Postal Code"
+msgstr ""
+
+#: ./client/models.py:150
+msgid "City"
+msgstr ""
+
+#: ./client/models.py:152
+msgid "Naselje"
+msgstr ""
+
+#: ./client/models.py:163
+msgid "Poštanski brojevi"
+msgstr ""
+
+#: ./client/models.py:173
+msgid "Kreiranje"
+msgstr ""
+
+#: ./client/models.py:174
+msgid "Ažuriranje"
+msgstr ""
+
+#: ./client/models.py:175
+msgid "Brisanje"
+msgstr ""
+
+#: ./client/models.py:176
+msgid "Promjena statusa"
+msgstr ""
+
+#: ./client/models.py:177 ./prodaja/models.py:75
+#: ./projektiranje_app/models.py:119
+msgid "Ostalo"
+msgstr ""
+
+#: ./client/models.py:186
+msgid "Activity Description"
+msgstr ""
+
+#: ./client/models.py:188
+msgid "Timestamp"
+msgstr ""
+
+#: ./client/models.py:194
+msgid "Tip aktivnosti"
+msgstr ""
+
+#: ./client/models.py:201
+msgid "Log aktivnosti"
+msgstr ""
+
+#: ./client/models.py:202
+msgid "Logovi aktivnosti"
+msgstr ""
+
+#: ./common/choices.py:4
+msgid "Vrlo loše"
+msgstr ""
+
+#: ./common/choices.py:5
+msgid "Loše"
+msgstr ""
+
+#: ./common/choices.py:6
+msgid "Zadovoljavajuće"
+msgstr ""
+
+#: ./common/choices.py:7
+msgid "Dobro"
+msgstr ""
+
+#: ./common/choices.py:8
+msgid "Vrlo dobro"
+msgstr ""
+
+#: ./common/models.py:22
+msgid "Created at"
+msgstr ""
+
+#: ./common/models.py:23
+msgid "Updated at"
+msgstr ""
+
+#: ./common/models.py:24
+msgid "Active"
+msgstr ""
+
+#: ./common/models.py:31
+msgid "Created by"
+msgstr ""
+
+#: ./common/models.py:39
+msgid "Updated by"
+msgstr ""
+
+#: ./common/utils.py:42
+#, python-brace-format
+msgid "File size cannot exceed {max_size_mb}MB"
+msgstr ""
+
+#: ./common/utils.py:96
+msgid "Price must be a number"
+msgstr ""
+
+#: ./common/utils.py:98
+msgid "Tax rate must be a number"
+msgstr ""
+
+#: ./common/validators.py:10
+msgid "OIB must be exactly 11 digits"
+msgstr ""
+
+#: ./common/validators.py:15
+msgid "Invalid phone number format"
+msgstr ""
+
+#: ./common/validators.py:20
+msgid "Value must be greater than zero"
+msgstr ""
+
+#: ./common/validators.py:27
+msgid "Value cannot be negative"
+msgstr ""
+
+#: ./common/validators.py:34
+msgid "Invalid status transition"
+msgstr ""
+
+#: ./financije/forms.py:202
+msgid "Evaluacija"
+msgstr ""
+
+#: ./financije/forms.py:207
+msgid "Ocjena Kvalitete"
+msgstr ""
+
+#: ./financije/models/accounting.py:12
+msgid "Aktiva"
+msgstr ""
+
+#: ./financije/models/accounting.py:13
+msgid "Pasiva"
+msgstr ""
+
+#: ./financije/models/accounting.py:14 ./financije/models/break_even.py:11
+msgid "Prihod"
+msgstr ""
+
+#: ./financije/models/accounting.py:15
+msgid "Rashod"
+msgstr ""
+
+#: ./financije/models/accounting.py:18
+msgid "Broj konta"
+msgstr ""
+
+#: ./financije/models/accounting.py:19
+msgid "Naziv konta"
+msgstr ""
+
+#: ./financije/models/accounting.py:21
+msgid "Tip konta"
+msgstr ""
+
+#: ./financije/models/accounting.py:29
+msgid "Nadređeni konto"
+msgstr ""
+
+#: ./financije/models/accounting.py:34
+msgid "Konto (Account)"
+msgstr ""
+
+#: ./financije/models/accounting.py:35
+msgid "Konta (Accounts)"
+msgstr ""
+
+#: ./financije/models/accounting.py:57
+msgid "Datum knjiženja"
+msgstr ""
+
+#: ./financije/models/accounting.py:58 ./financije/models/bank.py:43
+msgid "Opis transakcije"
+msgstr ""
+
+#: ./financije/models/accounting.py:66
+msgid "Korisnik"
+msgstr ""
+
+#: ./financije/models/accounting.py:94
+msgid "Journal entry must be balanced (debits = credits)"
+msgstr ""
+
+#: ./financije/models/accounting.py:120
+msgid "Stavka ne može imati i debit i kredit u isto vrijeme."
+msgstr ""
+
+#: ./financije/models/bank.py:23
+msgid "Priljev"
+msgstr ""
+
+#: ./financije/models/bank.py:24
+msgid "Odljev"
+msgstr ""
+
+#: ./financije/models/bank.py:30
+msgid "Broj bankovnog računa (IBAN)"
+msgstr ""
+
+#: ./financije/models/bank.py:31
+msgid "IBAN ili broj računa"
+msgstr ""
+
+#: ./financije/models/bank.py:34
+msgid "Naziv banke"
+msgstr ""
+
+#: ./financije/models/bank.py:37
+msgid "Tip transakcije"
+msgstr ""
+
+#: ./financije/models/bank.py:40
+msgid "Iznos transakcije (€)"
+msgstr ""
+
+#: ./financije/models/bank.py:42 ./financije/models/paintprice.py:10
+msgid "Valuta"
+msgstr ""
+
+#: ./financije/models/bank.py:45
+msgid "Datum transakcije"
+msgstr ""
+
+#: ./financije/models/bank.py:48
+msgid "Datum valute"
+msgstr ""
+
+#: ./financije/models/bank.py:51
+msgid "Referenca transakcije"
+msgstr ""
+
+#: ./financije/models/bank.py:56
+msgid "Saldo računa (€) nakon transakcije"
+msgstr ""
+
+#: ./financije/models/bank.py:59
+msgid "Vrijeme evidentiranja u sustavu"
+msgstr ""
+
+#: ./financije/models/bank.py:64
+msgid "Usklađeno s knjigovodstvom?"
+msgstr ""
+
+#: ./financije/models/bank.py:83
+msgid "Bankovna transakcija"
+msgstr ""
+
+#: ./financije/models/bank.py:84
+msgid "Bankovne transakcije"
+msgstr ""
+
+#: ./financije/models/bank.py:188
+msgid "CashFlow"
+msgstr ""
+
+#: ./financije/models/bank.py:189
+msgid "CashFlows"
+msgstr ""
+
+#: ./financije/models/break_even.py:7 ./financije/models/fixed_costs.py:16
+#: ./financije/models/fixed_costs.py:35
+msgid "Tenant"
+msgstr "Tenant (Holding/Operativa)"
+
+#: ./financije/models/break_even.py:8 ./financije/models/fixed_costs.py:12
+#: ./financije/models/fixed_costs.py:31
+msgid "Divizija"
+msgstr ""
+
+#: ./financije/models/break_even.py:9 ./financije/models/finreports.py:45
+#: ./nabava/models.py:331 ./skladiste/models.py:267
+msgid "Datum"
+msgstr ""
+
+#: ./financije/models/break_even.py:10
+msgid "Fiksni troškovi"
+msgstr ""
+
+#: ./financije/models/break_even.py:12
+msgid "Profit"
+msgstr ""
+
+#: ./financije/models/break_even.py:13
+msgid "Break-even količina"
+msgstr ""
+
+#: ./financije/models/break_even.py:18
+msgid "Break-even snimka"
+msgstr ""
+
+#: ./financije/models/break_even.py:19
+msgid "Break-even snimke"
+msgstr ""
+
+#: ./financije/models/budget.py:7 ./financije/models/overhead.py:19
+#: ./financije/models/overhead.py:84
+msgid "Godina"
+msgstr ""
+
+#: ./financije/models/budget.py:8 ./financije/models/overhead.py:20
+#: ./financije/models/overhead.py:85
+msgid "Mjesec"
+msgstr ""
+
+#: ./financije/models/budget.py:10
+msgid "Predviđeni prihod (€)"
+msgstr ""
+
+#: ./financije/models/budget.py:13
+msgid "Predviđeni trošak (€)"
+msgstr ""
+
+#: ./financije/models/budget.py:16
+msgid "Stvarni prihod (€)"
+msgstr ""
+
+#: ./financije/models/budget.py:19
+msgid "Stvarni trošak (€)"
+msgstr ""
+
+#: ./financije/models/budget.py:24
+msgid "Proračun"
+msgstr ""
+
+#: ./financije/models/budget.py:25
+msgid "Proračuni"
+msgstr ""
+
+#: ./financije/models/finreports.py:60
+msgid "Balance Sheet"
+msgstr ""
+
+#: ./financije/models/finreports.py:61
+msgid "Balance Sheets"
+msgstr ""
+
+#: ./financije/models/finreports.py:66
+msgid "Monthly"
+msgstr ""
+
+#: ./financije/models/finreports.py:67
+msgid "Quarterly"
+msgstr ""
+
+#: ./financije/models/finreports.py:68
+msgid "Yearly"
+msgstr ""
+
+#: ./financije/models/finreports.py:132
+msgid "Financijski izvještaj"
+msgstr ""
+
+#: ./financije/models/finreports.py:133
+msgid "Financijski izvještaji"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:13 ./prodaja/models.py:892
+msgid "Naziv troška"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:14 ./prodaja/models.py:897
+msgid "Iznos"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:15
+#: ./financije/templates/financije/financial_report_detail.html:14
+#: ./financije/templates/financije/financial_report_list.html:18
+msgid "Period"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:32 ./financije/models/paintprice.py:6
+msgid "Naziv"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:33
+msgid "Iznos po jedinici"
+msgstr ""
+
+#: ./financije/models/fixed_costs.py:34
+msgid "Jedinica"
+msgstr ""
+
+#: ./financije/models/invoice.py:34
+msgid "Broj fakture"
+msgstr ""
+
+#: ./financije/models/invoice.py:36 ./skladiste/models.py:377
+msgid "Datum izdavanja"
+msgstr ""
+
+#: ./financije/models/invoice.py:37
+msgid "Datum dospijeća"
+msgstr ""
+
+#: ./financije/models/invoice.py:42
+msgid "Stopa PDV-a (%)"
+msgstr ""
+
+#: ./financije/models/invoice.py:48
+msgid "Način plaćanja"
+msgstr ""
+
+#: ./financije/models/invoice.py:54
+msgid "Status fakture"
+msgstr ""
+
+#: ./financije/models/invoice.py:56
+msgid "Plaćeno"
+msgstr ""
+
+#: ./financije/models/invoice.py:61 ./skladiste/models.py:326
+#: ./skladiste/models.py:390
+msgid "Kreirao"
+msgstr ""
+
+#: ./financije/models/invoice.py:63
+msgid "Garancija?"
+msgstr ""
+
+#: ./financije/models/invoice.py:65
+msgid "Detalji garancije"
+msgstr ""
+
+#: ./financije/models/invoice.py:68
+msgid "Financijska garancija?"
+msgstr ""
+
+#: ./financije/models/invoice.py:71
+msgid "Izjava za tender"
+msgstr ""
+
+#: ./financije/models/invoice.py:77
+msgid "Referenca javnog natječaja"
+msgstr ""
+
+#: ./financije/models/invoice.py:94
+msgid "Faktura"
+msgstr ""
+
+#: ./financije/models/invoice.py:95
+msgid "Fakture"
+msgstr ""
+
+#: ./financije/models/invoice.py:105
+msgid "Datum dospijeća ne može biti prije datuma izdavanja"
+msgstr ""
+
+#: ./financije/models/invoice.py:111
+msgid "Opis stavke"
+msgstr ""
+
+#: ./financije/models/invoice.py:113 ./nabava/models.py:273
+#: ./nabava/models.py:417 ./prodaja/models.py:371 ./prodaja/models.py:832
+#: ./projektiranje_app/models.py:229 ./skladiste/models.py:180
+#: ./skladiste/models.py:294 ./skladiste/models.py:354
+#: ./skladiste/models.py:418
+msgid "Količina"
+msgstr ""
+
+#: ./financije/models/invoice.py:116
+msgid "Jedinična cijena"
+msgstr ""
+
+#: ./financije/models/invoice.py:122 ./financije/models/others.py:35
+msgid "Stopa PDV-a"
+msgstr ""
+
+#: ./financije/models/invoice.py:134
+msgid "Stavka računa"
+msgstr ""
+
+#: ./financije/models/invoice.py:135
+msgid "Stavke računa"
+msgstr ""
+
+#: ./financije/models/invoice.py:149 ./financije/models/others.py:127
+#: ./financije/templates/financije/invoice_detail.html:13
+msgid "Client"
+msgstr ""
+
+#: ./financije/models/invoice.py:155
+msgid "Invoice"
+msgstr ""
+
+#: ./financije/models/invoice.py:157
+#: ./financije/templates/financije/invoice_detail.html:16
+msgid "Due Date"
+msgstr ""
+
+#: ./financije/models/invoice.py:159
+msgid "Amount Due"
+msgstr ""
+
+#: ./financije/models/invoice.py:161
+msgid "Is Paid"
+msgstr ""
+
+#: ./financije/models/others.py:29 ./prodaja/models.py:842
+msgid "Ukupna cijena"
+msgstr ""
+
+#: ./financije/models/others.py:43
+msgid "Ugovorena neto cijena"
+msgstr ""
+
+#: ./financije/models/others.py:51
+msgid "Ugovorena bruto cijena"
+msgstr ""
+
+#: ./financije/models/others.py:59
+msgid "Predviđeni troškovi"
+msgstr ""
+
+#: ./financije/models/others.py:65
+msgid "Stvarni troškovi"
+msgstr ""
+
+#: ./financije/models/others.py:73
+msgid "Predviđena dobit"
+msgstr ""
+
+#: ./financije/models/others.py:79
+msgid "Stvarna dobit (€)"
+msgstr ""
+
+#: ./financije/models/others.py:86 ./financije/models/others.py:87
+msgid "Financial Details"
+msgstr ""
+
+#: ./financije/models/others.py:92 ./ljudski_resursi/models.py:186
+msgid "Pozicija"
+msgstr ""
+
+#: ./financije/models/others.py:98
+msgid "Razina stručnosti"
+msgstr ""
+
+#: ./financije/models/others.py:104
+msgid "Varijabilni dio (€)"
+msgstr ""
+
+#: ./financije/models/others.py:110
+msgid "Bonus (€)"
+msgstr ""
+
+#: ./financije/models/others.py:115
+msgid "Pravilo za varijabilni dio plaće"
+msgstr ""
+
+#: ./financije/models/others.py:116
+msgid "Pravila za varijabilni dio plaće"
+msgstr ""
+
+#: ./financije/models/others.py:124
+msgid "Contract Number"
+msgstr ""
+
+#: ./financije/models/others.py:161 ./prodaja/models.py:190
+#: ./prodaja/models.py:299 ./prodaja/models.py:438
+msgid "Nacrt"
+msgstr ""
+
+#: ./financije/models/others.py:162
+msgid "Izdan"
+msgstr ""
+
+#: ./financije/models/others.py:163
+msgid "Plaćen"
+msgstr ""
+
+#: ./financije/models/others.py:164
+msgid "Storniran"
+msgstr ""
+
+#: ./financije/models/others.py:178
+msgid "Račun"
+msgstr ""
+
+#: ./financije/models/others.py:179
+msgid "Računi"
+msgstr ""
+
+#: ./financije/models/others.py:197
+msgid "Total Cost"
+msgstr ""
+
+#: ./financije/models/others.py:203
+msgid "Expected Profit"
+msgstr ""
+
+#: ./financije/models/others.py:206
+msgid "Risk Assessment"
+msgstr ""
+
+#: ./financije/models/others.py:212
+msgid "Financial Analysis"
+msgstr ""
+
+#: ./financije/models/others.py:213
+msgid "Financial Analyses"
+msgstr ""
+
+#: ./financije/models/overhead.py:22 ./financije/models/overhead.py:87
+msgid "Ukupni overhead (€)"
+msgstr ""
+
+#: ./financije/models/overhead.py:28
+msgid "Mjesečni kapacitet sati"
+msgstr ""
+
+#: ./financije/models/overhead.py:35
+msgid "Overhead"
+msgstr ""
+
+#: ./financije/models/overhead.py:36
+msgid "Overheadi"
+msgstr ""
+
+#: ./financije/models/overhead.py:50
+msgid "Category Name"
+msgstr ""
+
+#: ./financije/models/overhead.py:53
+msgid "Category Description"
+msgstr ""
+
+#: ./financije/models/overhead.py:57
+msgid "Overhead Category"
+msgstr ""
+
+#: ./financije/models/overhead.py:58
+msgid "Overhead Categories"
+msgstr ""
+
+#: ./financije/models/overhead.py:65
+#: ./financije/templates/financije/financial_report_detail.html:15
+#: ./financije/templates/financije/financial_report_list.html:19
+msgid "Year"
+msgstr ""
+
+#: ./financije/models/overhead.py:66
+#: ./financije/templates/financije/financial_report_detail.html:17
+msgid "Month"
+msgstr ""
+
+#: ./financije/models/overhead.py:68
+msgid "Category"
+msgstr ""
+
+#: ./financije/models/overhead.py:71
+msgid "Amount (€)"
+msgstr ""
+
+#: ./financije/models/overhead.py:75
+msgid "Monthly Overhead"
+msgstr ""
+
+#: ./financije/models/overhead.py:76
+msgid "Monthly Overheads"
+msgstr ""
+
+#: ./financije/models/overhead.py:91
+msgid "Mjesečni pregled overhead-a"
+msgstr ""
+
+#: ./financije/models/overhead.py:92
+msgid "Mjesečni pregledi overhead-a"
+msgstr ""
+
+#: ./financije/models/paintprice.py:8
+msgid "Cijena po m2"
+msgstr ""
+
+#: ./financije/models/paintprice.py:13
+msgid "Cjenik farbanja"
+msgstr ""
+
+#: ./financije/models/paintprice.py:14
+msgid "Cjenici farbanja"
+msgstr ""
+
+#: ./financije/models/salary.py:13 ./ljudski_resursi/models.py:348
+#: ./proizvodnja/forms.py:465
+msgid "Zaposlenik"
+msgstr ""
+
+#: ./financije/models/salary.py:16
+msgid "Bruto iznos"
+msgstr ""
+
+#: ./financije/models/salary.py:19
+msgid "Neto iznos"
+msgstr ""
+
+#: ./financije/models/salary.py:22
+msgid "Porezi"
+msgstr ""
+
+#: ./financije/models/salary.py:25
+msgid "Datum obračuna plaće"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:10
+msgid "Naziv konfiguracije poreza"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:16
+msgid "Stopa poreza (%)"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:20
+msgid "Vrijedi od"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:21 ./prodaja/models.py:214
+msgid "Vrijedi do"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:24
+msgid "Aktivna konfiguracija"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:32
+msgid "Mirovinsko 1"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:38
+msgid "Mirovinsko 2"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:44
+msgid "Zdravstveno"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:50
+msgid "Niža stopa poreza"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:56
+msgid "Viša stopa poreza"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:62
+msgid "Osobni odbitak"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:68
+msgid "Prirez"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:74
+msgid "Granica za višu stopu poreza"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:80
+msgid "Minimalna plaća (€)"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:82
+msgid "Opis konfiguracije"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:85 ./ljudski_resursi/models.py:214
+msgid "Tax Configuration"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:86
+msgid "Tax Configurations"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:114
+msgid "Naziv općine"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:119
+msgid "Stopa prireza (%)"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:123
+msgid "Općina"
+msgstr ""
+
+#: ./financije/models/taxconfig.py:124
+msgid "Općine"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:6
+msgid "Financial Report Details"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:20
+msgid "Quarter"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:24
+#: ./financije/templates/financije/financial_report_list.html:21
+msgid "Total Income"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:25
+#: ./financije/templates/financije/financial_report_list.html:22
+msgid "Total Expenses"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:26
+#: ./financije/templates/financije/financial_report_list.html:23
+msgid "Net Cash Flow"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:34
+#: ./financije/templates/financije/invoice_detail.html:29
+msgid "Back to List"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_detail.html:37
+msgid "Edit Report"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_list.html:6
+msgid "Financial Reports"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_list.html:10
+msgid "New Report"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_list.html:20
+msgid "Month/Quarter"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_list.html:24
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:17
+#: ./templates/ljudski_resursi/department_list.html:16
+#: ./templates/ljudski_resursi/employee_list.html:19
+msgid "Actions"
+msgstr ""
+
+#: ./financije/templates/financije/financial_report_list.html:53
+msgid "No financial reports available."
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:6
+msgid "Invoice Details"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:14
+msgid "Amount"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:15
+msgid "Issue Date"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:20
+msgid "Payment Method"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:21
+msgid "VAT Rate"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:22
+msgid "Total Amount"
+msgstr ""
+
+#: ./financije/templates/financije/invoice_detail.html:30
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:29
+#: ./templates/ljudski_resursi/employee_list.html:31
+msgid "Edit"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:39
+msgid "Naziv hijerarhijskog nivoa"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:42
+msgid "Razina (Level)"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:43
+msgid "Niža vrijednost = viši rang, ili obrnuto, ovisno o konvenciji."
+msgstr ""
+
+#: ./ljudski_resursi/models.py:46
+msgid "Opis hijerarhijskog nivoa"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:53 ./ljudski_resursi/models.py:204
+msgid "Hierarchical Level"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:54
+msgid "Hierarchical Levels"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:62
+msgid "Naziv odjela"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:63
+msgid "Opis odjela"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:70
+msgid "Nadređeni odjel"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:78
+msgid "Voditelj odjela"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:85 ./ljudski_resursi/models.py:183
+#: ./ljudski_resursi/models.py:322
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:15
+#: ./nabava/models.py:139 ./templates/ljudski_resursi/employee_list.html:17
+msgid "Department"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:86
+msgid "Departments"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:95 ./ljudski_resursi/models.py:103
+#: ./ljudski_resursi/models.py:201
+msgid "Expertise Level"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:97 ./ljudski_resursi/models.py:317
+#: ./templates/ljudski_resursi/department_list.html:15
+msgid "Description"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:104
+msgid "Expertise Levels"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:112
+msgid "Naziv pozicije"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:119
+msgid "Odjel"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:125
+msgid "Hijerarhijski nivo"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:128
+msgid "Menadžerska pozicija"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:135
+msgid "Razina stručnosti (default)"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:142
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:16
+#: ./templates/ljudski_resursi/employee_list.html:18
+msgid "Position"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:143
+msgid "Positions"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:170
+msgid "User"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:172
+msgid "Ime"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:173
+msgid "Prezime"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:194
+msgid "Nadređeni"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:220
+msgid "Salary Coefficient"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:224
+msgid "Onboarding Date"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:227
+msgid "Onboarding Timeline (days)"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:234
+msgid "Employee Satisfaction"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:241
+msgid "Satisfaction Score"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:248
+msgid "Razina pristupa"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:303
+msgid "Employee"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:304
+msgid "Employees"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:316
+msgid "Job Title"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:324
+msgid "Level"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:354 ./prodaja/models.py:368
+msgid "Radni nalog"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:357
+msgid "Iznos nagrade (€)"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:359
+msgid "Razlog nagrade"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:360
+msgid "Datum dodjele"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:366
+msgid "Odobrio"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:370 ./proizvodnja/models.py:888
+msgid "Nagrada"
+msgstr ""
+
+#: ./ljudski_resursi/models.py:371
+msgid "Nagrade"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_confirm_delete.html:7
+#: ./templates/ljudski_resursi/employee_confirm_delete.html:12
+msgid "Confirm Delete"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_confirm_delete.html:8
+#, python-format
+msgid ""
+"Are you sure you want to delete employee %(employee.first_name)s "
+"%(employee.last_name)s?"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_confirm_delete.html:11
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:30
+#: ./templates/ljudski_resursi/employee_list.html:32
+msgid "Delete"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_confirm_delete.html:12
+#: ./templates/ljudski_resursi/department_form.html:15
+#: ./templates/ljudski_resursi/employee_confirm_delete.html:13
+#: ./templates/ljudski_resursi/employee_form.html:15
+msgid "Cancel"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:4
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:7
+#: ./templates/ljudski_resursi/employee_list.html:4
+#: ./templates/ljudski_resursi/employee_list.html:7
+msgid "Employee List"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:8
+msgid "Add Employee"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:12
+#: ./templates/ljudski_resursi/employee_list.html:14
+msgid "First Name"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:13
+#: ./templates/ljudski_resursi/employee_list.html:15
+msgid "Last Name"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/employee_list.html:35
+msgid "No employees."
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:5
+msgid "Home - Ljudski Resursi"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:8
+msgid "Dobrodošli u Ljudski Resursi Modul!"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:9
+msgid ""
+"Korišćenjem ovog modula možete upravljati zaposlenicima, odeljenjima i "
+"ostalim HR operacijama."
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:15
+msgid "Zaposlenici"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:18
+msgid "Ukupno zaposlenika"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:24
+msgid "Odeljenja"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:27
+msgid "Ukupno odeljenja"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:33
+msgid "Pozicije"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:36
+msgid "Ukupno pozicija"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:42
+msgid "Evaluacije"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:45
+msgid "Ukupno evaluacija"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:53
+msgid "Pregled Zaposlenika"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:54
+msgid "Pregled Odeljenja"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:55
+msgid "Pregled Pozicija"
+msgstr ""
+
+#: ./ljudski_resursi/templates/ljudski_resursi/home.html:56
+msgid "Pregled Evaluacija"
+msgstr ""
+
+#: ./ljudski_resursi/views.py:42
+msgid "Update Employee"
+msgstr ""
+
+#: ./ljudski_resursi/views.py:45
+msgid "Create Employee"
+msgstr ""
+
+#: ./ljudski_resursi/views.py:51
+msgid "Employee successfully saved."
+msgstr ""
+
+#: ./ljudski_resursi/views.py:68
+msgid "Employee successfully deleted."
+msgstr ""
+
+#: ./ljudski_resursi/views.py:160
+msgid "Department successfully added."
+msgstr ""
+
+#: ./ljudski_resursi/views.py:195
+msgid "Evaluation successfully created."
+msgstr ""
+
+#: ./ljudski_resursi/views.py:209
+msgid "Evaluation successfully updated."
+msgstr ""
+
+#: ./ljudski_resursi/views.py:225
+msgid "Evaluation successfully deleted."
+msgstr ""
+
+#: ./nabava/forms.py:72
+msgid "Potrebno je obrazloženje kada cijena prelazi referentnu za 20%"
+msgstr ""
+
+#: ./nabava/forms.py:90 ./nabava/forms.py:118 ./nabava/models.py:296
+#: ./nabava/models.py:432
+msgid "Količina mora biti veća od 0"
+msgstr ""
+
+#: ./nabava/forms.py:103
+msgid "Narudžbenica s ovim brojem već postoji"
+msgstr ""
+
+#: ./nabava/forms.py:121 ./nabava/models.py:298 ./nabava/models.py:434
+msgid "Cijena ne može biti negativna"
+msgstr ""
+
+#: ./nabava/forms.py:135
+msgid "Ovaj artikl je već dodan u narudžbenicu"
+msgstr ""
+
+#: ./nabava/forms.py:177
+msgid "OIB mora sadržavati točno 11 brojeva"
+msgstr ""
+
+#: ./nabava/models.py:37
+msgid "Naziv grupe"
+msgstr ""
+
+#: ./nabava/models.py:38 ./prodaja/models.py:48 ./proizvodnja/models.py:60
+#: ./proizvodnja/models.py:76 ./proizvodnja/models.py:125
+#: ./proizvodnja/models.py:297 ./proizvodnja/models.py:435
+#: ./skladiste/models.py:40 ./skladiste/models.py:57 ./skladiste/models.py:89
+#: ./skladiste/models.py:182 ./skladiste/models.py:292
+msgid "Opis"
+msgstr ""
+
+#: ./nabava/models.py:39 ./nabava/models.py:88 ./skladiste/models.py:66
+#: ./skladiste/models.py:140
+msgid "Aktivno"
+msgstr ""
+
+#: ./nabava/models.py:42 ./nabava/models.py:71
+msgid "Grupa dobavljača"
+msgstr ""
+
+#: ./nabava/models.py:43
+msgid "Grupe dobavljača"
+msgstr ""
+
+#: ./nabava/models.py:58
+msgid "Naziv dobavljača"
+msgstr ""
+
+#: ./nabava/models.py:65
+msgid "Web stranica"
+msgstr ""
+
+#: ./nabava/models.py:74
+msgid "Rejting"
+msgstr ""
+
+#: ./nabava/models.py:78
+msgid "Rok plaćanja (dana)"
+msgstr ""
+
+#: ./nabava/models.py:85
+msgid "Standardni popust (%)"
+msgstr ""
+
+#: ./nabava/models.py:93 ./nabava/models.py:170 ./nabava/models.py:336
+#: ./prodaja/models.py:970 ./skladiste/models.py:132 ./skladiste/models.py:318
+msgid "Dobavljač"
+msgstr ""
+
+#: ./nabava/models.py:94
+msgid "Dobavljači"
+msgstr ""
+
+#: ./nabava/models.py:111
+msgid "Project Name"
+msgstr ""
+
+#: ./nabava/models.py:112
+msgid "Item/Material"
+msgstr ""
+
+#: ./nabava/models.py:113 ./nabava/models.py:138
+msgid "Quantity"
+msgstr ""
+
+#: ./nabava/models.py:114
+msgid "Required Date"
+msgstr ""
+
+#: ./nabava/models.py:117
+msgid "Responsible Person"
+msgstr ""
+
+#: ./nabava/models.py:119
+msgid "Note"
+msgstr ""
+
+#: ./nabava/models.py:126 ./proizvodnja/models.py:464
+msgid "Prioritet"
+msgstr ""
+
+#: ./nabava/models.py:135
+msgid "Procurement Plan"
+msgstr ""
+
+#: ./nabava/models.py:137
+msgid "Item"
+msgstr ""
+
+#: ./nabava/models.py:141
+msgid "Request Date"
+msgstr ""
+
+#: ./nabava/models.py:172
+msgid "Order Date"
+msgstr ""
+
+#: ./nabava/models.py:174
+msgid "Expected Delivery"
+msgstr ""
+
+#: ./nabava/models.py:180 ./prodaja/models.py:263
+msgid "Status narudžbe"
+msgstr ""
+
+#: ./nabava/models.py:190 ./proizvodnja/models.py:559
+msgid "Radni Nalog"
+msgstr ""
+
+#: ./nabava/models.py:193
+msgid "Just-In-Time?"
+msgstr ""
+
+#: ./nabava/models.py:195
+msgid "Delivery Schedule"
+msgstr ""
+
+#: ./nabava/models.py:202
+msgid "Reference Price (€/unit)"
+msgstr ""
+
+#: ./nabava/models.py:208
+msgid "Agreed Price (€/unit)"
+msgstr ""
+
+#: ./nabava/models.py:211
+msgid "Justification for price deviation"
+msgstr ""
+
+#: ./nabava/models.py:214
+msgid "Date Created"
+msgstr ""
+
+#: ./nabava/models.py:215
+msgid "Date Updated"
+msgstr ""
+
+#: ./nabava/models.py:224
+msgid "Agreed price is >20% above reference price. Justification required."
+msgstr ""
+
+#: ./nabava/models.py:267
+msgid "Purchase Order"
+msgstr ""
+
+#: ./nabava/models.py:270 ./nabava/models.py:414 ./skladiste/models.py:148
+#: ./skladiste/models.py:348 ./skladiste/models.py:412
+msgid "Artikl"
+msgstr ""
+
+#: ./nabava/models.py:279
+msgid "Jedinična cijena (€)"
+msgstr ""
+
+#: ./nabava/models.py:285 ./prodaja/models.py:229 ./prodaja/models.py:273
+#: ./prodaja/models.py:329
+msgid "Popust (%)"
+msgstr ""
+
+#: ./nabava/models.py:291
+msgid "Zaprimljena količina"
+msgstr ""
+
+#: ./nabava/models.py:330
+msgid "Broj narudžbenice"
+msgstr ""
+
+#: ./nabava/models.py:347 ./skladiste/models.py:149
+msgid "Artikli"
+msgstr ""
+
+#: ./nabava/models.py:357
+msgid "Povezani račun"
+msgstr ""
+
+#: ./nabava/models.py:367 ./nabava/models.py:411
+msgid "Narudžbenica"
+msgstr ""
+
+#: ./nabava/models.py:368
+msgid "Narudžbenice"
+msgstr ""
+
+#: ./nabava/models.py:420 ./skladiste/models.py:177 ./skladiste/models.py:360
+msgid "Cijena"
+msgstr ""
+
+#: ./nabava/models.py:424
+msgid "Stavka narudžbenice"
+msgstr ""
+
+#: ./nabava/models.py:425
+msgid "Stavke narudžbenice"
+msgstr ""
+
+#: ./prodaja/models.py:46
+msgid "Naziv usluge/projekta"
+msgstr ""
+
+#: ./prodaja/models.py:54
+msgid "Project/Service Type"
+msgstr ""
+
+#: ./prodaja/models.py:55
+msgid "Project/Service Types"
+msgstr ""
+
+#: ./prodaja/models.py:63
+msgid "Novi lead"
+msgstr ""
+
+#: ./prodaja/models.py:64
+msgid "Kvalificiran"
+msgstr ""
+
+#: ./prodaja/models.py:65
+msgid "Pregovori"
+msgstr ""
+
+#: ./prodaja/models.py:66
+msgid "Zatvoren - dobiveno"
+msgstr ""
+
+#: ./prodaja/models.py:67
+msgid "Zatvoren - izgubljeno"
+msgstr ""
+
+#: ./prodaja/models.py:70
+msgid "Terenska posjeta"
+msgstr ""
+
+#: ./prodaja/models.py:71
+msgid "Javna nabava / natječaj"
+msgstr ""
+
+#: ./prodaja/models.py:72
+msgid "Preporuka postojećeg klijenta"
+msgstr ""
+
+#: ./prodaja/models.py:73
+msgid "Digitalni marketing / kampanja"
+msgstr ""
+
+#: ./prodaja/models.py:74
+msgid "Sajam / industrijski događaj"
+msgstr ""
+
+#: ./prodaja/models.py:78
+msgid "Naziv leada / prilike"
+msgstr ""
+
+#: ./prodaja/models.py:84 ./prodaja/models.py:201
+msgid "Klijent (CRM)"
+msgstr ""
+
+#: ./prodaja/models.py:90
+msgid "Izvor leada"
+msgstr ""
+
+#: ./prodaja/models.py:96
+msgid "Faza prodajnog ciklusa"
+msgstr ""
+
+#: ./prodaja/models.py:103
+msgid "Budžet (procjena)"
+msgstr ""
+
+#: ./prodaja/models.py:106
+msgid "Klijent ima ovlasti za potpis?"
+msgstr ""
+
+#: ./prodaja/models.py:108
+msgid "Jasna potreba klijenta?"
+msgstr ""
+
+#: ./prodaja/models.py:110
+msgid "Vremenski okvir (BANT)"
+msgstr ""
+
+#: ./prodaja/models.py:120
+msgid "Odgovorni prodajni predstavnik"
+msgstr ""
+
+#: ./prodaja/models.py:127
+msgid "Vrsta usluge/projekta"
+msgstr ""
+
+#: ./prodaja/models.py:130 ./prodaja/models.py:535
+msgid "Vrijeme kreiranja"
+msgstr ""
+
+#: ./prodaja/models.py:133 ./prodaja/models.py:538
+msgid "Zadnje ažuriranje"
+msgstr ""
+
+#: ./prodaja/models.py:136
+msgid "Vrijednost"
+msgstr ""
+
+#: ./prodaja/models.py:138
+msgid "Bilješke"
+msgstr ""
+
+#: ./prodaja/models.py:144
+msgid "Sales Opportunity (Lead)"
+msgstr ""
+
+#: ./prodaja/models.py:145
+msgid "Sales Opportunities (Leads)"
+msgstr ""
+
+#: ./prodaja/models.py:159
+msgid "Povezana prilika"
+msgstr ""
+
+#: ./prodaja/models.py:162
+msgid "Posjećeni klijent"
+msgstr ""
+
+#: ./prodaja/models.py:164
+msgid "Datum posjete"
+msgstr ""
+
+#: ./prodaja/models.py:166
+msgid "Svrha posjete / bilješke"
+msgstr ""
+
+#: ./prodaja/models.py:173
+msgid "Prodajni predstavnik"
+msgstr ""
+
+#: ./prodaja/models.py:180
+msgid "Field Visit"
+msgstr ""
+
+#: ./prodaja/models.py:181
+msgid "Field Visits"
+msgstr ""
+
+#: ./prodaja/models.py:191
+msgid "Poslano klijentu"
+msgstr ""
+
+#: ./prodaja/models.py:192 ./projektiranje_app/models.py:21
+msgid "Odobreno"
+msgstr ""
+
+#: ./prodaja/models.py:193
+msgid "Odbijeno"
+msgstr ""
+
+#: ./prodaja/models.py:209
+msgid "Pripadajuća prilika (Opportunity)"
+msgstr ""
+
+#: ./prodaja/models.py:212
+msgid "Broj ponude"
+msgstr ""
+
+#: ./prodaja/models.py:219
+msgid "Status ponude"
+msgstr ""
+
+#: ./prodaja/models.py:222 ./prodaja/models.py:266 ./prodaja/models.py:322
+msgid "Ukupan iznos (€)"
+msgstr ""
+
+#: ./prodaja/models.py:232
+msgid "Broj revizija"
+msgstr ""
+
+#: ./prodaja/models.py:234 ./prodaja/models.py:275 ./prodaja/models.py:352
+msgid "Kreirao/la"
+msgstr ""
+
+#: ./prodaja/models.py:250
+msgid "Na čekanju"
+msgstr ""
+
+#: ./prodaja/models.py:251 ./projektiranje_app/models.py:22
+msgid "Završeno"
+msgstr ""
+
+#: ./prodaja/models.py:252
+msgid "Otkazano"
+msgstr ""
+
+#: ./prodaja/models.py:257
+msgid "Broj narudžbe"
+msgstr ""
+
+#: ./prodaja/models.py:282
+msgid "Iz ponude (Quotation)"
+msgstr ""
+
+#: ./prodaja/models.py:285
+msgid "Klijent potvrdio (datum)"
+msgstr ""
+
+#: ./prodaja/models.py:301
+msgid "Zatvoren"
+msgstr ""
+
+#: ./prodaja/models.py:302
+msgid "Otkazan"
+msgstr ""
+
+#: ./prodaja/models.py:307
+msgid "Broj ugovora"
+msgstr ""
+
+#: ./prodaja/models.py:313
+msgid "Status ugovora"
+msgstr ""
+
+#: ./prodaja/models.py:319
+msgid "Bankarska garancija tražena?"
+msgstr ""
+
+#: ./prodaja/models.py:337
+msgid "Povezana narudžba"
+msgstr ""
+
+#: ./prodaja/models.py:340
+msgid "Raspored isporuke"
+msgstr ""
+
+#: ./prodaja/models.py:343
+msgid "Posebni zahtjevi klijenta"
+msgstr ""
+
+#: ./prodaja/models.py:350
+msgid "Povezani Radni Nalog (ako postoji)"
+msgstr ""
+
+#: ./prodaja/models.py:370
+msgid "Proizvod/Komponenta"
+msgstr ""
+
+#: ./prodaja/models.py:373
+msgid "Cijena (€)"
+msgstr ""
+
+#: ./prodaja/models.py:380
+msgid "Work Order Input"
+msgstr ""
+
+#: ./prodaja/models.py:381
+msgid "Work Order Inputs"
+msgstr ""
+
+#: ./prodaja/models.py:399
+msgid "Tender priprema"
+msgstr ""
+
+#: ./prodaja/models.py:401
+msgid "Dokument"
+msgstr ""
+
+#: ./prodaja/models.py:403
+msgid "Opis dokumenta"
+msgstr ""
+
+#: ./prodaja/models.py:406 ./projektiranje_app/models.py:271
+msgid "Datum uploada"
+msgstr ""
+
+#: ./prodaja/models.py:410
+msgid "Dokument natječaja"
+msgstr ""
+
+#: ./prodaja/models.py:411
+msgid "Dokumenti natječaja"
+msgstr ""
+
+#: ./prodaja/models.py:439 ./projektiranje_app/models.py:18
+msgid "U pripremi"
+msgstr ""
+
+#: ./prodaja/models.py:440
+msgid "Spremno za ponudu"
+msgstr ""
+
+#: ./prodaja/models.py:441
+msgid "Podneseno"
+msgstr ""
+
+#: ./prodaja/models.py:448
+msgid "Prilika (natječaj)"
+msgstr ""
+
+#: ./prodaja/models.py:455
+msgid "Ponudbeni nacrti"
+msgstr ""
+
+#: ./prodaja/models.py:458
+msgid "Upute za ponuditelje"
+msgstr ""
+
+#: ./prodaja/models.py:461
+msgid "Kriteriji evaluacije"
+msgstr ""
+
+#: ./prodaja/models.py:464
+msgid "Rok valjanosti ponude"
+msgstr ""
+
+#: ./prodaja/models.py:467
+msgid "Datum i vrijeme otvaranja ponuda"
+msgstr ""
+
+#: ./prodaja/models.py:470
+msgid "Uvjeti plaćanja"
+msgstr ""
+
+#: ./prodaja/models.py:473
+msgid "Uvjeti jamstva"
+msgstr ""
+
+#: ./prodaja/models.py:480
+msgid "Postotak garancije za ozbiljnost ponude"
+msgstr ""
+
+#: ./prodaja/models.py:481
+msgid "Obično 3%"
+msgstr ""
+
+#: ./prodaja/models.py:488
+msgid "Iznos garancije za ozbiljnost ponude"
+msgstr ""
+
+#: ./prodaja/models.py:495
+msgid "Postotak garancije za uredno izvršenje ugovora"
+msgstr ""
+
+#: ./prodaja/models.py:496
+msgid "Obično 10%"
+msgstr ""
+
+#: ./prodaja/models.py:503
+msgid "Iznos garancije za uredno izvršenje ugovora"
+msgstr ""
+
+#: ./prodaja/models.py:511
+msgid "Postotak bankarske garancije za jamstveni rok"
+msgstr ""
+
+#: ./prodaja/models.py:512
+msgid "Unesite vrijednost u rasponu, npr. 2 do 10%"
+msgstr ""
+
+#: ./prodaja/models.py:519
+msgid "Iznos bankarske garancije za jamstveni rok"
+msgstr ""
+
+#: ./prodaja/models.py:522
+msgid "Plan cashflow-a"
+msgstr ""
+
+#: ./prodaja/models.py:525
+msgid "Ažurirane ponude materijala iz nabave"
+msgstr ""
+
+#: ./prodaja/models.py:527
+msgid "Dodatne napomene"
+msgstr ""
+
+#: ./prodaja/models.py:532
+msgid "Status pripreme tendera"
+msgstr ""
+
+#: ./prodaja/models.py:547
+msgid "Troškovi materijala"
+msgstr ""
+
+#: ./prodaja/models.py:554
+msgid "Radni sati"
+msgstr ""
+
+#: ./prodaja/models.py:560 ./prodaja/models.py:866
+msgid "Satnica (€)"
+msgstr ""
+
+#: ./prodaja/models.py:563
+msgid "Obavezna dokumentacija"
+msgstr ""
+
+#: ./prodaja/models.py:566
+msgid "Tehničke specifikacije"
+msgstr ""
+
+#: ./prodaja/models.py:574
+msgid "Tehnički nacrti"
+msgstr ""
+
+#: ./prodaja/models.py:577
+msgid "Voditelj projekta (ime)"
+msgstr ""
+
+#: ./prodaja/models.py:585
+msgid "Povezani projekt"
+msgstr ""
+
+#: ./prodaja/models.py:588
+msgid "Procijenjeno vrijeme proizvodnje"
+msgstr ""
+
+#: ./prodaja/models.py:597
+msgid "Financijska analiza"
+msgstr ""
+
+#: ./prodaja/models.py:600
+msgid "Plan plaćanja"
+msgstr ""
+
+#: ./prodaja/models.py:828 ./skladiste/models.py:175
+msgid "Naziv materijala"
+msgstr ""
+
+#: ./prodaja/models.py:830
+msgid "Cijena jedinice"
+msgstr ""
+
+#: ./prodaja/models.py:837
+msgid "PDV (%)"
+msgstr ""
+
+#: ./prodaja/models.py:861
+msgid "Vrsta rada"
+msgstr ""
+
+#: ./prodaja/models.py:863
+msgid "Broj sati"
+msgstr ""
+
+#: ./prodaja/models.py:871
+msgid "Ukupni trošak"
+msgstr ""
+
+#: ./prodaja/models.py:886
+msgid "Neposredni"
+msgstr ""
+
+#: ./prodaja/models.py:887
+msgid "Posredni"
+msgstr ""
+
+#: ./prodaja/models.py:894
+msgid "Vrsta troška"
+msgstr ""
+
+#: ./prodaja/models.py:956
+msgid "Naziv stavke"
+msgstr ""
+
+#: ./prodaja/models.py:958
+msgid "Sati rada"
+msgstr ""
+
+#: ./prodaja/models.py:961
+msgid "Naš materijal"
+msgstr ""
+
+#: ./prodaja/models.py:964
+msgid "Vanjska usluga"
+msgstr ""
+
+#: ./prodaja/models.py:967
+msgid "Oprema/dijelovi"
+msgstr ""
+
+#: ./prodaja/models.py:983 ./prodaja/models.py:1004
+msgid "Opis troška"
+msgstr ""
+
+#: ./prodaja/models.py:985 ./prodaja/models.py:1006
+msgid "Mjesečni trošak"
+msgstr ""
+
+#: ./prodaja/models.py:988 ./prodaja/models.py:1009
+msgid "Trošak po projektu"
+msgstr ""
+
+#: ./prodaja/models.py:991
+msgid "Koeficijent"
+msgstr ""
+
+#: ./proizvodnja/forms.py:209
+msgid "Količina ne može biti negativna."
+msgstr ""
+
+#: ./proizvodnja/forms.py:301
+msgid "Predviđeno vrijeme ne može biti negativno."
+msgstr ""
+
+#: ./proizvodnja/forms.py:303
+msgid "Stvarno vrijeme ne može biti negativno."
+msgstr ""
+
+#: ./proizvodnja/forms.py:459 ./proizvodnja/models.py:172
+#: ./proizvodnja/models.py:294 ./proizvodnja/models.py:412
+msgid "Projekt"
+msgstr ""
+
+#: ./proizvodnja/models.py:58
+msgid "Naziv tipa projekta"
+msgstr ""
+
+#: ./proizvodnja/models.py:67 ./proizvodnja/models.py:94
+#: ./proizvodnja/models.py:137 ./proizvodnja/models.py:222
+msgid "Tip Projekta"
+msgstr ""
+
+#: ./proizvodnja/models.py:68
+msgid "Tipovi Projekata"
+msgstr ""
+
+#: ./proizvodnja/models.py:74
+msgid "Naziv tipa vozila"
+msgstr ""
+
+#: ./proizvodnja/models.py:83 ./proizvodnja/models.py:144
+#: ./proizvodnja/models.py:230
+msgid "Tip Vozila"
+msgstr ""
+
+#: ./proizvodnja/models.py:84
+msgid "Tipovi Vozila"
+msgstr ""
+
+#: ./proizvodnja/models.py:90
+msgid "Naziv grupe poslova"
+msgstr ""
+
+#: ./proizvodnja/models.py:92
+msgid "Opis grupe poslova"
+msgstr ""
+
+#: ./proizvodnja/models.py:101 ./proizvodnja/models.py:238
+#: ./proizvodnja/models.py:418
+msgid "Grupa Poslova"
+msgstr ""
+
+#: ./proizvodnja/models.py:102
+msgid "Grupe Poslova"
+msgstr ""
+
+#: ./proizvodnja/models.py:120
+msgid "Naziv projekta"
+msgstr ""
+
+#: ./proizvodnja/models.py:123
+msgid "ERP ID"
+msgstr ""
+
+#: ./proizvodnja/models.py:127
+msgid "Datum početka"
+msgstr ""
+
+#: ./proizvodnja/models.py:130
+msgid "Rok za isporuku"
+msgstr ""
+
+#: ./proizvodnja/models.py:150
+msgid "Status Projekta"
+msgstr ""
+
+#: ./proizvodnja/models.py:153
+msgid "Ugradnja na Lokaciji"
+msgstr ""
+
+#: ./proizvodnja/models.py:156
+msgid "Ručni Unos Radnih Naloga"
+msgstr ""
+
+#: ./proizvodnja/models.py:163
+msgid "Financijski Detalji"
+msgstr ""
+
+#: ./proizvodnja/models.py:173
+msgid "Projekti"
+msgstr ""
+
+#: ./proizvodnja/models.py:210
+msgid "Ugovorena cijena (bruto) ne može biti manja od (neto)."
+msgstr ""
+
+#: ./proizvodnja/models.py:240 ./proizvodnja/models.py:406
+msgid "Naziv Naloga"
+msgstr ""
+
+#: ./proizvodnja/models.py:241
+msgid "Opis Naloga"
+msgstr ""
+
+#: ./proizvodnja/models.py:247 ./proizvodnja/models.py:492
+msgid "Predviđeno Vrijeme"
+msgstr ""
+
+#: ./proizvodnja/models.py:250
+msgid "Broj Izvršenja"
+msgstr ""
+
+#: ./proizvodnja/models.py:256
+msgid "Akumulirani Sati"
+msgstr ""
+
+#: ./proizvodnja/models.py:258
+msgid "Sort Index"
+msgstr ""
+
+#: ./proizvodnja/models.py:271
+msgid "Template Radni Nalog"
+msgstr ""
+
+#: ./proizvodnja/models.py:272
+msgid "Template Radni Nalozi"
+msgstr ""
+
+#: ./proizvodnja/models.py:296
+msgid "Naziv Proizvodnje"
+msgstr ""
+
+#: ./proizvodnja/models.py:299 ./proizvodnja/models.py:427
+msgid "Datum Početka"
+msgstr ""
+
+#: ./proizvodnja/models.py:302 ./proizvodnja/models.py:430
+msgid "Datum Završetka"
+msgstr ""
+
+#: ./proizvodnja/models.py:308
+msgid "Status Proizvodnje"
+msgstr ""
+
+#: ./proizvodnja/models.py:315
+msgid "Resursi"
+msgstr ""
+
+#: ./proizvodnja/models.py:321 ./proizvodnja/models.py:560
+msgid "Radni Nalozi"
+msgstr ""
+
+#: ./proizvodnja/models.py:328 ./proizvodnja/models.py:511
+#: ./proizvodnja/models.py:1024
+msgid "Proizvodnja"
+msgstr ""
+
+#: ./proizvodnja/models.py:329
+msgid "Proizvodnje"
+msgstr ""
+
+#: ./proizvodnja/models.py:340
+msgid "Ukupno radnih sati"
+msgstr ""
+
+#: ./proizvodnja/models.py:347
+msgid "Prosječna efikasnost"
+msgstr ""
+
+#: ./proizvodnja/models.py:350
+msgid "Broj završenih naloga"
+msgstr ""
+
+#: ./proizvodnja/models.py:357
+msgid "Prosječna ocjena kvalitete"
+msgstr ""
+
+#: ./proizvodnja/models.py:424
+msgid "Tip Posla"
+msgstr ""
+
+#: ./proizvodnja/models.py:433
+msgid "Postotak Napretka"
+msgstr ""
+
+#: ./proizvodnja/models.py:441
+msgid "Dodatne Osobe"
+msgstr ""
+
+#: ./proizvodnja/models.py:450
+msgid "Zadužena Osoba"
+msgstr ""
+
+#: ./proizvodnja/models.py:458
+msgid "Odgovorna Osoba"
+msgstr ""
+
+#: ./proizvodnja/models.py:467
+msgid "Bypass Materijala"
+msgstr ""
+
+#: ./proizvodnja/models.py:470
+msgid "Dokumentacija Bypass"
+msgstr ""
+
+#: ./proizvodnja/models.py:476
+msgid "Status Naloga"
+msgstr ""
+
+#: ./proizvodnja/models.py:485
+msgid "Template Nalog"
+msgstr ""
+
+#: ./proizvodnja/models.py:499
+msgid "Stvarno Vrijeme"
+msgstr ""
+
+#: ./proizvodnja/models.py:507
+msgid "Preduvjeti"
+msgstr ""
+
+#: ./proizvodnja/models.py:625
+msgid "Datum završetka ne može biti prije datuma početka"
+msgstr ""
+
+#: ./proizvodnja/models.py:632
+msgid "Postotak napretka ne može biti veći od 100%"
+msgstr ""
+
+#: ./proizvodnja/models.py:637
+msgid "Predviđeno vrijeme ne može biti negativno"
+msgstr ""
+
+#: ./proizvodnja/models.py:686
+msgid "Sati rada ne mogu biti negativni."
+msgstr ""
+
+#: ./proizvodnja/models.py:688
+msgid "Sati rada ne mogu biti veći od 24 za jedan dan."
+msgstr ""
+
+#: ./proizvodnja/models.py:759
+msgid "Sati rada moraju biti između 0 i 24."
+msgstr ""
+
+#: ./proizvodnja/models.py:791
+msgid "Veličina video datoteke > 50 MB."
+msgstr ""
+
+#: ./proizvodnja/models.py:794
+msgid "Dopušteni formati su: mp4, avi, mkv."
+msgstr ""
+
+#: ./proizvodnja/models.py:809
+msgid "Video datoteka za pitanje."
+msgstr ""
+
+#: ./proizvodnja/models.py:812
+msgid "Dodatne informacije o video pitanju."
+msgstr ""
+
+#: ./proizvodnja/models.py:854
+msgid "Priložene slike"
+msgstr ""
+
+#: ./proizvodnja/models.py:855
+msgid "Dopuštene ekstenzije: .jpg, .png"
+msgstr ""
+
+#: ./proizvodnja/models.py:861
+msgid "Priloženi video"
+msgstr ""
+
+#: ./proizvodnja/models.py:863
+msgid "Podržani formati: mp4, avi, mkv."
+msgstr ""
+
+#: ./proizvodnja/models.py:880
+msgid "Visok"
+msgstr ""
+
+#: ./proizvodnja/models.py:881
+msgid "Srednji"
+msgstr ""
+
+#: ./proizvodnja/models.py:882
+msgid "Nizak"
+msgstr ""
+
+#: ./proizvodnja/models.py:885
+msgid "Informacija"
+msgstr ""
+
+#: ./proizvodnja/models.py:886
+msgid "Upozorenje"
+msgstr ""
+
+#: ./proizvodnja/models.py:887
+msgid "Greška"
+msgstr ""
+
+#: ./proizvodnja/models.py:963
+msgid "Odrađeni sati ne mogu biti negativni."
+msgstr ""
+
+#: ./proizvodnja/models.py:966
+msgid "Odrađeni sati ne mogu biti veći od 300 po mjesecu."
+msgstr ""
+
+#: ./proizvodnja/models.py:1005 ./skladiste/models.py:291
+msgid "Naziv resursa"
+msgstr ""
+
+#: ./proizvodnja/models.py:1015
+msgid "Opis resursa"
+msgstr ""
+
+#: ./proizvodnja/models.py:1016
+msgid "Dostupnost"
+msgstr ""
+
+#: ./proizvodnja/models.py:1040
+msgid "Proizvodni Resurs"
+msgstr ""
+
+#: ./proizvodnja/models.py:1041
+msgid "Proizvodni Resursi"
+msgstr ""
+
+#: ./proizvodnja/templates/proizvodnja/dodaj_uredi_projekt.html:43
+msgid "---------"
+msgstr ""
+
+#: ./proizvodnja/templates/proizvodnja/lista_projekata.html:19
+#: ./proizvodnja/templates/proizvodnja/lista_radnih_naloga.html:36
+msgid "Svi statusi"
+msgstr ""
+
+#: ./projektiranje_app/models.py:19
+msgid "U izradi"
+msgstr ""
+
+#: ./projektiranje_app/models.py:20
+msgid "Čeka odobrenje"
+msgstr ""
+
+#: ./projektiranje_app/models.py:29
+msgid "Projekt (iz proizvodnje)"
+msgstr ""
+
+#: ./projektiranje_app/models.py:36
+msgid "Projektant"
+msgstr ""
+
+#: ./projektiranje_app/models.py:43
+msgid "Tip vozila"
+msgstr ""
+
+#: ./projektiranje_app/models.py:49
+msgid "Predviđeni sati dizajna"
+msgstr ""
+
+#: ./projektiranje_app/models.py:55
+msgid "Utrošeni sati dizajna"
+msgstr ""
+
+#: ./projektiranje_app/models.py:61
+msgid "Datum početka projektiranja"
+msgstr ""
+
+#: ./projektiranje_app/models.py:64
+msgid "Datum završetka projektiranja"
+msgstr ""
+
+#: ./projektiranje_app/models.py:67
+msgid "Napomena / opis dizajna"
+msgstr ""
+
+#: ./projektiranje_app/models.py:74 ./projektiranje_app/models.py:195
+#: ./projektiranje_app/models.py:357
+msgid "Datum posljednje izmjene"
+msgstr ""
+
+#: ./projektiranje_app/models.py:81
+msgid "SolidWorks nacrt"
+msgstr ""
+
+#: ./projektiranje_app/models.py:87
+msgid "AutoCAD nacrt"
+msgstr ""
+
+#: ./projektiranje_app/models.py:91 ./projektiranje_app/models.py:254
+#: ./projektiranje_app/models.py:292 ./projektiranje_app/models.py:338
+msgid "Dizajnerski zadatak"
+msgstr ""
+
+#: ./projektiranje_app/models.py:92
+msgid "Dizajnerski zadaci"
+msgstr ""
+
+#: ./projektiranje_app/models.py:114
+msgid "Podvozje"
+msgstr ""
+
+#: ./projektiranje_app/models.py:115
+msgid "Nadogradnja"
+msgstr ""
+
+#: ./projektiranje_app/models.py:116
+msgid "Cjevovod"
+msgstr ""
+
+#: ./projektiranje_app/models.py:117
+msgid "Električni sustav"
+msgstr ""
+
+#: ./projektiranje_app/models.py:118
+msgid "Pumpni sustav"
+msgstr ""
+
+#: ./projektiranje_app/models.py:126
+msgid "Glavni zadatak projektiranja"
+msgstr ""
+
+#: ./projektiranje_app/models.py:129
+msgid "Tip segmenta"
+msgstr ""
+
+#: ./projektiranje_app/models.py:131
+msgid "Opis segmenta"
+msgstr ""
+
+#: ./projektiranje_app/models.py:136
+msgid "Planirani sati za segment"
+msgstr ""
+
+#: ./projektiranje_app/models.py:142
+msgid "Utrošeni sati za segment"
+msgstr ""
+
+#: ./projektiranje_app/models.py:145
+msgid "Datum kreiranja segmenta"
+msgstr ""
+
+#: ./projektiranje_app/models.py:148
+msgid "Datum posljednje izmjene segmenta"
+msgstr ""
+
+#: ./projektiranje_app/models.py:152 ./projektiranje_app/models.py:182
+#: ./projektiranje_app/models.py:262 ./projektiranje_app/models.py:300
+#: ./projektiranje_app/models.py:346
+msgid "Segment dizajna"
+msgstr ""
+
+#: ./projektiranje_app/models.py:153
+msgid "Segmenti dizajna"
+msgstr ""
+
+#: ./projektiranje_app/models.py:173
+msgid "Glavni dizajnerski zadatak"
+msgstr ""
+
+#: ./projektiranje_app/models.py:185
+msgid "Naziv BOM-a"
+msgstr ""
+
+#: ./projektiranje_app/models.py:187
+msgid "Opis BOM-a"
+msgstr ""
+
+#: ./projektiranje_app/models.py:189
+msgid "Status BOM-a"
+msgstr ""
+
+#: ./projektiranje_app/models.py:199 ./projektiranje_app/models.py:216
+msgid "BOM"
+msgstr ""
+
+#: ./projektiranje_app/models.py:200
+msgid "BOM-ovi"
+msgstr ""
+
+#: ./projektiranje_app/models.py:223 ./skladiste/models.py:197
+msgid "Materijal"
+msgstr ""
+
+#: ./projektiranje_app/models.py:232 ./projektiranje_app/models.py:355
+#: ./skladiste/models.py:320 ./skladiste/models.py:384
+msgid "Napomena"
+msgstr ""
+
+#: ./projektiranje_app/models.py:236
+msgid "BOM stavka"
+msgstr ""
+
+#: ./projektiranje_app/models.py:237
+msgid "BOM stavke"
+msgstr ""
+
+#: ./projektiranje_app/models.py:264 ./projektiranje_app/models.py:275
+msgid "CAD dokument"
+msgstr ""
+
+#: ./projektiranje_app/models.py:267
+msgid "SolidWorks"
+msgstr ""
+
+#: ./projektiranje_app/models.py:267
+msgid "AutoCAD"
+msgstr ""
+
+#: ./projektiranje_app/models.py:268
+msgid "Tip CAD dokumenta"
+msgstr ""
+
+#: ./projektiranje_app/models.py:276
+msgid "CAD dokumenti"
+msgstr ""
+
+#: ./projektiranje_app/models.py:303
+msgid "Broj revizije"
+msgstr ""
+
+#: ./projektiranje_app/models.py:305
+msgid "Opis promjena"
+msgstr ""
+
+#: ./projektiranje_app/models.py:311
+msgid "Autor revizije"
+msgstr ""
+
+#: ./projektiranje_app/models.py:314
+msgid "Datum revizije"
+msgstr ""
+
+#: ./projektiranje_app/models.py:318
+msgid "Revizija"
+msgstr ""
+
+#: ./projektiranje_app/models.py:319
+msgid "Revizije"
+msgstr ""
+
+#: ./projektiranje_app/models.py:349
+msgid "Gantt podaci (JSON)"
+msgstr ""
+
+#: ./projektiranje_app/models.py:352
+msgid "Početak plana"
+msgstr ""
+
+#: ./projektiranje_app/models.py:354
+msgid "Kraj plana"
+msgstr ""
+
+#: ./projektiranje_app/models.py:361
+msgid "Dinamički plan"
+msgstr ""
+
+#: ./projektiranje_app/models.py:362
+msgid "Dinamički planovi"
+msgstr ""
+
+#: ./skladiste/models.py:27
+msgid "Naziv zone"
+msgstr ""
+
+#: ./skladiste/models.py:28
+msgid "Opis zone"
+msgstr ""
+
+#: ./skladiste/models.py:39
+msgid "Naziv lokacije"
+msgstr ""
+
+#: ./skladiste/models.py:46
+msgid "Zona"
+msgstr ""
+
+#: ./skladiste/models.py:55
+msgid "Naziv kategorije"
+msgstr ""
+
+#: ./skladiste/models.py:64
+msgid "Nadređena kategorija"
+msgstr ""
+
+#: ./skladiste/models.py:71 ./skladiste/models.py:126
+msgid "Kategorija"
+msgstr ""
+
+#: ./skladiste/models.py:72
+msgid "Kategorije"
+msgstr ""
+
+#: ./skladiste/models.py:88
+msgid "Naziv artikla"
+msgstr ""
+
+#: ./skladiste/models.py:91
+msgid "Šifra artikla"
+msgstr ""
+
+#: ./skladiste/models.py:93
+msgid "Jedinica mjere"
+msgstr ""
+
+#: ./skladiste/models.py:99
+msgid "Minimalna količina"
+msgstr ""
+
+#: ./skladiste/models.py:106
+msgid "Trenutna količina"
+msgstr ""
+
+#: ./skladiste/models.py:113
+msgid "Nabavna cijena"
+msgstr ""
+
+#: ./skladiste/models.py:120
+msgid "Prodajna cijena"
+msgstr ""
+
+#: ./skladiste/models.py:138 ./skladiste/models.py:296
+msgid "Lokacija"
+msgstr ""
+
+#: ./skladiste/models.py:184
+msgid "Datum dostave"
+msgstr ""
+
+#: ./skladiste/models.py:198
+msgid "Materijali"
+msgstr ""
+
+#: ./skladiste/models.py:211
+msgid "Naziv alata"
+msgstr ""
+
+#: ./skladiste/models.py:213
+msgid "Inventarski broj"
+msgstr ""
+
+#: ./skladiste/models.py:215
+msgid "Zadužen?"
+msgstr ""
+
+#: ./skladiste/models.py:217
+msgid "Je li dodijeljen?"
+msgstr ""
+
+#: ./skladiste/models.py:226
+msgid "Zaduženi djelatnik"
+msgstr ""
+
+#: ./skladiste/models.py:238
+msgid "Vrsta HTZ opreme"
+msgstr ""
+
+#: ./skladiste/models.py:239
+msgid "Stanje"
+msgstr ""
+
+#: ./skladiste/models.py:241
+msgid "Trenutačno zaduženo?"
+msgstr ""
+
+#: ./skladiste/models.py:244
+msgid "Praćenje zaduženja HTZ opreme"
+msgstr ""
+
+#: ./skladiste/models.py:252
+msgid "Dodijeljeno djelatniku"
+msgstr ""
+
+#: ./skladiste/models.py:268
+msgid "Događaj"
+msgstr ""
+
+#: ./skladiste/models.py:275
+msgid "Artikl (ako se odnosi)"
+msgstr ""
+
+#: ./skladiste/models.py:302
+msgid "Skladišni resurs"
+msgstr ""
+
+#: ./skladiste/models.py:303
+msgid "Skladišni resursi"
+msgstr ""
+
+#: ./skladiste/models.py:314
+msgid "Broj primke"
+msgstr ""
+
+#: ./skladiste/models.py:316
+msgid "Datum primke"
+msgstr ""
+
+#: ./skladiste/models.py:330 ./skladiste/models.py:345
+msgid "Primka"
+msgstr ""
+
+#: ./skladiste/models.py:331
+msgid "Primke"
+msgstr ""
+
+#: ./skladiste/models.py:364
+msgid "Stavka primke"
+msgstr ""
+
+#: ./skladiste/models.py:365
+msgid "Stavke primke"
+msgstr ""
+
+#: ./skladiste/models.py:375
+msgid "Broj izdatnice"
+msgstr ""
+
+#: ./skladiste/models.py:382
+msgid "Preuzeo"
+msgstr ""
+
+#: ./skladiste/models.py:394 ./skladiste/models.py:409
+msgid "Izdatnica"
+msgstr ""
+
+#: ./skladiste/models.py:395
+msgid "Izdatnice"
+msgstr ""
+
+#: ./skladiste/models.py:422
+msgid "Stavka izdatnice"
+msgstr ""
+
+#: ./skladiste/models.py:423
+msgid "Stavke izdatnice"
+msgstr ""
+
+#: ./templates/ljudski_resursi/department_form.html:4
+#: ./templates/ljudski_resursi/department_form.html:7
+msgid "Department Form"
+msgstr ""
+
+#: ./templates/ljudski_resursi/department_form.html:14
+#: ./templates/ljudski_resursi/employee_form.html:14
+msgid "Save"
+msgstr ""
+
+#: ./templates/ljudski_resursi/department_list.html:4
+#: ./templates/ljudski_resursi/department_list.html:7
+msgid "Department List"
+msgstr ""
+
+#: ./templates/ljudski_resursi/department_list.html:9
+msgid "Add New Department"
+msgstr ""
+
+#: ./templates/ljudski_resursi/department_list.html:14
+msgid "Name"
+msgstr ""
+
+#: ./templates/ljudski_resursi/employee_confirm_delete.html:4
+#: ./templates/ljudski_resursi/employee_confirm_delete.html:7
+msgid "Delete Employee"
+msgstr ""
+
+#: ./templates/ljudski_resursi/employee_confirm_delete.html:8
+#, python-format
+msgid ""
+"Are you sure you want to delete employee: %(employee.first_name)s "
+"%(employee.last_name)s?"
+msgstr ""
+
+#: ./templates/ljudski_resursi/employee_list.html:9
+msgid "Add New Employee"
+msgstr ""

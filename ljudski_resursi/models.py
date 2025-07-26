@@ -15,16 +15,12 @@ from common.choices import OCJENE_CHOICES
 # 1) HIERARCHICAL LEVEL
 ##############################################
 class HierarchicalLevel(models.Model):
-    name = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Naziv hijerarhijskog nivoa")
-    )
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("Naziv hijerarhijskog nivoa"))
     level = models.IntegerField(
         verbose_name=_("Razina (Level)"),
         help_text=_("Niža vrijednost = viši rang, ili obrnuto, ovisno o konvenciji."),
     )
-    description = models.TextField(
-        blank=True, null=True, verbose_name=_("Opis hijerarhijskog nivoa")
-    )
+    description = models.TextField(blank=True, null=True, verbose_name=_("Opis hijerarhijskog nivoa"))
 
     def __str__(self):
         return f"{self.name} (level={self.level})"
@@ -71,9 +67,7 @@ class Department(models.Model):
 # 3) EXPERTISE LEVEL
 ##############################################
 class ExpertiseLevel(models.Model):
-    name = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Expertise Level")
-    )
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("Expertise Level"))
     description = models.TextField(blank=True, null=True, verbose_name=_("Description"))
 
     def __str__(self):
@@ -88,9 +82,7 @@ class ExpertiseLevel(models.Model):
 # 4) POSITION
 ##############################################
 class Position(models.Model):
-    title = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Naziv pozicije")
-    )
+    title = models.CharField(max_length=100, unique=True, verbose_name=_("Naziv pozicije"))
     department = models.ForeignKey(
         Department,
         on_delete=models.SET_NULL,
@@ -104,9 +96,7 @@ class Position(models.Model):
         related_name="positions",
         verbose_name=_("Hijerarhijski nivo"),
     )
-    is_managerial = models.BooleanField(
-        default=False, verbose_name=_("Menadžerska pozicija")
-    )
+    is_managerial = models.BooleanField(default=False, verbose_name=_("Menadžerska pozicija"))
     expertise_level = models.ForeignKey(
         ExpertiseLevel,
         on_delete=models.CASCADE,
@@ -151,9 +141,7 @@ class Employee(models.Model):
     )
     first_name = models.CharField(max_length=50, verbose_name=_("Ime"))
     last_name = models.CharField(max_length=50, verbose_name=_("Prezime"))
-    email = models.EmailField(
-        blank=True, null=True, verbose_name=_("Email"), unique=True
-    )
+    email = models.EmailField(blank=True, null=True, verbose_name=_("Email"), unique=True)
 
     department = models.ForeignKey(
         "ljudski_resursi.Department",
@@ -162,9 +150,7 @@ class Employee(models.Model):
         blank=True,
         verbose_name=_("Department"),
     )
-    position = models.ForeignKey(
-        Position, on_delete=models.PROTECT, verbose_name=_("Pozicija")
-    )
+    position = models.ForeignKey(Position, on_delete=models.PROTECT, verbose_name=_("Pozicija"))
     manager = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -180,9 +166,7 @@ class Employee(models.Model):
         related_name="employees",
         verbose_name=_("Expertise Level"),
     )
-    hierarchical_level = models.PositiveIntegerField(
-        default=1, verbose_name=_("Hierarchical Level")
-    )
+    hierarchical_level = models.PositiveIntegerField(default=1, verbose_name=_("Hierarchical Level"))
 
     is_active = models.BooleanField(default=True, verbose_name=_("Aktivan"))
 
@@ -200,9 +184,7 @@ class Employee(models.Model):
         verbose_name=_("Salary Coefficient"),
     )
 
-    onboarding_date = models.DateField(
-        null=True, blank=True, verbose_name=_("Onboarding Date")
-    )
+    onboarding_date = models.DateField(null=True, blank=True, verbose_name=_("Onboarding Date"))
     onboarding_timeline = models.PositiveIntegerField(
         null=True, blank=True, verbose_name=_("Onboarding Timeline (days)")
     )
@@ -234,17 +216,15 @@ class Employee(models.Model):
     def calculate_performance_metrics(self, period):
         """Returns performance metrics for variable pay calculation"""
 
-        evaluations = self.evaluacije.filter(evaluation_period__lte=period).order_by(
-            "-evaluation_period"
-        )[:3]
+        evaluations = self.evaluacije.filter(evaluation_period__lte=period).order_by("-evaluation_period")[:3]
 
         if not evaluations.exists():
             return Decimal("1.00")  # Default multiplier
 
         avg_score = sum(e.ocjena for e in evaluations) / len(evaluations)
-        quality_scores = self.ocjene_kvalitete.filter(
-            radni_nalog__datum_zavrsetka__lte=period
-        ).aggregate(avg=models.Avg("ocjena"))["avg"] or Decimal("3.00")
+        quality_scores = self.ocjene_kvalitete.filter(radni_nalog__datum_zavrsetka__lte=period).aggregate(
+            avg=models.Avg("ocjena")
+        )["avg"] or Decimal("3.00")
 
         return {
             "performance_multiplier": Decimal(str(avg_score / 5.0)),
@@ -330,9 +310,7 @@ class Nagrada(models.Model):
         related_name="nagrade",
         verbose_name=_("Radni nalog"),
     )
-    iznos = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Iznos nagrade (€)")
-    )
+    iznos = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Iznos nagrade (€)"))
     razlog = models.TextField(blank=True, null=True, verbose_name=_("Razlog nagrade"))
     datum_dodjele = models.DateField(auto_now_add=True, verbose_name=_("Datum dodjele"))
     odobrio = models.ForeignKey(
@@ -355,12 +333,8 @@ class Nagrada(models.Model):
 class RadnaEvaluacija(models.Model):
     """Monthly/quarterly employee evaluations"""
 
-    employee = models.ForeignKey(
-        "Employee", on_delete=models.CASCADE, related_name="evaluacije"
-    )
-    evaluator = models.ForeignKey(
-        "Employee", related_name="dane_evaluacije", on_delete=models.CASCADE
-    )
+    employee = models.ForeignKey("Employee", on_delete=models.CASCADE, related_name="evaluacije")
+    evaluator = models.ForeignKey("Employee", related_name="dane_evaluacije", on_delete=models.CASCADE)
     evaluation_period = models.CharField(max_length=50)  # renamed from 'period'
     datum_evaluacije = models.DateTimeField(auto_now_add=True)
 
@@ -372,9 +346,7 @@ class RadnaEvaluacija(models.Model):
 
     # Additional metrics
     broj_zavrsenih_naloga = models.IntegerField(default=0)
-    prosjecna_ocjena_kvalitete = models.DecimalField(
-        max_digits=3, decimal_places=2, null=True
-    )
+    prosjecna_ocjena_kvalitete = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     ukupno_sati_rada = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
     komentar = models.TextField(blank=True)

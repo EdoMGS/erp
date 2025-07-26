@@ -82,9 +82,7 @@ class ClientSupplierForm(forms.ModelForm):
         if postal_code or city:
             city_postal = None
             if postal_code:
-                city_postal = CityPostalCode.objects.filter(
-                    postal_code=postal_code
-                ).first()
+                city_postal = CityPostalCode.objects.filter(postal_code=postal_code).first()
                 if city_postal and city and city_postal.city != city:
                     self.add_error(None, _("Uneseni grad ne odgovara poštanskom broju"))
                 elif city_postal:
@@ -118,9 +116,7 @@ class ClientSupplierForm(forms.ModelForm):
         is_active = self.cleaned_data.get("is_active")
 
         if status == "active" and not is_active:
-            raise ValidationError(
-                _("Klijent ne može imati aktivan status ako nije aktivan")
-            )
+            raise ValidationError(_("Klijent ne može imati aktivan status ako nije aktivan"))
         return status
 
 

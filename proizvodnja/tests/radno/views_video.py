@@ -23,20 +23,13 @@ class ListaVideoMaterijalaView(LoginRequiredMixin, ListView):
         Dohvaća video materijale za određeni projekt.
         """
         projekt_id = self.kwargs.get("projekt_id")
-        return VideoMaterijal.objects.filter(
-            projekt_id=projekt_id, is_active=True
-        ).order_by("-created_at")
+        return VideoMaterijal.objects.filter(projekt_id=projekt_id, is_active=True).order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["projekt"] = get_object_or_404(
-            Projekt, id=self.kwargs.get("projekt_id")
-        )
+        context["projekt"] = get_object_or_404(Projekt, id=self.kwargs.get("projekt_id"))
         # Sakrij autora za radnike
-        if (
-            hasattr(self.request.user, "zaposlenik")
-            and self.request.user.zaposlenik.access_level == "Radnik"
-        ):
+        if hasattr(self.request.user, "zaposlenik") and self.request.user.zaposlenik.access_level == "Radnik":
             for video in context["video_materijali"]:
                 video.dodao = None
         return context
@@ -55,9 +48,7 @@ class DodajVideoMaterijalView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_video_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]}
-        )
+        return reverse_lazy("lista_video_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]})
 
 
 class AzurirajVideoMaterijalView(LoginRequiredMixin, UpdateView):
@@ -79,9 +70,7 @@ class AzurirajVideoMaterijalView(LoginRequiredMixin, UpdateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_video_materijala", kwargs={"projekt_id": self.object.projekt.id}
-        )
+        return reverse_lazy("lista_video_materijala", kwargs={"projekt_id": self.object.projekt.id})
 
 
 class ObrisiVideoMaterijalView(LoginRequiredMixin, DeleteView):
@@ -97,9 +86,7 @@ class ObrisiVideoMaterijalView(LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_video_materijala", kwargs={"projekt_id": self.object.projekt.id}
-        )
+        return reverse_lazy("lista_video_materijala", kwargs={"projekt_id": self.object.projekt.id})
 
 
 # -------- 2. Video pitanja -------- #
@@ -114,20 +101,13 @@ class ListaVideoPitanjaView(LoginRequiredMixin, ListView):
         Dohvaća video pitanja za određeni radni nalog.
         """
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
-        return VideoPitanje.objects.filter(
-            radni_nalog_id=radni_nalog_id, is_active=True
-        ).order_by("-created_at")
+        return VideoPitanje.objects.filter(radni_nalog_id=radni_nalog_id, is_active=True).order_by("-created_at")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["radni_nalog"] = get_object_or_404(
-            RadniNalog, id=self.kwargs.get("radni_nalog_id")
-        )
+        context["radni_nalog"] = get_object_or_404(RadniNalog, id=self.kwargs.get("radni_nalog_id"))
         # Sakrij autora za radnike
-        if (
-            hasattr(self.request.user, "zaposlenik")
-            and self.request.user.zaposlenik.access_level == "Radnik"
-        ):
+        if hasattr(self.request.user, "zaposlenik") and self.request.user.zaposlenik.access_level == "Radnik":
             for pitanje in context["video_pitanja"]:
                 pitanje.dodao = None
         return context
@@ -140,9 +120,7 @@ class DodajVideoPitanjeView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.radni_nalog = get_object_or_404(
-            RadniNalog, id=self.kwargs.get("radni_nalog_id")
-        )
+        instance.radni_nalog = get_object_or_404(RadniNalog, id=self.kwargs.get("radni_nalog_id"))
         instance.save()  # Sprema instancu kako bi dobila ID
         form.save_m2m()  # Sada možemo raditi s ManyToMany poljima
         log_action(self.request.user, instance, "CREATE")
@@ -169,9 +147,7 @@ class ObrisiVideoPitanjeView(LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_video_pitanja", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
-        )
+        return reverse_lazy("lista_video_pitanja", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
 
 
 # -------- 3. Pregled medija u ocjenama -------- #

@@ -1,0 +1,18 @@
+{% extends 'projektiranje/base.html' %}
+
+{% block title %}Lista Design Tasks{% endblock %}
+
+{% block content %}
+    <h1>Design Tasks</h1>
+    <a href="{% url 'projektiranje_app:designtask_create' %}" class="btn btn-primary mb-3">Dodaj Design Task</a>
+    <ul class="list-group">
+        {% for task in design_tasks %}
+            <li class="list-group-item">
+                <a href="{% url 'projektiranje_app:designtask_detail' task.id %}">{{ task }}</a>
+                <a href="{% url 'projektiranje_app:designtask_update' task.id %}" class="btn btn-sm btn-secondary float-right">Uredi</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Nema design tasks.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

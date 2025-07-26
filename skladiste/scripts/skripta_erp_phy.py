@@ -8,9 +8,7 @@ from django.template.loader import get_template
 from django.urls import Resolver404, get_resolver
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 def check_urls():
@@ -88,9 +86,7 @@ def add_favicon_to_template():
     """
     logger.info("Checking if favicon is added to templates...")
     templates = settings.TEMPLATES[0]["DIRS"]
-    favicon_link = (
-        '<link rel="icon" type="image/x-icon" href="{% static \'favicon.ico\' %}">'
-    )
+    favicon_link = '<link rel="icon" type="image/x-icon" href="{% static \'favicon.ico\' %}">'
 
     for template_dir in templates:
         try:

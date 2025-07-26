@@ -25,17 +25,9 @@ class ListaAngazmanaView(LoginRequiredMixin, ListView):
         zaposlenik_id = self.kwargs.get("zaposlenik_id")
 
         if radni_nalog_id:
-            queryset = (
-                super()
-                .get_queryset()
-                .filter(radni_nalog_id=radni_nalog_id, is_active=True)
-            )
+            queryset = super().get_queryset().filter(radni_nalog_id=radni_nalog_id, is_active=True)
         elif zaposlenik_id:
-            queryset = (
-                super()
-                .get_queryset()
-                .filter(zaposlenik_id=zaposlenik_id, is_active=True)
-            )
+            queryset = super().get_queryset().filter(zaposlenik_id=zaposlenik_id, is_active=True)
         else:
             queryset = super().get_queryset().filter(is_active=True)
 
@@ -44,9 +36,7 @@ class ListaAngazmanaView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if "radni_nalog_id" in self.kwargs:
-            context["radni_nalog"] = get_object_or_404(
-                RadniNalog, id=self.kwargs["radni_nalog_id"]
-            )
+            context["radni_nalog"] = get_object_or_404(RadniNalog, id=self.kwargs["radni_nalog_id"])
         return context
 
 
@@ -73,9 +63,7 @@ class DodajAngazmanView(LoginRequiredMixin, CreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_angazmana", kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]}
-        )
+        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]})
 
 
 # -------- 3. Ažuriranje angažmana -------- #
@@ -101,9 +89,7 @@ class AzurirajAngazmanView(LoginRequiredMixin, UpdateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
-        )
+        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
 
 
 # -------- 4. Dodavanje dodatnog angažmana -------- #
@@ -126,18 +112,14 @@ class DodajDodatniAngazmanView(LoginRequiredMixin, CreateView):
             Sprema dodatni angažman uz obavezno obrazloženje.
             """
             angazman = form.save(commit=False)
-            angazman.radni_nalog = get_object_or_404(
-                RadniNalog, id=self.kwargs["radni_nalog_id"]
-            )
+            angazman.radni_nalog = get_object_or_404(RadniNalog, id=self.kwargs["radni_nalog_id"])
             angazman.je_dodatni = True
             angazman.odobreno = self.request.user.zaposlenik
             angazman.save()
             form.save_m2m()
 
             # Logiranje dodavanja
-            log_action(
-                self.request.user, angazman, "DODATNI_ANGAZMAN", form.cleaned_data
-            )
+            log_action(self.request.user, angazman, "DODATNI_ANGAZMAN", form.cleaned_data)
 
             messages.success(self.request, "Dodatni angažman uspješno dodan.")
             return redirect("lista_angazmana", radni_nalog_id=angazman.radni_nalog.id)
@@ -163,9 +145,7 @@ class ObrisiAngazmanView(LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy(
-            "lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
-        )
+        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
 
 
 class DetaljiAngazmanaView(LoginRequiredMixin, DetailView):

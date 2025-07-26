@@ -31,9 +31,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "naziv",
-                    models.CharField(
-                        default="Glavni BOM", max_length=200, verbose_name="Naziv BOM-a"
-                    ),
+                    models.CharField(default="Glavni BOM", max_length=200, verbose_name="Naziv BOM-a"),
                 ),
                 (
                     "opis",
@@ -41,9 +39,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "status",
-                    models.CharField(
-                        default="draft", max_length=50, verbose_name="Status BOM-a"
-                    ),
+                    models.CharField(default="draft", max_length=50, verbose_name="Status BOM-a"),
                 ),
             ],
             options={
@@ -118,27 +114,19 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "plan_izrađen",
-                    models.BooleanField(
-                        default=False, verbose_name="Dinamički plan & gantt izrađeni"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Dinamički plan & gantt izrađeni"),
                 ),
                 (
                     "napomena",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Napomena / opis dizajna"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Napomena / opis dizajna"),
                 ),
                 (
                     "revizija_dokumentacije",
-                    models.PositiveIntegerField(
-                        default=0, verbose_name="Broj revizija dokumentacije"
-                    ),
+                    models.PositiveIntegerField(default=0, verbose_name="Broj revizija dokumentacije"),
                 ),
                 (
                     "dynamic_plan",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Tekstualni prikaz planova"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Tekstualni prikaz planova"),
                 ),
                 (
                     "bill_of_materials",
@@ -200,15 +188,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=255, verbose_name="Naziv Dokumentacije"
-                    ),
+                    models.CharField(max_length=255, verbose_name="Naziv Dokumentacije"),
                 ),
                 (
                     "opis",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis Dokumentacije"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis Dokumentacije"),
                 ),
             ],
             options={
@@ -230,15 +214,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "json_gantt_data",
-                    models.JSONField(
-                        blank=True, null=True, verbose_name="Gantt podaci (JSON)"
-                    ),
+                    models.JSONField(blank=True, null=True, verbose_name="Gantt podaci (JSON)"),
                 ),
                 (
                     "pocetak_plana",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Početak plana"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Početak plana"),
                 ),
                 (
                     "kraj_plana",
@@ -250,9 +230,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "dynamic_parameters",
-                    models.JSONField(
-                        blank=True, null=True, verbose_name="Parametri za plan"
-                    ),
+                    models.JSONField(blank=True, null=True, verbose_name="Parametri za plan"),
                 ),
                 (
                     "bom_document",
@@ -296,9 +274,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "napomena",
-                    models.CharField(
-                        blank=True, max_length=255, null=True, verbose_name="Napomena"
-                    ),
+                    models.CharField(blank=True, max_length=255, null=True, verbose_name="Napomena"),
                 ),
                 (
                     "bom",

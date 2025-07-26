@@ -28,9 +28,7 @@ def extract_relevant_data(file_path):
             if valid_table is not None:
                 # Postavljamo nove nazive stupaca i filtriramo potrebne
                 valid_table.columns = df.iloc[valid_table.index[0] - 1].values
-                relevant_data.append(
-                    valid_table[["IDE", "NAZIV", "RAD(h)", "MATERIJAL", "OPREMA"]]
-                )
+                relevant_data.append(valid_table[["IDE", "NAZIV", "RAD(h)", "MATERIJAL", "OPREMA"]])
         return pd.concat(relevant_data, ignore_index=True) if relevant_data else None
     except Exception as e:
         print(f"Greška pri obradi datoteke {file_path}: {e}")

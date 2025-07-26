@@ -34,14 +34,10 @@ urlpatterns = [
     path("salesorder/create/", views.salesorder_create, name="salesorder_create"),
     path("salesorder/<int:pk>/edit/", views.salesorder_edit, name="salesorder_edit"),
     path("salesorder/<int:pk>/", views.salesorder_detail, name="salesorder_detail"),
-    path(
-        "salesorder/<int:pk>/delete/", views.salesorder_delete, name="salesorder_delete"
-    ),
+    path("salesorder/<int:pk>/delete/", views.salesorder_delete, name="salesorder_delete"),
     # SalesContract
     path("salescontract/", views.salescontract_list, name="salescontract_list"),
-    path(
-        "salescontract/create/", views.salescontract_create, name="salescontract_create"
-    ),
+    path("salescontract/create/", views.salescontract_create, name="salescontract_create"),
     path(
         "salescontract/<int:pk>/edit/",
         views.salescontract_edit,
@@ -65,11 +61,7 @@ urlpatterns = [
         name="tender_preparation",
     ),
     path("tender/list/", views.tender_preparation_list, name="tender_list"),
-    path(
-        "tender/<int:pk>/calculator/", views.tender_calculator, name="tender_calculate"
-    ),
-    path(
-        "tender/<int:pk>/update/", views.update_tender_data, name="update_tender_data"
-    ),
+    path("tender/<int:pk>/calculator/", views.tender_calculator, name="tender_calculate"),
+    path("tender/<int:pk>/update/", views.update_tender_data, name="update_tender_data"),
     path("api/supplier-prices/", views.fetch_supplier_prices, name="supplier_prices"),
 ]

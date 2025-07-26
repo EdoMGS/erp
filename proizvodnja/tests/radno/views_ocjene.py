@@ -46,9 +46,7 @@ class DetaljiOcjeneKvaliteteView(LoginRequiredMixin, DetailView):
             "Direktor": radni_nalog.ocjene_kvalitete.filter(razina="Direktor"),
             "Neovisan": radni_nalog.ocjene_kvalitete.filter(razina="Neovisan"),
         }
-        context["prosjek_ocjena"] = radni_nalog.ocjene_kvalitete.aggregate(
-            avg=Avg("ocjena")
-        )["avg"]
+        context["prosjek_ocjena"] = radni_nalog.ocjene_kvalitete.aggregate(avg=Avg("ocjena"))["avg"]
         return context
 
 
@@ -80,9 +78,7 @@ class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             is_active=True,
         ).exists()
         if postoji_ocjena:
-            form.add_error(
-                "razina", "Već ste ocijenili ovaj radni nalog za svoju razinu."
-            )
+            form.add_error("razina", "Već ste ocijenili ovaj radni nalog za svoju razinu.")
             return self.form_invalid(form)
         instance.save()
         messages.success(self.request, "Ocjena kvalitete uspješno dodana!")
@@ -107,10 +103,7 @@ class AzurirajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         ocjena = self.get_object()
-        return (
-            self.request.user == ocjena.ocjenjivac
-            or self.request.user.role == "Direktor"
-        )
+        return self.request.user == ocjena.ocjenjivac or self.request.user.role == "Direktor"
 
         def form_valid(self, form):
             instance = form.save(commit=False)

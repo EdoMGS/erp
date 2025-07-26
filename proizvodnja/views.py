@@ -22,8 +22,7 @@ def proizvodnja_home(request):
     """Homepage view for proizvodnja app"""
     context = {
         "user": request.user,
-        "has_access": request.user.is_superuser
-        or hasattr(request.user, "employee_profile"),
+        "has_access": request.user.is_superuser or hasattr(request.user, "employee_profile"),
     }
     return render(request, "proizvodnja/home.html", context)
 
@@ -131,9 +130,7 @@ def lista_radnih_naloga(request, projekt_id):
 def lista_materijala(request):
     """View for listing materials"""
     materijali = Materijal.objects.filter(is_active=True)
-    return render(
-        request, "proizvodnja/lista_materijala.html", {"materijali": materijali}
-    )
+    return render(request, "proizvodnja/lista_materijala.html", {"materijali": materijali})
 
 
 @login_required
@@ -161,9 +158,7 @@ def radni_nalog_detail(request, pk):
     from .models import RadniNalog  # Ako već nije importirano
 
     radni_nalog = get_object_or_404(RadniNalog, pk=pk)
-    return render(
-        request, "proizvodnja/radni_nalog_detail.html", {"radni_nalog": radni_nalog}
-    )
+    return render(request, "proizvodnja/radni_nalog_detail.html", {"radni_nalog": radni_nalog})
 
 
 @login_required
@@ -179,9 +174,7 @@ def radni_nalog_add(request):
             return redirect("proizvodnja:radni_nalog_detail", pk=radni_nalog.pk)
     else:
         form = RadniNalogForm()
-    return render(
-        request, "proizvodnja/radni_nalog_form.html", {"form": form, "action": "create"}
-    )
+    return render(request, "proizvodnja/radni_nalog_form.html", {"form": form, "action": "create"})
 
 
 @login_required
@@ -216,33 +209,19 @@ def univerzalni_radni_nalog(request, pk=None, action="create"):
         radni_nalog = None
 
     # Initialize all formsets
-    MaterialFormSet = inlineformset_factory(
-        RadniNalog, RadniNalogMaterijal, form=RadniNalogMaterijalForm, extra=1
-    )
-    VideoMaterijalFormSet = inlineformset_factory(
-        RadniNalog, VideoMaterijal, form=VideoMaterijalForm, extra=1
-    )
-    VideoPitanjeFormSet = inlineformset_factory(
-        RadniNalog, VideoPitanje, form=VideoPitanjeForm, extra=1
-    )
-    OcjenaKvaliteteFormSet = inlineformset_factory(
-        RadniNalog, OcjenaKvalitete, form=OcjenaKvaliteteForm, extra=1
-    )
-    AngazmanFormSet = inlineformset_factory(
-        RadniNalog, Angazman, form=AngazmanForm, extra=1
-    )
+    MaterialFormSet = inlineformset_factory(RadniNalog, RadniNalogMaterijal, form=RadniNalogMaterijalForm, extra=1)
+    VideoMaterijalFormSet = inlineformset_factory(RadniNalog, VideoMaterijal, form=VideoMaterijalForm, extra=1)
+    VideoPitanjeFormSet = inlineformset_factory(RadniNalog, VideoPitanje, form=VideoPitanjeForm, extra=1)
+    OcjenaKvaliteteFormSet = inlineformset_factory(RadniNalog, OcjenaKvalitete, form=OcjenaKvaliteteForm, extra=1)
+    AngazmanFormSet = inlineformset_factory(RadniNalog, Angazman, form=AngazmanForm, extra=1)
 
     if request.method == "POST" and action != "view":
         form = RadniNalogForm(request.POST, instance=radni_nalog)
         # Initialize formsets with POST data
         materijal_formset = MaterialFormSet(request.POST, instance=radni_nalog)
-        video_materijal_formset = VideoMaterijalFormSet(
-            request.POST, request.FILES, instance=radni_nalog
-        )
+        video_materijal_formset = VideoMaterijalFormSet(request.POST, request.FILES, instance=radni_nalog)
         video_pitanje_formset = VideoPitanjeFormSet(request.POST, instance=radni_nalog)
-        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(
-            request.POST, instance=radni_nalog
-        )
+        ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(request.POST, instance=radni_nalog)
         angazman_formset = AngazmanFormSet(request.POST, instance=radni_nalog)
 
         if (

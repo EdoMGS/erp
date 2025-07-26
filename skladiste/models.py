@@ -43,9 +43,7 @@ class Lokacija(models.Model):
 
 
 class Kategorija(models.Model):
-    naziv = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Naziv kategorije")
-    )
+    naziv = models.CharField(max_length=100, unique=True, verbose_name=_("Naziv kategorije"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
     parent = models.ForeignKey(
         "self",
@@ -79,9 +77,7 @@ class Kategorija(models.Model):
 class Artikl(models.Model):
     naziv = models.CharField(max_length=255, verbose_name=_("Naziv artikla"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
-    sifra = models.CharField(
-        max_length=50, unique=True, verbose_name=_("Šifra artikla")
-    )
+    sifra = models.CharField(max_length=50, unique=True, verbose_name=_("Šifra artikla"))
     jm = models.CharField(max_length=20, verbose_name=_("Jedinica mjere"))
     min_kolicina = models.DecimalField(
         max_digits=10,
@@ -148,9 +144,7 @@ class Artikl(models.Model):
 class Materijal(models.Model):
     """Materijal za proizvodnju."""
 
-    artikl = models.OneToOneField(
-        Artikl, on_delete=models.CASCADE, related_name="materijal"
-    )
+    artikl = models.OneToOneField(Artikl, on_delete=models.CASCADE, related_name="materijal")
     status = models.CharField(
         max_length=50,
         choices=[
@@ -165,22 +159,14 @@ class Materijal(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
     naziv = models.CharField(max_length=255, verbose_name=_("Naziv materijala"))
-    cijena = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Cijena")
-    )
-    kolicina = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Količina")
-    )
+    cijena = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Cijena"))
+    kolicina = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
-    datum_dostave = models.DateField(
-        blank=True, null=True, verbose_name=_("Datum dostave")
-    )
+    datum_dostave = models.DateField(blank=True, null=True, verbose_name=_("Datum dostave"))
     current_stock = models.PositiveIntegerField(default=0)
     min_required_stock = models.PositiveIntegerField(default=0)
 
-    narudzbenica = models.ForeignKey(
-        "nabava.Narudzbenica", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    narudzbenica = models.ForeignKey("nabava.Narudzbenica", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.naziv
@@ -201,13 +187,9 @@ class Alat(models.Model):
     """
 
     naziv = models.CharField(max_length=100, verbose_name=_("Naziv alata"))
-    inventarski_broj = models.CharField(
-        max_length=50, verbose_name=_("Inventarski broj")
-    )
+    inventarski_broj = models.CharField(max_length=50, verbose_name=_("Inventarski broj"))
     zaduzen = models.BooleanField(default=False, verbose_name=_("Zadužen?"))
-    is_assigned = models.BooleanField(
-        default=False, verbose_name=_("Je li dodijeljen?")
-    )
+    is_assigned = models.BooleanField(default=False, verbose_name=_("Je li dodijeljen?"))
 
     # Referenca na Employee preko stringa da izbjegnemo kružni import:
     assigned_to = models.ForeignKey(
@@ -229,12 +211,8 @@ class HTZOprema(models.Model):
 
     vrsta = models.CharField(max_length=100, verbose_name=_("Vrsta HTZ opreme"))
     stanje = models.CharField(max_length=50, verbose_name=_("Stanje"))
-    is_assigned = models.BooleanField(
-        default=False, verbose_name=_("Trenutačno zaduženo?")
-    )
-    htz_equipment_tracking = models.BooleanField(
-        default=False, verbose_name=_("Praćenje zaduženja HTZ opreme")
-    )
+    is_assigned = models.BooleanField(default=False, verbose_name=_("Trenutačno zaduženo?"))
+    htz_equipment_tracking = models.BooleanField(default=False, verbose_name=_("Praćenje zaduženja HTZ opreme"))
 
     assigned_to = models.ForeignKey(
         "ljudski_resursi.Employee",
@@ -282,9 +260,7 @@ class SkladisteResurs(models.Model):
 
     naziv = models.CharField(max_length=255, verbose_name=_("Naziv resursa"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis"))
-    kolicina = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Količina")
-    )
+    kolicina = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
     lokacija = models.CharField(max_length=255, verbose_name=_("Lokacija"))
 
     def __str__(self):
@@ -302,13 +278,9 @@ class SkladisteResurs(models.Model):
 class Primka(models.Model):
     """Model for receiving goods into warehouse"""
 
-    broj_primke = models.CharField(
-        max_length=20, unique=True, verbose_name=_("Broj primke")
-    )
+    broj_primke = models.CharField(max_length=20, unique=True, verbose_name=_("Broj primke"))
     datum = models.DateField(verbose_name=_("Datum primke"))
-    dobavljac = models.ForeignKey(
-        "nabava.Dobavljac", on_delete=models.PROTECT, verbose_name=_("Dobavljač")
-    )
+    dobavljac = models.ForeignKey("nabava.Dobavljac", on_delete=models.PROTECT, verbose_name=_("Dobavljač"))
     napomena = models.TextField(blank=True, null=True, verbose_name=_("Napomena"))
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
@@ -336,9 +308,7 @@ class PrimkaStavka(models.Model):
         related_name="stavke",
         verbose_name=_("Primka"),
     )
-    artikl = models.ForeignKey(
-        "Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl")
-    )
+    artikl = models.ForeignKey("Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl"))
     kolicina = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -363,9 +333,7 @@ class PrimkaStavka(models.Model):
 class Izdatnica(models.Model):
     """Model for issuing goods from warehouse"""
 
-    broj_izdatnice = models.CharField(
-        max_length=20, unique=True, verbose_name=_("Broj izdatnice")
-    )
+    broj_izdatnice = models.CharField(max_length=20, unique=True, verbose_name=_("Broj izdatnice"))
     datum = models.DateField(verbose_name=_("Datum izdavanja"))
     preuzeo = models.ForeignKey(
         "ljudski_resursi.Employee",
@@ -400,9 +368,7 @@ class IzdatnicaStavka(models.Model):
         related_name="stavke",
         verbose_name=_("Izdatnica"),
     )
-    artikl = models.ForeignKey(
-        "Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl")
-    )
+    artikl = models.ForeignKey("Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl"))
     kolicina = models.DecimalField(
         max_digits=10,
         decimal_places=2,

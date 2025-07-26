@@ -25,9 +25,7 @@ def home_view(request):
     """Početna stranica."""
     context = {
         "user": request.user,
-        "notifikacije_neprocitane": Notifikacija.objects.filter(
-            korisnik=request.user, procitano=False
-        ).count(),
+        "notifikacije_neprocitane": Notifikacija.objects.filter(korisnik=request.user, procitano=False).count(),
     }
     return render(request, "nalozi/home.html", context)
 
@@ -64,9 +62,7 @@ class DashboardView(LoginRequiredMixin, View):
 
         # DODAJEMO filtriranje po projektu i radniku u Gantt i popis
         # (kao i resursni “Workload chart”).
-        radni_nalozi_qs = self.get_filtered_radni_nalozi(
-            projekt_id, radnik_id
-        ).select_related("projekt", "grupa_posla")
+        radni_nalozi_qs = self.get_filtered_radni_nalozi(projekt_id, radnik_id).select_related("projekt", "grupa_posla")
         context["radni_nalozi"] = radni_nalozi_qs
 
         # Generiraj Gantt Data
@@ -75,26 +71,16 @@ class DashboardView(LoginRequiredMixin, View):
 
         # Dodatne “financije i materijali”
         # (Pokazat ćemo ih ako je user menadžer/direktor)
-        if (
-            user.is_superuser
-            or context.get("is_vlasnik_or_direktor")
-            or context.get("is_voditelj_or_admin")
-        ):
+        if user.is_superuser or context.get("is_vlasnik_or_direktor") or context.get("is_voditelj_or_admin"):
             fin_mat = self.get_financial_material_context()
             context.update(fin_mat)
 
         # Za workload chart – dohvat podataka o radnicima i zbroju sati
-        context["workload_chart_data"] = json.dumps(
-            self.get_workload_data(), ensure_ascii=False
-        )
+        context["workload_chart_data"] = json.dumps(self.get_workload_data(), ensure_ascii=False)
 
         # Dropdown punjenje
-        context["lista_projekata"] = Projekt.objects.filter(is_active=True).order_by(
-            "naziv_projekta"
-        )
-        context["lista_radnika"] = Employee.objects.filter(is_active=True).order_by(
-            "last_name", "first_name"
-        )
+        context["lista_projekata"] = Projekt.objects.filter(is_active=True).order_by("naziv_projekta")
+        context["lista_radnika"] = Employee.objects.filter(is_active=True).order_by("last_name", "first_name")
 
         # Include GrupaPoslova data
         context["grupe_poslova"] = self.get_grupa_poslova_data()
@@ -112,34 +98,20 @@ class DashboardView(LoginRequiredMixin, View):
         projekti = Projekt.objects.filter(is_active=True)
         ukupni_projekti = projekti.count()
         zavrseni_projekti = projekti.filter(status="ZAVRSENO").count()
-        ukupni_profit = (
-            projekti.aggregate(total=Sum("financial_details__stvarni_profit"))["total"]
-            or 0
-        )
-        ukupni_troskovi = (
-            projekti.aggregate(total=Sum("financial_details__stvarni_troskovi"))[
-                "total"
-            ]
-            or 0
-        )
+        ukupni_profit = projekti.aggregate(total=Sum("financial_details__stvarni_profit"))["total"] or 0
+        ukupni_troskovi = projekti.aggregate(total=Sum("financial_details__stvarni_troskovi"))["total"] or 0
 
         radni_nalozi = RadniNalog.objects.filter(projekt__in=projekti, is_active=True)
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
-        notifikacije_neprocitane = Notifikacija.objects.filter(
-            korisnik=self.request.user, procitano=False
-        ).count()
-        notifikacije = Notifikacija.objects.filter(
-            korisnik=self.request.user, procitano=False
-        ).order_by("-created_at")[:5]
+        notifikacije_neprocitane = Notifikacija.objects.filter(korisnik=self.request.user, procitano=False).count()
+        notifikacije = Notifikacija.objects.filter(korisnik=self.request.user, procitano=False).order_by("-created_at")[
+            :5
+        ]
 
-        aktivnosti = PovijestPromjena.objects.filter(user=self.request.user).order_by(
-            "-created_at"
-        )[:10]
+        aktivnosti = PovijestPromjena.objects.filter(user=self.request.user).order_by("-created_at")[:10]
 
         ukupna_zarada = ukupni_profit - ukupni_troskovi
 
@@ -161,24 +133,16 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get_voditelj_context(self):
         # Slično “get_director_context” ali s manjim obuhvatom
-        radni_nalozi = RadniNalog.objects.filter(is_active=True).select_related(
-            "projekt", "grupa_posla"
-        )
+        radni_nalozi = RadniNalog.objects.filter(is_active=True).select_related("projekt", "grupa_posla")
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
-        notifikacije_neprocitane = Notifikacija.objects.filter(
-            korisnik=self.request.user, procitano=False
-        ).count()
-        notifikacije = Notifikacija.objects.filter(
-            korisnik=self.request.user, procitano=False
-        ).order_by("-created_at")[:5]
-        aktivnosti = PovijestPromjena.objects.filter(user=self.request.user).order_by(
-            "-created_at"
-        )[:10]
+        notifikacije_neprocitane = Notifikacija.objects.filter(korisnik=self.request.user, procitano=False).count()
+        notifikacije = Notifikacija.objects.filter(korisnik=self.request.user, procitano=False).order_by("-created_at")[
+            :5
+        ]
+        aktivnosti = PovijestPromjena.objects.filter(user=self.request.user).order_by("-created_at")[:10]
 
         return {
             "radni_nalozi": radni_nalozi,
@@ -192,28 +156,18 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get_radnik_context(self, radnik):
         radni_nalozi = (
-            RadniNalog.objects.filter(
-                Q(zadužena_osoba=radnik) | Q(dodatne_osobe=radnik), is_active=True
-            )
+            RadniNalog.objects.filter(Q(zadužena_osoba=radnik) | Q(dodatne_osobe=radnik), is_active=True)
             .select_related("projekt", "grupa_posla")
             .distinct()
         )
 
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
-        notifikacije_neprocitane = Notifikacija.objects.filter(
-            korisnik=radnik.user, procitano=False
-        ).count()
-        notifikacije = Notifikacija.objects.filter(
-            korisnik=radnik.user, procitano=False
-        ).order_by("-created_at")[:5]
-        aktivnosti = PovijestPromjena.objects.filter(user=radnik.user).order_by(
-            "-created_at"
-        )[:10]
+        notifikacije_neprocitane = Notifikacija.objects.filter(korisnik=radnik.user, procitano=False).count()
+        notifikacije = Notifikacija.objects.filter(korisnik=radnik.user, procitano=False).order_by("-created_at")[:5]
+        aktivnosti = PovijestPromjena.objects.filter(user=radnik.user).order_by("-created_at")[:10]
 
         return {
             "radnik": radnik,
@@ -230,9 +184,7 @@ class DashboardView(LoginRequiredMixin, View):
     def get_financial_material_context(self):
         """Primjer: materijalno-financijski info."""
         total_materijal_cost = Decimal("0.00")
-        all_materijali = Materijal.objects.filter(
-            is_active=True
-        )  # Removed select_related
+        all_materijali = Materijal.objects.filter(is_active=True)  # Removed select_related
         # If Materijal has a related field, replace 'some_related_field' with the actual field name:
         # all_materijali = Materijal.objects.filter(is_active=True).select_related('actual_related_field')
         for mat in all_materijali:
@@ -250,9 +202,7 @@ class DashboardView(LoginRequiredMixin, View):
                 najveci_trosak = p.stvarni_troskovi
                 projekt_s_najvecim_troskom = p
 
-        total_stvarni_troskovi = sum(
-            p.stvarni_troskovi for p in projekti if p.stvarni_troskovi
-        )
+        total_stvarni_troskovi = sum(p.stvarni_troskovi for p in projekti if p.stvarni_troskovi)
 
         return {
             "total_materijal_cost": total_materijal_cost,
@@ -269,9 +219,7 @@ class DashboardView(LoginRequiredMixin, View):
 
     def get_filtered_radni_nalozi(self, projekt_id=None, radnik_id=None):
         """Dohvati radne naloge filtrirane po projektu ili radniku."""
-        qs = RadniNalog.objects.filter(is_active=True).select_related(
-            "projekt", "grupa_posla"
-        )
+        qs = RadniNalog.objects.filter(is_active=True).select_related("projekt", "grupa_posla")
         if projekt_id:
             qs = qs.filter(projekt_id=projekt_id)
         if radnik_id:
@@ -294,9 +242,7 @@ class DashboardView(LoginRequiredMixin, View):
                 nalog.datum_zavrsetka.strftime("%Y-%m-%d")
             progress_val = float(nalog.postotak_napretka) / 100.0
             task_text = (
-                f"[{nalog.projekt.naziv_projekta}] {nalog.naziv_naloga}"
-                if nalog.projekt
-                else nalog.naziv_naloga
+                f"[{nalog.projekt.naziv_projekta}] {nalog.naziv_naloga}" if nalog.projekt else nalog.naziv_naloga
             )
 
             # Ako nema end_date, izračunaj "trajanje" 1
@@ -326,10 +272,7 @@ class DashboardView(LoginRequiredMixin, View):
         data_list = []
         for emp in employees:
             total_hours = (
-                Angazman.objects.filter(zaposlenik=emp, is_active=True).aggregate(
-                    total=Sum("sati_rada")
-                )["total"]
-                or 0
+                Angazman.objects.filter(zaposlenik=emp, is_active=True).aggregate(total=Sum("sati_rada"))["total"] or 0
             )
             data_list.append(
                 {
@@ -350,9 +293,7 @@ def api_dashboard_data(request):
         radni_nalozi = RadniNalog.objects.filter(projekt__in=projekti, is_active=True)
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
         response_data = {
             "projekti": projekti.count(),
@@ -361,9 +302,7 @@ def api_dashboard_data(request):
             "zavrseni_nalozi": zavrseni_nalozi,
             "progres": progres,
             "zaposleni": Employee.objects.count(),
-            "notifikacije_neprocitane": Notifikacija.objects.filter(
-                korisnik=korisnik, procitano=False
-            ).count(),
+            "notifikacije_neprocitane": Notifikacija.objects.filter(korisnik=korisnik, procitano=False).count(),
         }
     elif hasattr(korisnik, "employee"):
         employee = korisnik.employee
@@ -371,26 +310,19 @@ def api_dashboard_data(request):
 
         if position_title in ["Direktor", "Voditelj"]:
             projekti = Projekt.objects.filter(is_active=True)
-            radni_nalozi = RadniNalog.objects.filter(
-                projekt__in=projekti, is_active=True
-            )
+            radni_nalozi = RadniNalog.objects.filter(projekt__in=projekti, is_active=True)
             ukupni_nalozi = radni_nalozi.count()
             zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-            progres = (
-                int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-            )
+            progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
             response_data = {
                 "projekti": projekti.count(),
-                "profit": projekti.aggregate(profit=Sum("stvarni_profit"))["profit"]
-                or 0,
+                "profit": projekti.aggregate(profit=Sum("stvarni_profit"))["profit"] or 0,
                 "ukupni_nalozi": ukupni_nalozi,
                 "zavrseni_nalozi": zavrseni_nalozi,
                 "progres": progres,
                 "zaposleni": Employee.objects.count(),
-                "notifikacije_neprocitane": Notifikacija.objects.filter(
-                    korisnik=korisnik, procitano=False
-                ).count(),
+                "notifikacije_neprocitane": Notifikacija.objects.filter(korisnik=korisnik, procitano=False).count(),
             }
         else:
             # Radnik ili drugi
@@ -399,17 +331,13 @@ def api_dashboard_data(request):
             ).distinct()
             ukupni_nalozi = radni_nalozi.count()
             zavrseni_nalozi = radni_nalozi.filter(status="ZAVRSENO").count()
-            progres = (
-                int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-            )
+            progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
             response_data = {
                 "radni_nalozi": ukupni_nalozi,
                 "zavrseni_nalozi": zavrseni_nalozi,
                 "progres": progres,
-                "notifikacije_neprocitane": Notifikacija.objects.filter(
-                    korisnik=korisnik, procitano=False
-                ).count(),
+                "notifikacije_neprocitane": Notifikacija.objects.filter(korisnik=korisnik, procitano=False).count(),
             }
     else:
         response_data = {}
@@ -483,7 +411,5 @@ def get_worker_context(employee):
     """Get context data for worker dashboard"""
     return {
         "my_tasks": RadniNalog.objects.filter(employee=employee, status="U_TIJEKU"),
-        "completed_tasks": RadniNalog.objects.filter(
-            employee=employee, status="ZAVRSENO"
-        ),
+        "completed_tasks": RadniNalog.objects.filter(employee=employee, status="ZAVRSENO"),
     }

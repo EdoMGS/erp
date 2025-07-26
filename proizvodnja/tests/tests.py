@@ -52,9 +52,7 @@ class ViewsTestCase(TestCase):
             naziv_projekta="Test Projekt",
             rok_za_isporuku=timezone.now().date() + timezone.timedelta(days=10),
         )
-        self.url = reverse(
-            "lista_radnih_naloga", kwargs={"projekt_id": self.projekt.id}
-        )
+        self.url = reverse("lista_radnih_naloga", kwargs={"projekt_id": self.projekt.id})
 
     def test_lista_radnih_naloga(self):
         response = self.client.get(self.url)

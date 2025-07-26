@@ -30,9 +30,7 @@ class Invoice(models.Model):
         related_name="invoices",
         verbose_name=_("Klijent"),
     )
-    invoice_number = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True
-    )
+    invoice_number = models.CharField(max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True)
     issue_date = models.DateField(verbose_name=_("Datum izdavanja"))
     due_date = models.DateField(verbose_name=_("Datum dospijeća"))
     pdv_rate = models.DecimalField(
@@ -61,15 +59,9 @@ class Invoice(models.Model):
         verbose_name=_("Kreirao"),
     )
     is_guaranteed = models.BooleanField(default=False, verbose_name=_("Garancija?"))
-    guarantee_details = models.TextField(
-        blank=True, null=True, verbose_name=_("Detalji garancije")
-    )
-    financial_guarantee = models.BooleanField(
-        default=False, verbose_name=_("Financijska garancija?")
-    )
-    tender_statement = models.TextField(
-        blank=True, null=True, verbose_name=_("Izjava za tender")
-    )
+    guarantee_details = models.TextField(blank=True, null=True, verbose_name=_("Detalji garancije"))
+    financial_guarantee = models.BooleanField(default=False, verbose_name=_("Financijska garancija?"))
+    tender_statement = models.TextField(blank=True, null=True, verbose_name=_("Izjava za tender"))
     public_tender_ref = models.CharField(
         max_length=100,
         blank=True,
@@ -101,20 +93,14 @@ class Invoice(models.Model):
 
     def clean(self):
         if self.due_date < self.issue_date:
-            raise ValidationError(
-                _("Datum dospijeća ne može biti prije datuma izdavanja")
-            )
+            raise ValidationError(_("Datum dospijeća ne može biti prije datuma izdavanja"))
 
 
 class InvoiceLine(models.Model):
     invoice = models.ForeignKey(Invoice, related_name="lines", on_delete=models.CASCADE)
     description = models.CharField(max_length=255, verbose_name=_("Opis stavke"))
-    quantity = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Količina")
-    )
-    unit_price = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Jedinična cijena")
-    )
+    quantity = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Jedinična cijena"))
     tax_rate = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -136,9 +122,7 @@ class InvoiceLine(models.Model):
 
 
 class Payment(models.Model):
-    related_invoice = models.ForeignKey(
-        Invoice, on_delete=models.CASCADE, related_name="payments"
-    )
+    related_invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="payments")
     # ...existing code...
 
 
@@ -155,9 +139,7 @@ class Debt(models.Model):
         verbose_name=_("Invoice"),
     )
     due_date = models.DateField(verbose_name=_("Due Date"))
-    amount_due = models.DecimalField(
-        max_digits=10, decimal_places=2, verbose_name=_("Amount Due")
-    )
+    amount_due = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Amount Due"))
     is_paid = models.BooleanField(default=False, verbose_name=_("Is Paid"))
 
     def days_overdue(self):

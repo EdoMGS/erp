@@ -29,9 +29,7 @@ class Migration(migrations.Migration):
                 ("date_of_visit", models.DateField(verbose_name="Datum posjete")),
                 (
                     "purpose",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Svrha posjete / bilješke"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Svrha posjete / bilješke"),
                 ),
             ],
             options={
@@ -84,9 +82,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "quote_number",
-                    models.CharField(
-                        max_length=50, unique=True, verbose_name="Broj ponude"
-                    ),
+                    models.CharField(max_length=50, unique=True, verbose_name="Broj ponude"),
                 ),
                 ("valid_until", models.DateField(verbose_name="Vrijedi do")),
                 (
@@ -105,9 +101,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
                 ),
                 (
                     "discount",
@@ -121,9 +115,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "revision_count",
-                    models.PositiveIntegerField(
-                        default=0, verbose_name="Broj revizija"
-                    ),
+                    models.PositiveIntegerField(default=0, verbose_name="Broj revizija"),
                 ),
                 (
                     "created_by",
@@ -148,9 +140,7 @@ class Migration(migrations.Migration):
                 ("client", models.CharField(max_length=255, verbose_name="Klijent")),
                 (
                     "contract_number",
-                    models.CharField(
-                        max_length=50, unique=True, verbose_name="Broj ugovora"
-                    ),
+                    models.CharField(max_length=50, unique=True, verbose_name="Broj ugovora"),
                 ),
                 (
                     "status",
@@ -177,15 +167,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "bank_guarantee_required",
-                    models.BooleanField(
-                        default=False, verbose_name="Bankarska garancija tražena?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Bankarska garancija tražena?"),
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
                 ),
                 (
                     "discount",
@@ -199,15 +185,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "delivery_schedule",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Raspored isporuke"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Raspored isporuke"),
                 ),
                 (
                     "client_specific_reqs",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Posebni zahtjevi klijenta"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Posebni zahtjevi klijenta"),
                 ),
                 (
                     "created_by",
@@ -231,9 +213,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=255, verbose_name="Naziv leada / prilike"
-                    ),
+                    models.CharField(max_length=255, verbose_name="Naziv leada / prilike"),
                 ),
                 (
                     "lead_source",
@@ -278,15 +258,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "authority",
-                    models.BooleanField(
-                        default=False, verbose_name="Klijent ima ovlasti za potpis?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Klijent ima ovlasti za potpis?"),
                 ),
                 (
                     "need",
-                    models.BooleanField(
-                        default=False, verbose_name="Jasna potreba klijenta?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Jasna potreba klijenta?"),
                 ),
                 (
                     "timeframe",
@@ -308,15 +284,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="Vrijeme kreiranja"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="Vrijeme kreiranja"),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, verbose_name="Zadnje ažuriranje"
-                    ),
+                    models.DateTimeField(auto_now=True, verbose_name="Zadnje ažuriranje"),
                 ),
             ],
             options={
@@ -340,9 +312,7 @@ class Migration(migrations.Migration):
                 ("client", models.CharField(max_length=255, verbose_name="Klijent")),
                 (
                     "order_number",
-                    models.CharField(
-                        max_length=50, unique=True, verbose_name="Broj narudžbe"
-                    ),
+                    models.CharField(max_length=50, unique=True, verbose_name="Broj narudžbe"),
                 ),
                 (
                     "status",
@@ -359,9 +329,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
                 ),
                 (
                     "discount",
@@ -379,9 +347,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "date_approved_by_client",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Klijent potvrdio (datum)"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Klijent potvrdio (datum)"),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
@@ -401,16 +367,12 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "proizvod",
-                    models.CharField(
-                        max_length=255, verbose_name="Proizvod/Komponenta"
-                    ),
+                    models.CharField(max_length=255, verbose_name="Proizvod/Komponenta"),
                 ),
                 ("kolicina", models.PositiveIntegerField(verbose_name="Količina")),
                 (
                     "cijena",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Cijena (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Cijena (€)"),
                 ),
             ],
             options={

@@ -48,9 +48,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "broj_zavrsenih_naloga",
-                    models.PositiveIntegerField(
-                        default=0, verbose_name="Broj završenih naloga"
-                    ),
+                    models.PositiveIntegerField(default=0, verbose_name="Broj završenih naloga"),
                 ),
                 (
                     "prosjecna_ocjena",
@@ -246,9 +244,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="ocjenakvalitete",
             name="datum_ocjene",
-            field=models.DateTimeField(
-                auto_now_add=True, default=django.utils.timezone.now
-            ),
+            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -420,9 +416,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="ocjenakvalitete",
             name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="proizvodnja.radninalog"
-            ),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="proizvodnja.radninalog"),
         ),
         migrations.AlterField(
             model_name="ocjenakvalitete",
@@ -443,11 +437,7 @@ class Migration(migrations.Migration):
                 help_text="Podržani formati: mp4, avi, mkv.",
                 null=True,
                 upload_to="ocjene/videozapisi/",
-                validators=[
-                    django.core.validators.FileExtensionValidator(
-                        allowed_extensions=["mp4", "avi", "mkv"]
-                    )
-                ],
+                validators=[django.core.validators.FileExtensionValidator(allowed_extensions=["mp4", "avi", "mkv"])],
                 verbose_name="Priloženi video",
             ),
         ),

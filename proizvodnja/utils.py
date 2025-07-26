@@ -115,9 +115,7 @@ def informiraj_ocjenjivace(radni_nalog):
     Primjer: obavijest svim voditeljima/direktorima da radni nalog treba evaluaciju.
     """
     try:
-        ocjenjivaci = Employee.objects.filter(
-            position__title__in=["Voditelj", "Direktor", "Administrativno osoblje"]
-        )
+        ocjenjivaci = Employee.objects.filter(position__title__in=["Voditelj", "Direktor", "Administrativno osoblje"])
         for ocjenjivac in ocjenjivaci:
             if ocjenjivac.user:
                 informiraj_korisnika(
@@ -144,9 +142,7 @@ def log_action(korisnik, objekt, akcija, dodatni_podaci=None):
             promjene={"akcija": akcija, "podaci": dodatni_podaci or {}},
         )
         povijest.save()
-        logger.debug(
-            f"Logged: {akcija} for {objekt.__class__.__name__} (ID: {objekt.id}) by {korisnik.username}"
-        )
+        logger.debug(f"Logged: {akcija} for {objekt.__class__.__name__} (ID: {objekt.id}) by {korisnik.username}")
     except Exception as e:
         logger.error(f"Error logging action: {str(e)}")
 
@@ -181,15 +177,9 @@ def izracunaj_status_projekta(projekt):
             pass
 
         # tražimo još nezavršene radne naloge
-        nezavrseni_nalozi = projekt.radni_nalozi.filter(
-            ~Q(status="ZAVRSENO"), is_active=True
-        ).exists()
+        nezavrseni_nalozi = projekt.radni_nalozi.filter(~Q(status="ZAVRSENO"), is_active=True).exists()
 
-        if (
-            projekt.rok_za_isporuku
-            and danas > projekt.rok_za_isporuku
-            and nezavrseni_nalozi
-        ):
+        if projekt.rok_za_isporuku and danas > projekt.rok_za_isporuku and nezavrseni_nalozi:
             return "PROBIJEN_ROK"
         elif not nezavrseni_nalozi:
             return "ZAVRSENO"

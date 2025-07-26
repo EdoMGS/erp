@@ -42,9 +42,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "sati_rada",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=5
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=5),
                 ),
                 (
                     "datum_angazmana",
@@ -85,9 +83,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "sati_rada",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=5
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=5),
                 ),
             ],
         ),
@@ -114,15 +110,11 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=255, unique=True, verbose_name="Naziv grupe poslova"
-                    ),
+                    models.CharField(max_length=255, unique=True, verbose_name="Naziv grupe poslova"),
                 ),
                 (
                     "opis",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis grupe poslova"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis grupe poslova"),
                 ),
             ],
             options={
@@ -156,9 +148,7 @@ class Migration(migrations.Migration):
                 ("month", models.PositiveIntegerField()),
                 (
                     "hours_worked",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=5
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=5),
                 ),
             ],
         ),
@@ -185,9 +175,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "iznos",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=10
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=10),
                 ),
                 ("razlog", models.TextField(blank=True, null=True)),
             ],
@@ -372,9 +360,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "opis",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis resursa"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis resursa"),
                 ),
                 (
                     "dostupnost",
@@ -416,15 +402,11 @@ class Migration(migrations.Migration):
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
                     "datum_pocetka",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum Početka"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum Početka"),
                 ),
                 (
                     "datum_zavrsetka",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum Završetka"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum Završetka"),
                 ),
                 (
                     "status",
@@ -469,28 +451,20 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv_projekta",
-                    models.CharField(
-                        db_index=True, max_length=255, verbose_name="Naziv projekta"
-                    ),
+                    models.CharField(db_index=True, max_length=255, verbose_name="Naziv projekta"),
                 ),
                 (
                     "erp_id",
-                    models.CharField(
-                        blank=True, max_length=100, null=True, verbose_name="ERP ID"
-                    ),
+                    models.CharField(blank=True, max_length=100, null=True, verbose_name="ERP ID"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
                     "pocetak_projekta",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum početka"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum početka"),
                 ),
                 (
                     "rok_za_isporuku",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Rok za isporuku"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Rok za isporuku"),
                 ),
                 (
                     "status",
@@ -510,15 +484,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "ugradnja_na_lokaciji",
-                    models.BooleanField(
-                        default=False, verbose_name="Ugradnja na Lokaciji"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Ugradnja na Lokaciji"),
                 ),
                 (
                     "ručni_unos_radnih_naloga",
-                    models.BooleanField(
-                        default=False, verbose_name="Ručni Unos Radnih Naloga"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Ručni Unos Radnih Naloga"),
                 ),
             ],
             options={
@@ -550,9 +520,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv_naloga",
-                    models.CharField(
-                        db_index=True, max_length=255, verbose_name="Naziv Naloga"
-                    ),
+                    models.CharField(db_index=True, max_length=255, verbose_name="Naziv Naloga"),
                 ),
                 (
                     "tip_posla",
@@ -570,21 +538,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "datum_pocetka",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum Početka"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum Početka"),
                 ),
                 (
                     "datum_zavrsetka",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum Završetka"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum Završetka"),
                 ),
                 (
                     "postotak_napretka",
-                    models.PositiveIntegerField(
-                        default=0, verbose_name="Postotak Napretka"
-                    ),
+                    models.PositiveIntegerField(default=0, verbose_name="Postotak Napretka"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 (
@@ -602,15 +564,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "bypass_materijala",
-                    models.BooleanField(
-                        default=False, verbose_name="Bypass Materijala"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Bypass Materijala"),
                 ),
                 (
                     "dokumentacija_bypass",
-                    models.BooleanField(
-                        default=False, verbose_name="Dokumentacija Bypass"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Dokumentacija Bypass"),
                 ),
                 (
                     "status",
@@ -940,9 +898,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=255, unique=True, verbose_name="Naziv tipa vozila"
-                    ),
+                    models.CharField(max_length=255, unique=True, verbose_name="Naziv tipa vozila"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 ("aktivan", models.BooleanField(default=True)),
@@ -998,9 +954,7 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv",
-                    models.CharField(
-                        max_length=255, unique=True, verbose_name="Naziv tipa projekta"
-                    ),
+                    models.CharField(max_length=255, unique=True, verbose_name="Naziv tipa projekta"),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 ("aktivan", models.BooleanField(default=True)),
@@ -1065,9 +1019,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "broj_izvrsenja",
-                    models.PositiveIntegerField(
-                        default=0, verbose_name="Broj Izvršenja"
-                    ),
+                    models.PositiveIntegerField(default=0, verbose_name="Broj Izvršenja"),
                 ),
                 (
                     "akumulirani_sati",

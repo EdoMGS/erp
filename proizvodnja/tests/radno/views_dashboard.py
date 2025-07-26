@@ -26,8 +26,7 @@ class DashboardView(LoginRequiredMixin, View):
         # Provjera korisničke role
         if request.user.is_staff or (
             hasattr(request.user, "zaposlenik")
-            and request.user.zaposlenik.role
-            in ["Administrator", "Voditelj Proizvodnje"]
+            and request.user.zaposlenik.role in ["Administrator", "Voditelj Proizvodnje"]
         ):
             context = self.get_admin_context()
         elif hasattr(request.user, "zaposlenik"):
@@ -45,9 +44,7 @@ class DashboardView(LoginRequiredMixin, View):
 
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="Završen").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
         return {
             "projekti": projekti,
@@ -66,9 +63,7 @@ class DashboardView(LoginRequiredMixin, View):
 
         ukupni_nalozi = radni_nalozi.count()
         zavrseni_nalozi = radni_nalozi.filter(status="Završen").count()
-        progres = (
-            int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
-        )
+        progres = int((zavrseni_nalozi / ukupni_nalozi) * 100) if ukupni_nalozi > 0 else 0
 
         return {
             "radnik": radnik,
@@ -87,8 +82,7 @@ def api_dashboard_data(request):
     """
     korisnik = request.user
     if korisnik.is_staff or (
-        hasattr(korisnik, "zaposlenik")
-        and korisnik.zaposlenik.role in ["Administrator", "Voditelj Proizvodnje"]
+        hasattr(korisnik, "zaposlenik") and korisnik.zaposlenik.role in ["Administrator", "Voditelj Proizvodnje"]
     ):
         response_data = {
             "projekti": Projekt.objects.filter(is_active=True).count(),

@@ -63,11 +63,7 @@ class TenderDocumentForm(ModelForm):
     class Meta:
         model = TenderDocument
         fields = ["file", "description"]
-        widgets = {
-            "description": forms.Textarea(
-                attrs={"rows": 3, "placeholder": "Unesite opis dokumenta..."}
-            )
-        }
+        widgets = {"description": forms.Textarea(attrs={"rows": 3, "placeholder": "Unesite opis dokumenta..."})}
 
     def clean_file(self):
         file = self.cleaned_data.get("file")
@@ -82,9 +78,7 @@ class TenderPreparationForm(ModelForm):
         model = TenderPreparation
         fields = "__all__"
         widgets = {
-            "delivery_opening_datetime": forms.DateTimeInput(
-                attrs={"type": "datetime-local"}
-            ),
+            "delivery_opening_datetime": forms.DateTimeInput(attrs={"type": "datetime-local"}),
             "tender_validity": forms.DateInput(attrs={"type": "date"}),
             "evaluation_criteria": forms.Textarea(
                 attrs={
@@ -116,33 +110,21 @@ class TenderPreparationForm(ModelForm):
                     "placeholder": "Unesite tehničke specifikacije kao JSON",
                 }
             ),
-            "payment_schedule": forms.Textarea(
-                attrs={"rows": 4, "placeholder": "Unesite plan plaćanja kao JSON"}
-            ),
-            "notes": forms.Textarea(
-                attrs={"rows": 4, "placeholder": "Dodatne napomene..."}
-            ),
+            "payment_schedule": forms.Textarea(attrs={"rows": 4, "placeholder": "Unesite plan plaćanja kao JSON"}),
+            "notes": forms.Textarea(attrs={"rows": 4, "placeholder": "Dodatne napomene..."}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["opportunity"].queryset = SalesOpportunity.objects.filter(
-            lead_source="tender"
-        )
+        self.fields["opportunity"].queryset = SalesOpportunity.objects.filter(lead_source="tender")
 
     def clean(self):
         cleaned_data = super().clean()
         tender_validity = cleaned_data.get("tender_validity")
         opening_datetime = cleaned_data.get("delivery_opening_datetime")
 
-        if (
-            tender_validity
-            and opening_datetime
-            and tender_validity < opening_datetime.date()
-        ):
-            raise ValidationError(
-                "Rok valjanosti ponude mora biti nakon datuma otvaranja ponuda"
-            )
+        if tender_validity and opening_datetime and tender_validity < opening_datetime.date():
+            raise ValidationError("Rok valjanosti ponude mora biti nakon datuma otvaranja ponuda")
 
         return cleaned_data
 
@@ -167,13 +149,9 @@ TenderMaterialFormSet = inlineformset_factory(
     fields=("item_name", "unit_price", "quantity", "tax"),
     widgets={
         "item_name": forms.TextInput(attrs={"class": "form-control"}),
-        "unit_price": forms.NumberInput(
-            attrs={"class": "form-control", "min": "0", "step": "0.01"}
-        ),
+        "unit_price": forms.NumberInput(attrs={"class": "form-control", "min": "0", "step": "0.01"}),
         "quantity": forms.NumberInput(attrs={"class": "form-control", "min": "1"}),
-        "tax": forms.NumberInput(
-            attrs={"class": "form-control", "min": "0", "max": "100", "step": "0.01"}
-        ),
+        "tax": forms.NumberInput(attrs={"class": "form-control", "min": "0", "max": "100", "step": "0.01"}),
     },
     **FORMSET_DEFAULTS
 )

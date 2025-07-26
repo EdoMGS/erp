@@ -29,9 +29,7 @@ def test_materijal_crud():
     from skladiste.models import Artikl
 
     artikl = Artikl.objects.create(naziv="Test artikl")
-    m = Materijal.objects.create(
-        naziv="Test materijal", artikl=artikl, cijena=10, kolicina=5
-    )
+    m = Materijal.objects.create(naziv="Test materijal", artikl=artikl, cijena=10, kolicina=5)
     assert Materijal.objects.filter(pk=m.pk).exists()
     m.naziv = "Izmijenjen materijal"
     m.save()

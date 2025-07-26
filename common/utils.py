@@ -42,9 +42,7 @@ def validate_file_size(file, max_size_mb):
         raise ValidationError(_(f"File size cannot exceed {max_size_mb}MB"))
 
 
-def send_notification(
-    title, message, object_type=None, object_id=None, recipients=None
-):
+def send_notification(title, message, object_type=None, object_id=None, recipients=None):
     """Generic notification sender"""
     from django.contrib.auth import get_user_model
 
@@ -63,13 +61,9 @@ def send_notification(
 
             if recipients:
                 for recipient in recipients:
-                    async_to_sync(channel_layer.group_send)(
-                        f"user_{recipient.id}_notifications", notification_data
-                    )
+                    async_to_sync(channel_layer.group_send)(f"user_{recipient.id}_notifications", notification_data)
             else:
-                async_to_sync(channel_layer.group_send)(
-                    "global_notifications", notification_data
-                )
+                async_to_sync(channel_layer.group_send)("global_notifications", notification_data)
     except Exception as e:
         logger.error(f"Failed to send notification: {e}")
 

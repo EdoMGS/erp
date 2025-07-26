@@ -1,0 +1,29 @@
+[
+  {
+    "model": "financije.paintprice",
+    "pk": 1,
+    "fields": {
+      "name": "Osnovno farbanje",
+      "price_per_m2": "12.50",
+      "currency": "EUR"
+    }
+  },
+  {
+    "model": "financije.paintprice",
+    "pk": 2,
+    "fields": {
+      "name": "Dvostruko farbanje",
+      "price_per_m2": "18.00",
+      "currency": "EUR"
+    }
+  },
+  {
+    "model": "financije.paintprice",
+    "pk": 3,
+    "fields": {
+      "name": "Antikorozivno farbanje",
+      "price_per_m2": "22.00",
+      "currency": "EUR"
+    }
+  }
+]

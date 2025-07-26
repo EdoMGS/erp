@@ -147,9 +147,7 @@ def primka_list(request):
 
 @login_required
 def primka_create(request):
-    PrimkaStavkaFormSet = inlineformset_factory(
-        Primka, PrimkaStavka, form=PrimkaStavkaForm, extra=1, can_delete=True
-    )
+    PrimkaStavkaFormSet = inlineformset_factory(Primka, PrimkaStavka, form=PrimkaStavkaForm, extra=1, can_delete=True)
 
     if request.method == "POST":
         form = PrimkaForm(request.POST)
@@ -172,9 +170,7 @@ def primka_create(request):
         form = PrimkaForm()
         formset = PrimkaStavkaFormSet()
 
-    return render(
-        request, "skladiste/primka_form.html", {"form": form, "formset": formset}
-    )
+    return render(request, "skladiste/primka_form.html", {"form": form, "formset": formset})
 
 
 # List Views

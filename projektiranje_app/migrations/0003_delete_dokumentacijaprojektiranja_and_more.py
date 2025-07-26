@@ -70,9 +70,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="billofmaterials",
             name="updated_at",
-            field=models.DateTimeField(
-                auto_now=True, verbose_name="Datum posljednje izmjene"
-            ),
+            field=models.DateTimeField(auto_now=True, verbose_name="Datum posljednje izmjene"),
         ),
         migrations.AddField(
             model_name="designtask",
@@ -107,9 +105,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="designtask",
             name="updated_at",
-            field=models.DateTimeField(
-                auto_now=True, verbose_name="Datum posljednje izmjene"
-            ),
+            field=models.DateTimeField(auto_now=True, verbose_name="Datum posljednje izmjene"),
         ),
         migrations.AlterField(
             model_name="billofmaterials",

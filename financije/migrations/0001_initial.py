@@ -26,9 +26,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "number",
-                    models.CharField(
-                        max_length=20, unique=True, verbose_name="Broj konta"
-                    ),
+                    models.CharField(max_length=20, unique=True, verbose_name="Broj konta"),
                 ),
                 ("name", models.CharField(max_length=255, verbose_name="Naziv konta")),
                 (
@@ -88,21 +86,15 @@ class Migration(migrations.Migration):
                 ("date", models.DateField(verbose_name="Datum")),
                 (
                     "assets",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "liabilities",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "equity",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
             ],
             options={
@@ -157,9 +149,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "valuta",
-                    models.CharField(
-                        default="EUR", max_length=10, verbose_name="Valuta"
-                    ),
+                    models.CharField(default="EUR", max_length=10, verbose_name="Valuta"),
                 ),
                 (
                     "opis",
@@ -168,9 +158,7 @@ class Migration(migrations.Migration):
                 ("datum", models.DateField(verbose_name="Datum transakcije")),
                 (
                     "datum_valute",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum valute"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum valute"),
                 ),
                 (
                     "referenca",
@@ -197,9 +185,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "is_reconciled",
-                    models.BooleanField(
-                        default=False, verbose_name="Usklađeno s knjigovodstvom?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Usklađeno s knjigovodstvom?"),
                 ),
             ],
             options={
@@ -300,9 +286,7 @@ class Migration(migrations.Migration):
                 ("due_date", models.DateField(verbose_name="Due Date")),
                 (
                     "amount_due",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Amount Due"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Amount Due"),
                 ),
                 ("is_paid", models.BooleanField(default=False, verbose_name="Is Paid")),
             ],
@@ -535,21 +519,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "guarantee_details",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Detalji garancije"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Detalji garancije"),
                 ),
                 (
                     "financial_guarantee",
-                    models.BooleanField(
-                        default=False, verbose_name="Financijska garancija?"
-                    ),
+                    models.BooleanField(default=False, verbose_name="Financijska garancija?"),
                 ),
                 (
                     "tender_statement",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Izjava za tender"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Izjava za tender"),
                 ),
                 (
                     "public_tender_ref",
@@ -580,15 +558,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "quantity",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Količina"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Količina"),
                 ),
                 (
                     "unit_price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Jedinična cijena"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Jedinična cijena"),
                 ),
                 (
                     "tax_rate",
@@ -637,15 +611,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "debit",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
                 (
                     "credit",
-                    models.DecimalField(
-                        decimal_places=2, default=Decimal("0.00"), max_digits=12
-                    ),
+                    models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
                 ),
             ],
         ),
@@ -693,9 +663,7 @@ class Migration(migrations.Migration):
                 ("month", models.PositiveIntegerField(verbose_name="Month")),
                 (
                     "amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=12, verbose_name="Amount (€)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Amount (€)"),
                 ),
             ],
             options={
@@ -717,9 +685,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=100, unique=True, verbose_name="Naziv općine"
-                    ),
+                    models.CharField(max_length=100, unique=True, verbose_name="Naziv općine"),
                 ),
                 (
                     "tax_rate",
@@ -801,15 +767,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=255, unique=True, verbose_name="Category Name"
-                    ),
+                    models.CharField(max_length=255, unique=True, verbose_name="Category Name"),
                 ),
                 (
                     "description",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Category Description"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Category Description"),
                 ),
             ],
             options={
@@ -880,27 +842,19 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "gross_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Bruto iznos"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Bruto iznos"),
                 ),
                 (
                     "net_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Neto iznos"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Neto iznos"),
                 ),
                 (
                     "taxes",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Porezi"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Porezi"),
                 ),
                 (
                     "date",
-                    models.DateField(
-                        blank=True, null=True, verbose_name="Datum obračuna plaće"
-                    ),
+                    models.DateField(blank=True, null=True, verbose_name="Datum obračuna plaće"),
                 ),
             ],
         ),
@@ -934,9 +888,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "contract_number",
-                    models.CharField(
-                        max_length=50, unique=True, verbose_name="Contract Number"
-                    ),
+                    models.CharField(max_length=50, unique=True, verbose_name="Contract Number"),
                 ),
             ],
         ),
@@ -970,15 +922,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=100, verbose_name="Naziv konfiguracije poreza"
-                    ),
+                    models.CharField(max_length=100, verbose_name="Naziv konfiguracije poreza"),
                 ),
                 (
                     "tax_rate",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=5, verbose_name="Stopa poreza (%)"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Stopa poreza (%)"),
                 ),
                 (
                     "mirovinsko_1",
@@ -1063,9 +1011,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "opis",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Opis konfiguracije"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Opis konfiguracije"),
                 ),
             ],
             options={

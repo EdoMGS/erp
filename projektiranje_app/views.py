@@ -65,9 +65,7 @@ def neki_view(request):
 def design_task_view(request):
     """Updated to use CADDocument"""
     doks = CADDocument.objects.all()
-    return render(
-        request, "projektiranje_app/design_task_view.html", {"documents": doks}
-    )
+    return render(request, "projektiranje_app/design_task_view.html", {"documents": doks})
 
 
 def dokumentacija_projektiranja_view(request):

@@ -30,50 +30,30 @@ class BankTransaction(models.Model):
         verbose_name=_("Broj bankovnog računa (IBAN)"),
         help_text=_("IBAN ili broj računa"),
     )
-    bank_name = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Naziv banke")
-    )
-    tip_transakcije = models.CharField(
-        max_length=10, choices=TRANSACTION_TYPES, verbose_name=_("Tip transakcije")
-    )
-    iznos = models.DecimalField(
-        max_digits=12, decimal_places=2, verbose_name=_("Iznos transakcije (€)")
-    )
+    bank_name = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Naziv banke"))
+    tip_transakcije = models.CharField(max_length=10, choices=TRANSACTION_TYPES, verbose_name=_("Tip transakcije"))
+    iznos = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Iznos transakcije (€)"))
     valuta = models.CharField(max_length=10, default="EUR", verbose_name=_("Valuta"))
     opis = models.CharField(max_length=255, verbose_name=_("Opis transakcije"))
-    datum = models.DateField(  # Changed from datum_transakcije
-        verbose_name=_("Datum transakcije")
-    )
-    datum_valute = models.DateField(
-        verbose_name=_("Datum valute"), blank=True, null=True
-    )
-    referenca = models.CharField(
-        max_length=100, unique=True, verbose_name=_("Referenca transakcije")
-    )
+    datum = models.DateField(verbose_name=_("Datum transakcije"))  # Changed from datum_transakcije
+    datum_valute = models.DateField(verbose_name=_("Datum valute"), blank=True, null=True)
+    referenca = models.CharField(max_length=100, unique=True, verbose_name=_("Referenca transakcije"))
     saldo = models.DecimalField(
         max_digits=12,
         decimal_places=2,
         verbose_name=_("Saldo računa (€) nakon transakcije"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Vrijeme evidentiranja u sustavu")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Vrijeme evidentiranja u sustavu"))
 
     # Opcionalno, ako želiš označiti da je transakcija usklađena s knjigovodstvom
-    is_reconciled = models.BooleanField(
-        default=False, verbose_name=_("Usklađeno s knjigovodstvom?")
-    )
+    is_reconciled = models.BooleanField(default=False, verbose_name=_("Usklađeno s knjigovodstvom?"))
 
     def save(self, *args, **kwargs):
         # Ensure proper decimal rounding
         if self.iznos:
-            self.iznos = Decimal(str(self.iznos)).quantize(
-                Decimal("0.01"), ROUND_HALF_UP
-            )
+            self.iznos = Decimal(str(self.iznos)).quantize(Decimal("0.01"), ROUND_HALF_UP)
         if self.saldo:
-            self.saldo = Decimal(str(self.saldo)).quantize(
-                Decimal("0.01"), ROUND_HALF_UP
-            )
+            self.saldo = Decimal(str(self.saldo)).quantize(Decimal("0.01"), ROUND_HALF_UP)
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -99,9 +79,7 @@ def sinkroniziraj_bankovne_transakcije(api_url, api_key):
     i mapiranje polja (referenca, datum_valute, ...)
     """
     # Configure retry strategy
-    retry_strategy = Retry(
-        total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504]
-    )
+    retry_strategy = Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
     adapter = HTTPAdapter(max_retries=retry_strategy)
     session = requests.Session()
     session.mount("https://", adapter)
@@ -147,12 +125,8 @@ def sinkroniziraj_bankovne_transakcije(api_url, api_key):
                 else:
                     logger.info(f"Ažurirana transakcija s referencom {referenca}")
         else:
-            logger.error(
-                f"Greška pri pozivu bankovnog API-ja: Status {response.status_code}"
-            )
-            raise Exception(
-                f"Greška pri povezivanju s bankom, status {response.status_code}"
-            )
+            logger.error(f"Greška pri pozivu bankovnog API-ja: Status {response.status_code}")
+            raise Exception(f"Greška pri povezivanju s bankom, status {response.status_code}")
     except requests.exceptions.RequestException as e:
         logger.error(f"Greška pri komunikaciji s bankom: {e}")
         raise e

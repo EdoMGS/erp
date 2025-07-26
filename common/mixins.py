@@ -14,9 +14,7 @@ class TimestampMixin(models.Model):
 
 
 class FinancialMixin(models.Model):
-    amount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=Decimal("0.00")
-    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal("0.00"))
 
     def validate_positive_amount(self):
         if self.amount < 0:

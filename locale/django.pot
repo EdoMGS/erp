@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+#: .\client_app\forms.py:191 .\prodaja\models.py:113 .\prodaja\models.py:316
+msgid "Broj javnog natječaja"
+msgstr ""
+
+#: ./client/models.py:20 ./common/models.py:47
+#: .\ljudski_resursi\models.py:26 .\ljudski_resursi\models.py:36
+#: .\nabava\models.py:25 .\nabava\models.py:35 .\prodaja\models.py:33
+#: .\prodaja\models.py:43 .\proizvodnja\models.py:45
+#: .\proizvodnja\models.py:55 .\skladiste\models.py:21
+msgid "Tenant (Holding/Operativa)"
+msgstr ""
+
+#: ./client/models.py:23 ./client/models.py:54
+#: .\ljudski_resursi\models.py:207 .\prodaja\models.py:300
+msgid "Aktivan"
+msgstr ""
+
+#: .\client_app\models.py:24
+msgid "Neaktivan"
+msgstr ""

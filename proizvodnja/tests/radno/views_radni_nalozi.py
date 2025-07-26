@@ -23,12 +23,7 @@ class ListaRadnihNalogaView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         projekt_id = self.kwargs["projekt_id"]
-        queryset = (
-            super()
-            .get_queryset()
-            .filter(projekt_id=projekt_id, is_active=True)
-            .order_by("-created_at")
-        )
+        queryset = super().get_queryset().filter(projekt_id=projekt_id, is_active=True).order_by("-created_at")
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -109,9 +104,7 @@ class DodajDodatniAngazmanView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         instance = form.save(commit=False)
-        instance.radni_nalog = get_object_or_404(
-            RadniNalog, id=self.kwargs["radni_nalog_id"]
-        )
+        instance.radni_nalog = get_object_or_404(RadniNalog, id=self.kwargs["radni_nalog_id"])
         instance.je_dodatni = True
         # Ako postoji povezani zaposlenik, postavi ga, inače preskoči
         if hasattr(self.request.user, "zaposlenik"):
@@ -122,9 +115,7 @@ class DodajDodatniAngazmanView(LoginRequiredMixin, CreateView):
         try:
             from .utils import log_action
 
-            log_action(
-                self.request.user, instance, "DODATNI_ANGAZMAN", form.cleaned_data
-            )
+            log_action(self.request.user, instance, "DODATNI_ANGAZMAN", form.cleaned_data)
         except ImportError:
             pass
         messages.success(self.request, "Dodatni angažman uspješno dodan.")
@@ -158,9 +149,7 @@ class AzurirajRadniNalogView(LoginRequiredMixin, UpdateView):
                 poruka,
             )
         messages.success(self.request, "Radni nalog uspješno ažuriran!")
-        return redirect(
-            "lista_radnih_naloga", projekt_id=getattr(instance, "projekt_id", None)
-        )
+        return redirect("lista_radnih_naloga", projekt_id=getattr(instance, "projekt_id", None))
 
 
 # -------- 6. Brisanje radnog naloga -------- #

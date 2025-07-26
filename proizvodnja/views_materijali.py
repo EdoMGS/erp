@@ -21,23 +21,17 @@ class ListaMaterijalaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     def get_queryset(self):
-        queryset = Materijal.objects.select_related("radni_nalog").filter(
-            is_active=True
-        )
+        queryset = Materijal.objects.select_related("radni_nalog").filter(is_active=True)
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
         projekt_id = self.kwargs.get("projekt_id")
 
         if radni_nalog_id:
             queryset = queryset.filter(radni_nalog_id=radni_nalog_id)
         elif projekt_id:
-            queryset = queryset.filter(
-                radni_nalog__projekt_id=projekt_id
-            )  # Changed line
+            queryset = queryset.filter(radni_nalog__projekt_id=projekt_id)  # Changed line
 
         # Apply filters from GET parameters
         naziv = self.request.GET.get("naziv")
@@ -81,9 +75,7 @@ class DodajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = "dodaj_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -94,9 +86,7 @@ class DodajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if radni_nalog_id:
             materijal.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
         elif projekt_id:
-            materijal.projekt = get_object_or_404(
-                Projekt, id=projekt_id
-            )  # Ensure 'projekt' field exists if used
+            materijal.projekt = get_object_or_404(Projekt, id=projekt_id)  # Ensure 'projekt' field exists if used
 
         inventory_item = form.cleaned_data.get("inventory_item")
         if inventory_item:
@@ -114,9 +104,7 @@ class DodajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         projekt_id = self.object.projekt.id if self.object.projekt else None
 
         if radni_nalog_id:
-            return reverse_lazy(
-                "lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id}
-            )
+            return reverse_lazy("lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id})
         if projekt_id:
             return reverse_lazy("lista_materijala", kwargs={"projekt_id": projekt_id})
         return reverse_lazy("lista_materijala")
@@ -131,9 +119,7 @@ class AzurirajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
     template_name = "dodaj_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -147,9 +133,7 @@ class AzurirajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         projekt_id = self.object.projekt.id if self.object.projekt else None
 
         if radni_nalog_id:
-            return reverse_lazy(
-                "lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id}
-            )
+            return reverse_lazy("lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id})
         if projekt_id:
             return reverse_lazy("lista_materijala", kwargs={"projekt_id": projekt_id})
         return reverse_lazy("lista_materijala")
@@ -163,9 +147,7 @@ class ObrisiMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "obrisi_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
@@ -181,9 +163,7 @@ class ObrisiMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         projekt_id = self.object.projekt.id if self.object.projekt else None
 
         if radni_nalog_id:
-            return reverse_lazy(
-                "lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id}
-            )
+            return reverse_lazy("lista_materijala", kwargs={"radni_nalog_id": radni_nalog_id})
         if projekt_id:
             return reverse_lazy("lista_materijala", kwargs={"projekt_id": projekt_id})
         return reverse_lazy("lista_materijala")
@@ -208,9 +188,7 @@ def lista_materijala(request, radni_nalog_id=None):
         "radni_nalog_id": radni_nalog_id,
         "radni_nalog": radni_nalog,
     }
-    return render(
-        request, "proizvodnja/lista_materijala.html", context
-    )  # Changed from nalozi/
+    return render(request, "proizvodnja/lista_materijala.html", context)  # Changed from nalozi/
 
 
 # ...existing code...

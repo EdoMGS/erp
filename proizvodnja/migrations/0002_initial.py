@@ -251,9 +251,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="proizvodnja",
             name="resursi",
-            field=models.ManyToManyField(
-                blank=True, to="proizvodnja.proizvodniresurs", verbose_name="Resursi"
-            ),
+            field=models.ManyToManyField(blank=True, to="proizvodnja.proizvodniresurs", verbose_name="Resursi"),
         ),
         migrations.AddField(
             model_name="proizvodnja",
@@ -619,26 +617,18 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="videopitanje",
-            index=models.Index(
-                fields=["radni_nalog"], name="proizvodnja_radni_n_831ac1_idx"
-            ),
+            index=models.Index(fields=["radni_nalog"], name="proizvodnja_radni_n_831ac1_idx"),
         ),
         migrations.AddIndex(
             model_name="videomaterijal",
-            index=models.Index(
-                fields=["naziv", "radni_nalog"], name="proizvodnja_naziv_e98e09_idx"
-            ),
+            index=models.Index(fields=["naziv", "radni_nalog"], name="proizvodnja_naziv_e98e09_idx"),
         ),
         migrations.AddConstraint(
             model_name="radninalogmaterijal",
             constraint=models.CheckConstraint(
                 check=models.Q(
-                    models.Q(
-                        ("radni_nalog__isnull", False), ("template_nalog__isnull", True)
-                    ),
-                    models.Q(
-                        ("radni_nalog__isnull", True), ("template_nalog__isnull", False)
-                    ),
+                    models.Q(("radni_nalog__isnull", False), ("template_nalog__isnull", True)),
+                    models.Q(("radni_nalog__isnull", True), ("template_nalog__isnull", False)),
                     _connector="OR",
                 ),
                 name="one_parent_only",
@@ -660,9 +650,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="ocjenakvalitete",
-            constraint=models.UniqueConstraint(
-                fields=("radni_nalog", "employee", "razina"), name="unique_ocjena"
-            ),
+            constraint=models.UniqueConstraint(fields=("radni_nalog", "employee", "razina"), name="unique_ocjena"),
         ),
         migrations.AddIndex(
             model_name="notifikacija",
@@ -684,15 +672,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="dodatniangazman",
-            index=models.Index(
-                fields=["angazman", "employee"], name="proizvodnja_angazma_3debc3_idx"
-            ),
+            index=models.Index(fields=["angazman", "employee"], name="proizvodnja_angazma_3debc3_idx"),
         ),
         migrations.AddConstraint(
             model_name="dodatniangazman",
-            constraint=models.UniqueConstraint(
-                fields=("angazman", "employee"), name="unique_angazman_zaposlenik"
-            ),
+            constraint=models.UniqueConstraint(fields=("angazman", "employee"), name="unique_angazman_zaposlenik"),
         ),
         migrations.AddIndex(
             model_name="angazman",

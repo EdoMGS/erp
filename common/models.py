@@ -55,9 +55,7 @@ class BaseModel(models.Model):
 class FinancialTrackingMixin(models.Model):
     """Mixin for financial tracking across modules"""
 
-    amount = models.DecimalField(
-        max_digits=10, decimal_places=2, default=Decimal("0.00")
-    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal("0.00"))
     financial_reference = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
@@ -83,9 +81,7 @@ class AuditableMixin(models.Model):
     def log_change(self, user, change_type, notes=None):
         from common.models import AuditLog
 
-        AuditLog.objects.create(
-            content_object=self, user=user, change_type=change_type, notes=notes
-        )
+        AuditLog.objects.create(content_object=self, user=user, change_type=change_type, notes=notes)
 
 
 class NotificationMixin(models.Model):

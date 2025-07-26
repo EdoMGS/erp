@@ -40,9 +40,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="overhead",
-            index=models.Index(
-                fields=["godina", "mjesec"], name="financije_o_godina_319e82_idx"
-            ),
+            index=models.Index(fields=["godina", "mjesec"], name="financije_o_godina_319e82_idx"),
         ),
         migrations.AlterUniqueTogether(
             name="overhead",
@@ -59,16 +57,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="mjesecnioverheadpregled",
-            index=models.Index(
-                fields=["godina", "mjesec"], name="financije_m_godina_105e1d_idx"
-            ),
+            index=models.Index(fields=["godina", "mjesec"], name="financije_m_godina_105e1d_idx"),
         ),
         migrations.AddField(
             model_name="journalitem",
             name="account",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to="financije.account"
-            ),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="financije.account"),
         ),
         migrations.AddField(
             model_name="journalitem",
@@ -164,9 +158,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="auditlog",
             name="user",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
-            ),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name="account",
@@ -194,8 +186,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="monthlyoverhead",
-            index=models.Index(
-                fields=["year", "month", "category"], name="financije_m_year_f983a9_idx"
-            ),
+            index=models.Index(fields=["year", "month", "category"], name="financije_m_year_f983a9_idx"),
         ),
     ]

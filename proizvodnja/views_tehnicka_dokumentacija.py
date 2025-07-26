@@ -24,14 +24,10 @@ class ListaTehnickeDokumentacijeView(LoginRequiredMixin, UserPassesTestMixin, Li
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     def get_queryset(self):
-        queryset = CADDocument.objects.select_related(
-            "related_radni_nalog", "related_projekt"
-        ).filter(is_active=True)
+        queryset = CADDocument.objects.select_related("related_radni_nalog", "related_projekt").filter(is_active=True)
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
         projekt_id = self.kwargs.get("projekt_id")
 
@@ -52,25 +48,19 @@ class DetaljiTehnickeDokumentacijeView(LoginRequiredMixin, DetailView):
     context_object_name = "dokumentacija"
 
     def get_queryset(self):
-        return CADDocument.objects.filter(is_active=True).select_related(
-            "related_radni_nalog", "related_projekt"
-        )
+        return CADDocument.objects.filter(is_active=True).select_related("related_radni_nalog", "related_projekt")
 
 
 # ==============================
 # 3️⃣ Dodavanje tehničke dokumentacije
 # ==============================
-class DodajTehnickuDokumentacijuView(
-    LoginRequiredMixin, UserPassesTestMixin, CreateView
-):
+class DodajTehnickuDokumentacijuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = CADDocument
     form_class = CADDocumentForm
     template_name = "tehnicke_dokumentacije/dodaj_tehnicku_dokumentaciju.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -89,16 +79,8 @@ class DodajTehnickuDokumentacijuView(
             return super().form_invalid(form)
 
     def get_success_url(self):
-        radni_nalog_id = (
-            self.object.related_radni_nalog.id
-            if hasattr(self.object, "related_radni_nalog")
-            else None
-        )
-        projekt_id = (
-            self.object.related_projekt.id
-            if hasattr(self.object, "related_projekt")
-            else None
-        )
+        radni_nalog_id = self.object.related_radni_nalog.id if hasattr(self.object, "related_radni_nalog") else None
+        projekt_id = self.object.related_projekt.id if hasattr(self.object, "related_projekt") else None
 
         if radni_nalog_id:
             return reverse_lazy(
@@ -106,27 +88,21 @@ class DodajTehnickuDokumentacijuView(
                 kwargs={"radni_nalog_id": radni_nalog_id},
             )
         if projekt_id:
-            return reverse_lazy(
-                "lista_tehnicke_dokumentacije", kwargs={"projekt_id": projekt_id}
-            )
+            return reverse_lazy("lista_tehnicke_dokumentacije", kwargs={"projekt_id": projekt_id})
         return reverse_lazy("lista_tehnicke_dokumentacije")
 
 
 # ==============================
 # 4️⃣ Ažuriranje tehničke dokumentacije
 # ==============================
-class AzurirajTehnickuDokumentacijuView(
-    LoginRequiredMixin, UserPassesTestMixin, UpdateView
-):
+class AzurirajTehnickuDokumentacijuView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = CADDocument
     form_class = CADDocumentForm
     template_name = "tehnicke_dokumentacije/dodaj_tehnicku_dokumentaciju.html"
     success_url = reverse_lazy("lista_tehnicke_dokumentacije")
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -145,25 +121,19 @@ class AzurirajTehnickuDokumentacijuView(
             return super().form_invalid(form)
 
     def form_invalid(self, form):
-        messages.error(
-            self.request, "Greška prilikom ažuriranja tehničke dokumentacije."
-        )
+        messages.error(self.request, "Greška prilikom ažuriranja tehničke dokumentacije.")
         return super().form_invalid(form)
 
 
 # ==============================
 # 5️⃣ Brisanje tehničke dokumentacije
 # ==============================
-class ObrisiTehnickuDokumentacijuView(
-    LoginRequiredMixin, UserPassesTestMixin, DeleteView
-):
+class ObrisiTehnickuDokumentacijuView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CADDocument
     template_name = "tehnicke_dokumentacije/obrisi_tehnicku_dokumentaciju.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["vlasnik", "direktor", "voditelj"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
@@ -175,22 +145,12 @@ class ObrisiTehnickuDokumentacijuView(
             messages.success(request, "Tehnička dokumentacija uspješno obrisana!")
             return redirect(self.get_success_url())
         except Exception as e:
-            messages.error(
-                request, f"Greška prilikom brisanja tehničke dokumentacije: {str(e)}"
-            )
+            messages.error(request, f"Greška prilikom brisanja tehničke dokumentacije: {str(e)}")
             return redirect("lista_tehnicke_dokumentacije")
 
     def get_success_url(self):
-        radni_nalog_id = (
-            self.object.related_radni_nalog.id
-            if hasattr(self.object, "related_radni_nalog")
-            else None
-        )
-        projekt_id = (
-            self.object.related_projekt.id
-            if hasattr(self.object, "related_projekt")
-            else None
-        )
+        radni_nalog_id = self.object.related_radni_nalog.id if hasattr(self.object, "related_radni_nalog") else None
+        projekt_id = self.object.related_projekt.id if hasattr(self.object, "related_projekt") else None
 
         if radni_nalog_id:
             return reverse_lazy(
@@ -198,7 +158,5 @@ class ObrisiTehnickuDokumentacijuView(
                 kwargs={"radni_nalog_id": radni_nalog_id},
             )
         if projekt_id:
-            return reverse_lazy(
-                "lista_tehnicke_dokumentacije", kwargs={"projekt_id": projekt_id}
-            )
+            return reverse_lazy("lista_tehnicke_dokumentacije", kwargs={"projekt_id": projekt_id})
         return reverse_lazy("lista_tehnicke_dokumentacije")

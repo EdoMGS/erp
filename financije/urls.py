@@ -22,17 +22,13 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard"),
     path("budgets/", views.BudgetListView.as_view(), name="budgets"),
     path("budgets/create/", views.BudgetCreateView.as_view(), name="create_budget"),
-    path(
-        "budgets/<int:pk>/edit/", views.BudgetUpdateView.as_view(), name="edit_budget"
-    ),
+    path("budgets/<int:pk>/edit/", views.BudgetUpdateView.as_view(), name="edit_budget"),
     path(
         "budgets/<int:pk>/delete/",
         views.BudgetDeleteView.as_view(),
         name="delete_budget",
     ),
-    path(
-        "debt-management/", views.DebtManagementView.as_view(), name="debt_management"
-    ),
+    path("debt-management/", views.DebtManagementView.as_view(), name="debt_management"),
     path("new_invoice/", views.invoice_form, name="new_invoice"),
     path("update_invoice/<int:pk>/", views.invoice_form, name="update_invoice"),
     path(

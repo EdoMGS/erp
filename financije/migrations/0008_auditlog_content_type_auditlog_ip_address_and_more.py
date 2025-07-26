@@ -47,16 +47,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="taxconfiguration",
             name="is_active",
-            field=models.BooleanField(
-                default=True, verbose_name="Aktivna konfiguracija"
-            ),
+            field=models.BooleanField(default=True, verbose_name="Aktivna konfiguracija"),
         ),
         migrations.AddField(
             model_name="taxconfiguration",
             name="valid_from",
-            field=models.DateField(
-                default=django.utils.timezone.now, verbose_name="Vrijedi od"
-            ),
+            field=models.DateField(default=django.utils.timezone.now, verbose_name="Vrijedi od"),
             preserve_default=False,
         ),
         migrations.AddField(
@@ -79,9 +75,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="auditlog",
-            index=models.Index(
-                fields=["timestamp"], name="financije_a_timesta_083c1b_idx"
-            ),
+            index=models.Index(fields=["timestamp"], name="financije_a_timesta_083c1b_idx"),
         ),
         migrations.AddIndex(
             model_name="auditlog",
@@ -89,9 +83,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="auditlog",
-            index=models.Index(
-                fields=["model_name"], name="financije_a_model_n_ec0532_idx"
-            ),
+            index=models.Index(fields=["model_name"], name="financije_a_model_n_ec0532_idx"),
         ),
         migrations.AddIndex(
             model_name="journalentry",
@@ -99,9 +91,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="journalentry",
-            index=models.Index(
-                fields=["created_at"], name="financije_j_created_601cb2_idx"
-            ),
+            index=models.Index(fields=["created_at"], name="financije_j_created_601cb2_idx"),
         ),
         migrations.AddIndex(
             model_name="journalitem",
@@ -113,15 +103,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="taxconfiguration",
-            index=models.Index(
-                fields=["valid_from", "valid_to"], name="financije_t_valid_f_ae643a_idx"
-            ),
+            index=models.Index(fields=["valid_from", "valid_to"], name="financije_t_valid_f_ae643a_idx"),
         ),
         migrations.AddIndex(
             model_name="taxconfiguration",
-            index=models.Index(
-                fields=["is_active"], name="financije_t_is_acti_fc5b71_idx"
-            ),
+            index=models.Index(fields=["is_active"], name="financije_t_is_acti_fc5b71_idx"),
         ),
         migrations.AddConstraint(
             model_name="taxconfiguration",

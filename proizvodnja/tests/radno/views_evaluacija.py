@@ -67,9 +67,7 @@ class DodajEvaluacijuProjektaView(LoginRequiredMixin, UserPassesTestMixin, Creat
     def form_valid(self, form):
         evaluacija = form.save()
         log_action(self.request.user, evaluacija, "CREATE")
-        messages.success(
-            self.request, f"Evaluacija za projekt {evaluacija.projekt} uspješno dodana!"
-        )
+        messages.success(self.request, f"Evaluacija za projekt {evaluacija.projekt} uspješno dodana!")
         return super().form_valid(form)
 
 
@@ -87,9 +85,7 @@ class EvaluacijaRadnogNalogaView(LoginRequiredMixin, ListView):
         )
 
 
-class DodajEvaluacijuRadnogNalogaView(
-    LoginRequiredMixin, UserPassesTestMixin, CreateView
-):
+class DodajEvaluacijuRadnogNalogaView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = EvaluacijaRadnogNalogaForm
     template_name = "evaluacije/dodaj_evaluaciju_radnog_naloga.html"
     success_url = reverse_lazy("evaluacija_radnog_naloga")
@@ -116,15 +112,11 @@ class GenerirajIzvjestajView(LoginRequiredMixin, UserPassesTestMixin, DetailView
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["izvjestaj_radnika"] = Zaposlenik.objects.filter(
-            is_active=True
-        ).annotate(
+        context["izvjestaj_radnika"] = Zaposlenik.objects.filter(is_active=True).annotate(
             prosjek_ocjena=Avg("ocjene_kvalitete__ocjena"),
             ukupno_sati=Sum("angazmani__sati_rada"),
         )
-        context["izvjestaj_radnih_naloga"] = RadniNalog.objects.filter(
-            is_active=True
-        ).annotate(
+        context["izvjestaj_radnih_naloga"] = RadniNalog.objects.filter(is_active=True).annotate(
             prosjek_ocjena=Avg("ocjene_kvalitete__ocjena"),
             ukupno_sati=Sum("angazmani__sati_rada"),
         )

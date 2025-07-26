@@ -21,11 +21,7 @@ class DepartmentForm(BaseModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
-        if (
-            Department.objects.filter(name__iexact=name)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
+        if Department.objects.filter(name__iexact=name).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Department with this name already exists.")
         return name
 
@@ -37,14 +33,8 @@ class ExpertiseLevelForm(BaseModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
-        if (
-            ExpertiseLevel.objects.filter(name__iexact=name)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
-            raise forms.ValidationError(
-                "Expertise Level with this name already exists."
-            )
+        if ExpertiseLevel.objects.filter(name__iexact=name).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Expertise Level with this name already exists.")
         return name
 
 
@@ -55,26 +45,14 @@ class HierarchicalLevelForm(BaseModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
-        if (
-            HierarchicalLevel.objects.filter(name__iexact=name)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
-            raise forms.ValidationError(
-                "Hierarchical Level with this name already exists."
-            )
+        if HierarchicalLevel.objects.filter(name__iexact=name).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Hierarchical Level with this name already exists.")
         return name
 
     def clean_level(self):
         level = self.cleaned_data.get("level")
-        if (
-            HierarchicalLevel.objects.filter(level=level)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
-            raise forms.ValidationError(
-                "Hierarchical Level with this level already exists."
-            )
+        if HierarchicalLevel.objects.filter(level=level).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError("Hierarchical Level with this level already exists.")
         return level
 
 
@@ -83,19 +61,11 @@ class EmployeeForm(BaseModelForm):
         model = Employee
         fields = "__all__"
         widgets = {
-            "first_name": forms.TextInput(
-                attrs={"placeholder": "Enter first name...", "class": "form-control"}
-            ),
-            "last_name": forms.TextInput(
-                attrs={"placeholder": "Enter last name...", "class": "form-control"}
-            ),
-            "email": forms.EmailInput(
-                attrs={"placeholder": "Enter email...", "class": "form-control"}
-            ),
+            "first_name": forms.TextInput(attrs={"placeholder": "Enter first name...", "class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"placeholder": "Enter last name...", "class": "form-control"}),
+            "email": forms.EmailInput(attrs={"placeholder": "Enter email...", "class": "form-control"}),
             "position": forms.Select(attrs={"class": "form-select"}),
-            "salary_coefficient": forms.NumberInput(
-                attrs={"step": 0.1, "class": "form-control"}
-            ),
+            "salary_coefficient": forms.NumberInput(attrs={"step": 0.1, "class": "form-control"}),
             "expertise_level": forms.Select(attrs={"class": "form-select"}),
             "department": forms.Select(attrs={"class": "form-select"}),
             "manager": forms.Select(attrs={"class": "form-select"}),
@@ -110,12 +80,7 @@ class EmployeeForm(BaseModelForm):
         email = self.cleaned_data.get("email")
         if not email.endswith("@mgs-grupa.com"):
             raise forms.ValidationError("Email must be @mgs-grupa.com domain.")
-        if (
-            email
-            and Employee.objects.filter(email__iexact=email)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
+        if email and Employee.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
             self.add_error("email", "Email already exists.")
         return email
 
@@ -135,11 +100,7 @@ class PositionForm(BaseModelForm):
 
     def clean_title(self):
         title = self.cleaned_data.get("title")
-        if (
-            Position.objects.filter(title__iexact=title)
-            .exclude(pk=self.instance.pk)
-            .exists()
-        ):
+        if Position.objects.filter(title__iexact=title).exclude(pk=self.instance.pk).exists():
             raise forms.ValidationError("Position with this title already exists.")
         return title
 

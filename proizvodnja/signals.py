@@ -118,9 +118,7 @@ def obavijesti_o_promjeni_statusa_projekta(sender, instance, created, **kwargs):
                         prioritet=data["prioritet"],
                         tip=data["tip"],
                     )
-                    logger.debug(
-                        f"Notifikacija kreirana za promjenu statusa projekta: {instance.naziv_projekta}"
-                    )
+                    logger.debug(f"Notifikacija kreirana za promjenu statusa projekta: {instance.naziv_projekta}")
 
                     # Slanje notifikacije preko Channels
                     channel_layer = get_channel_layer()
@@ -188,9 +186,7 @@ def obavijesti_o_promjeni_statusa_radnog_naloga(sender, instance, created, **kwa
                         prioritet=data["prioritet"],
                         tip=data["tip"],
                     )
-                    logger.debug(
-                        f"Notifikacija kreirana za radni nalog: {instance.naziv_naloga}"
-                    )
+                    logger.debug(f"Notifikacija kreirana za radni nalog: {instance.naziv_naloga}")
 
                     channel_layer = get_channel_layer()
                     if channel_layer:

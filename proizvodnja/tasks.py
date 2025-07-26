@@ -32,9 +32,7 @@ def create_or_update_periodic_task(name, task, schedule, **kwargs):
             return existing_task
         else:
             # Create new task with unique name
-            return PeriodicTask.objects.create(
-                interval=schedule, name=unique_name, task=task, **kwargs
-            )
+            return PeriodicTask.objects.create(interval=schedule, name=unique_name, task=task, **kwargs)
     except Exception as e:
         logger.error(f"Error creating/updating periodic task: {str(e)}")
         raise
@@ -50,9 +48,7 @@ def update_proizvodnja_status():
     """Ažurira statuse svih aktivnih proizvodnji"""
     try:
         with transaction.atomic():
-            active_proizvodnje = Proizvodnja.objects.filter(
-                is_active=True, status__in=["planirano", "u_progresu"]
-            )
+            active_proizvodnje = Proizvodnja.objects.filter(is_active=True, status__in=["planirano", "u_progresu"])
 
             for proizvodnja in active_proizvodnje:
                 proizvodnja.update_statistics()
@@ -73,9 +69,7 @@ def update_radni_nalog_status(self, radni_nalog_id):
     """Ažurira status radnog naloga i procesira povezane akcije"""
     try:
         with transaction.atomic():
-            radni_nalog = RadniNalog.objects.select_related(
-                "projekt", "proizvodnja"
-            ).get(id=radni_nalog_id)
+            radni_nalog = RadniNalog.objects.select_related("projekt", "proizvodnja").get(id=radni_nalog_id)
 
             previous_status = radni_nalog.status
             radni_nalog.azuriraj_status()
@@ -85,9 +79,7 @@ def update_radni_nalog_status(self, radni_nalog_id):
                 process_completed_work_order(radni_nalog)
 
             radni_nalog.save()
-            logger.info(
-                f"Updated RadniNalog {radni_nalog_id} status to {radni_nalog.status}"
-            )
+            logger.info(f"Updated RadniNalog {radni_nalog_id} status to {radni_nalog.status}")
 
     except ObjectDoesNotExist:
         logger.warning(f"RadniNalog {radni_nalog_id} not found")
@@ -106,9 +98,7 @@ def check_project_deadlines():
     """Provjerava rokove projekata i ažurira statuse"""
     try:
         today = timezone.now().date()
-        projects = Projekt.objects.filter(
-            is_active=True, status__in=["OTVOREN", "U_TIJEKU"]
-        )
+        projects = Projekt.objects.filter(is_active=True, status__in=["OTVOREN", "U_TIJEKU"])
 
         for project in projects:
             if project.rok_za_isporuku and project.rok_za_isporuku < today:

@@ -23,9 +23,7 @@ class ListaOcjenaKvaliteteView(LoginRequiredMixin, ListView):
     context_object_name = "ocjene"
 
     def get_queryset(self):
-        qs = OcjenaKvalitete.objects.select_related("radni_nalog", "ocjenjivac").filter(
-            is_active=True
-        )
+        qs = OcjenaKvalitete.objects.select_related("radni_nalog", "ocjenjivac").filter(is_active=True)
 
         # Filter by radni nalog if specified
         nalog_id = self.kwargs.get("radni_nalog_id")
@@ -44,9 +42,7 @@ class DetaljiOcjeneKvaliteteView(LoginRequiredMixin, DetailView):
     context_object_name = "ocjena_kvalitete"
 
     def get_queryset(self):
-        return OcjenaKvalitete.objects.filter(is_active=True).select_related(
-            "radni_nalog", "employee"
-        )
+        return OcjenaKvalitete.objects.filter(is_active=True).select_related("radni_nalog", "employee")
 
 
 # ==============================
@@ -58,9 +54,7 @@ class DodajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = "ocjene_kvalitete/dodaj_ocjenu_kvalitete.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(
-            name__in=["direktor", "voditelj", "administrativno osoblje"]
-        ).exists()
+        return self.request.user.groups.filter(name__in=["direktor", "voditelj", "administrativno osoblje"]).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -92,10 +86,7 @@ class AzurirajOcjenuView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         ocjena = self.get_object()
-        return (
-            self.request.user == ocjena.employee.user
-            or self.request.user.groups.filter(name="direktor").exists()
-        )
+        return self.request.user == ocjena.employee.user or self.request.user.groups.filter(name="direktor").exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -122,10 +113,7 @@ class ObrisiOcjenuView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         ocjena = self.get_object()
-        return (
-            self.request.user == ocjena.employee.user
-            or self.request.user.groups.filter(name="direktor").exists()
-        )
+        return self.request.user == ocjena.employee.user or self.request.user.groups.filter(name="direktor").exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):

@@ -7,13 +7,9 @@ router = DefaultRouter()
 router.register(r"procurement-plans", views.ProcurementPlanViewSet)
 router.register(r"procurement-requests", views.ProcurementRequestViewSet)
 router.register(r"purchase-orders", views.PurchaseOrderViewSet)
-router.register(
-    r"purchase-order-lines", views.PurchaseOrderLineViewSet
-)  # Dodano za PurchaseOrderLine
+router.register(r"purchase-order-lines", views.PurchaseOrderLineViewSet)  # Dodano za PurchaseOrderLine
 router.register(r"dobavljaci", views.DobavljacViewSet)  # Dodano za Dobavljac
-router.register(
-    r"grupe-dobavljaca", views.GrupaDobavljacaViewSet
-)  # Dodano za GrupaDobavljaca
+router.register(r"grupe-dobavljaca", views.GrupaDobavljacaViewSet)  # Dodano za GrupaDobavljaca
 
 app_name = "nabava"
 
@@ -37,21 +33,15 @@ urlpatterns = [
     path("dobavljaci/", views.dobavljac_list, name="dobavljac_list"),
     path("dobavljaci/create/", views.dobavljac_create, name="dobavljac_create"),
     path("dobavljaci/<int:pk>/", views.dobavljac_detail, name="dobavljac_detail"),
-    path(
-        "dobavljaci/<int:pk>/edit/", views.dobavljac_edit, name="dobavljac_edit"
-    ),  # Nova putanja
+    path("dobavljaci/<int:pk>/edit/", views.dobavljac_edit, name="dobavljac_edit"),  # Nova putanja
     # Grupe dobavljača putanje
     path("grupe/", views.grupa_dobavljaca_list, name="grupa_list"),
     path("grupe/create/", views.grupa_dobavljaca_create, name="grupa_create"),
-    path(
-        "grupe/<int:pk>/", views.grupa_dobavljaca_detail, name="grupa_detail"
-    ),  # Nova putanja
+    path("grupe/<int:pk>/", views.grupa_dobavljaca_detail, name="grupa_detail"),  # Nova putanja
     # Narudžbenice (stari sustav) putanje
     path("narudzbenice/", views.narudzbenica_list, name="narudzbenica_list"),
     path("narudzbenice/create/", views.narudzbenica_create, name="narudzbenica_create"),
-    path(
-        "narudzbenice/<int:pk>/", views.narudzbenica_detail, name="narudzbenica_detail"
-    ),
+    path("narudzbenice/<int:pk>/", views.narudzbenica_detail, name="narudzbenica_detail"),
     path("narudzbenice/<int:pk>/stavke/add/", views.add_stavka, name="add_stavka"),
     # API putanje
     path("api/", include(router.urls)),

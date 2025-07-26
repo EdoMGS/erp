@@ -60,9 +60,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.CharField(
-                        max_length=255, unique=True, verbose_name="Role Name"
-                    ),
+                    models.CharField(max_length=255, unique=True, verbose_name="Role Name"),
                 ),
                 (
                     "description",

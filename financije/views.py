@@ -35,9 +35,7 @@ def home(request):
 
 @login_required
 def invoice_form(request, pk=None):
-    InvoiceModel = apps.get_model(
-        "financije", "Invoice"
-    )  # da izbjegnemo eventualne petlje
+    InvoiceModel = apps.get_model("financije", "Invoice")  # da izbjegnemo eventualne petlje
     invoice = get_object_or_404(InvoiceModel, pk=pk) if pk else None
 
     if request.method == "POST":
@@ -140,9 +138,7 @@ def view_salaries(request):
     salaries = SalaryModel.objects.all().select_related("employee")
     # Dodaj logiku izračuna ako je potrebno
     for salary in salaries:
-        salary.calculated_gross = (
-            salary.gross_amount + salary.taxes
-        )  # npr. polje samo za prikaz
+        salary.calculated_gross = salary.gross_amount + salary.taxes  # npr. polje samo za prikaz
         salary.save()
     return render(request, "financije/view_salaries.html", {"salaries": salaries})
 
@@ -312,9 +308,7 @@ class BudgetUpdateView(View):
 class BudgetDeleteView(View):
     def get(self, request, pk):
         budget = get_object_or_404(Budget, pk=pk)
-        return render(
-            request, "financije/budget_confirm_delete.html", {"budget": budget}
-        )
+        return render(request, "financije/budget_confirm_delete.html", {"budget": budget})
 
     def post(self, request, pk):
         budget = get_object_or_404(Budget, pk=pk)

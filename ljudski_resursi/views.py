@@ -30,9 +30,7 @@ def hr_view(request):
 @login_required
 def employee_list(request):
     employees = Employee.objects.all()
-    return render(
-        request, "ljudski_resursi/employee_list.html", {"employees": employees}
-    )
+    return render(request, "ljudski_resursi/employee_list.html", {"employees": employees})
 
 
 @login_required
@@ -67,9 +65,7 @@ def employee_delete(request, pk):
         employee.delete()
         messages.success(request, _("Employee successfully deleted."))
         return redirect("ljudski_resursi:employee_list")
-    return render(
-        request, "ljudski_resursi/employee_confirm_delete.html", {"employee": employee}
-    )
+    return render(request, "ljudski_resursi/employee_confirm_delete.html", {"employee": employee})
 
 
 class PositionViewSet(viewsets.ModelViewSet):
@@ -146,9 +142,7 @@ class DepartmentCreateView(LoginRequiredMixin, View):
 @login_required
 def department_list(request):
     departments = Department.objects.all()
-    return render(
-        request, "ljudski_resursi/department_list.html", {"departments": departments}
-    )
+    return render(request, "ljudski_resursi/department_list.html", {"departments": departments})
 
 
 @login_required
@@ -170,9 +164,7 @@ def home(request):
 
 def position_list(request):
     positions = Position.objects.all()
-    return render(
-        request, "ljudski_resursi/position_list.html", {"positions": positions}
-    )
+    return render(request, "ljudski_resursi/position_list.html", {"positions": positions})
 
 
 # ...other views...
@@ -181,9 +173,7 @@ def position_list(request):
 @login_required
 def evaluacija_list(request):
     evaluacije = RadnaEvaluacija.objects.all()
-    return render(
-        request, "ljudski_resursi/evaluacija_list.html", {"evaluacije": evaluacije}
-    )
+    return render(request, "ljudski_resursi/evaluacija_list.html", {"evaluacije": evaluacije})
 
 
 @login_required

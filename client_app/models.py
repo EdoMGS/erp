@@ -55,17 +55,11 @@ class ClientSupplier(models.Model):
             )
         ],
     )
-    country = models.CharField(
-        max_length=100, verbose_name=_("Država"), default="Hrvatska"
-    )
+    country = models.CharField(max_length=100, verbose_name=_("Država"), default="Hrvatska")
     city = models.CharField(max_length=100, verbose_name=_("Grad"))
     postal_code = models.CharField(max_length=10, verbose_name=_("Poštanski broj"))
-    county = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Županija")
-    )
-    long_term_relationship = models.BooleanField(
-        default=False, verbose_name=_("Dugoročni odnos")
-    )
+    county = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Županija"))
+    long_term_relationship = models.BooleanField(default=False, verbose_name=_("Dugoročni odnos"))
     relationship_status = models.CharField(
         max_length=20,
         choices=RELATIONSHIP_STATUS_CHOICES,
@@ -73,12 +67,8 @@ class ClientSupplier(models.Model):
         verbose_name=_("Status odnosa"),
     )
 
-    date_created = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum kreiranja")
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True, verbose_name=_("Datum ažuriranja")
-    )
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja"))
+    date_updated = models.DateTimeField(auto_now=True, verbose_name=_("Datum ažuriranja"))
 
     @property
     def profile(self):
@@ -109,21 +99,15 @@ class ClientSupplier(models.Model):
 
 
 class ClientProfile(models.Model):
-    client = models.OneToOneField(
-        ClientSupplier, on_delete=models.CASCADE, related_name="clientprofile"
-    )
+    client = models.OneToOneField(ClientSupplier, on_delete=models.CASCADE, related_name="clientprofile")
     loyalty_level = models.CharField(
         max_length=20,
         choices=ClientSupplier.LOYALTY_LEVELS,
         default="bronze",
         verbose_name=_("Razina lojalnosti"),
     )
-    feedback = models.TextField(
-        null=True, blank=True, verbose_name=_("Povratne informacije")
-    )
-    post_sales_feedback = models.TextField(
-        null=True, blank=True, verbose_name=_("Post-prodajne povratne informacije")
-    )
+    feedback = models.TextField(null=True, blank=True, verbose_name=_("Povratne informacije"))
+    post_sales_feedback = models.TextField(null=True, blank=True, verbose_name=_("Post-prodajne povratne informacije"))
 
     class Meta:
         verbose_name = _("Profil klijenta")
@@ -138,12 +122,8 @@ class CityPostalCode(models.Model):
         verbose_name=_("Postal Code"),
     )
     city = models.CharField(max_length=255, verbose_name=_("City"))
-    district = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Naselje")
-    )
-    county = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Županija")
-    )
+    district = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Naselje"))
+    county = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Županija"))
 
     def __str__(self):
         return f"{self.city} - {self.postal_code}"
@@ -174,9 +154,7 @@ class ClientActivityLog(models.Model):
         verbose_name=_("Klijent/Dobavljač"),
     )
     activity = models.TextField(verbose_name=_("Activity Description"))
-    timestamp = models.DateTimeField(
-        default=timezone.now, db_index=True, verbose_name=_("Timestamp")
-    )
+    timestamp = models.DateTimeField(default=timezone.now, db_index=True, verbose_name=_("Timestamp"))
     activity_type = models.CharField(
         max_length=20,
         choices=ACTIVITY_TYPES,

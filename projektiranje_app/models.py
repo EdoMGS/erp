@@ -54,25 +54,13 @@ class DesignTask(models.Model):
         default=Decimal("0.0"),
         verbose_name=_("Utrošeni sati dizajna"),
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="draft", verbose_name=_("Status")
-    )
-    datum_pocetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum početka projektiranja")
-    )
-    datum_zavrsetka = models.DateField(
-        null=True, blank=True, verbose_name=_("Datum završetka projektiranja")
-    )
-    napomena = models.TextField(
-        blank=True, null=True, verbose_name=_("Napomena / opis dizajna")
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft", verbose_name=_("Status"))
+    datum_pocetka = models.DateField(null=True, blank=True, verbose_name=_("Datum početka projektiranja"))
+    datum_zavrsetka = models.DateField(null=True, blank=True, verbose_name=_("Datum završetka projektiranja"))
+    napomena = models.TextField(blank=True, null=True, verbose_name=_("Napomena / opis dizajna"))
     # Polja za audit trail
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum kreiranja")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Datum posljednje izmjene")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Datum posljednje izmjene"))
     # Integracija CAD dokumenata – npr. SolidWorks i AutoCAD nacrti
     solidworks_drawing = models.FileField(
         upload_to="design_drawings/solidworks/",
@@ -125,9 +113,7 @@ class DesignSegment(models.Model):
         related_name="segments",
         verbose_name=_("Glavni zadatak projektiranja"),
     )
-    segment_type = models.CharField(
-        max_length=50, choices=SEGMENT_TYPE_CHOICES, verbose_name=_("Tip segmenta")
-    )
+    segment_type = models.CharField(max_length=50, choices=SEGMENT_TYPE_CHOICES, verbose_name=_("Tip segmenta"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis segmenta"))
     planirani_sati = models.DecimalField(
         max_digits=5,
@@ -141,12 +127,8 @@ class DesignSegment(models.Model):
         default=Decimal("0.0"),
         verbose_name=_("Utrošeni sati za segment"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum kreiranja segmenta")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Datum posljednje izmjene segmenta")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja segmenta"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Datum posljednje izmjene segmenta"))
 
     class Meta:
         verbose_name = _("Segment dizajna")
@@ -181,19 +163,11 @@ class BillOfMaterials(models.Model):
         related_name="bom_list",
         verbose_name=_("Segment dizajna"),
     )
-    naziv = models.CharField(
-        max_length=200, default="Glavni BOM", verbose_name=_("Naziv BOM-a")
-    )
+    naziv = models.CharField(max_length=200, default="Glavni BOM", verbose_name=_("Naziv BOM-a"))
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis BOM-a"))
-    status = models.CharField(
-        max_length=50, default="draft", verbose_name=_("Status BOM-a")
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum kreiranja")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Datum posljednje izmjene")
-    )
+    status = models.CharField(max_length=50, default="draft", verbose_name=_("Status BOM-a"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Datum posljednje izmjene"))
 
     class Meta:
         verbose_name = _("BOM")
@@ -228,9 +202,7 @@ class BOMItem(models.Model):
         default=Decimal("1.00"),
         verbose_name=_("Količina"),
     )
-    napomena = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("Napomena")
-    )
+    napomena = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Napomena"))
 
     class Meta:
         verbose_name = _("BOM stavka")
@@ -267,9 +239,7 @@ class CADDocument(models.Model):
         choices=[("solidworks", _("SolidWorks")), ("autocad", _("AutoCAD"))],
         verbose_name=_("Tip CAD dokumenta"),
     )
-    uploaded_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum uploada")
-    )
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum uploada"))
 
     class Meta:
         verbose_name = _("CAD dokument")
@@ -299,9 +269,7 @@ class DesignRevision(models.Model):
         related_name="revisions",
         verbose_name=_("Segment dizajna"),
     )
-    broj_revizije = models.PositiveIntegerField(
-        default=1, verbose_name=_("Broj revizije")
-    )
+    broj_revizije = models.PositiveIntegerField(default=1, verbose_name=_("Broj revizije"))
     opis = models.TextField(verbose_name=_("Opis promjena"))
     autor = models.ForeignKey(
         User,
@@ -310,9 +278,7 @@ class DesignRevision(models.Model):
         blank=True,
         verbose_name=_("Autor revizije"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Datum revizije")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum revizije"))
 
     class Meta:
         verbose_name = _("Revizija")
@@ -345,17 +311,11 @@ class DynamicPlan(models.Model):
         related_name="dynamic_plan",
         verbose_name=_("Segment dizajna"),
     )
-    json_data = models.JSONField(
-        blank=True, null=True, verbose_name=_("Gantt podaci (JSON)")
-    )
-    pocetak_plana = models.DateField(
-        null=True, blank=True, verbose_name=_("Početak plana")
-    )
+    json_data = models.JSONField(blank=True, null=True, verbose_name=_("Gantt podaci (JSON)"))
+    pocetak_plana = models.DateField(null=True, blank=True, verbose_name=_("Početak plana"))
     kraj_plana = models.DateField(null=True, blank=True, verbose_name=_("Kraj plana"))
     napomena = models.TextField(blank=True, null=True, verbose_name=_("Napomena"))
-    updated_at = models.DateTimeField(
-        auto_now=True, verbose_name=_("Datum posljednje izmjene")
-    )
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Datum posljednje izmjene"))
 
     class Meta:
         verbose_name = _("Dinamički plan")
