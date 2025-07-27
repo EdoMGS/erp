@@ -26,6 +26,8 @@ def create_or_update_periodic_task(name, task, schedule, **kwargs):
             # Update existing task
             existing_task.interval = schedule
             existing_task.enabled = True
+            # Update task path in case it changed
+            existing_task.task = task
             for key, value in kwargs.items():
                 setattr(existing_task, key, value)
             existing_task.save()
@@ -123,6 +125,12 @@ def check_project_deadlines():
 #     }
 # })
 
+# Remove outdated periodic tasks referencing the old check_project_status path
+try:
+    PeriodicTask.objects.filter(task='proizvodnja.tasks.check_project_status').delete()
+except Exception:
+    logger.warning('Failed to remove legacy PeriodicTask check_project_status')
+
 # Example usage:
 schedule, _ = IntervalSchedule.objects.get_or_create(
     every=1,
@@ -131,7 +139,7 @@ schedule, _ = IntervalSchedule.objects.get_or_create(
 
 create_or_update_periodic_task(
     name="proizvodnja-status-check",
-    task="proizvodnja.tasks.check_project_status",
+    task="proizvodnja.tasks.check_project_deadlines",
     schedule=schedule,
     enabled=True,
 )

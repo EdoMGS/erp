@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from common.models import BaseModel
 from proizvodnja.models import Projekt  # Povezan s proizvodnjom
 # Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
-from projektiranje_app.models import CADDocument, DesignTask
+from projektiranje.models import CADDocument, DesignTask
 
 # Financijska analiza – pretpostavljamo da postoji model u financije aplikaciji
 # (ako nije definiran, ostavite kao stranicu za kasnije proširenje)
@@ -56,7 +56,7 @@ class SalesOpportunity(models.Model):
 
     name = models.CharField(max_length=255, verbose_name=_("Naziv leada / prilike"))
     client = models.ForeignKey(
-        "client_app.ClientSupplier",
+        "client.ClientSupplier",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -159,7 +159,7 @@ class Quotation(models.Model):
     ]
 
     client = models.ForeignKey(
-        "client_app.ClientSupplier",
+        "client.ClientSupplier",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -382,7 +382,7 @@ class TenderPreparation(BaseModel):
         related_name="tender_preparation",
         verbose_name=_("Prilika (natječaj)"),
     )
-    # Poveznica s ponudbenim nacrtima (dokumentima koje izrađuje tehnički ured u projektiranje_app)
+    # Poveznica s ponudbenim nacrtima (dokumentima koje izrađuje tehnički ured u projektiranje)
     proposal_drawings = models.ManyToManyField(
         CADDocument,
         blank=True,

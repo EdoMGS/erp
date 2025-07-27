@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>Break-Even Dashboard</h2>
-<table border="1">
+<table border="1" class="table-auto w-full">
   <thead>
     <tr>
       <th>Divizija</th>
@@ -9,44 +9,31 @@
       <th>Prihod</th>
       <th>Profit</th>
       <th>Break-even Q</th>
+      <th>Progress</th>
       <th>Status</th>
     </tr>
   </thead>
   <tbody id="be-table-body">
     {% for s in snapshots %}
-    <tr class="status-{{ s.status }}">
+    <tr>
       <td>{{ s.division }}</td>
       <td>{{ s.date }}</td>
       <td>{{ s.revenue }}</td>
       <td>{{ s.profit }}</td>
       <td>{{ s.break_even_qty }}</td>
-      <td class="status-{{ s.status }}">{{ s.status|title }}</td>
+      <!-- Progress bar cell -->
+      <td>
+        <div class="w-32 bg-gray-200 rounded overflow-hidden">
+          <div class="h-4 {% if s.percent >= 100 %}bg-green-500{% elif s.percent >= 50 %}bg-yellow-400{% else %}bg-red-500{% endif %}" style="width:{{ s.percent }}%"></div>
+        </div>
+      </td>
+      <td class="text-center {% if s.percent >= 100 %}text-green-600{% elif s.percent >= 50 %}text-yellow-600{% else %}text-red-600{% endif %}">{{ s.status|title }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-<script>
-const ws = new WebSocket(
-  (window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/break-even/'
-);
-ws.onmessage = function(event) {
-  const data = JSON.parse(event.data);
-  const tbody = document.getElementById('be-table-body');
-  tbody.innerHTML = '';
-  for (const row of data.rows) {
-    tbody.innerHTML += `<tr class="status-${row.status}">
-      <td>${row.division}</td>
-      <td>${row.date}</td>
-      <td>${row.revenue}</td>
-      <td>${row.profit}</td>
-      <td>${row.break_even_qty}</td>
-      <td class="status-${row.status}">${row.status.charAt(0).toUpperCase() + row.status.slice(1)}</td>
-    </tr>`;
-  }
-};
-</script>
+<!-- Remove WebSocket live update for now -->
 <style>
-.status-green { color: green; }
-.status-red { color: red; }
+/* Tailwind is used for styling */
 </style>
 {% endblock %}

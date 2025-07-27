@@ -3,7 +3,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: en\n"
 
-#: .\client_app\forms.py:191 .\prodaja\models.py:113 .\prodaja\models.py:316
+#: .\client\forms.py:191 .\prodaja\models.py:113 .\prodaja\models.py:316
 msgid "Broj javnog natječaja"
 msgstr ""
 
@@ -20,6 +20,6 @@ msgstr ""
 msgid "Aktivan"
 msgstr ""
 
-#: .\client_app\models.py:24
+#: .\client\models.py:24
 msgid "Neaktivan"
 msgstr ""

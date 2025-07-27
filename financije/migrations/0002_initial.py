@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("ljudski_resursi", "0001_initial"),
-        ("client_app", "0001_initial"),
+        ("client", "0001_initial"),
         ("financije", "0001_initial"),
     ]
 
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
             name="client",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Client",
             ),
         ),

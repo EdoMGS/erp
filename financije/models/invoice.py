@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 try:
-    from client_app.models import ClientSupplier
+    from client.models import ClientSupplier
 except ImportError:
     ClientSupplier = None
 
@@ -25,7 +25,7 @@ class Invoice(models.Model):
     ]
 
     client = models.ForeignKey(
-        "client_app.ClientSupplier",  # Use string reference
+        "client.ClientSupplier",  # Use string reference
         on_delete=models.CASCADE,
         related_name="invoices",
         verbose_name=_("Klijent"),
@@ -128,7 +128,7 @@ class Payment(models.Model):
 
 class Debt(models.Model):
     client = models.ForeignKey(
-        "client_app.ClientSupplier",  # Use string reference
+        "client.ClientSupplier",  # Use string reference
         on_delete=models.CASCADE,
         verbose_name=_("Client"),
     )

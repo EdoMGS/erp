@@ -1,4 +1,4 @@
-# client_app/models.py
+# client/models.py
 
 from django.core.validators import RegexValidator
 from django.db import models
@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from common.middleware import TenantManager
+from common.tenants import TenantManager
 
 
 class ClientSupplier(models.Model):

@@ -9,7 +9,7 @@ from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
 ###############################################################################
 class BaseModelForm(forms.ModelForm):
     """
-    Zajednička poboljšanja i widgeti za sve forme u projektiranje_app.
+    Zajednička poboljšanja i widgeti za sve forme u projektiranje.
     """
 
     def __init__(self, *args, **kwargs):

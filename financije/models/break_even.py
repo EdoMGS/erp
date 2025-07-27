@@ -38,3 +38,10 @@ class BreakEvenSnapshot(models.Model):
 
     def __str__(self):
         return f"{self.tenant} - {self.division} ({self.date})"
+
+    @property
+    def percent(self):
+        """Return percent of break-even achieved: revenue / break_even_qty * 100"""
+        if self.break_even_qty and self.break_even_qty > 0:
+            return (self.revenue / self.break_even_qty) * 100
+        return 0

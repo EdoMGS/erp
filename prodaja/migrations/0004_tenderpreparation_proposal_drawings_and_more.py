@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         (
-            "projektiranje_app",
+            "projektiranje",
             "0002_caddocument_designrevision_designsegment_dynamicplan_and_more",
         ),
         ("prodaja", "0003_tenderdocument_tenderpreparation"),
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(
                 blank=True,
                 related_name="proposal_tender_preparations",
-                to="projektiranje_app.caddocument",
+                to="projektiranje.caddocument",
                 verbose_name="Ponudbeni nacrti",
             ),
         ),

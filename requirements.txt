@@ -44,6 +44,9 @@ Pillow>=10.3
 ########  GRAFI / ANALITIKA (scoreboard)  ########
 matplotlib>=3.9
 
+########  ADMIN / IMPORT-EXPORT  ########
+django-import-export>=3.0
+
 # TESTING
 pytest>=8.0
 pytest-django>=4.8

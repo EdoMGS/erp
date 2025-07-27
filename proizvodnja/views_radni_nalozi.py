@@ -30,11 +30,7 @@ from .utils import log_action  # Ako imaš custom logging util
 # Ako imaš i inline formset za Usteda, Nagrada, TehnickaDokumentacija itd.
 # from proizvodnja.forms import NagradaFormSet, UstedaFormSet, TehnickaDokumentacijaFormSet
 
-# Ako "TehnickaDokumentacijaFormSet" dolazi iz projektiranje_app.forms:
-# from projektiranje_app.forms import TehnickaDokumentacijaFormSet
-
-# Ako ti treba 'DesignTaskForm' ili slično:
-# from projektiranje_app.forms import DesignTaskForm
+# Ako "TehnickaDokumentacijaFormSet" dolazi iz projektiranje.forms:
 
 
 # ------------------------------------------------------------

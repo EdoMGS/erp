@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("client_app", "0001_initial"),
+        ("client", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("contenttypes", "0002_remove_content_type_name"),
         ("skladiste", "0001_initial"),
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="invoices",
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Klijent",
             ),
         ),
@@ -126,7 +126,7 @@ class Migration(migrations.Migration):
             name="client",
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Client",
             ),
         ),

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ("proizvodnja", "0004_alter_radninalog_gantogram_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("projektiranje_app", "0003_delete_dokumentacijaprojektiranja_and_more"),
+        ("projektiranje", "0003_delete_dokumentacijaprojektiranja_and_more"),
         ("financije", "0006_financialanalysis"),
         ("prodaja", "0004_tenderpreparation_proposal_drawings_and_more"),
     ]
@@ -137,7 +137,7 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(
                 blank=True,
                 related_name="tenders",
-                to="projektiranje_app.designtask",
+                to="projektiranje.designtask",
                 verbose_name="Tehnički nacrti",
             ),
         ),

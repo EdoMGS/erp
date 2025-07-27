@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from client_app.models import ClientSupplier
+from client.models import ClientSupplier
 
 from .models import FinancialDetails  # Dodano
 from .models import (AuditLog, BankTransaction, Budget, Debt, FinancialReport,

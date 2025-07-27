@@ -166,33 +166,33 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="citypostalcode",
-            index=models.Index(fields=["postal_code"], name="client_app__postal__8c341e_idx"),
+            index=models.Index(fields=["postal_code"], name="client__postal__8c341e_idx"),
         ),
         migrations.AddIndex(
             model_name="citypostalcode",
-            index=models.Index(fields=["city"], name="client_app__city_79d885_idx"),
+            index=models.Index(fields=["city"], name="client__city_79d885_idx"),
         ),
         migrations.AddIndex(
             model_name="clientactivitylog",
-            index=models.Index(fields=["-timestamp"], name="client_app__timesta_b6ca4c_idx"),
+            index=models.Index(fields=["-timestamp"], name="client__timesta_b6ca4c_idx"),
         ),
         migrations.AddIndex(
             model_name="clientactivitylog",
-            index=models.Index(fields=["client", "-timestamp"], name="client_app__client__277058_idx"),
+            index=models.Index(fields=["client", "-timestamp"], name="client__client__277058_idx"),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",
-            index=models.Index(fields=["name", "email"], name="client_app__name_d320c3_idx"),
+            index=models.Index(fields=["name", "email"], name="client__name_d320c3_idx"),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",
-            index=models.Index(fields=["oib"], name="client_app__oib_0c918a_idx"),
+            index=models.Index(fields=["oib"], name="client__oib_0c918a_idx"),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",
             index=models.Index(
                 fields=["relationship_status", "is_active"],
-                name="client_app__relatio_181d73_idx",
+                name="client__relatio_181d73_idx",
             ),
         ),
         migrations.AddField(
@@ -201,7 +201,7 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="clientprofile",
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
             ),
         ),
     ]

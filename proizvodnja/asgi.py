@@ -7,7 +7,7 @@ from django.urls import path
 
 from proizvodnja.consumers import NotifikacijaConsumer
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "erp_system.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_root.settings.dev")
 
 # Standardni Django ASGI application
 django_asgi_app = get_asgi_application()

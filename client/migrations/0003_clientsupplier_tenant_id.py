@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="subclients",
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Tenant (Holding/Operativa)",
             ),
         ),

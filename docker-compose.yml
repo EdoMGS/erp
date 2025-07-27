@@ -23,13 +23,15 @@ services:
   web:
     build: .
     restart: unless-stopped
-    command: gunicorn erp_system.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn project_root.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.dev
     ports:
       - "8000:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: project_root.settings.dev
     depends_on:
       db:
         condition: service_healthy
@@ -39,11 +41,11 @@ services:
   worker:
     build: .
     restart: unless-stopped
-    command: celery -A erp_system.celery worker -l info
+    command: celery -A project_root.celery worker -l info
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.dev
     depends_on:
       - redis
       - db
@@ -51,11 +53,11 @@ services:
   beat:
     build: .
     restart: unless-stopped
-    command: celery -A erp_system.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A project_root.celery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/code
     env_file:
-      - .env
+      - .env.dev
     depends_on:
       - redis
       - db
@@ -63,20 +65,9 @@ services:
   flower:
     image: mher/flower
     restart: unless-stopped
-    command: celery -A erp_system.celery flower --port=5555 --broker=${REDIS_URL}
+    command: celery -A project_root.celery flower --port=5555 --broker=${REDIS_URL}
     env_file:
-      - .env
-    depends_on:
-      - redis
-    ports:
-      - "5555:5555"
-
-  flower:
-    image: mher/flower
-    restart: unless-stopped
-    command: celery -A erp_system.celery flower --port=5555 --broker=${REDIS_URL}
-    env_file:
-      - .env
+      - .env.dev
     depends_on:
       - redis
     ports:

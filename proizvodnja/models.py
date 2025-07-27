@@ -451,21 +451,21 @@ class RadniNalog(BaseModel):
 
     # Gantt / dokumentacija reference
     gantogram = models.ForeignKey(
-        "projektiranje_app.DynamicPlan",
+        "projektiranje.DynamicPlan",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="gantogram_radninalozi",
     )
     tehnicka_dokumentacija = models.ForeignKey(
-        "projektiranje_app.CADDocument",
+        "projektiranje.CADDocument",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="radni_nalozi",
     )
     linked_plan = models.ForeignKey(
-        "projektiranje_app.DynamicPlan",
+        "projektiranje.DynamicPlan",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
