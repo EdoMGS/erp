@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("tenants", "0001_initial"),
-        ("client", "0003_clientsupplier_tenant_id"),
+        ("client", "0001_initial"),
         ("prodaja", "0009_tenderstatuschange"),
     ]
 

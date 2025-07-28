@@ -8,10 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("projektiranje", "0003_delete_dokumentacijaprojektiranja_and_more"),
-        (
-            "client",
-            "0004_rename_client_app__postal__8c341e_idx_client_city_postal__bddf1a_idx_and_more",
-        ),
+        ("client", "0001_initial"),
         ("prodaja", "0010_projectservicetype_tenant_id_and_more"),
     ]
 

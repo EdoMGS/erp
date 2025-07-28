@@ -1,4 +1,5 @@
 # Base settings for the Django project
+from decimal import Decimal
 
 INSTALLED_APPS = [
     # Django contrib apps
@@ -69,3 +70,27 @@ TEMPLATES = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# Business rates configuration
+SERVICE_RATES = {
+    # 'service_key': Decimal('100.00'),
+}
+
+MATERIAL_RATES = {
+    # 'material_key': Decimal('50.00'),
+}
+
+PROFIT_SHARE_CONFIG = {
+    'dynamic_floor_pct': Decimal('0.10'),
+    'floor_cap_per_month': Decimal('2000.00'),
+}
+
+MINIMAL_WAGE_CONFIG = {
+    'gross_minimal': Decimal('951.72'),
+    'net_minimal': Decimal('750.00'),
+    'employer_contrib_pct': Decimal('16.5'),
+    'meal_allowance_monthly': Decimal('100.00'),
+    'housing_allowance_monthly': Decimal('600.00'),
+}

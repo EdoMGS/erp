@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="micro-dashboard" class="container mt-4">
+  <h2>Micro Dashboard</h2>
+  <div>
+    <h4>Active Work Orders</h4>
+    <ul>
+      {% for wo in work_orders %}
+        <li>{{ wo }}</li>
+      {% empty %}
+        <li>No active work orders.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <h4>Today's Invoice Pool (30%)</h4>
+    <p>{{ today_pool }}</p>
+  </div>
+</div>
+{% endblock %}

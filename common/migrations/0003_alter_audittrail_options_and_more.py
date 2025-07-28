@@ -44,14 +44,15 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="audittrail",
             name="change_type",
-            field=models.CharField(default=1, max_length=50),
+            field=models.CharField(default='1', max_length=50),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="audittrail",
             name="content_object",
             field=models.ForeignKey(
-                default="unknown",
+                null=True,
+                blank=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="audit_trails",
                 to="common.audittrail",

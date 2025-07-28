@@ -60,6 +60,7 @@ class Invoice(models.Model):
     )
     is_guaranteed = models.BooleanField(default=False, verbose_name=_("Garancija?"))
     guarantee_details = models.TextField(blank=True, null=True, verbose_name=_("Detalji garancije"))
+    stripe_link = models.URLField(blank=True, null=True, verbose_name=_("Stripe Link"))
     financial_guarantee = models.BooleanField(default=False, verbose_name=_("Financijska garancija?"))
     tender_statement = models.TextField(blank=True, null=True, verbose_name=_("Izjava za tender"))
     public_tender_ref = models.CharField(
@@ -69,8 +70,15 @@ class Invoice(models.Model):
         verbose_name=_("Referenca javnog natječaja"),
     )
 
+    amount = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        default=Decimal('0.00'),
+        verbose_name=_('Ukupan iznos'),
+    )
+
     @property
-    def amount(self):
+    def calculated_amount(self):
         """Calculate total from line items"""
         return sum(line.line_total for line in self.lines.all())
 
@@ -155,3 +163,16 @@ class Debt(models.Model):
 
     def __str__(self):
         return f"Debt for Invoice {self.invoice.invoice_number}"
+
+
+# Signal to generate worker payouts when an invoice is marked as paid
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from financije.tasks import generate_worker_payouts
+
+
+@receiver(post_save, sender=Invoice)
+def invoice_paid_handler(sender, instance, created, **kwargs):
+    # If invoice is marked paid, trigger worker payout generation
+    if instance.paid:
+        generate_worker_payouts.delay(instance.pk)
