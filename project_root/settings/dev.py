@@ -8,6 +8,8 @@ import environ
 env = environ.Env()
 environ.Env.read_env(env_file='.env.dev')
 
+SECRET_KEY = env("SECRET_KEY", default="dev-secret")
+
 # Celery Configuration: broker and result backend using Redis
 # Use in-memory broker so no DNS lookup in dev
 CELERY_BROKER_URL = 'memory://'
