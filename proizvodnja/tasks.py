@@ -90,24 +90,29 @@ def update_radni_nalog_status(self, radni_nalog_id):
         raise
 
 
+def _do_deadline_check():
+    """Provjerava rokove projekata i ažurira statuse"""
+    today = timezone.now().date()
+    projects = Projekt.objects.filter(is_active=True, status__in=["OTVOREN", "U_TIJEKU"])
+
+    for project in projects:
+        if project.rok_za_isporuku and project.rok_za_isporuku < today:
+            project.status = "PROBIJEN_ROK"
+            project.save(update_fields=["status"])
+            logger.warning(f"Project {project.id} deadline exceeded")
+
+
 @shared_task(
+    name="proizvodnja.tasks.check_project_deadlines",
     bind=True,
     autoretry_for=(Exception,),
     retry_kwargs={"max_retries": 3},
     retry_backoff=True,
 )
-def check_project_deadlines():
+def check_project_deadlines(self, *args, **kwargs):
     """Provjerava rokove projekata i ažurira statuse"""
     try:
-        today = timezone.now().date()
-        projects = Projekt.objects.filter(is_active=True, status__in=["OTVOREN", "U_TIJEKU"])
-
-        for project in projects:
-            if project.rok_za_isporuku and project.rok_za_isporuku < today:
-                project.status = "PROBIJEN_ROK"
-                project.save(update_fields=["status"])
-                logger.warning(f"Project {project.id} deadline exceeded")
-
+        _do_deadline_check()
     except Exception as e:
         logger.error(f"Error in check_project_deadlines: {str(e)}")
         raise

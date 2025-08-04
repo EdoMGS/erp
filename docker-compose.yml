@@ -46,6 +46,8 @@ services:
       - .:/code
     env_file:
       - .env.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=project_root.settings.dev
     depends_on:
       - redis
       - db
@@ -58,6 +60,8 @@ services:
       - .:/code
     env_file:
       - .env.dev
+    environment:
+      - DJANGO_SETTINGS_MODULE=project_root.settings.dev
     depends_on:
       - redis
       - db
