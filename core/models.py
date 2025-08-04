@@ -1,6 +1,23 @@
-from django.db import models
+import uuid
 
-# Create your models here.
+from django.db import models
+from django.utils import timezone
+
+
+class BaseModel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.__class__.__name__} (id: {self.id})"
 
 
 class Tenant(models.Model):
