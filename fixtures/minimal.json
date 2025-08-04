@@ -1,0 +1,29 @@
+[
+  {
+    "model": "core.tenant",
+    "pk": 1,
+    "fields": {
+      "name": "Demo Tenant"
+    }
+  },
+  {
+    "model": "core.company",
+    "pk": 1,
+    "fields": {
+      "tenant": 1,
+      "name": "Adriatic Boat Hotel d.o.o."
+    }
+  },
+  {
+    "model": "accounts.customuser",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "pbkdf2_sha256$...$hash",
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true
+    }
+  }
+]

@@ -13,11 +13,12 @@ environ.Env.read_env(env_file='.env.dev')
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'  # or 'memory://' if preferred
 
+
 # Database configuration (using SQLite for dev)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',  # or BASE_DIR / 'dev.sqlite3'
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -33,4 +34,7 @@ DATABASES = {
 #     }
 # }
 
+# Celery beat scheduler settings to reduce startup noise in dev
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
+CELERY_BEAT_SYNC_EVERY = 600  # seconds, reduces startup queries
 # Add your development-specific settings here

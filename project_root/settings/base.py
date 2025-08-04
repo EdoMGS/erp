@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'client',
     'common',
     'compliance',
-    'config',
     'core',
     'dashboard',
     'erp_assets',
@@ -67,6 +66,16 @@ TEMPLATES = [
         },
     },
 ]
+
+"""
+FIXTURE SETTINGS
+"""
+from pathlib import Path
+
+# Base directory (directory containing manage.py)
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# Look for fixtures in the repo-level fixtures/ directory
+FIXTURE_DIRS = [BASE_DIR / 'fixtures']
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
