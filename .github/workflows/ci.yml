@@ -79,3 +79,11 @@ jobs:
           DJANGO_SETTINGS_MODULE: project_root.settings.test
         run: |
           tox -e py311
+
+      - name: Test Docker PYTHONPATH configuration
+        run: |
+          docker compose build && \
+            docker compose run --rm web python - <<'PY'
+          import sys
+          print('OK:', '/code' in sys.path)
+          PY
