@@ -82,5 +82,3 @@ jobs:
       redis:
         image: redis:7
         ports: ['6379:6379']
-        options: >-
-          --sysctl vm.overcommit_memory=1
