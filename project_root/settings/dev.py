@@ -1,6 +1,5 @@
 # Development settings for the Django project
 
-import os
 
 import environ
 
