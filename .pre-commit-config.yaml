@@ -1,17 +1,20 @@
 repos:
+  - repo: https://github.com/pycqa/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args: [--remove-all-unused-imports, --remove-unused-variables]
+        files: ^(core|common|tenants|accounts)/
+
   - repo: https://github.com/psf/black
-    rev: 25.1.0
+    rev: 77f5778bdd5f6a8e91b7bab6d880b303188efd67   # = tag 24.7.0
     hooks:
       - id: black
-        stages: [manual]  # Skip automatic run in CI
-  - repo: https://github.com/PyCQA/isort
-    rev: 6.0.1
+        files: ^(core|common|tenants|accounts)/
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black"]
-        stages: [manual]  # Skip automatic run in CI
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.3.0
-    hooks:
-      - id: flake8
-        args: [--max-line-length=120]
+        files: ^(core|common|tenants|accounts)/
