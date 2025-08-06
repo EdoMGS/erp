@@ -2,8 +2,11 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from financije.models.invoice import Invoice
-from financije.tasks import (create_interco_invoice, generate_worker_payouts,
-                             snapshot_break_even)
+from financije.tasks import (
+    create_interco_invoice,
+    generate_worker_payouts,
+    snapshot_break_even,
+)
 from prodaja.models import Offer
 from proizvodnja.models import Projekt, RadniNalog
 from project_costing.models import ProfitShareConfig, Project

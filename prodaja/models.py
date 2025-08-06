@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 # Pretpostavljamo da BaseModel sadrži created_at, updated_at, is_active
 from common.models import BaseModel
 from proizvodnja.models import Projekt  # Povezan s proizvodnjom
+
 # Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
 from projektiranje.models import CADDocument, DesignTask
 

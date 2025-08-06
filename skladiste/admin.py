@@ -2,9 +2,21 @@
 
 from django.contrib import admin
 
-from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
-                     IzdatnicaStavka, Kategorija, Lokacija, Materijal, Primka,
-                     PrimkaStavka, SkladisteResurs, Zona)
+from .models import (
+    Alat,
+    Artikl,
+    DnevnikDogadaja,
+    HTZOprema,
+    Izdatnica,
+    IzdatnicaStavka,
+    Kategorija,
+    Lokacija,
+    Materijal,
+    Primka,
+    PrimkaStavka,
+    SkladisteResurs,
+    Zona,
+)
 
 
 @admin.register(Zona)

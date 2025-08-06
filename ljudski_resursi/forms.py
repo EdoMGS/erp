@@ -2,8 +2,14 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
-                     Position, RadnaEvaluacija)
+from .models import (
+    Department,
+    Employee,
+    ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
+    RadnaEvaluacija,
+)
 
 
 class BaseModelForm(forms.ModelForm):
