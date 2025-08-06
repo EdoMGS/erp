@@ -346,7 +346,9 @@ class RadnaEvaluacija(models.Model):
     # Additional metrics
     broj_zavrsenih_naloga = models.IntegerField(default=0)
     prosjecna_ocjena_kvalitete = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    ukupno_sati_rada = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0"), verbose_name=_("Ukupno sati rada"))
+    ukupno_sati_rada = models.DecimalField(
+        max_digits=8, decimal_places=2, default=Decimal("0"), verbose_name=_("Ukupno sati rada")
+    )
 
     komentar = models.TextField(blank=True)
     preporuke = models.TextField(blank=True)

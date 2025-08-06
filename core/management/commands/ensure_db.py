@@ -13,6 +13,7 @@ class Command(BaseCommand):
         db_path = settings.DATABASES["default"]["NAME"]
         # Ensure no open connections lock the SQLite file
         from django.db import connections
+
         connections.close_all()
         if os.path.exists(db_path):
             os.remove(db_path)

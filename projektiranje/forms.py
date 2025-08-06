@@ -1,7 +1,6 @@
 from django import forms
 
-from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
-                     DesignSegment, DesignTask, DynamicPlan)
+from .models import BillOfMaterials, BOMItem, CADDocument, DesignRevision, DesignSegment, DesignTask, DynamicPlan
 
 
 ###############################################################################

@@ -4,14 +4,29 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import DetailView  # Dodali UpdateView
 from django.views.generic import CreateView, ListView, UpdateView, View
+
 # Dodajemo REST framework imports
 from rest_framework import viewsets
 
 from .forms import InvoiceForm, OverheadForm
-from .models import (AuditLog, BankTransaction, Budget, CashFlow, Debt,
-                     FinancialReport, Invoice, MonthlyOverhead, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, Tax,
-                     TaxConfiguration, VariablePayRule)
+from .models import (
+    AuditLog,
+    BankTransaction,
+    Budget,
+    CashFlow,
+    Debt,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
+
 # Add serializer imports
 from .serializers import BankTransactionSerializer  # Dodano
 from .serializers import BudgetSerializer  # Dodano
@@ -221,8 +236,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
 # Primjer lazy importa unutar metode (da izbjegnemo circular import)
 def tax_configuration_view(request):
-    from ljudski_resursi.models import \
-        Employee  # ili hr.models, ovisno gdje se Employee nalazi
+    from ljudski_resursi.models import Employee  # ili hr.models, ovisno gdje se Employee nalazi
 
     # koristite 'Employee' po potrebi
     return render(request, "financije/tax_configuration.html", {})

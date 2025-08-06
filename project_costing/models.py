@@ -18,27 +18,13 @@ class ProfitShareConfig(models.Model):
         on_delete=models.CASCADE,
         related_name="profit_share_config",
     )
-    company_share = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal("50.00")
-    )
-    worker_share = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal("30.00")
-    )
-    dynamic_floor_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("10.00")
-    )
-    floor_cap_per_month = models.DecimalField(
-        max_digits=8, decimal_places=2, default=Decimal("2000.00")
-    )
-    ramp_up_company_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("40.00")
-    )
-    ramp_up_worker_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("40.00")
-    )
-    ramp_up_fund_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("20.00")
-    )
+    company_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("50.00"))
+    worker_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("30.00"))
+    dynamic_floor_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("10.00"))
+    floor_cap_per_month = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("2000.00"))
+    ramp_up_company_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("40.00"))
+    ramp_up_worker_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("40.00"))
+    ramp_up_fund_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("20.00"))
 
     def calculate_shares(self, invoice_amount: Decimal, is_ramp_up: bool) -> dict:
         """

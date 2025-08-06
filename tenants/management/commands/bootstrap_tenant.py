@@ -16,10 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options.get('demo'):
-            tenant, created = Tenant.objects.get_or_create(
-                domain='demo',
-                defaults={'name': 'Demo Tenant'}
-            )
+            tenant, created = Tenant.objects.get_or_create(domain='demo', defaults={'name': 'Demo Tenant'})
             status = 'created' if created else 'exists'
             self.stdout.write(self.style.SUCCESS(f'Tenant "{tenant}" {status}.'))
 

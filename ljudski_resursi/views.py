@@ -10,11 +10,14 @@ from rest_framework import viewsets
 from proizvodnja.models import RadniNalog  # Updated import
 
 from .forms import DepartmentForm, EmployeeForm, RadnaEvaluacijaForm
-from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
-                     Position, RadnaEvaluacija)
-from .serializers import (DepartmentSerializer, EmployeeSerializer,
-                          ExpertiseLevelSerializer,
-                          HierarchicalLevelSerializer, PositionSerializer)
+from .models import Department, Employee, ExpertiseLevel, HierarchicalLevel, Position, RadnaEvaluacija
+from .serializers import (
+    DepartmentSerializer,
+    EmployeeSerializer,
+    ExpertiseLevelSerializer,
+    HierarchicalLevelSerializer,
+    PositionSerializer,
+)
 
 
 def index(request):

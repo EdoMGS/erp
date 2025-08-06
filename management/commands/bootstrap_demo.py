@@ -23,10 +23,7 @@ class Command(BaseCommand):
 
         # Create project and profit share config
         project, _ = Project.objects.get_or_create(
-            tenant=tenant,
-            name='Demo Project',
-            start_date='2025-01-01',
-            division='Demo'
+            tenant=tenant, name='Demo Project', start_date='2025-01-01', division='Demo'
         )
         config, _ = ProfitShareConfig.objects.get_or_create(
             project=project,
@@ -35,7 +32,7 @@ class Command(BaseCommand):
                 'worker_share': 30.00,
                 'dynamic_floor_pct': 0.10,
                 'floor_cap_per_month': 2000.00,
-            }
+            },
         )
         self.stdout.write('Configured profit share')
 

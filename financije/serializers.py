@@ -5,10 +5,23 @@ from rest_framework import serializers
 from client.models import ClientSupplier
 
 from .models import FinancialDetails  # Dodano
-from .models import (AuditLog, BankTransaction, Budget, Debt, FinancialReport,
-                     Invoice, MonthlyOverhead, Municipality, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, Tax,
-                     TaxConfiguration, VariablePayRule)
+from .models import (
+    AuditLog,
+    BankTransaction,
+    Budget,
+    Debt,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Municipality,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
 
 
 class ClientSupplierSerializer(serializers.ModelSerializer):
