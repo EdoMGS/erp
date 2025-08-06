@@ -23,8 +23,13 @@ jobs:
       redis:
         image: redis:7
         ports: ['6379:6379']
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s --health-timeout=3s --health-retries=10
 
     steps:
+      - name: Enable memory overcommit
+        run: sudo sysctl -w vm.overcommit_memory=1
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -60,6 +65,19 @@ jobs:
 
       - name: Remove unused imports/vars (autoflake)
         run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables .
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432 -U erp; do
+            sleep 1
+          done
+
+      - name: Wait for Redis
+        run: |
+          for i in {1..20}; do
+            redis-cli -h localhost ping && break
+            sleep 1
+          done
 
       - name: Load test fixture
         run: |
