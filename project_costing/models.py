@@ -1,7 +1,9 @@
 # project_costing/models.py
 
 from decimal import Decimal
+
 from django.db import models
+
 from tenants.models import Tenant
 
 

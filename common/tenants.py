@@ -1,4 +1,5 @@
 from django.db import models
+
 from common.middleware import get_current_tenant
 
 

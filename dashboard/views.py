@@ -51,8 +51,9 @@ def micro_dashboard(request):
     """
     from datetime import date
     from decimal import Decimal
-    from proizvodnja.models import RadniNalog
+
     from financije.models.invoice import Invoice
+    from proizvodnja.models import RadniNalog
 
     work_orders = RadniNalog.objects.filter(status='U_TIJEKU')
     today = date.today()

@@ -1,6 +1,15 @@
 from rest_framework import serializers
 
-from .models import Alat, Artikl, DnevnikDogadaja, HTZOprema, Lokacija, Materijal, SkladisteResurs, Zona
+from .models import (
+    Alat,
+    Artikl,
+    DnevnikDogadaja,
+    HTZOprema,
+    Lokacija,
+    Materijal,
+    SkladisteResurs,
+    Zona,
+)
 
 
 class ZonaSerializer(serializers.ModelSerializer):

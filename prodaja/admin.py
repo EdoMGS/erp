@@ -1,7 +1,14 @@
 from django.contrib import admin
 
 from .models import SalesContract  # Add new imports
-from .models import Quotation, SalesOpportunity, SalesOrder, TenderDocument, TenderPreparation, WorkOrderInput
+from .models import (
+    Quotation,
+    SalesOpportunity,
+    SalesOrder,
+    TenderDocument,
+    TenderPreparation,
+    WorkOrderInput,
+)
 
 
 @admin.register(SalesOpportunity)

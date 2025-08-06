@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .models import CashFlow, Invoice, Overhead, InvoiceLine
+from .models import CashFlow, Invoice, InvoiceLine, Overhead
 
 
 class InvoiceService:
@@ -165,10 +165,12 @@ def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_
     """
     Create an inter-company invoice from sender to receiver for a given asset.
     """
-    from client.models import ClientSupplier
-    from decimal import Decimal
-    from django.utils import timezone
     import uuid
+    from decimal import Decimal
+
+    from django.utils import timezone
+
+    from client.models import ClientSupplier
 
     # Determine applied VAT rate
     applied_rate = vat_rate if sender_in_vat else Decimal('0.00')

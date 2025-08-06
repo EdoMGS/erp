@@ -4,7 +4,11 @@ from django.db.models import Avg, Sum
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import EvaluacijaProjektaForm, EvaluacijaRadnikaForm, EvaluacijaRadnogNalogaForm
+from .forms import (
+    EvaluacijaProjektaForm,
+    EvaluacijaRadnikaForm,
+    EvaluacijaRadnogNalogaForm,
+)
 from .models import Projekt, RadniNalog, Zaposlenik
 from .utils import log_action
 

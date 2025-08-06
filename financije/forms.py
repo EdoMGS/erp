@@ -2,7 +2,9 @@
 
 from django import forms
 from django.apps import apps  # Added import for apps
-from django.utils.translation import gettext_lazy as _  # Added import for translation function
+from django.utils.translation import (
+    gettext_lazy as _,  # Added import for translation function
+)
 
 from client.models import ClientSupplier  # Changed: import from client
 
