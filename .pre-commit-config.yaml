@@ -4,17 +4,17 @@ repos:
     hooks:
       - id: autoflake
         args: [--remove-all-unused-imports, --remove-unused-variables]
-        files: ^(core|common|tenants|accounts)/
+        files: ^(\./)?(core|common|tenants|accounts)/
 
   - repo: https://github.com/psf/black
     rev: 24.4.2        # točan tag
     hooks:
       - id: black
-        files: ^(core|common|tenants|accounts)/
+        files: ^(\./)?(core|common|tenants|accounts)/
 
   - repo: https://github.com/pycqa/isort
     rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black"]
-        files: ^(core|common|tenants|accounts)/
+        files: ^(\./)?(core|common|tenants|accounts)/
