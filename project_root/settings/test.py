@@ -1,4 +1,3 @@
-
 # Use in-memory SQLite database for testing
 DATABASES = {
     'default': {
