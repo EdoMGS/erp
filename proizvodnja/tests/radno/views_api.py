@@ -5,11 +5,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import (Materijal, OcjenaKvalitete, Projekt, RadniNalog,
-                     TehnickaDokumentacija)
-from .serializers import (MaterijalSerializer, OcjenaKvaliteteSerializer,
-                          ProjektSerializer, RadniNalogSerializer,
-                          TehnickaDokumentacijaSerializer)
+from .models import (
+    Materijal,
+    OcjenaKvalitete,
+    Projekt,
+    RadniNalog,
+    TehnickaDokumentacija,
+)
+from .serializers import (
+    MaterijalSerializer,
+    OcjenaKvaliteteSerializer,
+    ProjektSerializer,
+    RadniNalogSerializer,
+    TehnickaDokumentacijaSerializer,
+)
 from .utils import informiraj_ocjenjivace, log_action
 
 

@@ -5,10 +5,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from .forms import AngazmanForm, DodatniAngazmanForm
+
 # Ispravno importamo Angazman, RadniNalog iz proizvodnja.models
 from .models import Angazman
 from .utils import log_action

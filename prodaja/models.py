@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 # Pretpostavljamo da BaseModel sadrži created_at, updated_at, is_active
 from common.models import BaseModel
 from proizvodnja.models import Projekt  # Povezan s proizvodnjom
+
 # Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
 from projektiranje.models import CADDocument, DesignTask
 
@@ -845,22 +846,12 @@ class Offer(models.Model):
     )
     service_lines = models.JSONField(verbose_name="Service line items")
     material_lines = models.JSONField(verbose_name="Material line items")
-    total_amount = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=0,
-        verbose_name="Total amount"
-    )
+    total_amount = models.DecimalField(max_digits=15, decimal_places=2, default=0, verbose_name="Total amount")
     STATUS_CHOICES = [
         ("draft", "Draft"),
         ("approved", "Approved"),
     ]
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="draft",
-        verbose_name="Status"
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft", verbose_name="Status")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

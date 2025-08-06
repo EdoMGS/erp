@@ -8,23 +8,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_USER: erp
-          POSTGRES_PASSWORD: erp
-          POSTGRES_DB: erp
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd="pg_isready -U erp" --health-interval=5s
-          --health-timeout=5s --health-retries=5
-
-      redis:
-        image: redis:7
-        ports: ['6379:6379']
-
     steps:
+      - name: Enable memory overcommit
+        run: sudo sysctl -w vm.overcommit_memory=1
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -69,6 +56,13 @@ jobs:
         run: |
           pre-commit run --all-files --show-diff-on-failure
 
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..10}; do
+            pg_isready -h localhost -U erp && break
+            sleep 5
+          done
+
       - name: Run tests
         env:
           DATABASE_URL: postgres://erp:erp@localhost:5432/erp
@@ -78,4 +72,27 @@ jobs:
           DEBUG: "False"
           DJANGO_SETTINGS_MODULE: project_root.settings.test
         run: |
-          tox -e py311
+          set -ex
+          tox -e py311 -v
+
+      - name: Show test output
+        run: cat .tox/py311/log/py311-*.log || true
+
+      - name: Run pytest directly
+        run: pytest -x -v
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: erp
+          POSTGRES_PASSWORD: erp
+          POSTGRES_DB: erp
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd="pg_isready -U erp" --health-interval=10s
+          --health-timeout=5s --health-retries=10
+
+      redis:
+        image: redis:7
+        ports: ['6379:6379']

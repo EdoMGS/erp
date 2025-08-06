@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+
 # ensure project root is on PYTHONPATH for Celery
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 

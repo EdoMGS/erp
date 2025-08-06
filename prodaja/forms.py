@@ -2,11 +2,22 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, inlineformset_factory
 
-from .models import (FieldVisit, Quotation, SalesContract, SalesOpportunity,
-                     SalesOrder, TenderCost, TenderDocument, TenderLabor,
-                     TenderMaterial, TenderNeposredniTroskovi,
-                     TenderPosredniTroskovi, TenderPreparation,
-                     TenderRasclamba, WorkOrderInput)
+from .models import (
+    FieldVisit,
+    Quotation,
+    SalesContract,
+    SalesOpportunity,
+    SalesOrder,
+    TenderCost,
+    TenderDocument,
+    TenderLabor,
+    TenderMaterial,
+    TenderNeposredniTroskovi,
+    TenderPosredniTroskovi,
+    TenderPreparation,
+    TenderRasclamba,
+    WorkOrderInput,
+)
 
 # Osnovne forme
 

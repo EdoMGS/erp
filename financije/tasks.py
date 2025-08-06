@@ -16,18 +16,8 @@ def snapshot_break_even():
     channel_layer = get_channel_layer()
 
     for tenant in Tenant.objects.all():
-        for division in (
-            FixedCost.objects
-                     .filter(tenant=tenant)
-                     .values_list("division", flat=True)
-                     .distinct()
-        ):
-            fixed_sum = sum(
-                fc.monthly_value()
-                for fc in FixedCost.objects.filter(
-                    tenant=tenant, division=division
-                )
-            )
+        for division in FixedCost.objects.filter(tenant=tenant).values_list("division", flat=True).distinct():
+            fixed_sum = sum(fc.monthly_value() for fc in FixedCost.objects.filter(tenant=tenant, division=division))
 
             BreakEvenSnapshot.objects.create(
                 tenant=tenant,

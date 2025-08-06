@@ -4,15 +4,20 @@ from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, UpdateView
 
-from financije.services import (calculate_project_costs,
-                                process_completed_work_order)
+from financije.services import calculate_project_costs, process_completed_work_order
 from ljudski_resursi.models import Employee
 from projektiranje.models import CADDocument
 from skladiste.models import Materijal
 
-from .forms import (AngazmanForm, OcjenaKvaliteteForm, ProjektForm,
-                    RadniNalogForm, RadniNalogMaterijalForm,
-                    VideoMaterijalForm, VideoPitanjeForm)
+from .forms import (
+    AngazmanForm,
+    OcjenaKvaliteteForm,
+    ProjektForm,
+    RadniNalogForm,
+    RadniNalogMaterijalForm,
+    VideoMaterijalForm,
+    VideoPitanjeForm,
+)
 from .models import Projekt, RadniNalog
 from .views_dashboard import dashboard_view
 

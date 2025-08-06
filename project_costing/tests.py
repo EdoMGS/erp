@@ -4,8 +4,13 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from project_costing.models import (CostLine, LabourEntry, ProfitShareConfig,
-                                    Project, WorkerShare)
+from project_costing.models import (
+    CostLine,
+    LabourEntry,
+    ProfitShareConfig,
+    Project,
+    WorkerShare,
+)
 from tenants.models import Tenant
 
 

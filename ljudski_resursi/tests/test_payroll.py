@@ -1,5 +1,7 @@
-import pytest
 from decimal import Decimal
+
+import pytest
+
 from ljudski_resursi.models import LocationConfig
 from ljudski_resursi.services import PayrollCalculator
 

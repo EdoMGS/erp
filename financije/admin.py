@@ -2,14 +2,35 @@ from django.contrib import admin
 
 from financije.models.taxconfig import Municipality
 
-from .forms import (BankTransactionForm, BudgetForm, DebtForm,
-                    FinancialReportForm, InvoiceForm, MonthlyOverheadForm,
-                    OverheadForm, TaxConfigurationForm, VariablePayRuleForm)
+from .forms import (
+    BankTransactionForm,
+    BudgetForm,
+    DebtForm,
+    FinancialReportForm,
+    InvoiceForm,
+    MonthlyOverheadForm,
+    OverheadForm,
+    TaxConfigurationForm,
+    VariablePayRuleForm,
+)
 from .models import Debt  # New models
-from .models import (BankTransaction, Budget, CashFlow, FinancialDetails,
-                     FinancialReport, Invoice, MonthlyOverhead, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, SalesContract,
-                     Tax, TaxConfiguration, VariablePayRule)
+from .models import (
+    BankTransaction,
+    Budget,
+    CashFlow,
+    FinancialDetails,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    SalesContract,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
 
 # financije/admin.py
 

@@ -9,12 +9,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # Third-party apps
     'django_celery_beat',
     'django_celery_results',
     'import_export',
-
     # Project apps
     'tenants',
     'accounts',
