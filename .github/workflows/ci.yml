@@ -65,7 +65,11 @@ jobs:
           DEBUG: "False"
           DJANGO_SETTINGS_MODULE: project_root.settings.test
         run: |
-          tox -e py311
+          set -e
+          tox -e py311 -v
+
+      - name: Run pytest directly
+        run: pytest -v
 
     services:
       postgres:
