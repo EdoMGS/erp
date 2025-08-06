@@ -9,11 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Enable memory overcommit
-        run: |
-          sudo sysctl -w vm.overcommit_memory=1
-          sleep 2
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -70,8 +65,11 @@ jobs:
           set -ex
           tox -e py311 -v
 
+      - name: Show test output
+        run: cat .tox/py311/log/py311-*.log || true
+
       - name: Run pytest directly
-        run: pytest -v
+        run: pytest -x -v
 
     services:
       postgres:
