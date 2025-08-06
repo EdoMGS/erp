@@ -1,5 +1,6 @@
-from django.conf import settings
 import os
+
+from django.conf import settings
 
 
 def test_settings_module():

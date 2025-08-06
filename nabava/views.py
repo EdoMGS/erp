@@ -4,33 +4,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, TemplateView
 from rest_framework import generics, viewsets
 
-from .forms import (
-    DobavljacForm,
-    GrupaDobavljacaForm,
-    NarudzbenicaForm,
-    NarudzbenicaStavkaForm,
-    PurchaseOrderForm,
-)
-from .models import (
-    Dobavljac,
-    GrupaDobavljaca,
-    Narudzbenica,
-    NarudzbenicaStavka,
-    ProcurementPlan,
-    ProcurementRequest,
-    PurchaseOrder,
-    PurchaseOrderLine,
-)
-from .serializers import (
-    DobavljacSerializer,
-    GrupaDobavljacaSerializer,
-    NarudzbenicaSerializer,
-    NarudzbenicaStavkaSerializer,
-    ProcurementPlanSerializer,
-    ProcurementRequestSerializer,
-    PurchaseOrderLineSerializer,
-    PurchaseOrderSerializer,
-)
+from .forms import (DobavljacForm, GrupaDobavljacaForm, NarudzbenicaForm,
+                    NarudzbenicaStavkaForm, PurchaseOrderForm)
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
+from .serializers import (DobavljacSerializer, GrupaDobavljacaSerializer,
+                          NarudzbenicaSerializer, NarudzbenicaStavkaSerializer,
+                          ProcurementPlanSerializer,
+                          ProcurementRequestSerializer,
+                          PurchaseOrderLineSerializer, PurchaseOrderSerializer)
 
 
 class ProcurementPlanViewSet(viewsets.ModelViewSet):

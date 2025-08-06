@@ -6,29 +6,22 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth.models import Group
 from django.db import transaction
-from django.db.models.signals import post_delete, post_migrate, post_save, pre_save
+from django.db.models.signals import (post_delete, post_migrate, post_save,
+                                      pre_save)
 from django.dispatch import receiver
 
 from financije.models import FinancialDetails
-from financije.services import process_completed_work_order, update_project_financials
-
+from financije.services import (process_completed_work_order,
+                                update_project_financials)
 # Import iz ljudski_resursi (ako treba)
 from ljudski_resursi.models import (  # ako imaš Evaluacija, inače ukloni
-    Employee,
-    Evaluacija,
-)
+    Employee, Evaluacija)
 from skladiste.models import Artikl
 
 # Modelle iz proizvodnja.models:
 from .models import (  # AnotherModel,  # Ukloni ili odkomentiraj ako doista postoji
-    Angazman,
-    DodatniAngazman,
-    Notifikacija,
-    Projekt,
-    RadniNalog,
-    Usteda,
-    VideoMaterijal,
-)
+    Angazman, DodatniAngazman, Notifikacija, Projekt, RadniNalog, Usteda,
+    VideoMaterijal)
 
 logger = logging.getLogger(__name__)
 

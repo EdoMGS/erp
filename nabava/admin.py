@@ -2,17 +2,11 @@
 
 from django.contrib import admin
 
-from .forms import ProcurementPlanForm, ProcurementRequestForm, PurchaseOrderForm
-from .models import (
-    Dobavljac,
-    GrupaDobavljaca,
-    Narudzbenica,
-    NarudzbenicaStavka,
-    ProcurementPlan,
-    ProcurementRequest,
-    PurchaseOrder,
-    PurchaseOrderLine,
-)
+from .forms import (ProcurementPlanForm, ProcurementRequestForm,
+                    PurchaseOrderForm)
+from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
+                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
+                     PurchaseOrder, PurchaseOrderLine)
 
 
 @admin.register(ProcurementPlan)

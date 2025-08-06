@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import CityPostalCode, ClientActivityLog, ClientProfile, ClientSupplier
+from .models import (CityPostalCode, ClientActivityLog, ClientProfile,
+                     ClientSupplier)
 
 
 @admin.register(ClientActivityLog)

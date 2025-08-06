@@ -1,34 +1,17 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    DetailView,
-    ListView,
-    TemplateView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 from rest_framework import viewsets
 from rest_framework.generics import GenericAPIView, RetrieveAPIView
 
 from .forms import BillOfMaterialsForm, DesignTaskForm
-from .models import (
-    BillOfMaterials,
-    BOMItem,
-    CADDocument,
-    DesignRevision,
-    DesignSegment,
-    DesignTask,
-    DynamicPlan,
-)
-from .serializers import (
-    BillOfMaterialsSerializer,
-    BOMItemSerializer,
-    CADDocumentSerializer,
-    DesignRevisionSerializer,
-    DesignSegmentSerializer,
-    DesignTaskSerializer,
-    DynamicPlanSerializer,
-)
+from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
+                     DesignSegment, DesignTask, DynamicPlan)
+from .serializers import (BillOfMaterialsSerializer, BOMItemSerializer,
+                          CADDocumentSerializer, DesignRevisionSerializer,
+                          DesignSegmentSerializer, DesignTaskSerializer,
+                          DynamicPlanSerializer)
 
 
 class DesignTaskViewSet(viewsets.ModelViewSet):

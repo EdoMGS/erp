@@ -1,21 +1,12 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import (
-    BillOfMaterialsViewSet,
-    BOMItemViewSet,
-    CADDocumentViewSet,
-    DesignRevisionViewSet,
-    DesignSegmentViewSet,
-    DesignTaskCreateView,
-    DesignTaskDetailView,
-    DesignTaskListView,
-    DesignTaskUpdateView,
-    DesignTaskViewSet,
-    DynamicPlanViewSet,
-    ProjektiranjeHomeView,
-    index,
-)
+from .views import (BillOfMaterialsViewSet, BOMItemViewSet, CADDocumentViewSet,
+                    DesignRevisionViewSet, DesignSegmentViewSet,
+                    DesignTaskCreateView, DesignTaskDetailView,
+                    DesignTaskListView, DesignTaskUpdateView,
+                    DesignTaskViewSet, DynamicPlanViewSet,
+                    ProjektiranjeHomeView, index)
 
 app_name = "projektiranje"
 
