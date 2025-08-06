@@ -7,7 +7,7 @@ repos:
         files: ^(core|common|tenants|accounts)/
 
   - repo: https://github.com/psf/black
-    rev: 77f5778bdd5f6a8e91b7bab6d880b303188efd67   # = tag 24.7.0
+    rev: 24.4.2        # točan tag
     hooks:
       - id: black
         files: ^(core|common|tenants|accounts)/
