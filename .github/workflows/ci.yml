@@ -10,7 +10,9 @@ jobs:
 
     steps:
       - name: Enable memory overcommit
-        run: sudo sysctl -w vm.overcommit_memory=1
+        run: |
+          sudo sysctl -w vm.overcommit_memory=1
+          sleep 2
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -65,7 +67,7 @@ jobs:
           DEBUG: "False"
           DJANGO_SETTINGS_MODULE: project_root.settings.test
         run: |
-          set -e
+          set -ex
           tox -e py311 -v
 
       - name: Run pytest directly
