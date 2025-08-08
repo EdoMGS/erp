@@ -1,1 +1,9 @@
-"""# conftest.py ensures project root is on sys.path for pytest"""import osimport sys# Prepend project root so pytest can import subpackage tests correctlysys.path.insert(0, os.getcwd())
+"""
+conftest.py – doda korijenski direktorij u sys.path
+da bi pytest mogao importirati interne pakete.
+"""
+import os
+import sys
+
+# project root na početak sys.path-a
+sys.path.insert(0, os.getcwd())
