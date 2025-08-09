@@ -1,10 +1,8 @@
 import csv
 import json
-import os
 import sys
 
 import django
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -18,7 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from skladiste.models import Artikl, DnevnikDogadaja, Lokacija
 
 # Postavljanje Django okruženja
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_root.settings.dev')
 django.setup()
 
 sys.stdout.reconfigure(encoding='utf-8')
