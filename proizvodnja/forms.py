@@ -8,12 +8,26 @@ from django.utils.translation import gettext_lazy as _
 
 from ljudski_resursi.models import Employee
 
-from .models import (Angazman, DodatniAngazman, GrupaPoslova,
-                     MonthlyWorkRecord, Notifikacija, OcjenaKvalitete,
-                     PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
-                     RadniNalog, RadniNalogMaterijal, TemplateRadniNalog,
-                     TipProjekta, TipVozila, Usteda, VideoMaterijal,
-                     VideoPitanje)
+from .models import (
+    Angazman,
+    DodatniAngazman,
+    GrupaPoslova,
+    MonthlyWorkRecord,
+    Notifikacija,
+    OcjenaKvalitete,
+    PovijestPromjena,
+    ProizvodniResurs,
+    Proizvodnja,
+    Projekt,
+    RadniNalog,
+    RadniNalogMaterijal,
+    TemplateRadniNalog,
+    TipProjekta,
+    TipVozila,
+    Usteda,
+    VideoMaterijal,
+    VideoPitanje,
+)
 
 User = get_user_model()
 

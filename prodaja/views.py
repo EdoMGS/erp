@@ -9,14 +9,22 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import (FieldVisitForm, OpportunityForm, QuotationForm,
-                    SalesContractForm, SalesOrderForm, TenderCostFormSet,
-                    TenderDocumentFormSet, TenderLaborFormSet,
-                    TenderMaterialFormSet, TenderNeposredniFormSet,
-                    TenderPosredniFormSet, TenderPreparationForm,
-                    TenderRasclambaFormSet)
-from .models import (Quotation, SalesContract, SalesOpportunity, SalesOrder,
-                     TenderPreparation)
+from .forms import (
+    FieldVisitForm,
+    OpportunityForm,
+    QuotationForm,
+    SalesContractForm,
+    SalesOrderForm,
+    TenderCostFormSet,
+    TenderDocumentFormSet,
+    TenderLaborFormSet,
+    TenderMaterialFormSet,
+    TenderNeposredniFormSet,
+    TenderPosredniFormSet,
+    TenderPreparationForm,
+    TenderRasclambaFormSet,
+)
+from .models import Quotation, SalesContract, SalesOpportunity, SalesOrder, TenderPreparation
 
 ########################################
 # OPPORTUNITY VIEWS
