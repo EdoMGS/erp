@@ -1,6 +1,12 @@
 from rest_framework import viewsets
 
-from .models import ActiveManager, AuditTrail, BaseModel, Notification, Role
+from .models import (
+    ActiveManager,
+    AuditTrail,
+    BaseModel,
+    Notification,
+    Role,
+)
 from .serializers import (
     ActiveManagerSerializer,
     AuditTrailSerializer,
@@ -8,8 +14,6 @@ from .serializers import (
     NotificationSerializer,
     RoleSerializer,
 )
-
-# ...existing code...
 
 
 class ActiveManagerViewSet(viewsets.ModelViewSet):
