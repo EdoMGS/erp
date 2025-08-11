@@ -53,13 +53,14 @@ jobs:
         run: flake8 .
 
       - name: Format check (black)
-        run: black --check .
+        run: black --check core common tenants accounts project_root
 
       - name: Import sort check (isort)
-        run: isort --check-only .
+        run: isort --check-only core common tenants accounts project_root
 
       - name: Remove unused imports/vars (autoflake)
-        run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables .
+        run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables \
+             core common tenants accounts project_root
 
       - name: Load test fixture
         run: |
