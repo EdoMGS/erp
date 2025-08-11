@@ -9,6 +9,7 @@ repos:
     hooks:
       - id: isort
         stages: [manual]  # Skip automatic run in CI
+        args: ["--profile=black"]
   - repo: https://github.com/pycqa/flake8
     rev: 7.0.0
     hooks:

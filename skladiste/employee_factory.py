@@ -1,5 +1,10 @@
-from ljudski_resursi.models import (Department, Employee, ExpertiseLevel,
-                                    HierarchicalLevel, Position)
+from ljudski_resursi.models import (
+    Department,
+    Employee,
+    ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
+)
 
 
 def create_minimal_employee(user):
