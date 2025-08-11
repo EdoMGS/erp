@@ -17,9 +17,10 @@ jobs:
       - name: Lint/format (scoped)
         run: |
           black --check common tenants core project_root
-          isort --check-only common tenants core project_root
           autoflake --check -r --remove-all-unused-imports --remove-unused-variables \
             common tenants core project_root
+      - name: Import sort check (isort)
+        run: python -m isort --check-only --settings-path pyproject.toml common tenants core project_root
       - name: Pytest
         env:
           DJANGO_SETTINGS_MODULE: project_root.settings.test
