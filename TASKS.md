@@ -140,4 +140,40 @@ repos:
     rev: 5.13.2
     hooks:
       - id: isort
-        a
+        args: ["--profile","black"]
+        files: ^(common|tenants|core|project_root)/
+
+# .github/workflows/ci.yml  (minimal, zelen)
+name: Django CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pre-commit
+      - name: pre-commit
+        run: pre-commit run --all-files
+      - name: Lint/format (scoped)
+        run: |
+          black --check common tenants core project_root
+          isort --check-only common tenants core project_root
+          autoflake --check -r --remove-all-unused-imports --remove-unused-variables \
+            common tenants core project_root
+      - name: Pytest
+        env:
+          DJANGO_SETTINGS_MODULE: project_root.settings.test
+          SECRET_KEY: dummy
+        run: pytest
+
+GIT
+git add .
+git commit -m "Sprint0: minimal Django skeleton + CI green"
+git push -u origin sprint0-bootstrap
+gh pr create --base main --head sprint0-bootstrap --title "Sprint 0: minimal skeleton" --body "Django 4.2 + common/tenants/core, pre-commit, CI, smoke test."
