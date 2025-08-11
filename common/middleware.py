@@ -1,4 +1,5 @@
 import threading
+
 from django.utils.deprecation import MiddlewareMixin
 
 _thread_locals = threading.local()

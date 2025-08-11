@@ -1,8 +1,9 @@
 # Development settings for the Django project
 
-from .base import *
-import os
+
 import environ
+
+from .base import *
 
 # Load .env.dev
 env = environ.Env()
