@@ -1,23 +1,6 @@
-# Use in-memory SQLite database for testing
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
-}
+from .base import *
 
-# Disable password validation for testing
+SECRET_KEY = "dummy"
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
+PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 AUTH_PASSWORD_VALIDATORS = []
-
-# Use a faster password hasher for testing
-PASSWORD_HASHERS = [
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-]
-
-# Other test-specific settings can go here
-
-# No INSTALLED_APPS override; using base INSTALLED_APPS for tests
-# Add any test-specific apps here if needed
-
-CELERY_BROKER_URL = 'memory://'
-CELERY_RESULT_BACKEND = 'rpc://'
