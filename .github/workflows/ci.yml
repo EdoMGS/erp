@@ -8,6 +8,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DJANGO_SETTINGS_MODULE: erp_system.settings.test
+      SECRET_KEY: dummy-secret-for-ci
+
     services:
       postgres:
         image: postgres:15
@@ -74,8 +78,6 @@ jobs:
           DATABASE_URL: postgres://erp:erp@localhost:5432/erp
           REDIS_URL: redis://localhost:6379/0
           DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
-          SECRET_KEY: dummy
           DEBUG: "False"
-          DJANGO_SETTINGS_MODULE: erp_system.settings.test
         run: |
           tox -e py311
