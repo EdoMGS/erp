@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     "django_celery_results",
 ]
 
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+# Use the lightweight in-memory scheduler by default to avoid database requirements
+# during local setup. Production deployments can override this with
+# ``CELERY_BEAT_SCHEDULER=django_celery_beat.schedulers:DatabaseScheduler``.
+CELERY_BEAT_SCHEDULER = env("CELERY_BEAT_SCHEDULER", default="celery.beat:PersistentScheduler")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -108,3 +111,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
