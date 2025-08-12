@@ -8,9 +8,9 @@ env = environ.Env(DEBUG=(bool, False))
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-DEBUG = env("DEBUG")
-SECRET_KEY = env("SECRET_KEY")
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
+DEBUG = env.bool("DEBUG", default=False)
+SECRET_KEY = env("SECRET_KEY", default="dummy-secret-key")
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -71,13 +71,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "erp_system.wsgi.application"
 
+# Database
 DATABASES = {
-    "default": env.db(),
+    "default": env.db("DATABASE_URL", default="sqlite:///my.db"),
 }
 
 # Celery
-CELERY_BROKER_URL = env("REDIS_URL")  # redis://redis:6379/0
-CELERY_RESULT_BACKEND = env("REDIS_URL")
+CELERY_BROKER_URL = env("REDIS_URL", default="redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = env("REDIS_URL", default="redis://localhost:6379/0")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
