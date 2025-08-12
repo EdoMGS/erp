@@ -345,12 +345,16 @@ class RadniNalog(BaseModel):
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Projekt"),
+        null=True,
+        blank=True,
     )
     grupa_posla = models.ForeignKey(
         GrupaPoslova,
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Grupa Poslova"),
+        null=True,
+        blank=True,
     )
     tip_posla = models.CharField(
         max_length=20,
@@ -432,8 +436,10 @@ class RadniNalog(BaseModel):
         verbose_name=_("Preduvjeti"),
     )
 
-    proizvodnja = models.ForeignKey(Proizvodnja, on_delete=models.CASCADE, verbose_name=_("Proizvodnja"))
-    broj_naloga = models.CharField(max_length=100, unique=True)
+    proizvodnja = models.ForeignKey(
+        Proizvodnja, on_delete=models.CASCADE, verbose_name=_("Proizvodnja"), null=True, blank=True
+    )
+    broj_naloga = models.CharField(max_length=100, unique=True, null=True, blank=True)
 
     # Materijali
     materijali = models.ManyToManyField(
@@ -445,8 +451,10 @@ class RadniNalog(BaseModel):
     # Jedan glavni employee
     employee = models.ForeignKey(
         "ljudski_resursi.Employee",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="radni_nalozi",
+        null=True,
+        blank=True,
     )
 
     # Gantt / dokumentacija reference

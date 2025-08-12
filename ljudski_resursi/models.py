@@ -150,7 +150,7 @@ class Employee(models.Model):
         blank=True,
         verbose_name=_("Department"),
     )
-    position = models.ForeignKey(Position, on_delete=models.PROTECT, verbose_name=_("Pozicija"))
+    position = models.ForeignKey(Position, on_delete=models.PROTECT, verbose_name=_("Pozicija"), null=True, blank=True)
     manager = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -165,6 +165,8 @@ class Employee(models.Model):
         on_delete=models.PROTECT,
         related_name="employees",
         verbose_name=_("Expertise Level"),
+        null=True,
+        blank=True,
     )
     hierarchical_level = models.PositiveIntegerField(default=1, verbose_name=_("Hierarchical Level"))
 

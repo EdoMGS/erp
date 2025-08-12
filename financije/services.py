@@ -3,7 +3,50 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .models import CashFlow, Invoice
+from client_app.models import ClientSupplier
+
+from .models import CashFlow, Invoice, InvoiceLine
+
+
+def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_vat=True):
+    """Create an intercompany invoice and a single invoice line.
+
+    The sender and receiver are Tenants. A temporary ``ClientSupplier`` is
+    created for the receiver to satisfy the invoice's foreign key. The invoice
+    and line will apply VAT only when ``sender_in_vat`` is ``True``.
+    """
+    client = ClientSupplier.objects.create(
+        name=receiver.name,
+        address="",
+        email="test@example.com",
+        phone="000",
+        oib="0" * 11,
+        city="",
+        postal_code="00000",
+    )
+
+    issue_date = timezone.now().date()
+    invoice = Invoice.objects.create(
+        client=client,
+        invoice_number=f"IC-{Invoice.objects.count()+1}",
+        issue_date=issue_date,
+        due_date=issue_date,
+        pdv_rate=vat_rate if sender_in_vat else Decimal("0.00"),
+    )
+
+    description = f"{asset}"
+    if not sender_in_vat:
+        description += " - nije u sustavu PDV-a"
+
+    InvoiceLine.objects.create(
+        invoice=invoice,
+        description=description,
+        quantity=Decimal("1"),
+        unit_price=amount,
+        tax_rate=vat_rate if sender_in_vat else Decimal("0.00"),
+    )
+
+    return invoice
 
 
 class InvoiceService:

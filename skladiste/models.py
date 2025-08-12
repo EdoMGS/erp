@@ -112,18 +112,24 @@ class Artikl(models.Model):
         on_delete=models.PROTECT,
         related_name="artikli",
         verbose_name=_("Kategorija"),
+        null=True,
+        blank=True,
     )
     dobavljac = models.ForeignKey(
         "nabava.Dobavljac",  # Changed to string reference
         on_delete=models.PROTECT,
         related_name="artikli",
         verbose_name=_("Dobavljač"),
+        null=True,
+        blank=True,
     )
     lokacija = models.ForeignKey(
         "Lokacija",
         on_delete=models.PROTECT,
         related_name="artikli",
         verbose_name=_("Lokacija"),
+        null=True,
+        blank=True,
     )
     is_active = models.BooleanField(default=True, verbose_name=_("Aktivno"))
     created_at = models.DateTimeField(auto_now_add=True)
