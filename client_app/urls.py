@@ -2,12 +2,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import (
-    ClientCreateView,
-    OpportunityCreateView,
-    OpportunityDeleteView,
-    OpportunityUpdateView,
-)
+from .views import ClientCreateView, OpportunityCreateView, OpportunityDeleteView, OpportunityUpdateView
 
 app_name = "client_app"
 

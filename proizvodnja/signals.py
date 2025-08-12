@@ -13,10 +13,7 @@ from financije.models import FinancialDetails
 from financije.services import process_completed_work_order, update_project_financials
 
 # Import iz ljudski_resursi (ako treba)
-from ljudski_resursi.models import (  # ako imaš Evaluacija, inače ukloni
-    Employee,
-    Evaluacija,
-)
+from ljudski_resursi.models import Employee, Evaluacija  # ako imaš Evaluacija, inače ukloni
 from skladiste.models import Artikl
 
 # Modelle iz proizvodnja.models:

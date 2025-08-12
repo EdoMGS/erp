@@ -5,13 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import (
-    Materijal,
-    OcjenaKvalitete,
-    Projekt,
-    RadniNalog,
-    TehnickaDokumentacija,
-)
+from .models import Materijal, OcjenaKvalitete, Projekt, RadniNalog, TehnickaDokumentacija
 from .serializers import (
     MaterijalSerializer,
     OcjenaKvaliteteSerializer,

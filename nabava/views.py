@@ -4,13 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import CreateView, TemplateView
 from rest_framework import generics, viewsets
 
-from .forms import (
-    DobavljacForm,
-    GrupaDobavljacaForm,
-    NarudzbenicaForm,
-    NarudzbenicaStavkaForm,
-    PurchaseOrderForm,
-)
+from .forms import DobavljacForm, GrupaDobavljacaForm, NarudzbenicaForm, NarudzbenicaStavkaForm, PurchaseOrderForm
 from .models import (
     Dobavljac,
     GrupaDobavljaca,

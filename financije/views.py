@@ -236,9 +236,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
 # Primjer lazy importa unutar metode (da izbjegnemo circular import)
 def tax_configuration_view(request):
-    from ljudski_resursi.models import (
-        Employee,  # ili hr.models, ovisno gdje se Employee nalazi
-    )
+    from ljudski_resursi.models import Employee  # ili hr.models, ovisno gdje se Employee nalazi
 
     # koristite 'Employee' po potrebi
     return render(request, "financije/tax_configuration.html", {})

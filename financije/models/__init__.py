@@ -17,22 +17,10 @@ from .finreports import *  # noqa: F403, F405
 from .invoice import *  # noqa: F403, F405
 
 # Other financial models
-from .others import (
-    FinancialAnalysis,
-    FinancialDetails,
-    FinancijskaTransakcija,
-    Racun,
-    SalesContract,
-    VariablePayRule,
-)
+from .others import FinancialAnalysis, FinancialDetails, FinancijskaTransakcija, Racun, SalesContract, VariablePayRule
 
 # Overhead related
-from .overhead import (
-    MjesecniOverheadPregled,
-    MonthlyOverhead,
-    Overhead,
-    OverheadCategory,
-)
+from .overhead import MjesecniOverheadPregled, MonthlyOverhead, Overhead, OverheadCategory
 
 # Tax and salary related
 from .salary import Salary, SalaryAddition, Tax

@@ -13,21 +13,14 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from rest_framework import generics, viewsets
 
 from financije.models import Invoice  # Only for read operations
-from prodaja.models import (  # Updated to import SalesOrder from prodaja
-    SalesOpportunity,
-    SalesOrder,
-)
+from prodaja.models import SalesOpportunity, SalesOrder  # Updated to import SalesOrder from prodaja
 
 from .forms import SalesOpportunityForm  # Only forms we actually define in our app
 from .forms import ClientSupplierForm
 from .models import ClientActivityLog, ClientSupplier
 from .serializers import SalesOpportunitySerializer  # Added SalesOpportunitySerializer
 from .serializers import SalesOrderSerializer  # Added SalesOrderSerializer
-from .serializers import (
-    ClientActivityLogSerializer,
-    ClientSupplierSerializer,
-    InvoiceSerializer,
-)
+from .serializers import ClientActivityLogSerializer, ClientSupplierSerializer, InvoiceSerializer
 
 logger = logging.getLogger(__name__)
 

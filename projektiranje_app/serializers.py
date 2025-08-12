@@ -1,14 +1,6 @@
 from rest_framework import serializers
 
-from .models import (
-    BillOfMaterials,
-    BOMItem,
-    CADDocument,
-    DesignRevision,
-    DesignSegment,
-    DesignTask,
-    DynamicPlan,
-)
+from .models import BillOfMaterials, BOMItem, CADDocument, DesignRevision, DesignSegment, DesignTask, DynamicPlan
 
 
 class DesignTaskSerializer(serializers.ModelSerializer):

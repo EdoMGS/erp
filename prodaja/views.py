@@ -24,13 +24,7 @@ from .forms import (
     TenderPreparationForm,
     TenderRasclambaFormSet,
 )
-from .models import (
-    Quotation,
-    SalesContract,
-    SalesOpportunity,
-    SalesOrder,
-    TenderPreparation,
-)
+from .models import Quotation, SalesContract, SalesOpportunity, SalesOrder, TenderPreparation
 
 ########################################
 # OPPORTUNITY VIEWS
