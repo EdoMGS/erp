@@ -25,7 +25,7 @@ class DesignTask(models.Model):
     projekt = models.ForeignKey(
         "proizvodnja.Projekt",
         on_delete=models.CASCADE,
-        related_name="design_tasks",
+        related_name="%(app_label)s_design_tasks",
         verbose_name=_("Projekt (iz proizvodnje)"),
     )
     projektant = models.ForeignKey(
@@ -33,6 +33,7 @@ class DesignTask(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="%(app_label)s_designtask_projektant",
         verbose_name=_("Projektant"),
     )
     tip_vozila = models.ForeignKey(
@@ -40,6 +41,7 @@ class DesignTask(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="%(app_label)s_designtask_tip_vozila",
         verbose_name=_("Tip vozila"),
     )
     predvidjeni_sati_dizajna = models.DecimalField(
@@ -194,6 +196,7 @@ class BOMItem(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="%(app_label)s_bomitem_materijal",
         verbose_name=_("Materijal"),
     )
     kolicina = models.DecimalField(
@@ -276,6 +279,7 @@ class DesignRevision(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="%(app_label)s_designrevision_autor",
         verbose_name=_("Autor revizije"),
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum revizije"))
