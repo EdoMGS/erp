@@ -4,7 +4,6 @@ import os
 import sys
 
 import django
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -118,7 +117,7 @@ def unos_artikala_csv(putanja_do_datoteke):
             reader = csv.DictReader(csvfile)
             with transaction.atomic():
                 for red in reader:
-                    lokacija, kreirano = Lokacija.objects.get_or_create(naziv=red['lokacija'])
+                    lokacija, _ = Lokacija.objects.get_or_create(naziv=red['lokacija'])
                     Artikl.objects.create(
                         naziv=red['naziv'],
                         kolicina=int(red['kolicina']),
