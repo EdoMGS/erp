@@ -6,8 +6,7 @@ from django.utils.translation import gettext as _
 from django.views import View
 from rest_framework import viewsets
 
-# ...existing imports...
-from proizvodnja.models import RadniNalog  # Updated import
+# Legacy production app import removed for MVP
 
 from .forms import DepartmentForm, EmployeeForm, RadnaEvaluacijaForm
 from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
@@ -22,9 +21,8 @@ def index(request):
 
 
 def hr_view(request):
-    # ...existing code...
-    radni_nalozi = RadniNalog.objects.filter(employee=request.user)
-    # ...existing code...
+    # Placeholder view body; production work orders disabled in MVP
+    radni_nalozi = []
 
 
 @login_required
@@ -108,9 +106,7 @@ class EmployeeCreateView(LoginRequiredMixin, View):
 
 # Example of lazy import within a method to prevent circular dependency
 def some_view(request):
-    from proizvodnja.models import SomeModel  # Lazy import
-
-    # ...use SomeModel as needed...
+    # Legacy placeholder; removed dependency on production design models
     return render(request, "some_template.html", {})
 
 
