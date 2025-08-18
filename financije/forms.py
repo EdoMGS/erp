@@ -329,31 +329,10 @@ class BudgetForm(forms.ModelForm):
 class SalesContractForm(forms.ModelForm):
     class Meta:
         model = SalesContract
-        fields = [
-            "contract_number",
-            "client_name",
-            "status",
-            "public_tender_number",
-            "bank_guarantee_required",
-            "total_amount",
-            "discount",
-            "sales_order",
-            "delivery_schedule",
-            "client_specific_reqs",
-            "related_production_order_ref",
-        ]
+        fields = ["contract_number", "client_name"]
         widgets = {
             "contract_number": forms.TextInput(),
             "client_name": forms.TextInput(),
-            "status": forms.Select(attrs={"class": "form-select"}),
-            "public_tender_number": forms.TextInput(),
-            "bank_guarantee_required": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-            "total_amount": forms.NumberInput(),
-            "discount": forms.NumberInput(),
-            "sales_order": forms.Select(attrs={"class": "form-select"}),
-            "delivery_schedule": forms.Textarea(),
-            "client_specific_reqs": forms.Textarea(),
-            "related_production_order_ref": forms.TextInput(),
         }
 
 
