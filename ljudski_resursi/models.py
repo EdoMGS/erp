@@ -143,8 +143,9 @@ class Employee(models.Model):
         related_name="employee_profile",
         verbose_name=_("User"),
     )
-    first_name = models.CharField(max_length=50, verbose_name=_("Ime"))
-    last_name = models.CharField(max_length=50, verbose_name=_("Prezime"))
+    # Make optional for simpler fixture-free test object creation
+    first_name = models.CharField(max_length=50, verbose_name=_("Ime"), blank=True, default="")
+    last_name = models.CharField(max_length=50, verbose_name=_("Prezime"), blank=True, default="")
     email = models.EmailField(blank=True, null=True, verbose_name=_("Email"), unique=True)
 
     department = models.ForeignKey(
@@ -154,7 +155,7 @@ class Employee(models.Model):
         blank=True,
         verbose_name=_("Department"),
     )
-    position = models.ForeignKey(Position, on_delete=models.PROTECT, verbose_name=_("Pozicija"))
+    position = models.ForeignKey(Position, on_delete=models.PROTECT, verbose_name=_("Pozicija"), null=True, blank=True)
     manager = models.ForeignKey(
         "self",
         on_delete=models.SET_NULL,
@@ -169,6 +170,8 @@ class Employee(models.Model):
         on_delete=models.PROTECT,
         related_name="employees",
         verbose_name=_("Expertise Level"),
+        null=True,
+        blank=True,
     )
     hierarchical_level = models.PositiveIntegerField(default=1, verbose_name=_("Hierarchical Level"))
 

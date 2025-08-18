@@ -1,8 +1,11 @@
-# Use in-memory SQLite database for testing
+# Import base settings (INSTALLED_APPS, middleware, etc.)
+from .base import *  # noqa: F401,F403
+
+# Override DB: Use file-based SQLite for tests to avoid multi-connection in-memory table loss
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': BASE_DIR / 'test_db.sqlite3',
     }
 }
 
