@@ -1,5 +1,6 @@
 # Base settings for the Django project
 from decimal import Decimal
+import os
 
 INSTALLED_APPS = [
     # Django contrib apps
@@ -101,3 +102,6 @@ MINIMAL_WAGE_CONFIG = {
     'meal_allowance_monthly': Decimal('100.00'),
     'housing_allowance_monthly': Decimal('600.00'),
 }
+
+# Provide a deterministic SECRET_KEY for non-production if none is set (tests/dev)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'test-secret-key')

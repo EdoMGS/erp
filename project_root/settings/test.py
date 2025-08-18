@@ -1,11 +1,11 @@
-# Test settings
-from .base import *  # noqa
+# Import base settings (INSTALLED_APPS, middleware, etc.)
+from .base import *  # noqa: F401,F403
 
-# Use in-memory SQLite database for testing
+# Override DB: Use file-based SQLite for tests to avoid multi-connection in-memory table loss
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': BASE_DIR / 'test_db.sqlite3',
     }
 }
 
@@ -24,6 +24,3 @@ PASSWORD_HASHERS = [
 
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'
-
-# Define a static secret key for tests
-SECRET_KEY = 'test-secret-key'
