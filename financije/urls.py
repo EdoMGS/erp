@@ -39,8 +39,7 @@ urlpatterns = [
     path("view_invoices/", views.view_invoices, name="view_invoices"),
     path("delete_invoice/<int:pk>/", views.delete_invoice, name="delete_invoice"),
     path("view_salaries/", views.view_salaries, name="view_salaries"),
-    # Include production app URLs
-    path("proizvodnja/", include("proizvodnja.urls")),
+    # Production app disabled in MVP; URL include removed
     # Add URL patterns for any new views added.
     path("invoices/", views.InvoiceListView.as_view(), name="invoice_list"),
     path("invoice/create/", views.InvoiceCreateView.as_view(), name="invoice_create"),
