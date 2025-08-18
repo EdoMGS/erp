@@ -4,7 +4,7 @@ import os
 
 INSTALLED_APPS = [
     # Django contrib apps
-    'django.contrib.admin',
+    # 'django.contrib.admin',  # Temporarily disabled to allow clean migration reset
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

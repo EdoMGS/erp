@@ -1,7 +1,6 @@
-from django.contrib import admin
 from django.urls import path
 
+# Admin temporarily disabled during migration reset
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # tu možeš dodati include za druge aplikacije
+    # path('admin/', admin.site.urls),
 ]
