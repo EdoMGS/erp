@@ -2,21 +2,39 @@
 
 from django import forms
 from django.apps import apps  # Added import for apps
-from django.utils.translation import \
-    gettext_lazy as _  # Added import for translation function
+from django.utils.translation import (
+    gettext_lazy as _,  # Added import for translation function
+)
+
+from .models import (
+    BankTransaction,
+    Budget,
+    CashFlow,
+    Debt,
+    FinancialDetails,
+    FinancialReport,
+    Invoice,
+    InvoiceLine,
+    MonthlyOverhead,
+    Municipality,
+    Overhead,
+    OverheadCategory,
+    Payment,
+    Salary,
+    SalaryAddition,
+    SalesContract,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
 
 # ClientSupplier legacy app removed for MVP; using placeholder name fields only.
-
-from .models import (BankTransaction, Budget, CashFlow, Debt, FinancialDetails,
-                     FinancialReport, Invoice, InvoiceLine, MonthlyOverhead,
-                     Municipality, Overhead, OverheadCategory, Payment, Salary,
-                     SalaryAddition, SalesContract, Tax, TaxConfiguration,
-                     VariablePayRule)
-
 
 #############################################
 # 1) BaseModelForm (za zajedničke widgete)
 #############################################
+
+
 class BaseModelForm(forms.ModelForm):
     """
     Ako želite svim poljima dodati 'form-control', možete to učiniti ovako.
@@ -27,11 +45,13 @@ class BaseModelForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             existing_classes = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = f"{existing_classes} form-control".strip()
-
+#  (end BaseModelForm)
 
 #############################################
 # 2) Invoice Form
 #############################################
+
+
 class InvoiceForm(BaseModelForm):
     class Meta:
         model = Invoice

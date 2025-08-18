@@ -6,14 +6,24 @@ from django.utils.translation import gettext as _
 from django.views import View
 from rest_framework import viewsets
 
-# Legacy production app import removed for MVP
-
 from .forms import DepartmentForm, EmployeeForm, RadnaEvaluacijaForm
-from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
-                     Position, RadnaEvaluacija)
-from .serializers import (DepartmentSerializer, EmployeeSerializer,
-                          ExpertiseLevelSerializer,
-                          HierarchicalLevelSerializer, PositionSerializer)
+from .models import (
+    Department,
+    Employee,
+    ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
+    RadnaEvaluacija,
+)
+from .serializers import (
+    DepartmentSerializer,
+    EmployeeSerializer,
+    ExpertiseLevelSerializer,
+    HierarchicalLevelSerializer,
+    PositionSerializer,
+)
+
+# Legacy production app import removed for MVP
 
 
 def index(request):
