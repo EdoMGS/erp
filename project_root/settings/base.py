@@ -10,33 +10,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party apps
+    # Third-party minimal set
     'django_celery_beat',
     'django_celery_results',
     'import_export',
-    # Project apps
+    # MVP project apps only
     'tenants',
     'accounts',
-    'asset_management',
-    'asset_tracker',
-    'asset_usage',
-    'benefits',
-    'client',
     'common',
-    'compliance',
     'core',
-    'dashboard',
-    'erp_assets',
-    'financije',
-    'job_costing',
     'ljudski_resursi',
-    'nabava',
     'prodaja',
-    'proizvodnja',
     'project_costing',
-    'projektiranje',
-    'skladiste',
+    'financije',  # temporary include
 ]
+
+# Legacy apps moved out of scope for MVP are placed under legacy_disabled/ directory and removed from INSTALLED_APPS.
 
 # Middleware configuration
 MIDDLEWARE = [
