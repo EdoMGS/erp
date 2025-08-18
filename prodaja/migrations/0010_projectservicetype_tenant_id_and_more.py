@@ -6,25 +6,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    # Removed dependency on legacy 'client' app for MVP
     dependencies = [
         ("tenants", "0001_initial"),
-        ("client", "0001_initial"),
         ("prodaja", "0009_tenderstatuschange"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="projectservicetype",
-            name="tenant_id",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="prodaja_service_types",
-                to="client.clientsupplier",
-                verbose_name="Tenant (Holding/Operativa)",
-            ),
-        ),
+    # Skip legacy tenant_id FK to client.clientsupplier
         migrations.AddField(
             model_name="tenderneposrednitroskovi",
             name="tenant_id",

@@ -9,24 +9,14 @@ class Migration(migrations.Migration):
 
     initial = True
 
+    # Removed dependencies on legacy 'client' and 'proizvodnja' apps for MVP
     dependencies = [
-        ("client", "0001_initial"),
         ("prodaja", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("proizvodnja", "0001_initial"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="workorderinput",
-            name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="work_order_inputs",
-                to="proizvodnja.radninalog",
-                verbose_name="Radni nalog",
-            ),
-        ),
+    # Skip legacy RadniNalog FK (production app disabled)
         migrations.AddField(
             model_name="salesorder",
             name="quotation",
@@ -50,17 +40,7 @@ class Migration(migrations.Migration):
                 verbose_name="Odgovorni prodajni predstavnik",
             ),
         ),
-        migrations.AddField(
-            model_name="salesopportunity",
-            name="client",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="client.clientsupplier",
-                verbose_name="Klijent (CRM)",
-            ),
-        ),
+    # Skip legacy CRM client FK
         migrations.AddField(
             model_name="salesopportunity",
             name="project_service_type",
@@ -72,17 +52,7 @@ class Migration(migrations.Migration):
                 verbose_name="Vrsta usluge/projekta",
             ),
         ),
-        migrations.AddField(
-            model_name="salescontract",
-            name="related_production_order",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="proizvodnja.radninalog",
-                verbose_name="Povezani Radni Nalog (ako postoji)",
-            ),
-        ),
+    # Skip related production order FK
         migrations.AddField(
             model_name="salescontract",
             name="sales_order",
@@ -95,27 +65,8 @@ class Migration(migrations.Migration):
                 verbose_name="Povezana narudžba",
             ),
         ),
-        migrations.AddField(
-            model_name="quotation",
-            name="client",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="client.clientsupplier",
-                verbose_name="Klijent (CRM)",
-            ),
-        ),
-        migrations.AddField(
-            model_name="quotation",
-            name="linked_production_order",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="proizvodnja.radninalog",
-            ),
-        ),
+    # Skip quotation client FK
+    # Skip linked production order FK
         migrations.AddField(
             model_name="quotation",
             name="opportunity",
