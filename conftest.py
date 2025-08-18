@@ -6,14 +6,10 @@ under --import-mode=importlib. Also guarantees DJANGO_SETTINGS_MODULE is set bef
 Django-dependent imports in factory modules.
 """
 import os
-import sys
 import django
 import pytest
 
-root = os.path.abspath(os.path.dirname(__file__))
-if root not in sys.path:
-    sys.path.insert(0, root)
-# Fallback environment variable if not already defined
+# Let pytest-django manage Python path; only ensure settings module is set.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_root.settings.test')
 django.setup()
 
@@ -40,10 +36,9 @@ def pytest_collection_modifyitems(config, items):
         if any(prefix.strip('.') in lowered for prefix in ['client', 'proizvodnja', 'projektiranje', 'skladiste', 'erp_assets']):
             item.add_marker(skip_legacy)
             continue
-        # Specific failing smoke tests referencing old structure
-        if 'smoke' in lowered:
-            item.add_marker(skip_legacy)
-            continue
+    # NOTE: previously we skipped any test containing 'smoke' in its nodeid which
+    # suppressed our new MVP smoke tests. That blanket skip is removed so the
+    # smoke tests for active apps now run.
         if 'payroll' in lowered:
             item.add_marker(skip_payroll)
             continue
