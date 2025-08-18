@@ -13,19 +13,11 @@ class Migration(migrations.Migration):
         ("ljudski_resursi", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("financije", "0003_initial"),
-        ("proizvodnja", "0001_initial"),
+        # Removed dependency on legacy 'proizvodnja' app for MVP
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="ocjenakvalitete",
-            name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="ocjene_kvalitete_ljudski",
-                to="proizvodnja.radninalog",
-            ),
-        ),
+    # Skipped adding radni_nalog FK (legacy production app disabled)
         migrations.AddField(
             model_name="jobposition",
             name="department",
