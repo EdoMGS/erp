@@ -8,8 +8,8 @@ from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 
-from projektiranje_app.forms import CADDocumentForm
-from projektiranje_app.models import CADDocument
+from projektiranje.forms import CADDocumentForm
+from projektiranje.models import CADDocument
 
 from .utils import informiraj_korisnika, log_action
 

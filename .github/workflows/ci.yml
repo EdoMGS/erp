@@ -63,7 +63,7 @@ jobs:
 
       - name: Load test fixture
         run: |
-          python manage.py loaddata erp_system/fixtures/minimal.json
+          python manage.py loaddata project_root/fixtures/minimal.json
 
       - name: Run pre‑commit (black, isort, flake8)
         run: |
@@ -76,6 +76,6 @@ jobs:
           DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
           SECRET_KEY: dummy
           DEBUG: "False"
-          DJANGO_SETTINGS_MODULE: erp_system.settings.test
+          DJANGO_SETTINGS_MODULE: project_root.settings.test
         run: |
           tox -e py311

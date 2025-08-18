@@ -43,7 +43,7 @@ def log_client_activity(client, activity_text, activity_type="other"):
 
 class BaseListView(ListView):
     paginate_by = 10
-    template_name = "client_app/list_view.html"
+    template_name = "client/list_view.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -68,7 +68,7 @@ class ClientListView(BaseListView):
     model = ClientSupplier
     title = "Klijenti"
     headers = ["Naziv", "Email", "Telefon", "Status"]
-    create_url_name = "client_app:client_create"
+    create_url_name = "client:client_create"
 
     def get_queryset(self):
         return super().get_queryset().order_by("name")
@@ -78,7 +78,7 @@ class ClientListView(BaseListView):
 
 
 class BaseModelView(SuccessMessageMixin):
-    template_name = "client_app/form_view.html"
+    template_name = "client/form_view.html"
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -90,7 +90,7 @@ class BaseModelView(SuccessMessageMixin):
 class ClientCreateView(BaseModelView, CreateView):
     model = ClientSupplier
     form_class = ClientSupplierForm
-    success_url = reverse_lazy("client_app:client_list")
+    success_url = reverse_lazy("client:client_list")
     success_message = "Klijent uspješno kreiran"
 
     def log_activity(self):
@@ -100,7 +100,7 @@ class ClientCreateView(BaseModelView, CreateView):
 class ClientUpdateView(BaseModelView, UpdateView):
     model = ClientSupplier
     form_class = ClientSupplierForm
-    success_url = reverse_lazy("client_app:client_list")
+    success_url = reverse_lazy("client:client_list")
     success_message = "Klijent uspješno ažuriran"
 
     def log_activity(self):
@@ -109,8 +109,8 @@ class ClientUpdateView(BaseModelView, UpdateView):
 
 class ClientDeleteView(DeleteView):
     model = ClientSupplier
-    success_url = reverse_lazy("client_app:client_list")
-    template_name = "client_app/confirm_delete.html"
+    success_url = reverse_lazy("client:client_list")
+    template_name = "client/confirm_delete.html"
 
     def delete(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -124,7 +124,7 @@ class InvoiceListView(BaseListView):
     model = Invoice
     title = "Računi"
     headers = ["Broj računa", "Klijent", "Datum", "Status"]
-    template_name = "client_app/list_view.html"
+    template_name = "client/list_view.html"
     create_url_name = "financije:invoice_create"
 
     def get_queryset(self):
@@ -165,7 +165,7 @@ def lead_conversion_report(request):
     return JsonResponse({"lead_conversion_summary": conversion_summary})
 
 
-def client_app_home(request):
+def client_home(request):
     """Home view za CRM modul"""
     today = timezone.now().date()
 
@@ -180,7 +180,7 @@ def client_app_home(request):
         ).count(),
         "today_activities": ClientActivityLog.objects.filter(timestamp__date=today).count(),
     }
-    return render(request, "client_app/index.html", context)
+    return render(request, "client/index.html", context)
 
 
 class ClientListCreateAPIView(generics.ListCreateAPIView):
@@ -231,7 +231,7 @@ class ClientActivityLogViewSet(viewsets.ModelViewSet):
 class OpportunityCreateView(BaseModelView, CreateView):
     model = SalesOpportunity
     form_class = SalesOpportunityForm
-    success_url = reverse_lazy("client_app:opportunity_list")
+    success_url = reverse_lazy("client:opportunity_list")
     success_message = "Prodajna prilika uspješno kreirana"
 
     def form_valid(self, form):
@@ -249,7 +249,7 @@ class OpportunityCreateView(BaseModelView, CreateView):
 class OpportunityUpdateView(BaseModelView, UpdateView):
     model = SalesOpportunity
     form_class = SalesOpportunityForm
-    success_url = reverse_lazy("client_app:opportunity_list")
+    success_url = reverse_lazy("client:opportunity_list")
     success_message = "Prodajna prilika ažurirana"
 
     def log_activity(self):
@@ -263,13 +263,13 @@ class OpportunityUpdateView(BaseModelView, UpdateView):
 
 class OpportunityDeleteView(DeleteView):
     model = SalesOpportunity
-    success_url = reverse_lazy("client_app:opportunity_list")
-    template_name = "client_app/generic_confirm_delete.html"
+    success_url = reverse_lazy("client:opportunity_list")
+    template_name = "client/generic_confirm_delete.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["object_name"] = self.object.name
-        context["cancel_url"] = reverse_lazy("client_app:opportunity_list")
+        context["cancel_url"] = reverse_lazy("client:opportunity_list")
         return context
 
     def delete(self, request, *args, **kwargs):
@@ -296,6 +296,6 @@ def opportunity_list(request):
         "page_obj": page_obj,
         "title": "Prodajne prilike",
         "headers": ["Naziv", "Klijent", "Status", "Vrijednost"],
-        "create_url": reverse_lazy("client_app:opportunity_create"),
+        "create_url": reverse_lazy("client:opportunity_create"),
     }
-    return render(request, "client_app/list_view.html", context)
+    return render(request, "client/list_view.html", context)

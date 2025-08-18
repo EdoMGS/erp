@@ -44,6 +44,27 @@ def kpi_board(request):
     return render(request, "dashboard/kpi_board.html", context)
 
 
+@login_required
+def micro_dashboard(request):
+    """
+    Micro dashboard showing active work orders and today's invoice pool (30%).
+    """
+    from datetime import date
+    from decimal import Decimal
+    from proizvodnja.models import RadniNalog
+    from financije.models.invoice import Invoice
+
+    work_orders = RadniNalog.objects.filter(status='U_TIJEKU')
+    today = date.today()
+    invoices_today = Invoice.objects.filter(issue_date=today)
+    today_pool = sum(inv.amount * Decimal('0.3') for inv in invoices_today)
+    return render(
+        request,
+        "dashboard/micro.html",
+        {"work_orders": work_orders, "today_pool": today_pool},
+    )
+
+
 def worker_dashboard(request):
     labour_entries = LabourEntry.objects.all()
     context = {

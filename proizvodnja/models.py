@@ -345,12 +345,16 @@ class RadniNalog(BaseModel):
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Projekt"),
+        null=True,
+        blank=True,
     )
     grupa_posla = models.ForeignKey(
         GrupaPoslova,
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Grupa Poslova"),
+        null=True,
+        blank=True,
     )
     tip_posla = models.CharField(
         max_length=20,
@@ -451,21 +455,21 @@ class RadniNalog(BaseModel):
 
     # Gantt / dokumentacija reference
     gantogram = models.ForeignKey(
-        "projektiranje_app.DynamicPlan",
+        "projektiranje.DynamicPlan",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="gantogram_radninalozi",
     )
     tehnicka_dokumentacija = models.ForeignKey(
-        "projektiranje_app.CADDocument",
+        "projektiranje.CADDocument",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="radni_nalozi",
     )
     linked_plan = models.ForeignKey(
-        "projektiranje_app.DynamicPlan",
+        "projektiranje.DynamicPlan",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,

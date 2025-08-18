@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("client_app", "0001_initial"),
+        ("client", "0001_initial"),
         ("prodaja", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("proizvodnja", "0001_initial"),
@@ -57,7 +57,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Klijent (CRM)",
             ),
         ),
@@ -102,7 +102,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to="client_app.clientsupplier",
+                to="client.clientsupplier",
                 verbose_name="Klijent (CRM)",
             ),
         ),

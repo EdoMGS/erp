@@ -7,10 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        (
-            "client",
-            "0004_rename_client_app__postal__8c341e_idx_client_city_postal__bddf1a_idx_and_more",
-        ),
+        ("client", "0001_initial"),
         ("proizvodnja", "0005_tipprojekta_tenant_id"),
     ]
 

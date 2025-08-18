@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from ljudski_resursi.models import Nagrada  # Uvezite ako je potreban
-from projektiranje_app.models import CADDocument
-from projektiranje_app.serializers import CADDocumentSerializer
+from projektiranje.models import CADDocument
+from projektiranje.serializers import CADDocumentSerializer
 
 from .models import OcjenaKvalitete, RadniNalog
 from .serializers import OcjenaKvaliteteSerializer, RadniNalogSerializer

@@ -26,6 +26,8 @@ def create_or_update_periodic_task(name, task, schedule, **kwargs):
             # Update existing task
             existing_task.interval = schedule
             existing_task.enabled = True
+            # Update task path in case it changed
+            existing_task.task = task
             for key, value in kwargs.items():
                 setattr(existing_task, key, value)
             existing_task.save()
@@ -88,24 +90,29 @@ def update_radni_nalog_status(self, radni_nalog_id):
         raise
 
 
+def _do_deadline_check():
+    """Provjerava rokove projekata i ažurira statuse"""
+    today = timezone.now().date()
+    projects = Projekt.objects.filter(is_active=True, status__in=["OTVOREN", "U_TIJEKU"])
+
+    for project in projects:
+        if project.rok_za_isporuku and project.rok_za_isporuku < today:
+            project.status = "PROBIJEN_ROK"
+            project.save(update_fields=["status"])
+            logger.warning(f"Project {project.id} deadline exceeded")
+
+
 @shared_task(
+    name="proizvodnja.tasks.check_project_deadlines",
     bind=True,
     autoretry_for=(Exception,),
     retry_kwargs={"max_retries": 3},
     retry_backoff=True,
 )
-def check_project_deadlines():
+def check_project_deadlines(self, *args, **kwargs):
     """Provjerava rokove projekata i ažurira statuse"""
     try:
-        today = timezone.now().date()
-        projects = Projekt.objects.filter(is_active=True, status__in=["OTVOREN", "U_TIJEKU"])
-
-        for project in projects:
-            if project.rok_za_isporuku and project.rok_za_isporuku < today:
-                project.status = "PROBIJEN_ROK"
-                project.save(update_fields=["status"])
-                logger.warning(f"Project {project.id} deadline exceeded")
-
+        _do_deadline_check()
     except Exception as e:
         logger.error(f"Error in check_project_deadlines: {str(e)}")
         raise
@@ -123,6 +130,12 @@ def check_project_deadlines():
 #     }
 # })
 
+# Remove outdated periodic tasks referencing the old check_project_status path
+try:
+    PeriodicTask.objects.filter(task='proizvodnja.tasks.check_project_status').delete()
+except Exception:
+    logger.warning('Failed to remove legacy PeriodicTask check_project_status')
+
 # Example usage:
 schedule, _ = IntervalSchedule.objects.get_or_create(
     every=1,
@@ -131,7 +144,7 @@ schedule, _ = IntervalSchedule.objects.get_or_create(
 
 create_or_update_periodic_task(
     name="proizvodnja-status-check",
-    task="proizvodnja.tasks.check_project_status",
+    task="proizvodnja.tasks.check_project_deadlines",
     schedule=schedule,
     enabled=True,
 )

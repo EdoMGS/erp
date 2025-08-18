@@ -10,3 +10,15 @@ class Tenant(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Company(models.Model):
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, related_name="companies")
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        verbose_name = "Company"
+        verbose_name_plural = "Companies"
+
+    def __str__(self):
+        return self.name

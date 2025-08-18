@@ -139,7 +139,7 @@ def obavijesti_o_promjeni_statusa_projekta(sender, instance, created, **kwargs):
 def handle_design_requirements(sender, instance, created, **kwargs):
     """Handle design requirements for production projects"""
     if created:
-        from projektiranje_app.models import DesignTask
+        from projektiranjep.models import DesignTask
 
         # Create associated design task if needed
         if instance.tip_vozila:
@@ -203,7 +203,7 @@ def obavijesti_o_promjeni_statusa_radnog_naloga(sender, instance, created, **kwa
 def check_design_dependencies(sender, instance, created, **kwargs):
     """Ensure work order doesn't start before design is complete"""
     if created or instance.status == "U_TIJEKU":
-        from projektiranje_app.models import DesignTask
+        from projektiranje.models import DesignTask
 
         design_task = DesignTask.objects.filter(projekt=instance.projekt).first()
         if design_task and design_task.status != "done":

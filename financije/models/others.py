@@ -7,9 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# client_app (za ClientSupplier)
+# client (za ClientSupplier)
 try:
-    from client_app.models import ClientSupplier
+    from client.models import ClientSupplier
 except ImportError:
     ClientSupplier = None
 

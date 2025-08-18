@@ -7,7 +7,7 @@ from django.views.generic import DetailView, UpdateView
 from financije.services import (calculate_project_costs,
                                 process_completed_work_order)
 from ljudski_resursi.models import Employee
-from projektiranje_app.models import CADDocument
+from projektiranje.models import CADDocument
 from skladiste.models import Materijal
 
 from .forms import (AngazmanForm, OcjenaKvaliteteForm, ProjektForm,

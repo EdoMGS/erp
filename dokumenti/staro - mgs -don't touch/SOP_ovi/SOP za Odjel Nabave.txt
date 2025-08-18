@@ -1,0 +1,80 @@
+﻿SOP za Odjel Nabave
+i Skladišta  - MGS Grupa
+1. Uvod
+• Svrha SOP-a: Ovaj SOP definira standardne operativne procedure za odjel nabave i skladišta u MGS Grupi. Cilj je osigurati učinkovitu nabavu potrebnih materijala, komponenata i opreme za proizvodnju vatrogasnih vozila, opreme i bravarskih proizvoda, te optimizirano upravljanje skladištem kako bi se minimizirali troškovi i osigurao kontinuitet u proizvodnom procesu.
+• Opseg: SOP obuhvaća voditelja nabave i skladišta te skladištara/pomoćnog radnika u proizvodnji.
+• Odgovornost: Voditelj nabave i skladišta odgovoran je za sve nabavne aktivnosti, upravljanje skladištem, zaduženje i razduženje alata i HTZ opreme, dok je skladištar zadužen za operativne zadatke u skladištu i pomoćne poslove u proizvodnji.
+2. Organizacijska Struktura Odjela Nabave i Skladišta
+• Uloge i odgovornosti:
+o Voditelj nabave i skladišta:
+• Planira i upravlja nabavnim procesima, koordinira s drugim odjelima (projektiranje, proizvodnja, financije), optimizira zalihe i upravlja skladištem.
+• Pregovara s dobavljačima, izrađuje narudžbe, prati isporuke i osigurava kvalitetu isporučenih materijala.
+• Upravljanje zaduženjem i razduženjem alata, opreme i HTZ opreme.
+• Odgovoran za ažuriranje i praćenje svih podataka u ERP sustavu.
+o Skladištar/pomoćni radnik u proizvodnji:
+• Prijem i skladištenje materijala, vođenje evidencije o zalihama u ERP sustavu.
+• Dnevno izdavanje materijala prema potrebama proizvodnje: Na dnevnoj bazi izdaje materijale prema zahtjevima proizvodnje kako bi se spriječilo rasipanje materijala i neovlašteno korištenje.
+• Kontrola izdanja alata i potrošnog materijala: Prati i kontrolira izdavanje reznih ploča, brusnih ploča i ostalog potrošnog materijala kako bi se spriječilo odnošenje "doma" i zloupotreba resursa.
+• Zaduženje i razduženje alata i opreme: Evidencija o zaduženju alata (npr. brusilice, bušilice, baterijski alati, odvijači, kliješta) s inventarskim brojem. Kada se alat pokvari, radnik ga razdužuje u skladištu i zadužuje novi ispravan alat.
+• Zaduživanje i razduživanje HTZ opreme: Radnici su obavezni razdužiti staru ili oštećenu HTZ opremu (npr. cipele, kombinezoni, majice) prije nego što dobiju novu opremu. Sva zaduženja i razduženja se evidentiraju u ERP sustavu.
+• Pomoćni rad u proizvodnji prema potrebi, uključujući pripremu materijala i alata, održavanje čistoće i organizaciju skladišnog prostora.
+3. Proces Nabave
+• Planiranje nabave:
+o Opis: Voditelj nabave i skladišta priprema plan nabave na temelju dinamičkih planova i BOM-ova iz odjela projektiranja.
+o Suradnja s ostalim odjelima: Usklađivanje s odjelima projektiranja, proizvodnje i financija kako bi se osigurali precizni zahtjevi za nabavu i budžetiranje.
+• Istraživanje tržišta i odabir dobavljača:
+o Opis: Voditelj nabave provodi istraživanje tržišta, traži ponude i procjenjuje dobavljače na temelju cijena, kvalitete, vremena isporuke i pouzdanosti.
+• Pregovaranje i sklapanje ugovora:
+o Opis: Pregovori s dobavljačima oko uvjeta nabave (cijena, rokovi isporuke, uvjeti plaćanja), sklapanje ugovora i narudžbi.
+• Praćenje isporuka i kontrola kvalitete:
+o Opis: Voditelj nabave prati status isporuka, rješava kašnjenja ili nesukladnosti s dobavljačima, te provodi provjeru kvalitete isporučenih materijala.
+• Just-in-Time (JIT) nabava za skupu opremu:
+o Opis: Za visokovrijedne komponente, poput vatrogasnih pumpi (vrijednost cca 10.000 €), primjenjuje se JIT princip nabave. Oprema se naručuje točno prema dinamici proizvodnje kako bi se izbjeglo zamrzavanje operativnih sredstava tvrtke.
+o Suradnja i planiranje: Voditelj nabave blisko surađuje s odjelima proizvodnje i financija kako bi osigurao da skupa oprema bude dostupna samo kada je potrebna, a plaćanja su usklađena s novčanim tokovima tvrtke.
+4. Proces Upravljanja Skladištem
+• Prijem materijala i skladištenje:
+o Opis: Skladištar je odgovoran za prijem materijala, provjeru kvalitete i kvantiteta prema narudžbama te njihovo ispravno skladištenje.
+o Dokumentacija: Vođenje evidencije o primljenim materijalima u ERP sustavu.
+• Upravljanje zalihama i kontrola inventara:
+o Opis: Skladištar provodi redovite provjere i ažuriranje zaliha, održava optimalnu razinu zaliha za podršku proizvodnji bez viška ili manjka.
+• Izdavanje materijala u proizvodnju:
+o Opis: Skladištar na dnevnoj bazi izdaje materijale prema dinamičkim planovima i gantogramima kako bi spriječio rasipanje i neovlašteno korištenje materijala. Svi izdaci se evidentiraju u ERP sustavu.
+• Kontrola potrošnog materijala i alata:
+o Opis: Skladištar prati izdavanje i povrat alata i potrošnog materijala (npr. brusne ploče, rezne ploče), vodi evidenciju o potrošnji i sprječava zloupotrebu resursa.
+• Zaduženje i razduženje alata i opreme:
+o Opis: Alati i oprema koja ima inventarski broj (npr. brusilice, bušilice, baterijski alati) moraju se formalno zadužiti od strane radnika. Kada se alat pokvari, radnik ga razdužuje u skladištu i zadužuje novi ispravan alat. Sva zaduženja i razduženja se evidentiraju u ERP sustavu kako bi se spriječila krađa i osigurala odgovornost.
+• Zaduživanje i razduživanje HTZ opreme:
+o Opis: Sva HTZ oprema, poput zaštitne obuće, odjeće, rukavica i drugih zaštitnih sredstava, mora biti zadužena kod skladištara. Radnici su obavezni razdužiti staru ili oštećenu HTZ opremu prije nego što dobiju novu. Sva zaduženja i razduženja evidentiraju se u ERP sustavu kako bi se osigurala odgovornost i transparentnost.
+• Redovite inventure:
+o Opis: Voditelj nabave i skladišta organizira inventure za provjeru fizičkog stanja zaliha i alata, te usklađenosti s ERP sustavom.
+5. Suradnja s Drugim Odjelima
+• Projektiranje: Suradnja na definiranju potrebnih materijala i komponenti prema BOM-u i dinamičkim planovima.
+• Proizvodnja: Usklađivanje nabave i skladištenja materijala s proizvodnim planovima i potrebama proizvodnih linija.
+• Financije: Praćenje budžeta za nabavu, osiguravanje točnosti računa i usklađenost s financijskim pravilima. Planiranje JIT nabave za skupu opremu kako bi se optimizirali novčani tokovi.
+6. Kontrola Kvalitete i Upravljanje Promjenama
+• Kontrola kvalitete materijala:
+o Opis: Voditelj nabave provodi provjeru kvalitete primljenih materijala prema specifikacijama, te rješava nesukladnosti s dobavljačima.
+• Upravljanje promjenama u nabavi i skladištu:
+o Proces: Sve promjene u narudžbama, planovima nabave ili zalihama moraju biti dokumentirane i odobrene od strane voditelja nabave i skladišta.
+7. Metrike Uspješnosti (KPI-ovi)
+1. Točnost isporuka dobavljača:
+o Metrika: Postotak isporuka koje su stigle na vrijeme i u skladu sa specifikacijama.
+o Cilj: 95% točnost isporuka.
+o Praćenje: Izvještaji iz ERP sustava i evidencija o nesukladnostima.
+2. Optimizacija zaliha:
+o Metrika: Dnevna vrijednost zaliha u odnosu na planirane potrebe proizvodnje.
+o Cilj: Održavanje optimalne razine zaliha uz minimalne troškove skladištenja.
+o Praćenje: ERP sustav generira izvještaje o stanju zaliha i potrošnji materijala.
+3. Vrijeme ciklusa narudžbe:
+o Metrika: Vrijeme od kreiranja narudžbe do prijema materijala u skladište.
+o Cilj: Smanjenje prosječnog vremena ciklusa narudžbe na 15 dana.
+o Praćenje: Praćenje vremena ciklusa narudžbe u ERP sustavu.
+4. Točnost inventure:
+o Metrika: Postotak usklađenosti fizičkog stanja zaliha s evidencijom u ERP sustavu.
+o Cilj: 98% točnost inventure.
+o Praćenje: Redovite inventure i analize rezultata.
+5. Učinkovitost zaduženja i razduženja alata i HTZ opreme:
+o Metrika: Broj uspješno zaduženih i razduženih artikala (alata i HTZ opreme) bez gubitaka.
+o Cilj: 100% točnost u evidenciji zaduženja i razduženja.
+o Praćenje: Evidencija u ERP sustavu o svim zaduženjima i razduženjima, redovite provjere.
+

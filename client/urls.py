@@ -5,7 +5,7 @@ from . import views
 from .views import (ClientCreateView, OpportunityCreateView,
                     OpportunityDeleteView, OpportunityUpdateView)
 
-app_name = "client_app"
+app_name = "client"
 
 # API Router setup
 router = DefaultRouter()
@@ -15,7 +15,7 @@ router.register(r"activities", views.ClientActivityLogViewSet)
 
 urlpatterns = [
     # Main app views
-    path("", views.client_app_home, name="home"),
+    path("", views.client_home, name="home"),
     path("api/", include(router.urls)),
     # Client management
     path("clients/", views.ClientListView.as_view(), name="client_list"),

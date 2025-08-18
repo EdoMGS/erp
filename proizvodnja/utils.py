@@ -1,4 +1,4 @@
-# erp_system/proizvodnja/utils.py
+# project_root/proizvodnja/utils.py
 
 import logging
 from datetime import datetime

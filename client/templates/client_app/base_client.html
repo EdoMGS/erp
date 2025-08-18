@@ -35,19 +35,19 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'client_list' %}active{% endif %}" 
-                           href="{% url 'client_app:client_list' %}">
+                           href="{% url 'client:client_list' %}">
                             <i class="fas fa-users"></i> Klijenti
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'opportunity_list' %}active{% endif %}" 
-                           href="{% url 'client_app:opportunity_list' %}">
+                           href="{% url 'client:opportunity_list' %}">
                             <i class="fas fa-chart-line"></i> Prilike
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'invoice_list' %}active{% endif %}" 
-                           href="{% url 'client_app:invoice_list' %}">
+                           href="{% url 'client:invoice_list' %}">
                             <i class="fas fa-file-invoice"></i> Računi
                         </a>
                     </li>

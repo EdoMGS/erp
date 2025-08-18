@@ -94,14 +94,14 @@ class DesignTaskDetailView(DetailView):
 class DesignTaskCreateView(CreateView):
     model = DesignTask
     form_class = DesignTaskForm
-    template_name = "projektiranje_app/designtask_form.html"
+    template_name = "projektiranje/designtask_form.html"
     success_url = reverse_lazy("projektiranje:designtask_list")
 
 
 class DesignTaskUpdateView(UpdateView):
     model = DesignTask
     form_class = DesignTaskForm
-    template_name = "projektiranje_app/designtask_form.html"
+    template_name = "projektiranje/designtask_form.html"
     success_url = reverse_lazy("projektiranje:designtask_list")
 
 

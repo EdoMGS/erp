@@ -18,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from skladiste.models import Artikl, DnevnikDogadaja, Lokacija
 
 # Postavljanje Django okruženja
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'erp_system.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_root.settings.dev')
 django.setup()
 
 sys.stdout.reconfigure(encoding='utf-8')

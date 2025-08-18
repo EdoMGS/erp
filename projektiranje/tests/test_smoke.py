@@ -1,1 +1,1 @@
-# Moved from projektiranje_app/tests.py if needed
+# Moved from projektiranje/tests.py if needed

@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         ("prodaja", "0002_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("contenttypes", "0002_remove_content_type_name"),
-        ("projektiranje_app", "0001_initial"),
+        ("projektiranje", "0001_initial"),
         ("skladiste", "0001_initial"),
         ("proizvodnja", "0001_initial"),
         ("ljudski_resursi", "0002_initial"),
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="gantogram_radninalozi",
-                to="projektiranje_app.dinamickiplan",
+                to="projektiranje.dinamickiplan",
             ),
         ),
         migrations.AddField(
@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="linkedplan_radninalozi",
-                to="projektiranje_app.dinamickiplan",
+                to="projektiranje.dinamickiplan",
             ),
         ),
         migrations.AddField(
@@ -121,7 +121,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="radni_nalozi",
-                to="projektiranje_app.dokumentacijaprojektiranja",
+                to="projektiranje.dokumentacijaprojektiranja",
             ),
         ),
         migrations.AddField(

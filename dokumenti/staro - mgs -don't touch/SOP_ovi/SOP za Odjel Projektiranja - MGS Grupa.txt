@@ -1,0 +1,76 @@
+﻿SOP za Odjel Projektiranja - MGS Grupa
+1. Uvod
+• Svrha SOP-a: Ovaj SOP definira standardne operativne procedure za odjel projektiranja u MGS Grupi. Cilj je osigurati dosljednost, kvalitetu i učinkovitost u projektnim aktivnostima vezanim uz proizvodnju vatrogasnih vozila, opreme i bravarskih poslova, uključujući izradu dinamičkih planova, gantograma, i povezivanje s ostalim odjelima kroz projektnu dokumentaciju.
+• Opseg: SOP obuhvaća sve projektante unutar odjela projektiranja koji rade na razvoju i dizajnu novih proizvoda, pripremi tehničke dokumentacije, izradi dinamičkih planova i gantograma, te suradnji s ostalim odjelima (proizvodnja, nabava, prodaja).
+• Odgovornost: Projektanti su odgovorni za izradu tehničke dokumentacije, razvoj proizvoda, izradu dinamičkih planova i gantograma, BOM (Bill of Materials), te suradnju s proizvodnjom i drugim odjelima kako bi osigurali pravovremenu i kvalitetnu isporuku projekata.
+2. Organizacijska Struktura Odjela Projektiranja
+• Uloge i odgovornosti:
+o Projektant: Zadužen za razvoj i dizajn novih proizvoda (vatrogasna vozila, oprema, bravarski proizvodi), izradu tehničkih crteža, modeliranje u CAD alatima, pripremu tehničke dokumentacije i specifikacija za proizvodnju, izradu dinamičkih planova i gantograma za proizvodnju, izradu BOM-a, te koordinaciju s ostalim odjelima.
+o Suradnja s proizvodnjom, nabavom i financijama: Projektant osigurava da su svi tehnički crteži, specifikacije i BOM povezani s potrebama proizvodnje i nabave, te usklađuje dinamičke planove i gantograme s potrebama proizvodnje, nabave i financija.
+• Ključne aktivnosti:
+o Upravljanje projektnim rokovima, izrada dinamičkih planova i gantograma, te dostava potrebne dokumentacije unutar zadanih vremenskih okvira.
+o Kreiranje i praćenje tehničke dokumentacije za projekte (nacrti, planovi).
+o Kontinuirana komunikacija i usklađivanje s ostalim odjelima radi optimizacije procesa.
+3. Proces Dizajna i Razvoja Proizvoda
+• Faze dizajna:
+1. Inicijalna faza dizajna:
+• Opis: Razumijevanje zahtjeva klijenta ili internog odjela, analiza specifikacija i tehničkih zahtjeva.
+• Alati i metode: Upotreba CAD softvera (npr. AutoCAD, SolidWorks), analize izvedivosti.
+2. Razvoj koncepta:
+• Opis: Izrada tehničkih crteža i modela u skladu s definiranim zahtjevima.
+• Suradnja: Redoviti sastanci s proizvodnim timom kako bi se osiguralo da koncepti zadovoljavaju sve zahtjeve.
+3. Izrada tehničke dokumentacije i priprema za izradu atestne dokumentacije:
+• Opis: Izrada kompletne tehničke dokumentacije, uključujući pripremu za ateste i uputstva za upotrebu.
+• Vrijeme izrade: Vrijeme potrebno za izradu tehničke dokumentacije ovisi o složenosti vozila:
+• Jednostavno vozilo (tipa pick-up): 60 sati.
+• Vatrogasne cisterne: 150 sati.
+• Navalna i tehnička vozila: 180 sati.
+• Kompleksna vozila (npr. Hydroforce): 250 do 300 sati.
+4. Izrada dinamičkih planova i gantograma:
+• Opis: Projektant je odgovoran za izradu dinamičkih planova i gantograma koji obuhvaćaju sve faze proizvodnje, nabave i montaže. Planovi moraju biti usklađeni s raspoloživošću resursa i kapacitetom proizvodnje.
+• Suradnja i usklađivanje: Projektant koordinira s odjelom proizvodnje, nabave i financija kako bi osigurao da svi planovi odražavaju realne kapacitete i rokove.
+5. Kreiranje BOM (Bill of Materials):
+• Opis: Projektant priprema BOM (popis materijala) za svaki projekt, uključujući sve potrebne komponente, materijale i dijelove potrebne za proizvodnju.
+• Povezanost s nabavom i proizvodnjom: BOM se povezuje s proizvodnjom i nabavom kako bi se osigurala dostupnost materijala i komponenata u skladu s dinamičkim planovima.
+6. Povezanost s projekt management modulom:
+• Opis: Projektna dokumentacija i dinamički planovi se povezuju s projekt management modulom unutar ERP sustava radi praćenja resursa, rokova i optimizacije proizvodnih kapaciteta.
+7. Finalizacija dizajna i odobrenje:
+• Opis: Finalizacija dizajna na temelju povratnih informacija, priprema za proizvodnju.
+• Odgovornost: Projektant odgovoran za dostavu konačne verzije dokumentacije i koordinaciju sa svim relevantnim odjelima.
+4. Suradnja s Drugim Odjelima
+• Prodaja: Podrška u tehničkoj pripremi ponuda i informacija za klijente.
+• Proizvodnja: Osiguravanje tehničke podrške tijekom proizvodnje, rješavanje tehničkih problema i prilagodba dizajna i planova prema povratnim informacijama iz proizvodnje.
+• Nabava i skladište: Suradnja na definiranju potrebnih materijala i komponenti za proizvodnju te prilagodba nabavnih planova prema dinamičkim planovima i BOM-u.
+• Financije i pravni poslovi: Osiguravanje usklađenosti s troškovima, ugovorima i regulatornim zahtjevima, te usklađivanje financijskih aspekata proizvodnih planova.
+5. Kontrola Kvalitete i Upravljanje Promjenama
+• Kontrola kvalitete:
+o Opis: Provjere kvalitete tehničke dokumentacije, BOM-a i dinamičkih planova prije početka proizvodnje kako bi se osiguralo da svi projekti zadovoljavaju standarde kvalitete i sigurnosti.
+• Upravljanje promjenama:
+o Proces: Svi zahtjevi za promjene u dizajnu, specifikacijama ili proizvodnim planovima moraju biti formalno odobreni i dokumentirani. Promjene se koordiniraju s relevantnim odjelima.
+6. Metrike Uspješnosti (KPI-ovi)
+1. Točnost tehničke dokumentacije i dinamičkih planova:
+o Metrika: Postotak tehničke dokumentacije, BOM-a i planova koji prolaze proizvodnju bez revizija.
+o Cilj: 95% točne tehničke dokumentacije, BOM-a i planova bez potrebe za izmjenama.
+o Praćenje: Izvještaji iz proizvodnog odjela koji bilježe sve izmjene i njihove uzroke.
+2. Vrijeme potrebno za razvoj proizvoda:
+o Metrika: Prosječno vrijeme od početka projekta do finalnog dizajna i izrade dinamičkih planova.
+o Cilj: Završetak svih projekata unutar definiranih sati za određene vrste vozila.
+o Praćenje: Praćenje projekata u ERP/CRM sustavu s jasno definiranim fazama i rokovima.
+3. Stopa uspješnosti prototipa:
+o Metrika: Postotak prototipova koji uspješno prolaze validaciju bez značajnih izmjena.
+o Cilj: 85% uspješnosti prototipova.
+o Praćenje: Izvještaji o validaciji i testiranju prototipova.
+4. Usklađenost proizvodnih planova s kapacitetima i resursima:
+o Metrika: Broj projekata koji su završeni unutar planiranih rokova i resursa.
+o Cilj: 90% projekata završeno u skladu s planovima.
+o Praćenje: Redovno praćenje proizvodnih planova i usklađenost s raspoloživim kapacitetima.
+5. Suradnja s drugim odjelima:
+o Metrika: Broj projekata s pozitivnim povratnim informacijama iz prodaje, proizvodnje, nabave i financija.
+o Cilj: 90% pozitivnih povratnih informacija.
+o Praćenje: Interni upitnici i evaluacije nakon završetka projekata.
+7. Obuka i Razvoj Zaposlenika
+• Onboarding program: Uvođenje novih članova tima kroz obuku o standardnim procedurama, alatima i softveru (npr. CAD sustavi, projekt management moduli).
+• Kontinuirana obuka: Redoviti treninzi i radionice za unaprjeđenje tehničkih vještina, praćenje novih tehnologija i inovacija.
+8. Revizija i Održavanje SOP-a
+• Redovite revizije: SOP će se revidirati jednom godišnje ili prema potrebi kako bi se prilagodio promjenama u poslovnim procesima, tehnologijama i tržišnim zahtjevima.
+

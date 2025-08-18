@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         (
-            "projektiranje_app",
+            "projektiranje",
             "0002_caddocument_designrevision_designsegment_dynamicplan_and_more",
         ),
         (
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="gantogram_radninalozi",
-                to="projektiranje_app.dynamicplan",
+                to="projektiranje.dynamicplan",
             ),
         ),
         migrations.AlterField(
@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="linkedplan_radninalozi",
-                to="projektiranje_app.dynamicplan",
+                to="projektiranje.dynamicplan",
             ),
         ),
         migrations.AlterField(
@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
                 related_name="radni_nalozi",
-                to="projektiranje_app.caddocument",
+                to="projektiranje.caddocument",
             ),
         ),
         migrations.AlterField(

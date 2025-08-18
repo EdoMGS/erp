@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .models import CashFlow, Invoice
+from .models import CashFlow, Invoice, Overhead, InvoiceLine
 
 
 class InvoiceService:
@@ -50,14 +50,19 @@ def calculate_project_costs(project):
             material_costs += mat.materijal.cijena * mat.kolicina
 
     # Get current overhead
-    from .models import Overhead
-
-    current_overhead = Overhead.objects.filter(godina=timezone.now().year, mjesec=timezone.now().month).first()
+    current_overhead = Overhead.objects.filter(
+        godina=timezone.now().year,
+        mjesec=timezone.now().month
+    ).first()
 
     overhead_cost = Decimal("0.00")
     if current_overhead:
         overhead_per_hour = current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati
-        total_hours = sum(ang.sati_rada for nalog in project.radni_nalozi.all() for ang in nalog.angazmani.all())
+        total_hours = sum(
+            ang.sati_rada
+            for nalog in project.radni_nalozi.all()
+            for ang in nalog.angazmani.all()
+        )
         overhead_cost = overhead_per_hour * total_hours
 
     return {
@@ -153,12 +158,65 @@ def calculate_production_costs(proizvodnja):
         costs += labor + materials
 
     # Add overhead
-    from .models import Overhead
-
-    current_overhead = Overhead.objects.current()
+    # Use Overhead model imported at top
+    current_overhead = Overhead.objects.filter(
+        godina=timezone.now().year,
+        mjesec=timezone.now().month
+    ).first()
     if current_overhead:
         total_hours = sum(ang.sati_rada for nalog in proizvodnja.radni_nalozi.all() for ang in nalog.angazmani.all())
         overhead_cost = (current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati) * total_hours
         costs += overhead_cost
 
     return costs
+
+
+def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_vat=True):
+    """
+    Create an inter-company invoice from sender to receiver for a given asset.
+    """
+    from client.models import ClientSupplier
+    from decimal import Decimal
+    from django.utils import timezone
+    import uuid
+
+    # Determine applied VAT rate
+    applied_rate = vat_rate if sender_in_vat else Decimal('0.00')
+
+    # Ensure a ClientSupplier exists for receiver
+    client, _ = ClientSupplier.objects.get_or_create(
+        name=str(receiver),
+        defaults={
+            'address': '',
+            'email': '',
+            'phone': '',
+            'oib': '00000000000',
+            'country': 'Hrvatska',
+            'city': '',
+            'postal_code': '',
+            'is_supplier': True,
+        }
+    )
+
+    today = timezone.now().date()
+    invoice = Invoice.objects.create(
+        client=client,
+        invoice_number=str(uuid.uuid4()),
+        issue_date=today,
+        due_date=today,
+        pdv_rate=applied_rate,
+        amount=amount,
+    )
+
+    # Create invoice line
+    descr = f"{asset}"
+    if not sender_in_vat:
+        descr += " nije u sustavu PDV-a"
+    InvoiceLine.objects.create(
+        invoice=invoice,
+        description=descr,
+        quantity=Decimal('1.00'),
+        unit_price=amount,
+        tax_rate=applied_rate,
+    )
+    return invoice

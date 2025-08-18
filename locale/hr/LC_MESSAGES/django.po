@@ -67,7 +67,7 @@ msgstr ""
 #: ./client/forms.py:183 ./financije/models/break_even.py:14
 #: ./financije/templates/financije/invoice_detail.html:19
 #: ./nabava/models.py:115 ./nabava/models.py:140 ./nabava/models.py:342
-#: ./projektiranje_app/models.py:58
+#: ./projektiranje/models.py:58
 msgid "Status"
 msgstr ""
 
@@ -206,8 +206,8 @@ msgstr ""
 msgid "Status odnosa"
 msgstr ""
 
-#: ./client/models.py:87 ./projektiranje_app/models.py:71
-#: ./projektiranje_app/models.py:192
+#: ./client/models.py:87 ./projektiranje/models.py:71
+#: ./projektiranje/models.py:192
 msgid "Datum kreiranja"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgid "Promjena statusa"
 msgstr ""
 
 #: ./client/models.py:177 ./prodaja/models.py:75
-#: ./projektiranje_app/models.py:119
+#: ./projektiranje/models.py:119
 msgid "Ostalo"
 msgstr ""
 
@@ -711,7 +711,7 @@ msgstr ""
 
 #: ./financije/models/invoice.py:113 ./nabava/models.py:273
 #: ./nabava/models.py:417 ./prodaja/models.py:371 ./prodaja/models.py:832
-#: ./projektiranje_app/models.py:229 ./skladiste/models.py:180
+#: ./projektiranje/models.py:229 ./skladiste/models.py:180
 #: ./skladiste/models.py:294 ./skladiste/models.py:354
 #: ./skladiste/models.py:418
 msgid "Količina"
@@ -1821,7 +1821,7 @@ msgstr ""
 msgid "Poslano klijentu"
 msgstr ""
 
-#: ./prodaja/models.py:192 ./projektiranje_app/models.py:21
+#: ./prodaja/models.py:192 ./projektiranje/models.py:21
 msgid "Odobreno"
 msgstr ""
 
@@ -1857,7 +1857,7 @@ msgstr ""
 msgid "Na čekanju"
 msgstr ""
 
-#: ./prodaja/models.py:251 ./projektiranje_app/models.py:22
+#: ./prodaja/models.py:251 ./projektiranje/models.py:22
 msgid "Završeno"
 msgstr ""
 
@@ -1941,7 +1941,7 @@ msgstr ""
 msgid "Opis dokumenta"
 msgstr ""
 
-#: ./prodaja/models.py:406 ./projektiranje_app/models.py:271
+#: ./prodaja/models.py:406 ./projektiranje/models.py:271
 msgid "Datum uploada"
 msgstr ""
 
@@ -1953,7 +1953,7 @@ msgstr ""
 msgid "Dokumenti natječaja"
 msgstr ""
 
-#: ./prodaja/models.py:439 ./projektiranje_app/models.py:18
+#: ./prodaja/models.py:439 ./projektiranje/models.py:18
 msgid "U pripremi"
 msgstr ""
 
@@ -2507,228 +2507,228 @@ msgstr ""
 msgid "Svi statusi"
 msgstr ""
 
-#: ./projektiranje_app/models.py:19
+#: ./projektiranje/models.py:19
 msgid "U izradi"
 msgstr ""
 
-#: ./projektiranje_app/models.py:20
+#: ./projektiranje/models.py:20
 msgid "Čeka odobrenje"
 msgstr ""
 
-#: ./projektiranje_app/models.py:29
+#: ./projektiranje/models.py:29
 msgid "Projekt (iz proizvodnje)"
 msgstr ""
 
-#: ./projektiranje_app/models.py:36
+#: ./projektiranje/models.py:36
 msgid "Projektant"
 msgstr ""
 
-#: ./projektiranje_app/models.py:43
+#: ./projektiranje/models.py:43
 msgid "Tip vozila"
 msgstr ""
 
-#: ./projektiranje_app/models.py:49
+#: ./projektiranje/models.py:49
 msgid "Predviđeni sati dizajna"
 msgstr ""
 
-#: ./projektiranje_app/models.py:55
+#: ./projektiranje/models.py:55
 msgid "Utrošeni sati dizajna"
 msgstr ""
 
-#: ./projektiranje_app/models.py:61
+#: ./projektiranje/models.py:61
 msgid "Datum početka projektiranja"
 msgstr ""
 
-#: ./projektiranje_app/models.py:64
+#: ./projektiranje/models.py:64
 msgid "Datum završetka projektiranja"
 msgstr ""
 
-#: ./projektiranje_app/models.py:67
+#: ./projektiranje/models.py:67
 msgid "Napomena / opis dizajna"
 msgstr ""
 
-#: ./projektiranje_app/models.py:74 ./projektiranje_app/models.py:195
-#: ./projektiranje_app/models.py:357
+#: ./projektiranje/models.py:74 ./projektiranje/models.py:195
+#: ./projektiranje/models.py:357
 msgid "Datum posljednje izmjene"
 msgstr ""
 
-#: ./projektiranje_app/models.py:81
+#: ./projektiranje/models.py:81
 msgid "SolidWorks nacrt"
 msgstr ""
 
-#: ./projektiranje_app/models.py:87
+#: ./projektiranje/models.py:87
 msgid "AutoCAD nacrt"
 msgstr ""
 
-#: ./projektiranje_app/models.py:91 ./projektiranje_app/models.py:254
-#: ./projektiranje_app/models.py:292 ./projektiranje_app/models.py:338
+#: ./projektiranje/models.py:91 ./projektiranje/models.py:254
+#: ./projektiranje/models.py:292 ./projektiranje/models.py:338
 msgid "Dizajnerski zadatak"
 msgstr ""
 
-#: ./projektiranje_app/models.py:92
+#: ./projektiranje/models.py:92
 msgid "Dizajnerski zadaci"
 msgstr ""
 
-#: ./projektiranje_app/models.py:114
+#: ./projektiranje/models.py:114
 msgid "Podvozje"
 msgstr ""
 
-#: ./projektiranje_app/models.py:115
+#: ./projektiranje/models.py:115
 msgid "Nadogradnja"
 msgstr ""
 
-#: ./projektiranje_app/models.py:116
+#: ./projektiranje/models.py:116
 msgid "Cjevovod"
 msgstr ""
 
-#: ./projektiranje_app/models.py:117
+#: ./projektiranje/models.py:117
 msgid "Električni sustav"
 msgstr ""
 
-#: ./projektiranje_app/models.py:118
+#: ./projektiranje/models.py:118
 msgid "Pumpni sustav"
 msgstr ""
 
-#: ./projektiranje_app/models.py:126
+#: ./projektiranje/models.py:126
 msgid "Glavni zadatak projektiranja"
 msgstr ""
 
-#: ./projektiranje_app/models.py:129
+#: ./projektiranje/models.py:129
 msgid "Tip segmenta"
 msgstr ""
 
-#: ./projektiranje_app/models.py:131
+#: ./projektiranje/models.py:131
 msgid "Opis segmenta"
 msgstr ""
 
-#: ./projektiranje_app/models.py:136
+#: ./projektiranje/models.py:136
 msgid "Planirani sati za segment"
 msgstr ""
 
-#: ./projektiranje_app/models.py:142
+#: ./projektiranje/models.py:142
 msgid "Utrošeni sati za segment"
 msgstr ""
 
-#: ./projektiranje_app/models.py:145
+#: ./projektiranje/models.py:145
 msgid "Datum kreiranja segmenta"
 msgstr ""
 
-#: ./projektiranje_app/models.py:148
+#: ./projektiranje/models.py:148
 msgid "Datum posljednje izmjene segmenta"
 msgstr ""
 
-#: ./projektiranje_app/models.py:152 ./projektiranje_app/models.py:182
-#: ./projektiranje_app/models.py:262 ./projektiranje_app/models.py:300
-#: ./projektiranje_app/models.py:346
+#: ./projektiranje/models.py:152 ./projektiranje/models.py:182
+#: ./projektiranje/models.py:262 ./projektiranje/models.py:300
+#: ./projektiranje/models.py:346
 msgid "Segment dizajna"
 msgstr ""
 
-#: ./projektiranje_app/models.py:153
+#: ./projektiranje/models.py:153
 msgid "Segmenti dizajna"
 msgstr ""
 
-#: ./projektiranje_app/models.py:173
+#: ./projektiranje/models.py:173
 msgid "Glavni dizajnerski zadatak"
 msgstr ""
 
-#: ./projektiranje_app/models.py:185
+#: ./projektiranje/models.py:185
 msgid "Naziv BOM-a"
 msgstr ""
 
-#: ./projektiranje_app/models.py:187
+#: ./projektiranje/models.py:187
 msgid "Opis BOM-a"
 msgstr ""
 
-#: ./projektiranje_app/models.py:189
+#: ./projektiranje/models.py:189
 msgid "Status BOM-a"
 msgstr ""
 
-#: ./projektiranje_app/models.py:199 ./projektiranje_app/models.py:216
+#: ./projektiranje/models.py:199 ./projektiranje/models.py:216
 msgid "BOM"
 msgstr ""
 
-#: ./projektiranje_app/models.py:200
+#: ./projektiranje/models.py:200
 msgid "BOM-ovi"
 msgstr ""
 
-#: ./projektiranje_app/models.py:223 ./skladiste/models.py:197
+#: ./projektiranje/models.py:223 ./skladiste/models.py:197
 msgid "Materijal"
 msgstr ""
 
-#: ./projektiranje_app/models.py:232 ./projektiranje_app/models.py:355
+#: ./projektiranje/models.py:232 ./projektiranje/models.py:355
 #: ./skladiste/models.py:320 ./skladiste/models.py:384
 msgid "Napomena"
 msgstr ""
 
-#: ./projektiranje_app/models.py:236
+#: ./projektiranje/models.py:236
 msgid "BOM stavka"
 msgstr ""
 
-#: ./projektiranje_app/models.py:237
+#: ./projektiranje/models.py:237
 msgid "BOM stavke"
 msgstr ""
 
-#: ./projektiranje_app/models.py:264 ./projektiranje_app/models.py:275
+#: ./projektiranje/models.py:264 ./projektiranje/models.py:275
 msgid "CAD dokument"
 msgstr ""
 
-#: ./projektiranje_app/models.py:267
+#: ./projektiranje/models.py:267
 msgid "SolidWorks"
 msgstr ""
 
-#: ./projektiranje_app/models.py:267
+#: ./projektiranje/models.py:267
 msgid "AutoCAD"
 msgstr ""
 
-#: ./projektiranje_app/models.py:268
+#: ./projektiranje/models.py:268
 msgid "Tip CAD dokumenta"
 msgstr ""
 
-#: ./projektiranje_app/models.py:276
+#: ./projektiranje/models.py:276
 msgid "CAD dokumenti"
 msgstr ""
 
-#: ./projektiranje_app/models.py:303
+#: ./projektiranje/models.py:303
 msgid "Broj revizije"
 msgstr ""
 
-#: ./projektiranje_app/models.py:305
+#: ./projektiranje/models.py:305
 msgid "Opis promjena"
 msgstr ""
 
-#: ./projektiranje_app/models.py:311
+#: ./projektiranje/models.py:311
 msgid "Autor revizije"
 msgstr ""
 
-#: ./projektiranje_app/models.py:314
+#: ./projektiranje/models.py:314
 msgid "Datum revizije"
 msgstr ""
 
-#: ./projektiranje_app/models.py:318
+#: ./projektiranje/models.py:318
 msgid "Revizija"
 msgstr ""
 
-#: ./projektiranje_app/models.py:319
+#: ./projektiranje/models.py:319
 msgid "Revizije"
 msgstr ""
 
-#: ./projektiranje_app/models.py:349
+#: ./projektiranje/models.py:349
 msgid "Gantt podaci (JSON)"
 msgstr ""
 
-#: ./projektiranje_app/models.py:352
+#: ./projektiranje/models.py:352
 msgid "Početak plana"
 msgstr ""
 
-#: ./projektiranje_app/models.py:354
+#: ./projektiranje/models.py:354
 msgid "Kraj plana"
 msgstr ""
 
-#: ./projektiranje_app/models.py:361
+#: ./projektiranje/models.py:361
 msgid "Dinamički plan"
 msgstr ""
 
-#: ./projektiranje_app/models.py:362
+#: ./projektiranje/models.py:362
 msgid "Dinamički planovi"
 msgstr ""
 

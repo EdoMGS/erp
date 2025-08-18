@@ -1,118 +1,179 @@
-# tasks.md — Copilot 4o **Step‑by‑Step** Backlog
+### TASK: bootstrap_min_sprint0
+repo: EdoMGS/erp
+base_branch: main
+new_branch: sprint0-bootstrap
 
-> **Cilj:** Automatizirano (koliko je moguće) očistiti, konsolidirati i nadograditi ERP repo tako da krajem Sprinta 0 projekt diže Docker‑om, prolazi testove i ima početni multi‑tenant kostur. Svaki checkbox je samostalan zadatak koji Visual Studio + Copilot 4o mogu riješiti prompt‑driven pristupom.
->
-> **Kako koristiti:**
->
-> 1. Otvori ovaj file u Visual Studio‑u.
-> 2. Kreni po redu (Task List u VS‑u prepoznaje `- [ ]`).
-> 3. Za svaki blok napravi **desni klik → Ask Copilot** ili upiši prompt *"Copilot, odradi korake iz taska X"*.
->
-> Po želji, nakon koraka **Bootstrap A** možeš sve checkbox‑e pretvoriti u GitHub Issues:  `gh issue import -F tasks.md --format markdown`.
+SHELL
+1) git checkout -b sprint0-bootstrap main
+2) python -m pip install -q django==4.2.23 pytest pytest-django black==24.4.2 isort==5.13.2 autoflake==2.3.1 pre-commit flake8
 
----
+FILES
+# requirements.txt
+Django>=4.2,<5.0
+pytest
+pytest-django
+black==24.4.2
+isort==5.13.2
+autoflake==2.3.1
+flake8
 
-## 🔰 Bootstrap A — lokalni setup (run once)
+# project_root/__init__.py
+# empty
 
-* [x] **Instaliraj alate**
+# manage.py
+#!/usr/bin/env python
+import os, sys
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_root.settings.dev")
+    from django.core.management import execute_from_command_line
+    execute_from_command_line(sys.argv)
 
-  ```bash
-  brew install gh pre-commit
-  ```
-* [x] **Ulogiraj se u GitHub CLI**
+# project_root/settings/__init__.py
+from .base import *
 
-  ```bash
-  gh auth login
-  ```
-* [x] **Pokreni pre-commit hook‑ove na cijelom repou**
+# project_root/settings/base.py
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+SECRET_KEY = "dev-only-change-me"
+DEBUG = True
+ALLOWED_HOSTS = ["*"]
+INSTALLED_APPS = [
+    "django.contrib.admin","django.contrib.auth","django.contrib.contenttypes",
+    "django.contrib.sessions","django.contrib.messages","django.contrib.staticfiles",
+    "common","tenants","core",
+]
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+ROOT_URLCONF = "project_root.urls"
+TEMPLATES = [{
+    "BACKEND":"django.template.backends.django.DjangoTemplates","DIRS":[],
+    "APP_DIRS":True,"OPTIONS":{"context_processors":[
+        "django.template.context_processors.debug","django.template.context_processors.request",
+        "django.contrib.auth.context_processors.auth","django.contrib.messages.context_processors.messages"]}}]
+WSGI_APPLICATION = "project_root.wsgi.application"
+DATABASES = {"default":{"ENGINE":"django.db.backends.sqlite3","NAME": BASE_DIR/"db.sqlite3"}}
+LANGUAGE_CODE="en-us"; TIME_ZONE="UTC"; USE_I18N=True; USE_TZ=True
+STATIC_URL="static/"
+DEFAULT_AUTO_FIELD="django.db.models.BigAutoField"
 
-  ```bash
-  pre-commit run --all-files
-  ```
+# project_root/settings/dev.py
+from .base import *
 
----
+# project_root/settings/test.py
+from .base import *
+SECRET_KEY = "dummy"
+DATABASES = {"default":{"ENGINE":"django.db.backends.sqlite3","NAME":":memory:"}}
+PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
+AUTH_PASSWORD_VALIDATORS = []
 
-## 1️⃣ Repo Clean‑Up & Konvencije
+# project_root/urls.py
+from django.contrib import admin
+from django.urls import path
+urlpatterns = [path("admin/", admin.site.urls)]
 
-* [x] **Pronađi i ukloni sve `_old`, `_backup` i suvišne `.DS_Store` datoteke te dodaj ih u `.gitignore`**
+# project_root/wsgi.py
+import os
+from django.core.wsgi import get_wsgi_application
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_root.settings.dev")
+application = get_wsgi_application()
 
-> *Prompt Copilotu: **"Pronađi i ukloni sve *_old, *_backup i suvišne .DS_Store datoteke te dodaj ih u .gitignore"***
+# common/apps.py
+from django.apps import AppConfig
+class CommonConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "common"
 
-* [x] Obriši foldere/datoteke s sufiksima `_old`, `_backup`, `*-copy`.
-* [x] Dodaj `*.orig`, `.DS_Store`, `__pycache__/` u **.gitignore** i `git rm -r --cached`.
-* [x] **Detektiraj duplicirane migrations (`0001_initial.py`, `0002_auto_*`) → spoji ili izbriši**
-* [x] **U `static/` i `templates/` zadrži samo stvarno korištene datoteke**.
+# common/models.py
+# placeholder for BaseModel in next sprint
 
-## 2️⃣ Standardizacija naziva aplikacija
+# tenants/apps.py
+from django.apps import AppConfig
+class TenantsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "tenants"
 
-> *Prompt Copilotu: **"Preimenuj app 'client\_app' u 'client' i osvježi sve import‑e, settings i migracije."***
+# tenants/models.py
+from django.db import models
+class Tenant(models.Model):
+    name = models.CharField(max_length=120)
+    subdomain = models.CharField(max_length=80, unique=True)
+    def __str__(self): return self.name
 
-* [x] `client_app` → `client`
-* [x] `projektiranje_app` → `projektiranje`
-* [x] Ažuriraj `INSTALLED_APPS`, import putanje, `reverse()` pozive i testove.
+# core/apps.py
+from django.apps import AppConfig
+class CoreConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "core"
 
-## 3️⃣ Single Settings modul + Docker uniforma
+# pytest.ini
+[pytest]
+DJANGO_SETTINGS_MODULE = project_root.settings.test
+python_files = test_*.py *_tests.py
+addopts = -q
 
-* [x] Kreiraj `config/settings/` (base, dev, prod) + `settings/__init__.py`.
-* [x] Podesi `django-environ` i `.env` predložak.
-* [x] Napiši **docker-compose.dev.yml** (Postgres, Redis, Celery, web).
-* [x] Dodaj VS Code/VS **.devcontainer/** (opcionalno).
+# tests/test_smoke.py
+def test_imports():
+    import project_root.settings.base  # noqa
+    import tenants.models  # noqa
 
-## 4️⃣ Core & Multi‑Tenant Skeleton
+# .pre-commit-config.yaml  (ograničeno na nove mape)
+repos:
+  - repo: https://github.com/pycqa/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args: [--remove-all-unused-imports, --remove-unused-variables]
+        files: ^(common|tenants|core|project_root)/
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        files: ^(common|tenants|core|project_root)/
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: ["--profile","black"]
+        files: ^(common|tenants|core|project_root)/
 
-* [x] Generiraj `core` app (tenants, org, permissions).
-* [x] Premjesti `accounts` u `core.users` + custom User.
-* [x] Tenant middleware (subdomain ili header).
-* [x] Management command: `bootstrap_demo_tenant`.
+# .github/workflows/ci.yml  (minimal, zelen)
+name: Django CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pre-commit
+      - name: pre-commit
+        run: pre-commit run --all-files
+      - name: Lint/format (scoped)
+        run: |
+          black --check common tenants core project_root
+          isort --check-only common tenants core project_root
+          autoflake --check -r --remove-all-unused-imports --remove-unused-variables \
+            common tenants core project_root
+      - name: Pytest
+        env:
+          DJANGO_SETTINGS_MODULE: project_root.settings.test
+          SECRET_KEY: dummy
+        run: pytest
 
-## 5️⃣ Assets & Fixed Cost Engine
-
-* [x] Dodaj modele: **Asset**, **AssetUsage**, **FixedCost**, **VariableCostPreset**.
-* [x] Admin + import‑export CSV uplad.
-* [x] Celery beat task: mjesečna amortizacija.
-
-## 6️⃣ Project Costing & Profit‑Share
-
-* [x] Modele: **Project**, **LabourEntry**, **MaterialUsage**, **CostLine**.
-* [x] Signal: `Project.close` → break‑even + profit → **WorkerShare** kalkulacija.
-* [x] Payout PDF report po radniku (WeasyPrint).
-
-## 7️⃣ Benefits & Compliance
-
-* [x] `benefits` app: Meal, Travel, Bonus + godišnji limiti.
-* [x] Cron: dnevnice i topli obrok; provjera limita.
-* [x] `compliance` app: ZNR, PZO, osiguranja + expiry reminders.
-
-## 8️⃣ Dashboards (HTMX)
-
-* [x] KPI board (projekti: zeleno/crveno vs break‑even).
-* [x] Radnik dashboard: neoporezivi status + profit‑share.
-* [x] QC checklist UI koja blokira start naloga bez ✅.
-
-## 9️⃣ CI/CD & QA
-
-* [ ] GitHub Actions: lint, mypy, pytest (coverage ≥ 85 %).
-* [ ] Docker multistage build & push na registry.
-* [ ] Auto‑deploy na staging (Dokku/Fly.io/ECS).
-
-## 🔄 Sprint 0 — Definicija Dovršeno
-
-* Repo nema `*_old` fajlova.
-* Projekt se diže: `docker-compose up --build` → [http://localhost:8000](http://localhost:8000).
-* `pytest` prolazi zeleno.
-* Pre‑commit hook‑ovi prolaze bez errora.
-
----
-
-## 📋 Brzi Copilot Promptovi (copy‑paste u chat)
-
-```text
-"Copilot, makni sve foldere s sufiksom _old i ažuriraj .gitignore."
-"Copilot, napravi custom Django User unutar app-a core.users."
-"Copilot, napiši signal koji na Project.close računa profit po WorkerShareu."
-"Copilot, generiraj pytest case za Asset amortizacijski Celery task."
-```
-
----
-
-> **Savjet:** Kad task označiš ✅, commitaj mali patch (`git add -p`) i pushaj; Copilot 4o će lakše pratiti difove i sljedeće korake.
+GIT
+git add .
+git commit -m "Sprint0: minimal Django skeleton + CI green"
+git push -u origin sprint0-bootstrap
+gh pr create --base main --head sprint0-bootstrap --title "Sprint 0: minimal skeleton" --body "Django 4.2 + common/tenants/core, pre-commit, CI, smoke test."

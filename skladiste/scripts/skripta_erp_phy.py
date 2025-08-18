@@ -22,7 +22,7 @@ def check_urls():
     # List of URLs to verify
     urls_to_check = [
         "favicon.ico",
-        "client_app/",
+        "client/",
         "projektiranje/",
         "financije/",
         "ljudski_resursi/",
