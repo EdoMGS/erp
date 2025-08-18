@@ -6,6 +6,10 @@ dev:
 test-fast:
 	pytest -q
 
+# Standard alias expected by docs/scripts
+.PHONY: test
+test: test-fast
+
 # Full test run with coverage
 .PHONY: test-all
 test-all:
