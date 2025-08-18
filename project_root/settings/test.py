@@ -1,11 +1,7 @@
-# Test settings
-from .base import *  # noqa
-
-# Use in-memory SQLite database for testing
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': BASE_DIR / 'test_db.sqlite3',
     }
 }
 

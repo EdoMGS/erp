@@ -345,12 +345,16 @@ class RadniNalog(BaseModel):
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Projekt"),
+        null=True,
+        blank=True,
     )
     grupa_posla = models.ForeignKey(
         GrupaPoslova,
         on_delete=models.CASCADE,
         related_name="radni_nalozi",
         verbose_name=_("Grupa Poslova"),
+        null=True,
+        blank=True,
     )
     tip_posla = models.CharField(
         max_length=20,

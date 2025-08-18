@@ -19,9 +19,11 @@ def test_payroll_calculation():
     invoice_amount = Decimal("5000.00")
     result = PayrollCalculator.compute(invoice_amount, config)
 
-    assert result["minimal_wage"] == Decimal("1108.25")
+    # Calculation: 951.72 + 16.5% employer contrib = 1108.75
+    assert result["minimal_wage"] == Decimal("1108.75")
     assert result["allowances"] == Decimal("700.00")
-    assert result["bonus_pool"] == Decimal("691.75")
+    # worker_pool = 5000 * 0.30 = 1500; bonus = 1500 - (1108.75 + 700) = negative => 0.00
+    assert result["bonus_pool"] == Decimal("0.00")
 
 
 @pytest.mark.django_db

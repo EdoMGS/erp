@@ -1,5 +1,6 @@
 # Base settings for the Django project
 from decimal import Decimal
+import os
 
 INSTALLED_APPS = [
     # Django contrib apps
@@ -72,6 +73,9 @@ from pathlib import Path
 
 # Base directory (directory containing manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Provide a default insecure secret for dev/test so tests don't fail when env var absent
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-insecure-placeholder-change-me")
 # Look for fixtures in the repo-level fixtures/ directory
 FIXTURE_DIRS = [BASE_DIR / 'fixtures']
 
