@@ -5,10 +5,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-try:
-    from client.models import ClientSupplier
-except ImportError:
-    ClientSupplier = None
+# Legacy ClientSupplier model removed from active INSTALLED_APPS.
+# Use plain text client_name instead for MVP scope.
 
 
 class Invoice(models.Model):
@@ -24,12 +22,8 @@ class Invoice(models.Model):
         ("otkazano", "Otkazano"),
     ]
 
-    client = models.ForeignKey(
-        "client.ClientSupplier",  # Use string reference
-        on_delete=models.CASCADE,
-        related_name="invoices",
-        verbose_name=_("Klijent"),
-    )
+    # Replaced FK to client.ClientSupplier with textual placeholder field.
+    client_name = models.CharField(max_length=255, verbose_name=_("Klijent"))
     invoice_number = models.CharField(max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True)
     issue_date = models.DateField(verbose_name=_("Datum izdavanja"))
     due_date = models.DateField(verbose_name=_("Datum dospijeća"))
@@ -88,7 +82,7 @@ class Invoice(models.Model):
         return sum(line.tax_amount for line in self.lines.all())
 
     def __str__(self):
-        return f"Invoice {self.invoice_number}"
+        return f"Invoice {self.invoice_number} - {self.client_name}"
 
     class Meta:
         verbose_name = _("Faktura")
@@ -135,11 +129,8 @@ class Payment(models.Model):
 
 
 class Debt(models.Model):
-    client = models.ForeignKey(
-        "client.ClientSupplier",  # Use string reference
-        on_delete=models.CASCADE,
-        verbose_name=_("Client"),
-    )
+    # Textual client reference replacing legacy FK
+    client_name = models.CharField(max_length=255, verbose_name=_("Client"))
     invoice = models.ForeignKey(
         Invoice,
         on_delete=models.CASCADE,

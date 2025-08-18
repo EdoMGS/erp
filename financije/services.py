@@ -172,43 +172,21 @@ def calculate_production_costs(proizvodnja):
 
 
 def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_vat=True):
-    """
-    Create an inter-company invoice from sender to receiver for a given asset.
-    """
-    from client.models import ClientSupplier
+    """Create a simplified inter-company invoice using textual client name only."""
     from decimal import Decimal
     from django.utils import timezone
     import uuid
 
-    # Determine applied VAT rate
     applied_rate = vat_rate if sender_in_vat else Decimal('0.00')
-
-    # Ensure a ClientSupplier exists for receiver
-    client, _ = ClientSupplier.objects.get_or_create(
-        name=str(receiver),
-        defaults={
-            'address': '',
-            'email': '',
-            'phone': '',
-            'oib': '00000000000',
-            'country': 'Hrvatska',
-            'city': '',
-            'postal_code': '',
-            'is_supplier': True,
-        }
-    )
-
     today = timezone.now().date()
     invoice = Invoice.objects.create(
-        client=client,
+        client_name=str(receiver),
         invoice_number=str(uuid.uuid4()),
         issue_date=today,
         due_date=today,
         pdv_rate=applied_rate,
         amount=amount,
     )
-
-    # Create invoice line
     descr = f"{asset}"
     if not sender_in_vat:
         descr += " nije u sustavu PDV-a"
