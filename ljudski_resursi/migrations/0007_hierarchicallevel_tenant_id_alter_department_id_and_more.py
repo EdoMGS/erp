@@ -6,21 +6,20 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    # Removed dependency on legacy 'client' app for MVP
     dependencies = [
-        ("client", "0001_initial"),
         ("ljudski_resursi", "0006_employee_access_level"),
     ]
 
     operations = [
+        # Replace tenant FK with textual placeholder for MVP
         migrations.AddField(
             model_name="hierarchicallevel",
-            name="tenant_id",
-            field=models.ForeignKey(
-                blank=True,
+            name="tenant_name",
+            field=models.CharField(
+                max_length=255,
                 null=True,
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="ljr_hierarchical_levels",
-                to="client.clientsupplier",
+                blank=True,
                 verbose_name="Tenant (Holding/Operativa)",
             ),
         ),

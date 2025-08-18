@@ -21,6 +21,8 @@ class HierarchicalLevel(models.Model):
         help_text=_("Niža vrijednost = viši rang, ili obrnuto, ovisno o konvenciji."),
     )
     description = models.TextField(blank=True, null=True, verbose_name=_("Opis hijerarhijskog nivoa"))
+    # Placeholder textual tenant reference (replaces FK to client.ClientSupplier in MVP)
+    tenant_name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Tenant (Holding/Operativa)"))
 
     def __str__(self):
         return f"{self.name} (level={self.level})"
