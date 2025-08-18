@@ -6,8 +6,8 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    # Removed dependency on legacy 'proizvodnja' app (disabled in MVP)
     dependencies = [
-        ("proizvodnja", "0002_initial"),
         ("financije", "0005_alter_salaryaddition_evaluation_and_more"),
         (
             "ljudski_resursi",
@@ -61,14 +61,15 @@ class Migration(migrations.Migration):
                 verbose_name="Odobrio",
             ),
         ),
+        # Replaced FK to proizvodnja.RadniNalog with simple reference field for MVP
         migrations.AddField(
             model_name="nagrada",
-            name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="nagrade",
-                to="proizvodnja.radninalog",
-                verbose_name="Radni nalog",
+            name="radni_nalog_ref",
+            field=models.CharField(
+                max_length=64,
+                null=True,
+                blank=True,
+                verbose_name="Radni nalog Ref",
             ),
         ),
         migrations.AlterUniqueTogether(
