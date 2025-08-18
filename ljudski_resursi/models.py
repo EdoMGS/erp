@@ -325,12 +325,8 @@ class Nagrada(models.Model):
         related_name="nagrade",
         verbose_name=_("Zaposlenik"),
     )
-    radni_nalog = models.ForeignKey(
-        "proizvodnja.RadniNalog",
-        on_delete=models.CASCADE,
-        related_name="nagrade",
-        verbose_name=_("Radni nalog"),
-    )
+    # Legacy FK to proizvodnja.RadniNalog removed (app disabled in MVP)
+    radni_nalog_ref = models.CharField(max_length=64, blank=True, null=True, verbose_name=_("Radni nalog Ref"))
     iznos = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Iznos nagrade (€)"))
     razlog = models.TextField(blank=True, null=True, verbose_name=_("Razlog nagrade"))
     datum_dodjele = models.DateField(auto_now_add=True, verbose_name=_("Datum dodjele"))
@@ -349,7 +345,7 @@ class Nagrada(models.Model):
         app_label = 'ljudski_resursi'
 
     def __str__(self):
-        return f"Nagrada {self.iznos}€ za {self.employee} ({self.radni_nalog})"
+        return f"Nagrada {self.iznos}€ za {self.employee} ({self.radni_nalog_ref or '-'})"
 
 
 class RadnaEvaluacija(models.Model):

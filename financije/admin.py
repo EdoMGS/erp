@@ -17,9 +17,9 @@ from .models import (BankTransaction, Budget, CashFlow, FinancialDetails,
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     form = InvoiceForm
-    list_display = ["invoice_number", "client", "amount", "issue_date", "paid"]
+    list_display = ["invoice_number", "client_name", "amount", "issue_date", "paid"]
     list_filter = ["paid", "status_fakture", "issue_date"]
-    search_fields = ["invoice_number", "client__name"]
+    search_fields = ["invoice_number", "client_name"]
     date_hierarchy = "issue_date"
 
 
@@ -120,14 +120,14 @@ class FinancialReportAdmin(admin.ModelAdmin):
 class DebtAdmin(admin.ModelAdmin):
     form = DebtForm
     list_display = (
-        "client",
+        "client_name",
         "invoice",
         "due_date",
         "amount_due",
         "is_paid",
         "days_overdue",
     )
-    search_fields = ("client__name", "invoice__invoice_number")
+    search_fields = ("client_name", "invoice__invoice_number")
     list_filter = ("is_paid", "due_date")
     ordering = ("-due_date",)
 
@@ -175,6 +175,6 @@ class BudgetAdmin(admin.ModelAdmin):
 
 @admin.register(SalesContract)
 class SalesContractAdmin(admin.ModelAdmin):
-    list_display = ("contract_number", "client")
-    search_fields = ("contract_number", "client__name")
-    list_filter = ("client",)  # Changed from 'client__country' to 'client'
+    list_display = ("contract_number", "client_name")
+    search_fields = ("contract_number", "client_name")
+    list_filter = ()  # No client FK available in MVP
