@@ -1,3 +1,6 @@
+# Test settings
+from .base import *  # noqa
+
 # Use in-memory SQLite database for testing
 DATABASES = {
     'default': {
@@ -21,3 +24,6 @@ PASSWORD_HASHERS = [
 
 CELERY_BROKER_URL = 'memory://'
 CELERY_RESULT_BACKEND = 'rpc://'
+
+# Define a static secret key for tests
+SECRET_KEY = 'test-secret-key'

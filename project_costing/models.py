@@ -3,6 +3,8 @@
 from decimal import Decimal
 from django.db import models
 from tenants.models import Tenant
+from financije.models.invoice import Invoice
+from ljudski_resursi.models import Employee
 
 
 class Project(models.Model):
@@ -67,3 +69,37 @@ class ProfitShareConfig(models.Model):
             "fund": fund.quantize(Decimal("0.01")),
             "worker": worker.quantize(Decimal("0.01")),
         }
+
+
+class ProfitShareRun(models.Model):
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="profit_share_runs")
+    ref = models.CharField(max_length=64)
+    total_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    pool_50 = models.DecimalField(max_digits=12, decimal_places=2)
+    pool_30 = models.DecimalField(max_digits=12, decimal_places=2)
+    pool_20 = models.DecimalField(max_digits=12, decimal_places=2)
+    ramp_up_min_net = models.DecimalField(max_digits=10, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["tenant", "ref"], name="uniq_profitshare_ref_per_tenant"),
+            models.UniqueConstraint(fields=["invoice"], name="uniq_profitshare_invoice"),
+        ]
+
+
+class ProfitShareParticipant(models.Model):
+    run = models.ForeignKey(ProfitShareRun, on_delete=models.CASCADE, related_name="participants")
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    share_weight = models.DecimalField(max_digits=5, decimal_places=2)
+    amount_from_30 = models.DecimalField(max_digits=12, decimal_places=2)
+    ramp_up_adjustment = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    final_amount = models.DecimalField(max_digits=12, decimal_places=2)
+
+
+class ProfitShareAdjustment(models.Model):
+    run = models.ForeignKey(ProfitShareRun, on_delete=models.CASCADE, related_name="adjustments")
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    note = models.CharField(max_length=255, blank=True)
