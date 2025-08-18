@@ -7,11 +7,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# client (za ClientSupplier)
-try:
-    from client.models import ClientSupplier
-except ImportError:
-    ClientSupplier = None
+# ClientSupplier legacy app removed from INSTALLED_APPS for MVP; use safe placeholder
+ClientSupplier = None
 
 
 class NekiFinancijskiModel(models.Model):
@@ -119,10 +116,11 @@ class VariablePayRule(models.Model):
 
 class SalesContract(models.Model):
     contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Contract Number"))
-    client = models.ForeignKey(ClientSupplier, on_delete=models.CASCADE, verbose_name=_("Client"))
+    # Placeholder textual client reference since client.ClientSupplier is legacy-disabled
+    client_name = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Client"))
 
     def __str__(self):
-        return f"Sales Contract {self.contract_number} for {self.client}"
+        return f"Sales Contract {self.contract_number} for {self.client_name or '-'}"
 
 
 class FinancijskaTransakcija(models.Model):
@@ -160,13 +158,8 @@ class Racun(models.Model):
         default="draft",
     )
 
-    primka = models.OneToOneField(
-        "skladiste.Primka",
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="racun",
-    )
+    # Legacy dependency to skladiste.Primka removed for MVP
+    primka_ref = models.CharField(max_length=64, blank=True, null=True, verbose_name=_("Primka Ref"))
 
     class Meta:
         verbose_name = _("Račun")
