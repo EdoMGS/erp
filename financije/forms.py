@@ -5,7 +5,7 @@ from django.apps import apps  # Added import for apps
 from django.utils.translation import \
     gettext_lazy as _  # Added import for translation function
 
-from client.models import ClientSupplier  # Changed: import from client
+# ClientSupplier legacy app removed for MVP; using placeholder name fields only.
 
 from .models import (BankTransaction, Budget, CashFlow, Debt, FinancialDetails,
                      FinancialReport, Invoice, InvoiceLine, MonthlyOverhead,
@@ -36,7 +36,7 @@ class InvoiceForm(BaseModelForm):
     class Meta:
         model = Invoice
         fields = [
-            "client",
+            "client_name",
             "invoice_number",
             "issue_date",
             "due_date",
@@ -51,7 +51,7 @@ class InvoiceForm(BaseModelForm):
             "public_tender_ref",
         ]
         widgets = {
-            "client": forms.Select(attrs={"class": "form-select"}),
+            "client_name": forms.TextInput(),
             "invoice_number": forms.TextInput(),
             "issue_date": forms.DateInput(attrs={"type": "date"}),
             "due_date": forms.DateInput(attrs={"type": "date"}),
@@ -151,10 +151,7 @@ class OverheadForm(forms.ModelForm):
 #############################################
 # 7) ClientSupplier Form
 #############################################
-class ClientSupplierForm(forms.ModelForm):
-    class Meta:
-        model = ClientSupplier
-        fields = "__all__"
+# Removed ClientSupplierForm (legacy app disabled)
 
 
 #############################################
@@ -332,10 +329,22 @@ class BudgetForm(forms.ModelForm):
 class SalesContractForm(forms.ModelForm):
     class Meta:
         model = SalesContract
-        fields = "__all__"
+        fields = [
+            "contract_number",
+            "client_name",
+            "status",
+            "public_tender_number",
+            "bank_guarantee_required",
+            "total_amount",
+            "discount",
+            "sales_order",
+            "delivery_schedule",
+            "client_specific_reqs",
+            "related_production_order_ref",
+        ]
         widgets = {
             "contract_number": forms.TextInput(),
-            "client": forms.Select(attrs={"class": "form-select"}),
+            "client_name": forms.TextInput(),
             "status": forms.Select(attrs={"class": "form-select"}),
             "public_tender_number": forms.TextInput(),
             "bank_guarantee_required": forms.CheckboxInput(attrs={"class": "form-check-input"}),
@@ -344,7 +353,7 @@ class SalesContractForm(forms.ModelForm):
             "sales_order": forms.Select(attrs={"class": "form-select"}),
             "delivery_schedule": forms.Textarea(),
             "client_specific_reqs": forms.Textarea(),
-            "related_production_order": forms.Select(attrs={"class": "form-select"}),
+            "related_production_order_ref": forms.TextInput(),
         }
 
 
