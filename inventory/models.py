@@ -97,6 +97,10 @@ class StockQuant(models.Model):
     class Meta:
         unique_together = ('item', 'warehouse', 'location', 'lot')
 
+    def ensure_non_negative(self):
+        if self.qty < 0:
+            raise ValueError(f"Negative stock detected for {self.item.sku} at {self.location}: {self.qty}")
+
 
 class StockMove(models.Model):  # WorkOrder defined later; forward ref used
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
@@ -194,6 +198,28 @@ def _get_quant(item: Item, warehouse: Warehouse, location: Location, lot=None):
     )[0]
 
 
+def inventory_valuation(*, warehouse: Warehouse | None = None):
+    """Return list of dicts with item, qty, cost_per_uom, value (aggregated across locations/lots)."""
+    qs = StockQuant.objects.all()
+    if warehouse:
+        qs = qs.filter(warehouse=warehouse)
+    data: dict[int, dict] = {}
+    for q in qs:
+        key = q.item.pk  # use primary key for stable grouping
+        if key not in data:
+            data[key] = {"item_id": q.item.pk, "item": q.item, "qty": Decimal('0'), "value": Decimal('0')}
+        data[key]["qty"] += q.qty
+        data[key]["value"] += q.qty * q.cost_per_uom
+    # compute cost_per_uom
+    out = []
+    for d in data.values():
+        qty = d["qty"]
+        value = d["value"]
+        cpu = (value / qty) if qty else Decimal('0')
+        out.append({"item": d["item"], "qty": qty, "cost_per_uom": cpu, "value": value})
+    return sorted(out, key=lambda x: x['item'].sku)
+
+
 def _find_quant_for_issue(item: Item, warehouse: Warehouse, location: Location, needed: Decimal):
     # Try exact lot-less quant first
     q = StockQuant.objects.filter(item=item, warehouse=warehouse, location=location).order_by('lot_id').first()
@@ -233,6 +259,7 @@ def issue_to_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Locat
     # Adjust source
     src_q.qty -= qty
     src_q.save(update_fields=["qty"])
+    src_q.ensure_non_negative()
     # Add to WIP (average cost is passthrough)
     wip_q = _get_quant(item, warehouse, wip)
     # If wip_q.qty == 0 keep cost_per_uom same, else ensure it matches (weighted avg among same unit cost)
@@ -315,6 +342,7 @@ def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: 
         total_value += value
         q.qty -= take
         q.save(update_fields=['qty'])
+        q.ensure_non_negative()
         # Update / create WIP quant
         wip_q = _get_quant(item, warehouse, wip)
         # Blend cost if different
@@ -370,6 +398,7 @@ def return_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Lo
     # Deduct from WIP
     wip_q.qty -= qty
     wip_q.save(update_fields=["qty"])
+    wip_q.ensure_non_negative()
     # Add back to destination (weighted avg update like receive)
     dst_q = _get_quant(item, warehouse, dst)
     old_qty = dst_q.qty
@@ -429,6 +458,7 @@ def scrap_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Loc
     # Deduct from WIP
     wip_q.qty -= qty
     wip_q.save(update_fields=["qty"])
+    wip_q.ensure_non_negative()
     move = StockMove.objects.create(
         tenant=tenant,
         item=item,
