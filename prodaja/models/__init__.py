@@ -25,10 +25,10 @@ class SalesOpportunity(models.Model):
     ]
     LEAD_SOURCE_CHOICES = [
         ("field_visit", _("Terenska posjeta")),
-        ("tender", _("Javna nabava / natjeÄaj")),
-        ("referral", _("Preporuka postojeÄ‡eg klijenta")),
+        ("tender", _("Javna nabava / natječaj")),
+        ("referral", _("Preporuka postojećeg klijenta")),
         ("marketing", _("Digitalni marketing / kampanja")),
-        ("trade_fair", _("Sajam / industrijski dogaÄ‘aj")),
+        ("trade_fair", _("Sajam / industrijski događaj")),
         ("other", _("Ostalo")),
     ]
 
@@ -47,16 +47,16 @@ class SalesOpportunity(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name=_("BudÅ¾et (procjena)"),
+        verbose_name=_("Budžet (procjena)"),
         validators=[MinValueValidator(Decimal("0"))],
     )
     public_tender_number = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natjeÄaja")
+        max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja")
     )
     project_service_type = models.CharField(
         max_length=255, blank=True, null=True, verbose_name=_("Vrsta usluge/projekta")
     )
-    notes = models.TextField(blank=True, verbose_name=_("BiljeÅ¡ke"))
+    notes = models.TextField(blank=True, verbose_name=_("Bilješke"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -72,7 +72,7 @@ class SalesOpportunity(models.Model):
 class FieldVisit(models.Model):
     STATUS_CHOICES = [
         ("planned", _("Planirano")),
-        ("completed", _("ZavrÅ¡eno")),
+        ("completed", _("Završeno")),
         ("cancelled", _("Otkazano")),
     ]
     opportunity = models.ForeignKey(
@@ -83,7 +83,7 @@ class FieldVisit(models.Model):
     )
     scheduled_date = models.DateField(verbose_name=_("Planirani datum"))
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="planned", verbose_name=_("Status"))
-    notes = models.TextField(blank=True, verbose_name=_("BiljeÅ¡ke"))
+    notes = models.TextField(blank=True, verbose_name=_("Bilješke"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -111,7 +111,7 @@ class Quotation(models.Model):
     quote_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj ponude"))
     valid_until = models.DateField(verbose_name=_("Vrijedi do"))
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
-    total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (â‚¬)"))
+    total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)"))
     discount = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -137,18 +137,18 @@ class Quotation(models.Model):
 
 class SalesOrder(models.Model):
     STATUS_CHOICES = [
-        ("pending", _("Na Äekanju")),
-        ("completed", _("ZavrÅ¡eno")),
+        ("pending", _("Na čekanju")),
+        ("completed", _("Završeno")),
         ("cancelled", _("Otkazano")),
     ]
 
     client_name = models.CharField(max_length=255, verbose_name=_("Klijent"))
-    order_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj narudÅ¾be"))
+    order_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj narudžbe"))
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     total_amount = models.DecimalField(
         max_digits=15,
         decimal_places=2,
-        verbose_name=_("Ukupan iznos (â‚¬)"),
+        verbose_name=_("Ukupan iznos (€)"),
         validators=[MinValueValidator(Decimal("0"))],
     )
     discount = models.DecimalField(
@@ -184,13 +184,13 @@ class SalesContract(models.Model):
     contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj ugovora"))
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="draft")
     public_tender_number = models.CharField(
-        max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natjeÄaja")
+        max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja")
     )
-    bank_guarantee_required = models.BooleanField(default=False, verbose_name=_("Bankarska garancija traÅ¾ena?"))
+    bank_guarantee_required = models.BooleanField(default=False, verbose_name=_("Bankarska garancija tražena?"))
     total_amount = models.DecimalField(
         max_digits=15,
         decimal_places=2,
-        verbose_name=_("Ukupan iznos (â‚¬)"),
+        verbose_name=_("Ukupan iznos (€)"),
         validators=[MinValueValidator(Decimal("0"))],
     )
     discount = models.DecimalField(
@@ -211,7 +211,7 @@ class SalesContract(models.Model):
     )
     created_by = models.CharField(max_length=255, verbose_name=_("Kreirao/la"))
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Sales Contract {self.contract_number}"
