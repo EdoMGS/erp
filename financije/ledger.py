@@ -94,14 +94,19 @@ def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, da
     return je
 
 
-def trial_balance(tenant: Tenant):
+def trial_balance(tenant: Tenant, *, show_netted: bool = False):
     data = []
     for acct in Account.objects.all():
-        debit = acct.journalitem_set.aggregate(models.Sum("debit"))["debit__sum"] or Decimal("0.00")
-        credit = acct.journalitem_set.aggregate(models.Sum("credit"))["credit__sum"] or Decimal("0.00")
-        # Skip completely inactive OR fully netted (DR==CR) accounts to keep report concise
-        if (debit == 0 and credit == 0) or debit == credit:
-            continue
+        debit = acct.journalitem_set.aggregate(models.Sum("debit"))['debit__sum'] or Decimal("0.00")
+        credit = acct.journalitem_set.aggregate(models.Sum("credit"))['credit__sum'] or Decimal("0.00")
+        if not show_netted:
+            # Original behavior: skip fully netted accounts and inactive accounts
+            if (debit == 0 and credit == 0) or debit == credit:
+                continue
+        else:
+            # show_netted=True: only skip completely inactive
+            if (debit == 0 and credit == 0):
+                continue
         balance = debit - credit
         data.append((acct.number, debit, credit, balance))
     return data

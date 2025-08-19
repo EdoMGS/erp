@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'prodaja',
     'project_costing',
     'financije',  # temporary include
+    'inventory',  # new inventory/WIP module (Sprint: skladiste foundation)
 ]
 
 # Legacy apps moved out of scope for MVP are placed under legacy_disabled/ directory and removed from INSTALLED_APPS.
