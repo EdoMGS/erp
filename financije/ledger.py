@@ -13,7 +13,7 @@ from typing import List, Sequence
 from django.db import models, transaction
 from django.utils import timezone
 
-from financije.models.accounting import Account, JournalEntry, JournalItem
+from financije.models.accounting import Account, JournalEntry, JournalItem, PeriodLock
 from tenants.models import Tenant
 
 
@@ -24,16 +24,24 @@ def quantize(amount: Decimal) -> Decimal:
 class PostedJournalRef(models.Model):
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     ref = models.CharField(max_length=64)
+    kind = models.CharField(max_length=32, default="generic")
     entry = models.OneToOneField(JournalEntry, on_delete=models.CASCADE, related_name="posted_ref")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("tenant", "ref")
+        unique_together = ("tenant", "ref", "kind")
 
 
 @transaction.atomic
-def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, date=None) -> JournalEntry:
-    existing_ref = PostedJournalRef.objects.filter(tenant=tenant, ref=ref).select_related("entry").first()
+def _is_locked(tenant: Tenant, date) -> bool:
+    return PeriodLock.objects.filter(tenant=tenant, year=date.year, month=date.month).exists()
+
+
+@transaction.atomic
+def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, date=None, kind: str = "generic") -> JournalEntry:
+    existing_ref = (
+        PostedJournalRef.objects.filter(tenant=tenant, ref=ref, kind=kind).select_related("entry").first()
+    )
     if existing_ref:
         return existing_ref.entry
 
@@ -64,14 +72,29 @@ def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, da
     if debit_total != credit_total:
         raise ValueError("Entry not balanced (DR != CR)")
 
+    post_date = date or timezone.now().date()
+    if _is_locked(tenant, post_date):
+        raise ValueError("Period locked for date: %s" % post_date)
+
     je = JournalEntry.objects.create(
-        date=date or timezone.now().date(),
+        tenant=tenant,
+        date=post_date,
         description=memo,
     )
     JournalItem.objects.bulk_create(
-        [JournalItem(entry=je, account=nl["account"], debit=nl["debit"], credit=nl["credit"]) for nl in norm_lines]
+        [
+            JournalItem(
+                entry=je,
+                account=nl["account"],
+                debit=nl["debit"],
+                credit=nl["credit"],
+                cost_center=nl.get("cost_center"),
+                labels=nl.get("labels", []),
+            )
+            for nl in norm_lines
+        ]
     )
-    PostedJournalRef.objects.create(tenant=tenant, ref=ref, entry=je)
+    PostedJournalRef.objects.create(tenant=tenant, ref=ref, kind=kind, entry=je)
     return je
 
 

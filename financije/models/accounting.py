@@ -1,6 +1,8 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.contrib.postgres.fields import ArrayField  # type: ignore
+from django.db.models import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum
@@ -44,6 +46,7 @@ class Account(models.Model):
 
 
 class JournalEntry(models.Model):
+    tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, null=True, blank=True, related_name='journal_entries')
     date = models.DateField(verbose_name=_("Datum knjiženja"))
     description = models.TextField(verbose_name=_("Opis transakcije"))
     created_at = models.DateTimeField(auto_now_add=True)
@@ -55,6 +58,8 @@ class JournalEntry(models.Model):
         blank=True,
         verbose_name=_("Korisnik"),
     )
+    # Period locking helper flags
+    locked = models.BooleanField(default=False, help_text=_('Zaključana temeljnica (period zaključen)'))
 
     @property
     def total_debit(self):
@@ -91,6 +96,8 @@ class JournalItem(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     debit = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
     credit = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    cost_center = models.CharField(max_length=30, null=True, blank=True)
+    labels = JSONField(default=list, blank=True, help_text=_('Lista slobodnih oznaka (tagova)'))
 
     def clean(self):
         if self.debit != Decimal("0.00") and self.credit != Decimal("0.00"):
@@ -105,3 +112,21 @@ class JournalItem(models.Model):
 
     def __str__(self):
         return f"Journal Item: Entry #{self.entry.id}, Konto {self.account.number}"
+
+
+class PeriodLock(models.Model):
+    tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, related_name='period_locks')
+    year = models.IntegerField()
+    month = models.IntegerField()
+    locked_at = models.DateTimeField(auto_now_add=True)
+    closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        app_label = 'financije'
+        unique_together = ("tenant", "year", "month")
+        indexes = [models.Index(fields=["tenant", "year", "month"])]
+        verbose_name = _('Zaključan period')
+        verbose_name_plural = _('Zaključani periodi')
+
+    def __str__(self):
+        return f"{self.tenant_id or ''} {self.year}-{self.month:02d}"
