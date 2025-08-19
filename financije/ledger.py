@@ -118,19 +118,27 @@ def trial_balance(
     tenant: Tenant,
     *,
     show_netted: bool = False,
-    start_date: Optional[object] = None,
-    end_date: Optional[object] = None,
+    start: Optional[object] = None,
+    end: Optional[object] = None,
+    start_date: Optional[object] = None,  # backwards compat alias
+    end_date: Optional[object] = None,  # backwards compat alias
 ):
     """Return list of tuples (account_number, debit, credit, balance) scoped to tenant.
 
-    Optional date range filters (inclusive) reduce the population to movements within the period.
+    Date range (inclusive) may be provided via start/end (preferred) or legacy start_date/end_date.
     When show_netted=False (default) skip accounts whose movements net to zero; otherwise include them.
     """
+    # Normalize parameter names (prefer new ones if provided)
+    if start is None:
+        start = start_date
+    if end is None:
+        end = end_date
+
     ji_qs = JournalItem.objects.filter(entry__tenant=tenant)
-    if start_date:
-        ji_qs = ji_qs.filter(entry__date__gte=start_date)
-    if end_date:
-        ji_qs = ji_qs.filter(entry__date__lte=end_date)
+    if start:
+        ji_qs = ji_qs.filter(entry__date__gte=start)
+    if end:
+        ji_qs = ji_qs.filter(entry__date__lte=end)
 
     agg = (
         ji_qs.values("account__number")

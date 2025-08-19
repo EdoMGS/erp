@@ -8,14 +8,28 @@ from tenants.models import TenantSettings
 from .models import ProfitShareParticipant, ProfitShareRun
 
 
-def _basis(invoice, tenant):
-    # NET if tenant vat_registered and PDV present else BRUTO (amount)
-    amount = getattr(invoice, 'amount', Decimal('0'))
-    if hasattr(tenant, 'vat_registered') and tenant.vat_registered and invoice.pdv_rate and invoice.pdv_rate > 0:
-        vat_fraction = invoice.pdv_rate / Decimal('100')
-        net = amount / (Decimal('1') + vat_fraction)
-        return quantize(net)
-    return quantize(amount)
+def _basis(invoice, tenant):  # noqa: D401
+    """Return profit-share basis.
+
+    Uses invoice.total_base when tenant is VAT registered and tax > 0 else falls back to total_amount.
+    Backwards compatibility: falls back to legacy 'amount' attr if new totals missing.
+    """
+    total_base = getattr(invoice, 'total_base', None)
+    total_tax = getattr(invoice, 'total_tax', None)
+    total_amount = getattr(invoice, 'total_amount', None)
+    if (
+        hasattr(tenant, 'vat_registered')
+        and tenant.vat_registered
+        and total_tax is not None
+        and total_base is not None
+        and total_tax > 0
+    ):
+        return quantize(total_base)
+    # Fallback order: total_amount -> amount -> 0
+    if total_amount is not None:
+        return quantize(total_amount)
+    legacy_amount = getattr(invoice, 'amount', Decimal('0'))
+    return quantize(legacy_amount)
 
 
 def run_profit_share(invoice, participant_data, tenant, ref=None):
