@@ -8,7 +8,7 @@ We reuse financije.models.accounting models and add PostedJournalRef for idempot
 """
 from __future__ import annotations
 from decimal import Decimal, ROUND_HALF_UP
-from typing import List, Sequence
+from typing import List, Sequence, Iterable
 
 from django.db import models, transaction
 from django.utils import timezone
@@ -17,8 +17,11 @@ from financije.models.accounting import Account, JournalEntry, JournalItem, Peri
 from tenants.models import Tenant
 
 
-def quantize(amount: Decimal) -> Decimal:
-    return amount.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+def money(value) -> Decimal:
+    return Decimal(value).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
+quantize = money  # backwards compat internal
 
 
 class PostedJournalRef(models.Model):
@@ -108,3 +111,52 @@ def trial_balance(tenant: Tenant):
         balance = debit - credit
         data.append((acct.number, debit, credit, balance))
     return data
+
+
+@transaction.atomic
+def reverse_entry(*, tenant: Tenant, entry: JournalEntry, ref: str, memo: str | None = None, kind: str = "reversal") -> JournalEntry:
+    if entry.tenant_id != tenant.id:
+        raise ValueError("Tenant mismatch for reversal")
+    memo_final = memo or f"Reversal of JE {entry.id}: {entry.description}"
+    lines = []
+    for ji in entry.journalitem_set.all():
+        dc = "D" if ji.credit and ji.credit > 0 else "C"
+        amt = ji.credit if ji.credit > 0 else ji.debit
+        if amt == 0:
+            continue
+        lines.append({
+            "account": ji.account,
+            "dc": dc,
+            "amount": amt,
+            "cost_center": ji.cost_center,
+            "labels": ji.labels,
+        })
+    rev = post_entry(
+        tenant=tenant,
+        lines=lines,
+        ref=ref,
+        memo=memo_final,
+        date=entry.date,
+        kind=kind,
+    )
+    rev.reversal_of = entry
+    rev.save(update_fields=["reversal_of"])
+    return rev
+
+
+def is_period_locked(tenant: Tenant, year: int, month: int) -> bool:
+    return PeriodLock.objects.filter(tenant=tenant, year=year, month=month).exists()
+
+
+def close_month(*, tenant: Tenant, year: int, month: int, user=None) -> PeriodLock:
+    if is_period_locked(tenant, year, month):
+        raise ValueError("Period already locked")
+    lock = PeriodLock.objects.create(tenant=tenant, year=year, month=month, closed_by=user)
+    return lock
+
+
+def reopen_month(*, tenant: Tenant, year: int, month: int):
+    qs = PeriodLock.objects.filter(tenant=tenant, year=year, month=month)
+    if not qs.exists():
+        raise ValueError("Period not locked")
+    qs.delete()

@@ -60,6 +60,7 @@ class JournalEntry(models.Model):
     )
     # Period locking helper flags
     locked = models.BooleanField(default=False, help_text=_('Zaključana temeljnica (period zaključen)'))
+    reversal_of = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='reversals', help_text=_('Ako je ovo reverzna temeljnica, referenca na izvornu.'))
 
     @property
     def total_debit(self):
@@ -85,7 +86,11 @@ class JournalEntry(models.Model):
 
     class Meta:
         app_label = "financije"
-        indexes = [models.Index(fields=["date"]), models.Index(fields=["created_at"])]
+        indexes = [
+            models.Index(fields=["date"]),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["tenant", "date"]),
+        ]
 
     def __str__(self):
         return f"Journal Entry #{self.id} - {self.date}"
