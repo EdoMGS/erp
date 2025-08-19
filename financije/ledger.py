@@ -14,6 +14,7 @@ from django.db import models, transaction
 from django.utils import timezone
 
 from financije.models.accounting import Account, JournalEntry, JournalItem, PeriodLock
+from financije.models import PostedJournalRef
 from tenants.models import Tenant
 
 
@@ -24,15 +25,7 @@ def money(value) -> Decimal:
 quantize = money  # backwards compat internal
 
 
-class PostedJournalRef(models.Model):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
-    ref = models.CharField(max_length=64)
-    kind = models.CharField(max_length=32, default="generic")
-    entry = models.OneToOneField(JournalEntry, on_delete=models.CASCADE, related_name="posted_ref")
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ("tenant", "ref", "kind")
+"""PostedJournalRef model now lives in financije.models.refs (imported above)."""
 
 
 @transaction.atomic

@@ -15,6 +15,7 @@ from .finreports import *  # noqa: F403, F405
 
 # Invoice and payment related
 from .invoice import *  # noqa: F403, F405
+from .refs import PostedJournalRef  # noqa: F401
 
 # Other financial models
 from .others import (
@@ -71,6 +72,8 @@ __all__ = [
     "Tax",
     "TaxConfiguration",
     "Municipality",
+    # Refs / Idempotency
+    "PostedJournalRef",
     # Other Financial
     "FinancialDetails",
     "VariablePayRule",
