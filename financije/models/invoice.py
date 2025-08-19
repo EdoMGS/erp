@@ -159,6 +159,7 @@ class Debt(models.Model):
 # Signal to generate worker payouts when an invoice is marked as paid
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from financije.tasks import generate_worker_payouts
 
 

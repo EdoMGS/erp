@@ -1,0 +1,72 @@
+[
+  {
+    "model": "financije.taxlocalrate",
+    "pk": 1,
+    "fields": {
+      "tenant": 1,
+      "jls_code": "DEFAULT",
+      "name": "Zadana JLS stopa (fallback)",
+      "lower_rate": "0.20",
+      "higher_rate": "0.30",
+      "valid_from": "2024-01-01",
+      "valid_to": null,
+      "active": true
+    }
+  },
+  {
+    "model": "financije.taxlocalrate",
+    "pk": 2,
+    "fields": {
+      "tenant": 1,
+      "jls_code": "BAKAR",
+      "name": "Grad Bakar",
+      "lower_rate": "0.20",
+      "higher_rate": "0.30",
+      "valid_from": "2024-01-01",
+      "valid_to": null,
+      "active": true
+    }
+  },
+  {
+    "model": "financije.taxlocalrate",
+    "pk": 3,
+    "fields": {
+      "tenant": 1,
+      "jls_code": "KRALJEVICA",
+      "name": "Grad Kraljevica",
+      "lower_rate": "0.20",
+      "higher_rate": "0.30",
+      "valid_from": "2024-01-01",
+      "valid_to": null,
+      "active": true
+    }
+  },
+  {
+    "model": "financije.taxlocalrate",
+    "pk": 4,
+    "fields": {
+      "tenant": 1,
+      "jls_code": "RIJEKA",
+      "name": "Grad Rijeka",
+      "lower_rate": "0.22",
+      "higher_rate": "0.32",
+      "valid_from": "2025-01-01",
+      "valid_to": null,
+      "active": true
+    }
+  },
+  {
+    "model": "financije.taxlocalrate",
+    "pk": 5,
+    "fields": {
+      "tenant": 1,
+      "jls_code": "ZAGREB",
+      "name": "Grad Zagreb",
+      "lower_rate": "0.23",
+      "higher_rate": "0.33",
+      "valid_from": "2025-03-01",
+      "valid_to": null,
+      "active": true
+    }
+  }
+]

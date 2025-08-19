@@ -1,17 +1,18 @@
-import pytest
 from decimal import Decimal
-from tenants.models import Tenant, TenantSettings
+
+import pytest
+
+from accounts.models import CustomUser
 from financije.models.invoice import Invoice
 from ljudski_resursi.models import (
-    Employee,
-    Position,
     Department,
-    HierarchicalLevel,
+    Employee,
     ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
 )
-from accounts.models import CustomUser
 from project_costing.profit_share import run_profit_share
-
+from tenants.models import Tenant, TenantSettings
 
 pytestmark = pytest.mark.skip(reason="Skipped in MVP: depends on removed client.ClientSupplier model")
 
@@ -31,9 +32,7 @@ def test_run_profit_share_with_ramp_up():
     hl = HierarchicalLevel.objects.create(name="L1", level=1)
     dept = Department.objects.create(name="D1")
     el = ExpertiseLevel.objects.create(name="E1")
-    pos = Position.objects.create(
-        title="P1", department=dept, hierarchical_level=hl, expertise_level=el
-    )
+    pos = Position.objects.create(title="P1", department=dept, hierarchical_level=hl, expertise_level=el)
     user1 = CustomUser.objects.create(username="u1", email="u1@example.com")
     user2 = CustomUser.objects.create(username="u2", email="u2@example.com")
     emp1 = Employee.objects.create(
@@ -59,4 +58,3 @@ def test_run_profit_share_with_ramp_up():
 
     # Body retained for historical reference; assertions skipped in MVP.
     run_profit_share(invoice, [(emp1, Decimal("1")), (emp2, Decimal("1"))], tenant)
-

@@ -152,7 +152,9 @@ class SalesContract(models.Model):
     client_name = models.CharField(max_length=255, verbose_name=_("Klijent"))
     contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Broj ugovora"))
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="draft")
-    public_tender_number = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja"))
+    public_tender_number = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name=_("Broj javnog natječaja")
+    )
     bank_guarantee_required = models.BooleanField(default=False, verbose_name=_("Bankarska garancija tražena?"))
     total_amount = models.DecimalField(max_digits=15, decimal_places=2, verbose_name=_("Ukupan iznos (€)"))
     discount = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True, verbose_name=_("Popust (%)"))
@@ -161,7 +163,9 @@ class SalesContract(models.Model):
     )
     delivery_schedule = models.TextField(null=True, blank=True, verbose_name=_("Raspored isporuke"))
     client_specific_reqs = models.TextField(null=True, blank=True, verbose_name=_("Posebni zahtjevi klijenta"))
-    related_production_order_ref = models.CharField(max_length=64, blank=True, null=True, verbose_name=_("Ref radnog naloga"))
+    related_production_order_ref = models.CharField(
+        max_length=64, blank=True, null=True, verbose_name=_("Ref radnog naloga")
+    )
     created_by = models.CharField(max_length=255, verbose_name=_("Kreirao/la"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -9,9 +9,7 @@ def fix_text(text: str) -> str:
     out_lines = []
     for line in text.splitlines(keepends=True):
         # replace tabs only in the leading indentation portion
-        line = re.sub(r'^(?P<indent>[ \t]+)',
-                      lambda m: m.group('indent').replace('\t', '    '),
-                      line)
+        line = re.sub(r'^(?P<indent>[ \t]+)', lambda m: m.group('indent').replace('\t', '    '), line)
         # strip trailing spaces/tabs (before newline)
         line = re.sub(r'[ \t]+(?=\n$)', '', line)
         out_lines.append(line)

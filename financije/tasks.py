@@ -16,18 +16,8 @@ def snapshot_break_even():
     channel_layer = get_channel_layer()
 
     for tenant in Tenant.objects.all():
-        for division in (
-            FixedCost.objects
-                     .filter(tenant=tenant)
-                     .values_list("division", flat=True)
-                     .distinct()
-        ):
-            fixed_sum = sum(
-                fc.monthly_value()
-                for fc in FixedCost.objects.filter(
-                    tenant=tenant, division=division
-                )
-            )
+        for division in FixedCost.objects.filter(tenant=tenant).values_list("division", flat=True).distinct():
+            fixed_sum = sum(fc.monthly_value() for fc in FixedCost.objects.filter(tenant=tenant, division=division))
 
             BreakEvenSnapshot.objects.create(
                 tenant=tenant,
@@ -51,6 +41,7 @@ def snapshot_break_even():
 def create_interco_invoice():
     """Generate invoices for invoiceable asset usage records."""
     from asset_usage.models import AssetUsage
+
     from financije.models.invoice import Invoice, InvoiceLine
 
     usages = AssetUsage.objects.filter(invoiceable=True, is_deleted=False)

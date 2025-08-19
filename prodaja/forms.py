@@ -3,11 +3,11 @@ from django.forms import ModelForm
 
 from .models import (
     FieldVisit,
+    Offer,
     Quotation,
     SalesContract,
     SalesOpportunity,
     SalesOrder,
-    Offer,
 )
 
 # MVP-only forms
@@ -100,7 +100,6 @@ class OfferForm(ModelForm):
             "status",
         ]
 
-# All legacy tender/work order related forms & formsets removed for MVP.
+    # All legacy tender/work order related forms & formsets removed for MVP.
 
     # No extra clean logic needed for MVP
-    pass

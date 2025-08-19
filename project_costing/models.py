@@ -1,10 +1,12 @@
 # project_costing/models.py
 
 from decimal import Decimal
+
 from django.db import models
-from tenants.models import Tenant
+
 from financije.models.invoice import Invoice
 from ljudski_resursi.models import Employee
+from tenants.models import Tenant
 
 
 class Project(models.Model):
@@ -20,27 +22,13 @@ class ProfitShareConfig(models.Model):
         on_delete=models.CASCADE,
         related_name="profit_share_config",
     )
-    company_share = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal("50.00")
-    )
-    worker_share = models.DecimalField(
-        max_digits=5, decimal_places=2, default=Decimal("30.00")
-    )
-    dynamic_floor_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("10.00")
-    )
-    floor_cap_per_month = models.DecimalField(
-        max_digits=8, decimal_places=2, default=Decimal("2000.00")
-    )
-    ramp_up_company_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("40.00")
-    )
-    ramp_up_worker_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("40.00")
-    )
-    ramp_up_fund_pct = models.DecimalField(
-        max_digits=4, decimal_places=2, default=Decimal("20.00")
-    )
+    company_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("50.00"))
+    worker_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("30.00"))
+    dynamic_floor_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("10.00"))
+    floor_cap_per_month = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("2000.00"))
+    ramp_up_company_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("40.00"))
+    ramp_up_worker_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("40.00"))
+    ramp_up_fund_pct = models.DecimalField(max_digits=4, decimal_places=2, default=Decimal("20.00"))
 
     def calculate_shares(self, invoice_amount: Decimal, is_ramp_up: bool) -> dict:
         """
@@ -80,6 +68,8 @@ class ProfitShareRun(models.Model):
     pool_30 = models.DecimalField(max_digits=12, decimal_places=2)
     pool_20 = models.DecimalField(max_digits=12, decimal_places=2)
     ramp_up_min_net = models.DecimalField(max_digits=10, decimal_places=2)
+    rounding_diff = models.DecimalField(max_digits=12, decimal_places=2, default=Decimal("0.00"))
+    posted_entry_id = models.PositiveIntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

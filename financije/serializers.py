@@ -3,10 +3,23 @@
 from rest_framework import serializers
 
 from .models import FinancialDetails  # Dodano
-from .models import (AuditLog, BankTransaction, Budget, Debt, FinancialReport,
-                     Invoice, MonthlyOverhead, Municipality, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, Tax,
-                     TaxConfiguration, VariablePayRule)
+from .models import (
+    AuditLog,
+    BankTransaction,
+    Budget,
+    Debt,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Municipality,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
 
 
 class InvoiceSerializer(serializers.ModelSerializer):

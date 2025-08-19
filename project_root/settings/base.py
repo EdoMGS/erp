@@ -1,6 +1,6 @@
 # Base settings for the Django project
-from decimal import Decimal
 import os
+from decimal import Decimal
 
 INSTALLED_APPS = [
     # Django contrib apps

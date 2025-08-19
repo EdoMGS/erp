@@ -4,11 +4,11 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from proizvodnja.models import RadniNalog
+from skladiste.models import Artikl
 
 from common.utils import send_notification
 from financije.models import FinancialDetails
-from proizvodnja.models import RadniNalog
-from skladiste.models import Artikl
 
 from .models import Notification
 

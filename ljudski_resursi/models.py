@@ -218,6 +218,13 @@ class Employee(models.Model):
         default="Radnik",
         verbose_name=_("Razina pristupa"),
     )
+    oib = models.CharField(max_length=11, blank=True, default="", help_text="OIB zaposlenika")
+    jls_code = models.CharField(
+        max_length=20,
+        blank=True,
+        default="",
+        help_text="JLS prebivališta (npr. RIJEKA, BAKAR, ZAGREB)",
+    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.user.username}"
@@ -229,12 +236,12 @@ class Employee(models.Model):
     def calculate_performance_metrics(self, period):
         """Returns performance metrics for variable pay calculation"""
         from django.apps import apps
+
         RadnaEvaluacija = apps.get_model('ljudski_resursi', 'RadnaEvaluacija')
 
-        evaluations = (
-            RadnaEvaluacija.objects.filter(employee=self, evaluation_period__lte=period)
-            .order_by("-evaluation_period")[:3]
-        )
+        evaluations = RadnaEvaluacija.objects.filter(employee=self, evaluation_period__lte=period).order_by(
+            "-evaluation_period"
+        )[:3]
 
         if not evaluations.exists():
             return {
@@ -252,7 +259,9 @@ class Employee(models.Model):
                 + Decimal(getattr(e, "kvaliteta_rada", 0))
                 + Decimal(getattr(e, "timski_rad", 0))
                 + Decimal(getattr(e, "inicijativa", 0))
-            ) / Decimal("4")  # average for this evaluation (1-5)
+            ) / Decimal(
+                "4"
+            )  # average for this evaluation (1-5)
             total += subtotal
             count += Decimal("1")
 
@@ -367,7 +376,9 @@ class RadnaEvaluacija(models.Model):
     # Additional metrics
     broj_zavrsenih_naloga = models.IntegerField(default=0)
     prosjecna_ocjena_kvalitete = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    ukupno_sati_rada = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0"), verbose_name=_("Ukupno sati rada"))
+    ukupno_sati_rada = models.DecimalField(
+        max_digits=8, decimal_places=2, default=Decimal("0"), verbose_name=_("Ukupno sati rada")
+    )
 
     komentar = models.TextField(blank=True)
     preporuke = models.TextField(blank=True)

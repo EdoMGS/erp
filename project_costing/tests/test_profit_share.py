@@ -1,9 +1,11 @@
 # project_costing/tests/test_profit_share.py
 
-import pytest
 from decimal import Decimal
+
+import pytest
+
+from project_costing.models import ProfitShareConfig, Project
 from tenants.models import Tenant
-from project_costing.models import Project, ProfitShareConfig
 
 
 @pytest.mark.django_db

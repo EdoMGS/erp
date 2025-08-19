@@ -1,6 +1,13 @@
 from django.contrib import admin
 
-from .models import SalesContract, Quotation, SalesOpportunity, SalesOrder, FieldVisit, Offer
+from .models import (
+    FieldVisit,
+    Offer,
+    Quotation,
+    SalesContract,
+    SalesOpportunity,
+    SalesOrder,
+)
 
 
 @admin.register(SalesOpportunity)

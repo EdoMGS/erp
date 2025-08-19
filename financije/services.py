@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .models import CashFlow, Invoice, Overhead, InvoiceLine
+from .models import CashFlow, Invoice, InvoiceLine, Overhead
 
 
 class InvoiceService:
@@ -50,19 +50,12 @@ def calculate_project_costs(project):
             material_costs += mat.materijal.cijena * mat.kolicina
 
     # Get current overhead
-    current_overhead = Overhead.objects.filter(
-        godina=timezone.now().year,
-        mjesec=timezone.now().month
-    ).first()
+    current_overhead = Overhead.objects.filter(godina=timezone.now().year, mjesec=timezone.now().month).first()
 
     overhead_cost = Decimal("0.00")
     if current_overhead:
         overhead_per_hour = current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati
-        total_hours = sum(
-            ang.sati_rada
-            for nalog in project.radni_nalozi.all()
-            for ang in nalog.angazmani.all()
-        )
+        total_hours = sum(ang.sati_rada for nalog in project.radni_nalozi.all() for ang in nalog.angazmani.all())
         overhead_cost = overhead_per_hour * total_hours
 
     return {
@@ -159,10 +152,7 @@ def calculate_production_costs(proizvodnja):
 
     # Add overhead
     # Use Overhead model imported at top
-    current_overhead = Overhead.objects.filter(
-        godina=timezone.now().year,
-        mjesec=timezone.now().month
-    ).first()
+    current_overhead = Overhead.objects.filter(godina=timezone.now().year, mjesec=timezone.now().month).first()
     if current_overhead:
         total_hours = sum(ang.sati_rada for nalog in proizvodnja.radni_nalozi.all() for ang in nalog.angazmani.all())
         overhead_cost = (current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati) * total_hours
@@ -173,9 +163,10 @@ def calculate_production_costs(proizvodnja):
 
 def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_vat=True):
     """Create a simplified inter-company invoice using textual client name only."""
-    from decimal import Decimal
-    from django.utils import timezone
     import uuid
+    from decimal import Decimal
+
+    from django.utils import timezone
 
     applied_rate = vat_rate if sender_in_vat else Decimal('0.00')
     today = timezone.now().date()

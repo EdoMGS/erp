@@ -13,11 +13,13 @@ Safe characteristics:
 from __future__ import annotations
 
 from decimal import Decimal
-from django.core.management.base import BaseCommand
+
 from django.contrib.auth import get_user_model
-from tenants.models import Tenant
-from project_costing.models import Project, ProfitShareConfig
+from django.core.management.base import BaseCommand
+
 from prodaja.models import Offer
+from project_costing.models import ProfitShareConfig, Project
+from tenants.models import Tenant
 
 
 class Command(BaseCommand):

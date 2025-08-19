@@ -2,14 +2,35 @@ from django.contrib import admin
 
 from financije.models.taxconfig import Municipality
 
-from .forms import (BankTransactionForm, BudgetForm, DebtForm,
-                    FinancialReportForm, InvoiceForm, MonthlyOverheadForm,
-                    OverheadForm, TaxConfigurationForm, VariablePayRuleForm)
+from .forms import (
+    BankTransactionForm,
+    BudgetForm,
+    DebtForm,
+    FinancialReportForm,
+    InvoiceForm,
+    MonthlyOverheadForm,
+    OverheadForm,
+    TaxConfigurationForm,
+    VariablePayRuleForm,
+)
 from .models import Debt  # New models
-from .models import (BankTransaction, Budget, CashFlow, FinancialDetails,
-                     FinancialReport, Invoice, MonthlyOverhead, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, SalesContract,
-                     Tax, TaxConfiguration, VariablePayRule)
+from .models import (
+    BankTransaction,
+    Budget,
+    CashFlow,
+    FinancialDetails,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    SalesContract,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
 
 # financije/admin.py
 
@@ -178,3 +199,25 @@ class SalesContractAdmin(admin.ModelAdmin):
     list_display = ("contract_number", "client_name")
     search_fields = ("contract_number", "client_name")
     list_filter = ()  # No client FK available in MVP
+
+
+# --- New Local Tax Rate admin registration ---
+try:
+    from financije.models.tax_local_rate import TaxLocalRate
+
+    @admin.register(TaxLocalRate)
+    class TaxLocalRateAdmin(admin.ModelAdmin):
+        list_display = (
+            "tenant",
+            "jls_code",
+            "name",
+            "lower_rate",
+            "higher_rate",
+            "valid_from",
+            "valid_to",
+            "active",
+        )
+        list_filter = ("tenant", "jls_code", "active")
+        search_fields = ("jls_code", "name")
+except Exception:  # pragma: no cover - model may not be migrated yet in some contexts
+    pass
