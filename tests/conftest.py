@@ -1,4 +1,5 @@
 import os
+
 import django
 import pytest
 
@@ -30,9 +31,7 @@ def seed_minimal_accounts(django_db_setup, django_db_blocker):  # noqa: D401
                 defaults={"name": name, "account_type": atype},
             )
             if created:
-                print(
-                    f"[seed_minimal_accounts] Created account {number} {name} {atype}"
-                )
+                print(f"[seed_minimal_accounts] Created account {number} {name} {atype}")
 
         missing = [n for n in needed if not Account.objects.filter(number=n).exists()]
         assert not missing, f"Missing seeded accounts: {missing}"

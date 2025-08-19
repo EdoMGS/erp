@@ -1,9 +1,6 @@
 from decimal import Decimal
 
 from django.db import models
-from decimal import Decimal
-
-from django.db import models
 from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 
@@ -24,14 +21,12 @@ class FinancialReports:
 
     @staticmethod
     def profit_and_loss_report(year, month):
-        from prodaja.models import Invoice
         from financije.models.overhead import Overhead
+        from prodaja.models import Invoice
 
-        income = (
-            Invoice.objects.filter(issue_date__year=year, issue_date__month=month)
-            .aggregate(total=Sum("total_amount"))["total"]
-            or Decimal("0.00")
-        )
+        income = Invoice.objects.filter(issue_date__year=year, issue_date__month=month).aggregate(
+            total=Sum("total_amount")
+        )["total"] or Decimal("0.00")
         expenses = Overhead.objects.filter(godina=year, mjesec=month).aggregate(total=Sum("overhead_ukupno"))[
             "total"
         ] or Decimal("0.00")

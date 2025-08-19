@@ -15,15 +15,21 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import DetailView, ListView, View
 
-from ljudski_resursi.models import Employee  # Ako treba
 # Import formi (prilagodi točno odakle ih povlačiš)
 from proizvodnja.forms import OcjenaKvaliteteFormSet  # ako je tu
 from proizvodnja.forms import (  # ako je to individual form, a ne inline formset
-    AngazmanFormSet, MaterijalFormSet, RadniNalogForm, UstedaForm,
-    VideoMaterijalFormSet, VideoPitanjeFormSet)
+    AngazmanFormSet,
+    MaterijalFormSet,
+    RadniNalogForm,
+    UstedaForm,
+    VideoMaterijalFormSet,
+    VideoPitanjeFormSet,
+)
+
 # Importi modela iz aplikacije "proizvodnja"
-from proizvodnja.models import (GrupaPoslova, PovijestPromjena, Projekt,
-                                RadniNalog)
+from proizvodnja.models import GrupaPoslova, PovijestPromjena, Projekt, RadniNalog
+
+from ljudski_resursi.models import Employee  # Ako treba
 
 from .utils import log_action  # Ako imaš custom logging util
 

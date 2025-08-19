@@ -1,8 +1,24 @@
-import pytest
 from decimal import Decimal
-from tenants.models import Tenant
-from inventory.models import UoM, Item, Warehouse, Location, receive_inventory, issue_to_wip, return_from_wip, scrap_from_wip, StockQuant, WorkOrder, finish_work_order, reserve_for_work_order, WorkOrderReservation
+
+import pytest
+
 from financije.ledger import trial_balance
+from inventory.models import (
+    Item,
+    Location,
+    StockQuant,
+    UoM,
+    Warehouse,
+    WorkOrder,
+    WorkOrderReservation,
+    finish_work_order,
+    issue_to_wip,
+    receive_inventory,
+    reserve_for_work_order,
+    return_from_wip,
+    scrap_from_wip,
+)
+from tenants.models import Tenant
 
 pytestmark = pytest.mark.django_db
 
@@ -20,13 +36,23 @@ def setup_basic_item():
 def test_issue_and_return_wip_flow():
     tenant = Tenant.objects.create(name='T1')
     item, wh, bin_loc, wip_loc, scrap_loc = setup_basic_item()
-    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('10'), price_per_uom=Decimal('3'), ref='PO1')
+    receive_inventory(
+        tenant=tenant,
+        item=item,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('10'),
+        price_per_uom=Decimal('3'),
+        ref='PO1',
+    )
     # Issue 6 to WIP
     issue_to_wip(tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('6'), ref='ISS1')
     # Return 2
     return_from_wip(tenant=tenant, item=item, warehouse=wh, wip=wip_loc, dst=bin_loc, qty=Decimal('2'), ref='RET1')
     # Scrap 1
-    scrap_from_wip(tenant=tenant, item=item, warehouse=wh, wip=wip_loc, scrap_loc=scrap_loc, qty=Decimal('1'), ref='SCR1')
+    scrap_from_wip(
+        tenant=tenant, item=item, warehouse=wh, wip=wip_loc, scrap_loc=scrap_loc, qty=Decimal('1'), ref='SCR1'
+    )
     # Check remaining quantities: initial 10 - issue 6 + return 2 - scrap 1 => bin 6, wip 3
     bin_q = StockQuant.objects.get(item=item, location=bin_loc)
     wip_q = StockQuant.objects.get(item=item, location=wip_loc)
@@ -45,9 +71,28 @@ def test_finish_work_order_flow():
     tenant = Tenant.objects.create(name='T2')
     item, wh, bin_loc, wip_loc, scrap_loc = setup_basic_item()
     wo = WorkOrder.objects.create(code='WO-1')
-    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('10'), price_per_uom=Decimal('3'), ref='PO1')
-    issue_to_wip(tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('6'), ref='ISS1', work_order=wo)
-    scrap_from_wip(tenant=tenant, item=item, warehouse=wh, wip=wip_loc, scrap_loc=scrap_loc, qty=Decimal('1'), ref='SCR1', work_order=wo)
+    receive_inventory(
+        tenant=tenant,
+        item=item,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('10'),
+        price_per_uom=Decimal('3'),
+        ref='PO1',
+    )
+    issue_to_wip(
+        tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('6'), ref='ISS1', work_order=wo
+    )
+    scrap_from_wip(
+        tenant=tenant,
+        item=item,
+        warehouse=wh,
+        wip=wip_loc,
+        scrap_loc=scrap_loc,
+        qty=Decimal('1'),
+        ref='SCR1',
+        work_order=wo,
+    )
     # Remaining WIP value 5 * 3 = 15 -> finish posts 500/150
     finish_work_order(tenant=tenant, work_order=wo, ref='FIN1')
     assert wo.status == 'finished'
@@ -77,10 +122,31 @@ def test_issue_auto_multi_lot_fefo():
     bin_loc = Location.objects.create(warehouse=wh, code='BIN', type=Location.BIN)
     wip_loc = Location.objects.create(warehouse=wh, code='WIP', type=Location.WIP)
     # Receive two lots with different expiry
-    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('5'), price_per_uom=Decimal('2'), ref='L1', lot_code='LOT1')
-    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('7'), price_per_uom=Decimal('4'), ref='L2', lot_code='LOT2')
-    from inventory.models import issue_to_wip_auto, StockLot
-    moves = issue_to_wip_auto(tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('8'), ref='AUTO1')
+    receive_inventory(
+        tenant=tenant,
+        item=item,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('5'),
+        price_per_uom=Decimal('2'),
+        ref='L1',
+        lot_code='LOT1',
+    )
+    receive_inventory(
+        tenant=tenant,
+        item=item,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('7'),
+        price_per_uom=Decimal('4'),
+        ref='L2',
+        lot_code='LOT2',
+    )
+    from inventory.models import StockLot, issue_to_wip_auto
+
+    moves = issue_to_wip_auto(
+        tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('8'), ref='AUTO1'
+    )
     assert len(moves) == 2  # spans two lots
     # First move should be from lot LOT1 consuming all 5, second from LOT2 consuming 3
     lots = [mv.lot.lot_code for mv in moves]
@@ -90,4 +156,3 @@ def test_issue_auto_multi_lot_fefo():
     # WIP total qty 8
     wip_q = StockQuant.objects.get(item=item, location=wip_loc)
     assert wip_q.qty == Decimal('8')
-

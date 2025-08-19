@@ -8,6 +8,7 @@ class TaxLocalRate(models.Model):
     """Lokalne JLS stope poreza na dohodak (lower/higher) s periodom važenja.
     Primjena: prema prebivalištu zaposlenika i datumu isplate.
     """
+
     id = models.BigAutoField(primary_key=True)
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.PROTECT, related_name="tax_local_rates")
     jls_code = models.CharField(max_length=20, help_text="RIJEKA, BAKAR, KRALJEVICA, ZAGREB, DEFAULT ...")

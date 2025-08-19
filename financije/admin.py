@@ -219,5 +219,6 @@ try:
         )
         list_filter = ("tenant", "jls_code", "active")
         search_fields = ("jls_code", "name")
+
 except Exception:  # pragma: no cover - model may not be migrated yet in some contexts
     pass

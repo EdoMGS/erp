@@ -2,19 +2,45 @@
 
 from django.contrib import admin
 
-from .forms import (AngazmanForm, DodatniAngazmanForm, GrupaPoslovaForm,
-                    NotifikacijaForm, OcjenaKvaliteteForm,
-                    PovijestPromjenaForm, ProizvodniResursForm,
-                    ProizvodnjaForm, ProjektForm, RadniNalogForm,
-                    RadniNalogMaterijalForm, TemplateRadniNalogForm,
-                    TipProjektaForm, TipVozilaForm, UstedaForm,
-                    VideoMaterijalForm, VideoPitanjeForm)
-from .models import (Angazman, DodatniAngazman, GrupaPoslova,
-                     MonthlyWorkRecord, Notifikacija, OcjenaKvalitete,
-                     PovijestPromjena, ProizvodniResurs, Proizvodnja, Projekt,
-                     RadniNalog, RadniNalogMaterijal, TemplateRadniNalog,
-                     TipProjekta, TipVozila, Usteda, VideoMaterijal,
-                     VideoPitanje)
+from .forms import (
+    AngazmanForm,
+    DodatniAngazmanForm,
+    GrupaPoslovaForm,
+    NotifikacijaForm,
+    OcjenaKvaliteteForm,
+    PovijestPromjenaForm,
+    ProizvodniResursForm,
+    ProizvodnjaForm,
+    ProjektForm,
+    RadniNalogForm,
+    RadniNalogMaterijalForm,
+    TemplateRadniNalogForm,
+    TipProjektaForm,
+    TipVozilaForm,
+    UstedaForm,
+    VideoMaterijalForm,
+    VideoPitanjeForm,
+)
+from .models import (
+    Angazman,
+    DodatniAngazman,
+    GrupaPoslova,
+    MonthlyWorkRecord,
+    Notifikacija,
+    OcjenaKvalitete,
+    PovijestPromjena,
+    ProizvodniResurs,
+    Proizvodnja,
+    Projekt,
+    RadniNalog,
+    RadniNalogMaterijal,
+    TemplateRadniNalog,
+    TipProjekta,
+    TipVozila,
+    Usteda,
+    VideoMaterijal,
+    VideoPitanje,
+)
 
 
 ###############################################################################

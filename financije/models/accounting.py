@@ -2,10 +2,9 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField  # type: ignore
-from django.db.models import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import JSONField, Sum
 from django.utils.translation import gettext_lazy as _
 
 
@@ -56,7 +55,9 @@ class Account(models.Model):
 
 
 class JournalEntry(models.Model):
-    tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, null=True, blank=True, related_name='journal_entries')
+    tenant = models.ForeignKey(
+        'tenants.Tenant', on_delete=models.CASCADE, null=True, blank=True, related_name='journal_entries'
+    )
     date = models.DateField(verbose_name=_("Datum knjiženja"))
     description = models.TextField(verbose_name=_("Opis transakcije"))
     created_at = models.DateTimeField(auto_now_add=True)
@@ -70,7 +71,14 @@ class JournalEntry(models.Model):
     )
     # Period locking helper flags
     locked = models.BooleanField(default=False, help_text=_('Zaključana temeljnica (period zaključen)'))
-    reversal_of = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='reversals', help_text=_('Ako je ovo reverzna temeljnica, referenca na izvornu.'))
+    reversal_of = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name='reversals',
+        help_text=_('Ako je ovo reverzna temeljnica, referenca na izvornu.'),
+    )
 
     @property
     def total_debit(self):
@@ -131,11 +139,7 @@ class JournalItem(models.Model):
         constraints = [
             models.CheckConstraint(
                 name="journalitem_debit_xor_credit",
-                check=(
-                    models.Q(debit__gt=0, credit=0)
-                    | models.Q(credit__gt=0, debit=0)
-                    | models.Q(debit=0, credit=0)
-                ),
+                check=(models.Q(debit__gt=0, credit=0) | models.Q(credit__gt=0, debit=0) | models.Q(debit=0, credit=0)),
             )
         ]
 

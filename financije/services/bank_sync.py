@@ -2,10 +2,11 @@
 
 Separated from models so it can be mocked / replaced and to keep ORM models pure.
 """
+
 from __future__ import annotations
 
 import logging
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 from typing import Iterable
 
 import requests

@@ -13,18 +13,14 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from rest_framework import generics, viewsets
 
 from financije.models import Invoice  # Only for read operations
-from prodaja.models import (  # Updated to import SalesOrder from prodaja
-    SalesOpportunity, SalesOrder)
+from prodaja.models import SalesOpportunity, SalesOrder  # Updated to import SalesOrder from prodaja
 
-from .forms import \
-    SalesOpportunityForm  # Only forms we actually define in our app
+from .forms import SalesOpportunityForm  # Only forms we actually define in our app
 from .forms import ClientSupplierForm
 from .models import ClientActivityLog, ClientSupplier
-from .serializers import \
-    SalesOpportunitySerializer  # Added SalesOpportunitySerializer
+from .serializers import SalesOpportunitySerializer  # Added SalesOpportunitySerializer
 from .serializers import SalesOrderSerializer  # Added SalesOrderSerializer
-from .serializers import (ClientActivityLogSerializer,
-                          ClientSupplierSerializer, InvoiceSerializer)
+from .serializers import ClientActivityLogSerializer, ClientSupplierSerializer, InvoiceSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -175,9 +171,7 @@ def client_home(request):
         # Statistika
         "client_count": ClientSupplier.objects.filter(is_supplier=False).count(),
         "active_opportunities": SalesOpportunity.objects.filter(stage__in=["active", "negotiation"]).count(),
-        "open_invoices": Invoice.objects.filter(
-            status="open"  # Izmijenjeno iz status_fakture
-        ).count(),
+        "open_invoices": Invoice.objects.filter(status="open").count(),  # Izmijenjeno iz status_fakture
         "today_activities": ClientActivityLog.objects.filter(timestamp__date=today).count(),
     }
     return render(request, "client/index.html", context)

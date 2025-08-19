@@ -11,9 +11,7 @@ class Migration(migrations.Migration):
             model_name="journalitem",
             constraint=models.CheckConstraint(
                 name="journalitem_debit_xor_credit",
-                check=(
-                    models.Q(debit__gt=0, credit=0) | models.Q(credit__gt=0, debit=0) | models.Q(debit=0, credit=0)
-                ),
+                check=(models.Q(debit__gt=0, credit=0) | models.Q(credit__gt=0, debit=0) | models.Q(debit=0, credit=0)),
             ),
         ),
         migrations.AddIndex(

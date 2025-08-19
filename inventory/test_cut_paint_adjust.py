@@ -1,10 +1,19 @@
-import pytest
 from decimal import Decimal
-from tenants.models import Tenant
+
+import pytest
+
 from inventory.models import (
-    UoM, Item, Warehouse, Location, receive_inventory, WorkOrder,
-    execute_cut_plan, mix_paint, adjust_inventory
+    Item,
+    Location,
+    UoM,
+    Warehouse,
+    WorkOrder,
+    adjust_inventory,
+    execute_cut_plan,
+    mix_paint,
+    receive_inventory,
 )
+from tenants.models import Tenant
 
 pytestmark = pytest.mark.django_db
 
@@ -17,18 +26,53 @@ def base_setup():
     bin_loc = Location.objects.create(warehouse=wh, code='BIN', type=Location.BIN)
     wip_loc = Location.objects.create(warehouse=wh, code='WIP', type=Location.WIP)
     scrap_loc = Location.objects.create(warehouse=wh, code='SCR', type=Location.SCRAP)
-    base = Item.objects.create(sku='BOJA-A', name='Boja baza', uom_base=m, item_type=Item.PAINT, has_lots=True, is_paint_component=True)
-    hardener = Item.objects.create(sku='HARD-B', name='Hardener', uom_base=m, item_type=Item.PAINT, has_lots=True, is_paint_component=True)
-    thinner = Item.objects.create(sku='THIN-C', name='Thinner', uom_base=m, item_type=Item.CONSUMABLE, has_lots=True, is_paint_component=True)
-    profile = Item.objects.create(sku='PROFIL-UNP80', name='Profil', uom_base=mb, item_type=Item.MATERIAL, has_lots=False, track_length=True)
+    base = Item.objects.create(
+        sku='BOJA-A', name='Boja baza', uom_base=m, item_type=Item.PAINT, has_lots=True, is_paint_component=True
+    )
+    hardener = Item.objects.create(
+        sku='HARD-B', name='Hardener', uom_base=m, item_type=Item.PAINT, has_lots=True, is_paint_component=True
+    )
+    thinner = Item.objects.create(
+        sku='THIN-C', name='Thinner', uom_base=m, item_type=Item.CONSUMABLE, has_lots=True, is_paint_component=True
+    )
+    profile = Item.objects.create(
+        sku='PROFIL-UNP80', name='Profil', uom_base=mb, item_type=Item.MATERIAL, has_lots=False, track_length=True
+    )
     return tenant, wh, bin_loc, wip_loc, scrap_loc, base, hardener, thinner, profile
 
 
 def test_paint_mix_and_adjust():
     tenant, wh, bin_loc, wip_loc, scrap_loc, base, hardener, thinner, profile = base_setup()
-    receive_inventory(tenant=tenant, item=base, warehouse=wh, location=bin_loc, qty=Decimal('50'), price_per_uom=Decimal('10'), ref='RCV1', lot_code='L1')
-    receive_inventory(tenant=tenant, item=hardener, warehouse=wh, location=bin_loc, qty=Decimal('20'), price_per_uom=Decimal('20'), ref='RCV2', lot_code='L2')
-    receive_inventory(tenant=tenant, item=thinner, warehouse=wh, location=bin_loc, qty=Decimal('30'), price_per_uom=Decimal('5'), ref='RCV3', lot_code='L3')
+    receive_inventory(
+        tenant=tenant,
+        item=base,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('50'),
+        price_per_uom=Decimal('10'),
+        ref='RCV1',
+        lot_code='L1',
+    )
+    receive_inventory(
+        tenant=tenant,
+        item=hardener,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('20'),
+        price_per_uom=Decimal('20'),
+        ref='RCV2',
+        lot_code='L2',
+    )
+    receive_inventory(
+        tenant=tenant,
+        item=thinner,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('30'),
+        price_per_uom=Decimal('5'),
+        ref='RCV3',
+        lot_code='L3',
+    )
     wo = WorkOrder.objects.create(code='WO-P1')
     mix = mix_paint(
         tenant=tenant,
@@ -43,7 +87,7 @@ def test_paint_mix_and_adjust():
         warehouse=wh,
         bin_loc=bin_loc,
         wip_loc=wip_loc,
-        ref='MIX1'
+        ref='MIX1',
     )
     assert mix.total_mix_qty > 0
     adjust_inventory(tenant=tenant, item=base, warehouse=wh, location=bin_loc, new_qty=Decimal('35'), ref='ADJ1')
@@ -51,12 +95,31 @@ def test_paint_mix_and_adjust():
 
 def test_cut_plan_basic():
     tenant, wh, bin_loc, wip_loc, scrap_loc, base, hardener, thinner, profile = base_setup()
-    receive_inventory(tenant=tenant, item=profile, warehouse=wh, location=bin_loc, qty=Decimal('12'), price_per_uom=Decimal('3'), ref='RCVP')
+    receive_inventory(
+        tenant=tenant,
+        item=profile,
+        warehouse=wh,
+        location=bin_loc,
+        qty=Decimal('12'),
+        price_per_uom=Decimal('3'),
+        ref='RCVP',
+    )
     wo = WorkOrder.objects.create(code='WO-C1')
     # Cut total 5.8 out of a 6.0 bar, expect 0.2 offcut quant created with lot OFF-CP1
-    cp = execute_cut_plan(tenant=tenant, work_order=wo, item=profile, warehouse=wh, src=bin_loc, wip=wip_loc, plan_ref='CP1', cuts=[Decimal('2.4'), Decimal('2.4'), Decimal('1.0')], bar_length=Decimal('6.0'))
+    cp = execute_cut_plan(
+        tenant=tenant,
+        work_order=wo,
+        item=profile,
+        warehouse=wh,
+        src=bin_loc,
+        wip=wip_loc,
+        plan_ref='CP1',
+        cuts=[Decimal('2.4'), Decimal('2.4'), Decimal('1.0')],
+        bar_length=Decimal('6.0'),
+    )
     assert cp.offcuts == ['0.2']
-    from inventory.models import StockQuant, StockLot
+    from inventory.models import StockLot, StockQuant
+
     off_lot = StockLot.objects.get(item=profile, lot_code='OFF-CP1')
     off_q = StockQuant.objects.get(item=profile, lot=off_lot, location=bin_loc)
     assert off_q.qty == Decimal('0.2')

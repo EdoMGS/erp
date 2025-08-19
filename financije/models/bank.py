@@ -72,6 +72,7 @@ class BankTransaction(models.Model):
 def sinkroniziraj_bankovne_transakcije(api_url, api_key):
     """Thin wrapper kept for backwards compatibility – delegates to services.bank_sync.sync_bank_transactions."""
     from financije.services.bank_sync import sync_bank_transactions
+
     return sync_bank_transactions(api_url=api_url, api_key=api_key)
 
 

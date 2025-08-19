@@ -10,11 +10,11 @@ from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Avg, Q
 from django.shortcuts import render
 
-from financije.models import Municipality  # ako ih doista koristiš
-from ljudski_resursi.models import \
-    Employee  # OK: Employee je u ljudski_resursi
 # Ovako ispravno importamo iz 'proizvodnja.models':
 from proizvodnja.models import PovijestPromjena
+
+from financije.models import Municipality  # ako ih doista koristiš
+from ljudski_resursi.models import Employee  # OK: Employee je u ljudski_resursi
 
 logger = logging.getLogger("nalozi")
 

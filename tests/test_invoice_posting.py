@@ -1,10 +1,12 @@
 from decimal import Decimal
+
 import pytest
 from django.utils import timezone
-from tenants.models import Tenant
+
+from financije.ledger import JournalEntry, trial_balance
 from prodaja.models import Invoice, InvoiceLine, InvoiceSequence  # in unified models file
 from prodaja.services.invoice_post import post_invoice
-from financije.ledger import trial_balance, JournalEntry
+from tenants.models import Tenant
 
 
 @pytest.fixture()
@@ -15,8 +17,12 @@ def tenant():
 @pytest.mark.django_db
 def test_invoice_post_simple(tenant: Tenant):
     inv = Invoice.objects.create(tenant=tenant, client_name="Kupac d.o.o.")
-    InvoiceLine.objects.create(invoice=inv, description="Usluga A", qty=Decimal('2'), unit_price=Decimal('100'), tax_rate=Decimal('25'))
-    InvoiceLine.objects.create(invoice=inv, description="Usluga B", qty=Decimal('1'), unit_price=Decimal('200'), tax_rate=Decimal('13'))
+    InvoiceLine.objects.create(
+        invoice=inv, description="Usluga A", qty=Decimal('2'), unit_price=Decimal('100'), tax_rate=Decimal('25')
+    )
+    InvoiceLine.objects.create(
+        invoice=inv, description="Usluga B", qty=Decimal('1'), unit_price=Decimal('200'), tax_rate=Decimal('13')
+    )
 
     post_invoice(inv)
 
@@ -58,6 +64,7 @@ def test_ira_export(tenant: Tenant):
     post_invoice(inv)
 
     from reports.ira_export import export_ira_csv
+
     csv_data = export_ira_csv()
     assert "001-" in csv_data
     assert ";Kupac;" in csv_data or ";Kupac d.o.o.;" in csv_data

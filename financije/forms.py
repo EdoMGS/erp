@@ -2,9 +2,7 @@
 
 from django import forms
 from django.apps import apps  # Added import for apps
-from django.utils.translation import (
-    gettext_lazy as _,  # Added import for translation function
-)
+from django.utils.translation import gettext_lazy as _  # Added import for translation function
 
 from .models import (
     BankTransaction,
@@ -45,6 +43,8 @@ class BaseModelForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             existing_classes = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = f"{existing_classes} form-control".strip()
+
+
 #  (end BaseModelForm)
 
 #############################################

@@ -67,7 +67,13 @@ def run_profit_share(invoice, participant_data, tenant, ref=None):
         diff_line = quantize(pool_30 - alloc_sum)
         if allocations and diff_line != 0:
             first = allocations[0]
-            allocations[0] = (first[0], first[1], quantize(first[2] + diff_line), first[3], quantize(first[4] + diff_line))
+            allocations[0] = (
+                first[0],
+                first[1],
+                quantize(first[2] + diff_line),
+                first[3],
+                quantize(first[4] + diff_line),
+            )
 
         for employee, weight, amount_from_30, ramp_adj, final_amt in allocations:
             ProfitShareParticipant.objects.create(

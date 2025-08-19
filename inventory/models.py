@@ -1,9 +1,12 @@
 from __future__ import annotations
+
 from decimal import Decimal
+
 from django.db import models, transaction
 from django.utils import timezone
-from tenants.models import Tenant
+
 from financije.ledger import post_entry
+from tenants.models import Tenant
 
 
 class UoM(models.Model):
@@ -113,16 +116,16 @@ class StockMove(models.Model):  # WorkOrder defined later; forward ref used
     lot = models.ForeignKey(StockLot, on_delete=models.PROTECT, null=True, blank=True)
     ref = models.CharField(max_length=60)
     kind = models.CharField(max_length=30, default='generic')  # receive, issue_wip, return_wip, scrap_wip, finish_wip
-    work_order = models.ForeignKey('WorkOrder', on_delete=models.SET_NULL, null=True, blank=True, related_name='stock_moves')
+    work_order = models.ForeignKey(
+        'WorkOrder', on_delete=models.SET_NULL, null=True, blank=True, related_name='stock_moves'
+    )
     price_unit = models.DecimalField(max_digits=18, decimal_places=6, default=Decimal('0'))
     value = models.DecimalField(max_digits=18, decimal_places=6, default=Decimal('0'))
     state = models.CharField(max_length=12, default='done')
 
     class Meta:
         indexes = [models.Index(fields=['ref', 'tenant'])]
-        constraints = [
-            models.UniqueConstraint(fields=['tenant', 'ref'], name='inventory_unique_ref_per_tenant')
-        ]
+        constraints = [models.UniqueConstraint(fields=['tenant', 'ref'], name='inventory_unique_ref_per_tenant')]
 
 
 class WorkOrder(models.Model):  # stock_moves reverse relation referenced in StockMove
@@ -155,12 +158,26 @@ def reserve_for_work_order(*, work_order: WorkOrder, item: Item, qty: Decimal, n
 
 # Minimal WAC receive helper (will expand in next PRs)
 
-def receive_inventory(*, tenant: Tenant, item: Item, warehouse: Warehouse, location: Location, qty: Decimal, price_per_uom: Decimal, ref: str, lot_code: str | None = None, expiry=None):
+
+def receive_inventory(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    location: Location,
+    qty: Decimal,
+    price_per_uom: Decimal,
+    ref: str,
+    lot_code: str | None = None,
+    expiry=None,
+):
     # Weighted average cost update on quant (item+wh aggregated by location for now)
     lot = None
     if lot_code:
         lot, _ = StockLot.objects.get_or_create(item=item, lot_code=lot_code, defaults={'expiry': expiry})
-    quant, _ = StockQuant.objects.get_or_create(item=item, warehouse=warehouse, location=location, lot=lot, defaults={'qty': 0, 'cost_per_uom': 0})
+    quant, _ = StockQuant.objects.get_or_create(
+        item=item, warehouse=warehouse, location=location, lot=lot, defaults={'qty': 0, 'cost_per_uom': 0}
+    )
     old_qty = quant.qty
     old_cost = quant.cost_per_uom
     new_qty = old_qty + qty
@@ -173,7 +190,19 @@ def receive_inventory(*, tenant: Tenant, item: Item, warehouse: Warehouse, locat
     quant.qty = new_qty
     quant.cost_per_uom = avg
     quant.save(update_fields=['qty', 'cost_per_uom'])
-    move = StockMove.objects.create(tenant=tenant, item=item, uom=item.uom_base, qty=qty, src=None, dst=location, ref=ref, price_unit=price_per_uom, value=qty * price_per_uom, lot=lot, kind='receive')
+    move = StockMove.objects.create(
+        tenant=tenant,
+        item=item,
+        uom=item.uom_base,
+        qty=qty,
+        src=None,
+        dst=location,
+        ref=ref,
+        price_unit=price_per_uom,
+        value=qty * price_per_uom,
+        lot=lot,
+        kind='receive',
+    )
     # GL posting (DR 140 inventory / CR 220 AP simplified; ignoring tax for MVP)
     post_entry(
         tenant=tenant,
@@ -237,7 +266,18 @@ def _find_quant_for_issue(item: Item, warehouse: Warehouse, location: Location, 
     return None
 
 
-def issue_to_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Location, wip: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None, lot: StockLot | None = None):
+def issue_to_wip(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    src: Location,
+    wip: Location,
+    qty: Decimal,
+    ref: str,
+    work_order: 'WorkOrder | None' = None,
+    lot: StockLot | None = None,
+):
     if qty <= 0:
         raise ValueError("qty must be > 0")
     if wip.type != Location.WIP:
@@ -298,7 +338,17 @@ def issue_to_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Locat
     return move, src_q, wip_q
 
 
-def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Location, wip: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None):
+def issue_to_wip_auto(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    src: Location,
+    wip: Location,
+    qty: Decimal,
+    ref: str,
+    work_order: 'WorkOrder | None' = None,
+):
     """Issue quantity to WIP automatically selecting FEFO lots, possibly spanning multiple lots.
 
     Creates one GL entry (ISS-ref) while creating multiple StockMove rows with suffixed refs (ref-1, ref-2...).
@@ -311,7 +361,9 @@ def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: 
     first_ref = f"{ref}-1"
     if StockMove.objects.filter(tenant=tenant, ref=first_ref).exists():
         # Return all moves for this batch
-        moves = list(StockMove.objects.filter(tenant=tenant, ref__startswith=f"{ref}-", kind='issue_wip').order_by('ref'))
+        moves = list(
+            StockMove.objects.filter(tenant=tenant, ref__startswith=f"{ref}-", kind='issue_wip').order_by('ref')
+        )
         return moves
     # Gather quants ordered by expiry (nulls last) then lot_code
     quants = list(StockQuant.objects.filter(item=item, warehouse=warehouse, location=src).select_related('lot'))
@@ -321,6 +373,7 @@ def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: 
     def lot_key(q: StockQuant):  # type: ignore[no-redef]
         exp = q.lot.expiry if q.lot else None
         return (exp is None, exp, q.lot.lot_code if q.lot else '')
+
     quants.sort(key=lot_key)
     remaining = qty
     consumed_parts: list[tuple[StockQuant, Decimal]] = []
@@ -382,7 +435,17 @@ def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: 
     return moves
 
 
-def return_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Location, dst: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None):
+def return_from_wip(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    wip: Location,
+    dst: Location,
+    qty: Decimal,
+    ref: str,
+    work_order: 'WorkOrder | None' = None,
+):
     if qty <= 0:
         raise ValueError("qty must be > 0")
     if wip.type != Location.WIP:
@@ -440,7 +503,17 @@ def return_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Lo
     return move, dst_q, wip_q
 
 
-def scrap_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Location, scrap_loc: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None):
+def scrap_from_wip(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    wip: Location,
+    scrap_loc: Location,
+    qty: Decimal,
+    ref: str,
+    work_order: 'WorkOrder | None' = None,
+):
     if qty <= 0:
         raise ValueError("qty must be > 0")
     if wip.type != Location.WIP:
@@ -543,13 +616,34 @@ class CutPlan(models.Model):
     ref = models.CharField(max_length=60, unique=True)
 
 
-def execute_cut_plan(*, tenant: Tenant, work_order: WorkOrder, item: Item, warehouse: Warehouse, src: Location, wip: Location, plan_ref: str, cuts: list[Decimal], bar_length: Decimal | None = None, create_offcut_quant: bool = True):
+def execute_cut_plan(
+    *,
+    tenant: Tenant,
+    work_order: WorkOrder,
+    item: Item,
+    warehouse: Warehouse,
+    src: Location,
+    wip: Location,
+    plan_ref: str,
+    cuts: list[Decimal],
+    bar_length: Decimal | None = None,
+    create_offcut_quant: bool = True,
+):
     total_cut: Decimal = sum((Decimal(c) for c in cuts), Decimal('0'))
     src_q = _get_quant(item, warehouse, src)
     if src_q.qty < total_cut:
         raise ValueError('Insufficient length stock for cut plan')
     # Issue only consumed length
-    issue_to_wip(tenant=tenant, item=item, warehouse=warehouse, src=src, wip=wip, qty=Decimal(total_cut), ref=f'CUT-{plan_ref}', work_order=work_order)
+    issue_to_wip(
+        tenant=tenant,
+        item=item,
+        warehouse=warehouse,
+        src=src,
+        wip=wip,
+        qty=Decimal(total_cut),
+        ref=f'CUT-{plan_ref}',
+        work_order=work_order,
+    )
     leftover = Decimal('0')
     if item.track_length and bar_length:
         if bar_length < total_cut:
@@ -574,7 +668,13 @@ def execute_cut_plan(*, tenant: Tenant, work_order: WorkOrder, item: Item, wareh
             main_quant.qty -= leftover
             main_quant.save(update_fields=["qty"])
             off_lot, _ = StockLot.objects.get_or_create(item=item, lot_code=f"OFF-{plan_ref}")
-            off_q, created = StockQuant.objects.get_or_create(item=item, warehouse=warehouse, location=src, lot=off_lot, defaults={"qty": Decimal('0'), "cost_per_uom": main_quant.cost_per_uom})
+            off_q, created = StockQuant.objects.get_or_create(
+                item=item,
+                warehouse=warehouse,
+                location=src,
+                lot=off_lot,
+                defaults={"qty": Decimal('0'), "cost_per_uom": main_quant.cost_per_uom},
+            )
             # Assign same cost per uom; quantity add
             off_q.qty += leftover
             if off_q.cost_per_uom == 0:
@@ -595,34 +695,103 @@ class PaintMix(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-def mix_paint(*, tenant: Tenant, work_order: WorkOrder, base_item: Item, qty_L: Decimal, hardener: Item, hardener_pct: Decimal, thinner: Item, thinner_pct: Decimal, loss_pct: Decimal, warehouse: Warehouse, bin_loc: Location, wip_loc: Location, ref: str):
+def mix_paint(
+    *,
+    tenant: Tenant,
+    work_order: WorkOrder,
+    base_item: Item,
+    qty_L: Decimal,
+    hardener: Item,
+    hardener_pct: Decimal,
+    thinner: Item,
+    thinner_pct: Decimal,
+    loss_pct: Decimal,
+    warehouse: Warehouse,
+    bin_loc: Location,
+    wip_loc: Location,
+    ref: str,
+):
     # Compute component quantities
     qty_hardener = (qty_L * hardener_pct / Decimal('100')).quantize(Decimal('0.000001'))
     qty_thinner = (qty_L * thinner_pct / Decimal('100')).quantize(Decimal('0.000001'))
     total_before_loss = qty_L + qty_hardener + qty_thinner
     loss_qty = (total_before_loss * loss_pct / Decimal('100')).quantize(Decimal('0.000001'))
     # Issue components
-    issue_to_wip(tenant=tenant, item=base_item, warehouse=warehouse, src=bin_loc, wip=wip_loc, qty=qty_L, ref=f'{ref}-B', work_order=work_order)
+    issue_to_wip(
+        tenant=tenant,
+        item=base_item,
+        warehouse=warehouse,
+        src=bin_loc,
+        wip=wip_loc,
+        qty=qty_L,
+        ref=f'{ref}-B',
+        work_order=work_order,
+    )
     if qty_hardener > 0:
-        issue_to_wip(tenant=tenant, item=hardener, warehouse=warehouse, src=bin_loc, wip=wip_loc, qty=qty_hardener, ref=f'{ref}-H', work_order=work_order)
+        issue_to_wip(
+            tenant=tenant,
+            item=hardener,
+            warehouse=warehouse,
+            src=bin_loc,
+            wip=wip_loc,
+            qty=qty_hardener,
+            ref=f'{ref}-H',
+            work_order=work_order,
+        )
     if qty_thinner > 0:
-        issue_to_wip(tenant=tenant, item=thinner, warehouse=warehouse, src=bin_loc, wip=wip_loc, qty=qty_thinner, ref=f'{ref}-T', work_order=work_order)
+        issue_to_wip(
+            tenant=tenant,
+            item=thinner,
+            warehouse=warehouse,
+            src=bin_loc,
+            wip=wip_loc,
+            qty=qty_thinner,
+            ref=f'{ref}-T',
+            work_order=work_order,
+        )
     if loss_qty > 0:
         scrap_loc = Location.objects.filter(warehouse=warehouse, type=Location.SCRAP).first()
         if not scrap_loc:
             raise ValueError('Missing SCRAP location for loss booking')
-        scrap_from_wip(tenant=tenant, item=base_item, warehouse=warehouse, wip=wip_loc, scrap_loc=scrap_loc, qty=loss_qty, ref=f'{ref}-L', work_order=work_order)
-    mix = PaintMix.objects.create(work_order=work_order, base_item=base_item, qty_base=qty_L, hardener_pct=hardener_pct, thinner_pct=thinner_pct, loss_pct=loss_pct, total_mix_qty=total_before_loss - loss_qty, ref=ref)
+        scrap_from_wip(
+            tenant=tenant,
+            item=base_item,
+            warehouse=warehouse,
+            wip=wip_loc,
+            scrap_loc=scrap_loc,
+            qty=loss_qty,
+            ref=f'{ref}-L',
+            work_order=work_order,
+        )
+    mix = PaintMix.objects.create(
+        work_order=work_order,
+        base_item=base_item,
+        qty_base=qty_L,
+        hardener_pct=hardener_pct,
+        thinner_pct=thinner_pct,
+        loss_pct=loss_pct,
+        total_mix_qty=total_before_loss - loss_qty,
+        ref=ref,
+    )
     return mix
 
 
-def adjust_inventory(*, tenant: Tenant, item: Item, warehouse: Warehouse, location: Location, new_qty: Decimal, ref: str, reason: str = 'count'):
+def adjust_inventory(
+    *,
+    tenant: Tenant,
+    item: Item,
+    warehouse: Warehouse,
+    location: Location,
+    new_qty: Decimal,
+    ref: str,
+    reason: str = 'count',
+):
     quant = _get_quant(item, warehouse, location)
     diff = new_qty - quant.qty
     if diff == 0:
         return quant
     unit_cost = quant.cost_per_uom or Decimal('0')
-    value = (abs(diff) * unit_cost)
+    value = abs(diff) * unit_cost
     # Update quantity
     quant.qty = new_qty
     quant.save(update_fields=['qty'])

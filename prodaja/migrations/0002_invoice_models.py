@@ -1,8 +1,9 @@
 # Generated manually for MVP invoice models
-from django.db import migrations, models
+from decimal import Decimal
+
 import django.db.models.deletion
 import django.utils.timezone
-from decimal import Decimal
+from django.db import migrations, models
 
 
 def create_initial_sequences(apps, schema_editor):
@@ -34,7 +35,14 @@ class Migration(migrations.Migration):
                 ('number', models.CharField(blank=True, max_length=30, unique=True)),
                 ('issue_date', models.DateField(default=django.utils.timezone.now)),
                 ('client_name', models.CharField(max_length=255)),
-                ('status', models.CharField(choices=[('draft', 'Draft'), ('posted', 'Posted'), ('cancelled', 'Cancelled')], default='draft', max_length=20)),
+                (
+                    'status',
+                    models.CharField(
+                        choices=[('draft', 'Draft'), ('posted', 'Posted'), ('cancelled', 'Cancelled')],
+                        default='draft',
+                        max_length=20,
+                    ),
+                ),
                 ('currency', models.CharField(default='EUR', max_length=3)),
                 ('note', models.TextField(blank=True, default='')),
                 ('total_base', models.DecimalField(decimal_places=2, default=Decimal('0'), max_digits=14)),
@@ -57,7 +65,12 @@ class Migration(migrations.Migration):
                 ('base_amount', models.DecimalField(decimal_places=2, default=Decimal('0'), max_digits=14)),
                 ('tax_amount', models.DecimalField(decimal_places=2, default=Decimal('0'), max_digits=14)),
                 ('total_amount', models.DecimalField(decimal_places=2, default=Decimal('0'), max_digits=14)),
-                ('invoice', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='lines', to='prodaja.invoice')),
+                (
+                    'invoice',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, related_name='lines', to='prodaja.invoice'
+                    ),
+                ),
             ],
         ),
         migrations.RunPython(create_initial_sequences, reverse_code=migrations.RunPython.noop),

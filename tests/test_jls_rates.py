@@ -12,17 +12,53 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture()
 def tenant():
     from tenants.models import Tenant
+
     return Tenant.objects.create(name="Demo")
 
 
 def seed(tenant):
     TaxLocalRate.objects.bulk_create(
         [
-            TaxLocalRate(tenant=tenant, jls_code="DEFAULT", name="Default", lower_rate="0.20", higher_rate="0.30", valid_from=date(2024, 1, 1)),
-            TaxLocalRate(tenant=tenant, jls_code="RIJEKA", name="Rijeka", lower_rate="0.22", higher_rate="0.32", valid_from=date(2025, 1, 1)),
-            TaxLocalRate(tenant=tenant, jls_code="ZAGREB", name="Zagreb", lower_rate="0.23", higher_rate="0.33", valid_from=date(2025, 3, 1)),
-            TaxLocalRate(tenant=tenant, jls_code="BAKAR", name="Bakar", lower_rate="0.20", higher_rate="0.30", valid_from=date(2024, 1, 1)),
-            TaxLocalRate(tenant=tenant, jls_code="KRALJEVICA", name="Kraljevica", lower_rate="0.20", higher_rate="0.30", valid_from=date(2024, 1, 1)),
+            TaxLocalRate(
+                tenant=tenant,
+                jls_code="DEFAULT",
+                name="Default",
+                lower_rate="0.20",
+                higher_rate="0.30",
+                valid_from=date(2024, 1, 1),
+            ),
+            TaxLocalRate(
+                tenant=tenant,
+                jls_code="RIJEKA",
+                name="Rijeka",
+                lower_rate="0.22",
+                higher_rate="0.32",
+                valid_from=date(2025, 1, 1),
+            ),
+            TaxLocalRate(
+                tenant=tenant,
+                jls_code="ZAGREB",
+                name="Zagreb",
+                lower_rate="0.23",
+                higher_rate="0.33",
+                valid_from=date(2025, 3, 1),
+            ),
+            TaxLocalRate(
+                tenant=tenant,
+                jls_code="BAKAR",
+                name="Bakar",
+                lower_rate="0.20",
+                higher_rate="0.30",
+                valid_from=date(2024, 1, 1),
+            ),
+            TaxLocalRate(
+                tenant=tenant,
+                jls_code="KRALJEVICA",
+                name="Kraljevica",
+                lower_rate="0.20",
+                higher_rate="0.30",
+                valid_from=date(2024, 1, 1),
+            ),
         ]
     )
 

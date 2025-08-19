@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 import csv
-from io import StringIO
 from decimal import Decimal
+from io import StringIO
+
 from prodaja.models import Invoice
 
 
@@ -25,13 +27,15 @@ def export_ira_csv(queryset=None) -> str:
         parts = []
         for rate, sums in sorted(breakdown.items(), key=lambda x: Decimal(x[0])):
             parts.append(f"{rate}:{sums['base']:.2f}|{sums['tax']:.2f}")
-        writer.writerow([
-            inv.number,
-            inv.issue_date.isoformat(),
-            inv.client_name,
-            f"{inv.total_base:.2f}",
-            f"{inv.total_tax:.2f}",
-            f"{inv.total_amount:.2f}",
-            ",".join(parts)
-        ])
+        writer.writerow(
+            [
+                inv.number,
+                inv.issue_date.isoformat(),
+                inv.client_name,
+                f"{inv.total_base:.2f}",
+                f"{inv.total_tax:.2f}",
+                f"{inv.total_amount:.2f}",
+                ",".join(parts),
+            ]
+        )
     return out.getvalue()

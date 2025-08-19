@@ -8,6 +8,7 @@ repos:
     rev: 5.13.2
     hooks:
       - id: isort
+        args: ["--profile", "black", "--line-length", "120"]
         stages: [manual]  # Skip automatic run in CI
   - repo: https://github.com/pycqa/flake8
     rev: 7.0.0

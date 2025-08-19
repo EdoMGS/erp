@@ -9,13 +9,12 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import ListView
+from skladiste.models import Materijal
 
 from financije.services import calculate_project_costs
 from ljudski_resursi.models import Employee
-from skladiste.models import Materijal
 
-from .models import (Angazman, GrupaPoslova, Notifikacija, PovijestPromjena,
-                     Projekt, RadniNalog)
+from .models import Angazman, GrupaPoslova, Notifikacija, PovijestPromjena, Projekt, RadniNalog
 
 # nalozi/views_dashboard.py
 

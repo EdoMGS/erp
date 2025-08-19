@@ -6,10 +6,10 @@ between admin autodiscovery and a split models package. Django will import this 
 as ``prodaja.models`` so all model classes must be defined directly in this namespace.
 """
 
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -302,6 +302,7 @@ class Invoice(models.Model):
 
     def post(self):
         from prodaja.services.invoice_post import post_invoice
+
         return post_invoice(self)
 
 
@@ -317,7 +318,9 @@ class InvoiceLine(models.Model):
 
     def save(self, *args, **kwargs):
         self.base_amount = (self.qty * self.unit_price).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-        self.tax_amount = (self.base_amount * self.tax_rate / Decimal("100")).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        self.tax_amount = (self.base_amount * self.tax_rate / Decimal("100")).quantize(
+            Decimal("0.01"), rounding=ROUND_HALF_UP
+        )
         self.total_amount = self.base_amount + self.tax_amount
         super().save(*args, **kwargs)
         self.invoice.recompute_totals()
@@ -335,6 +338,7 @@ class InvoiceSequence(models.Model):
     @classmethod
     def next_number(cls, tenant, year: int) -> str:
         from django.db import transaction
+
         with transaction.atomic():
             obj, _ = cls.objects.select_for_update().get_or_create(tenant=tenant, year=year)
             obj.last_number += 1

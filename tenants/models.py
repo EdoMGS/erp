@@ -13,7 +13,9 @@ class Tenant(models.Model):
     default_vat_rate = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("25.00"))
 
     # Fiscalization (fiskalizacija) related defaults (HR specific)
-    fiscal_cert_path = models.CharField(max_length=255, blank=True, help_text="Path to .p12 or keystore for fiskalizacija")
+    fiscal_cert_path = models.CharField(
+        max_length=255, blank=True, help_text="Path to .p12 or keystore for fiskalizacija"
+    )
     premise_code = models.CharField(max_length=10, blank=True, help_text="Oznaka poslovnog prostora")
     device_code = models.CharField(max_length=10, blank=True, help_text="Oznaka naplatnog uređaja")
     default_operator_mark = models.CharField(max_length=10, blank=True, help_text="Default oznaka operatera")

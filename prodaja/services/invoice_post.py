@@ -1,7 +1,11 @@
 from __future__ import annotations
+
 from decimal import Decimal
+
 from django.db import transaction
+
 from prodaja import models as prod_models
+
 Invoice = prod_models.Invoice
 from financije.ledger import post_entry
 from financije.models import Account

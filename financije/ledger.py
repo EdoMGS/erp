@@ -6,15 +6,17 @@ Public API:
 
 We reuse financije.models.accounting models and add PostedJournalRef for idempotency.
 """
+
 from __future__ import annotations
-from decimal import Decimal, ROUND_HALF_UP
-from typing import List, Sequence, Iterable, Optional
+
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Iterable, List, Optional, Sequence
 
 from django.db import models, transaction
 from django.utils import timezone
 
-from financije.models.accounting import Account, JournalEntry, JournalItem, PeriodLock
 from financije.models import PostedJournalRef
+from financije.models.accounting import Account, JournalEntry, JournalItem, PeriodLock
 from tenants.models import Tenant
 
 
@@ -34,7 +36,9 @@ def _is_locked(tenant: Tenant, date) -> bool:
 
 
 @transaction.atomic
-def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, date=None, kind: str = "generic") -> JournalEntry:
+def post_entry(
+    *, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, date=None, kind: str = "generic"
+) -> JournalEntry:
     """Post a balanced journal entry.
 
     Contract:
@@ -43,9 +47,7 @@ def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, da
       Side-effects: creates JournalEntry + JournalItems + PostedJournalRef within single transaction.
       Returns: JournalEntry instance.
     """
-    existing_ref = (
-        PostedJournalRef.objects.filter(tenant=tenant, ref=ref, kind=kind).select_related("entry").first()
-    )
+    existing_ref = PostedJournalRef.objects.filter(tenant=tenant, ref=ref, kind=kind).select_related("entry").first()
     if existing_ref:
         return existing_ref.entry
 
@@ -153,7 +155,9 @@ def trial_balance(
 
 
 @transaction.atomic
-def reverse_entry(*, tenant: Tenant, entry: JournalEntry, ref: str, memo: str | None = None, kind: str = "reversal") -> JournalEntry:
+def reverse_entry(
+    *, tenant: Tenant, entry: JournalEntry, ref: str, memo: str | None = None, kind: str = "reversal"
+) -> JournalEntry:
     if entry.tenant_id != tenant.id:
         raise ValueError("Tenant mismatch for reversal")
     memo_final = memo or f"Reversal of JE {entry.id}: {entry.description}"
@@ -163,13 +167,15 @@ def reverse_entry(*, tenant: Tenant, entry: JournalEntry, ref: str, memo: str | 
         amt = ji.credit if ji.credit > 0 else ji.debit
         if amt == 0:
             continue
-        lines.append({
-            "account": ji.account,
-            "dc": dc,
-            "amount": amt,
-            "cost_center": ji.cost_center,
-            "labels": ji.labels,
-        })
+        lines.append(
+            {
+                "account": ji.account,
+                "dc": dc,
+                "amount": amt,
+                "cost_center": ji.cost_center,
+                "labels": ji.labels,
+            }
+        )
     rev = post_entry(
         tenant=tenant,
         lines=lines,

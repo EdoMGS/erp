@@ -1,4 +1,3 @@
-
 import pytest
 
 pytestmark = pytest.mark.skip(reason="Skipped in MVP: erp_assets app removed")

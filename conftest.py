@@ -7,8 +7,8 @@ Django-dependent imports in factory modules.
 """
 
 import os
-import sys
 import pathlib
+import sys
 
 import django
 import pytest
@@ -26,6 +26,7 @@ django.setup()
 def seed_minimal_accounts(django_db_setup, django_db_blocker):  # noqa: D401
     """Seed minimal Chart of Accounts for all tests (inventory + ledger)."""
     from financije.models import Account
+
     with django_db_blocker.unblock():
         needed = {
             "120": ("Kupci", "active"),
@@ -63,7 +64,10 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(skip_legacy)
             continue
         lowered = nodeid.lower()
-        if any(prefix.strip('.') in lowered for prefix in ['client', 'proizvodnja', 'projektiranje', 'skladiste', 'erp_assets']):
+        if any(
+            prefix.strip('.') in lowered
+            for prefix in ['client', 'proizvodnja', 'projektiranje', 'skladiste', 'erp_assets']
+        ):
             item.add_marker(skip_legacy)
             continue
         if 'payroll' in lowered:
