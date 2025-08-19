@@ -68,3 +68,26 @@ def test_reservation_creation():
     assert res.qty == Decimal('5')
     assert wo.reservations.count() == 1
 
+
+def test_issue_auto_multi_lot_fefo():
+    tenant = Tenant.objects.create(name='T4')
+    m = UoM.objects.create(code='L', name='L')
+    item = Item.objects.create(sku='MLT', name='Multi', uom_base=m, item_type=Item.MATERIAL, has_lots=True)
+    wh = Warehouse.objects.create(code='W1', name='W1')
+    bin_loc = Location.objects.create(warehouse=wh, code='BIN', type=Location.BIN)
+    wip_loc = Location.objects.create(warehouse=wh, code='WIP', type=Location.WIP)
+    # Receive two lots with different expiry
+    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('5'), price_per_uom=Decimal('2'), ref='L1', lot_code='LOT1')
+    receive_inventory(tenant=tenant, item=item, warehouse=wh, location=bin_loc, qty=Decimal('7'), price_per_uom=Decimal('4'), ref='L2', lot_code='LOT2')
+    from inventory.models import issue_to_wip_auto, StockLot
+    moves = issue_to_wip_auto(tenant=tenant, item=item, warehouse=wh, src=bin_loc, wip=wip_loc, qty=Decimal('8'), ref='AUTO1')
+    assert len(moves) == 2  # spans two lots
+    # First move should be from lot LOT1 consuming all 5, second from LOT2 consuming 3
+    lots = [mv.lot.lot_code for mv in moves]
+    assert lots[0] == 'LOT1'
+    assert moves[0].qty == Decimal('5')
+    assert moves[1].qty == Decimal('3')
+    # WIP total qty 8
+    wip_q = StockQuant.objects.get(item=item, location=wip_loc)
+    assert wip_q.qty == Decimal('8')
+

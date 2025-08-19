@@ -271,6 +271,89 @@ def issue_to_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Locat
     return move, src_q, wip_q
 
 
+def issue_to_wip_auto(*, tenant: Tenant, item: Item, warehouse: Warehouse, src: Location, wip: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None):
+    """Issue quantity to WIP automatically selecting FEFO lots, possibly spanning multiple lots.
+
+    Creates one GL entry (ISS-ref) while creating multiple StockMove rows with suffixed refs (ref-1, ref-2...).
+    Idempotency: if any move with base ref-1 exists we assume whole batch already processed and return existing moves.
+    """
+    if qty <= 0:
+        raise ValueError("qty must be > 0")
+    if wip.type != Location.WIP:
+        raise ValueError("Destination must be WIP location")
+    first_ref = f"{ref}-1"
+    if StockMove.objects.filter(tenant=tenant, ref=first_ref).exists():
+        # Return all moves for this batch
+        moves = list(StockMove.objects.filter(tenant=tenant, ref__startswith=f"{ref}-", kind='issue_wip').order_by('ref'))
+        return moves
+    # Gather quants ordered by expiry (nulls last) then lot_code
+    quants = list(StockQuant.objects.filter(item=item, warehouse=warehouse, location=src).select_related('lot'))
+    if not quants:
+        raise ValueError("No stock to issue")
+
+    def lot_key(q: StockQuant):  # type: ignore[no-redef]
+        exp = q.lot.expiry if q.lot else None
+        return (exp is None, exp, q.lot.lot_code if q.lot else '')
+    quants.sort(key=lot_key)
+    remaining = qty
+    consumed_parts: list[tuple[StockQuant, Decimal]] = []
+    total_available = sum(q.qty for q in quants)
+    if total_available < qty:
+        raise ValueError("Insufficient stock across lots to issue")
+    for q in quants:
+        if remaining <= 0:
+            break
+        take = q.qty if q.qty <= remaining else remaining
+        consumed_parts.append((q, take))
+        remaining -= take
+    # Perform deductions and build moves
+    moves: list[StockMove] = []
+    total_value = Decimal('0')
+    part_index = 1
+    for q, take in consumed_parts:
+        value = take * q.cost_per_uom
+        total_value += value
+        q.qty -= take
+        q.save(update_fields=['qty'])
+        # Update / create WIP quant
+        wip_q = _get_quant(item, warehouse, wip)
+        # Blend cost if different
+        if wip_q.qty == 0:
+            wip_q.cost_per_uom = q.cost_per_uom
+        elif wip_q.cost_per_uom != q.cost_per_uom:
+            wip_q.cost_per_uom = (wip_q.qty * wip_q.cost_per_uom + take * q.cost_per_uom) / (wip_q.qty + take)
+        wip_q.qty += take
+        wip_q.save(update_fields=['qty', 'cost_per_uom'])
+        move = StockMove.objects.create(
+            tenant=tenant,
+            item=item,
+            uom=item.uom_base,
+            qty=take,
+            src=src,
+            dst=wip,
+            ref=f"{ref}-{part_index}",
+            kind='issue_wip',
+            work_order=work_order,
+            price_unit=q.cost_per_uom,
+            value=value,
+            lot=q.lot,
+        )
+        moves.append(move)
+        part_index += 1
+    # Single GL for total value
+    post_entry(
+        tenant=tenant,
+        ref=f"ISS-{ref}",
+        kind="inventory_issue_wip",
+        memo=f"Issue {item.sku} {qty} to WIP (auto lots)",
+        lines=[
+            {"account": "150", "dc": "D", "amount": total_value},
+            {"account": "140", "dc": "C", "amount": total_value},
+        ],
+    )
+    return moves
+
+
 def return_from_wip(*, tenant: Tenant, item: Item, warehouse: Warehouse, wip: Location, dst: Location, qty: Decimal, ref: str, work_order: 'WorkOrder | None' = None):
     if qty <= 0:
         raise ValueError("qty must be > 0")
