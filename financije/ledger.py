@@ -106,7 +106,8 @@ def trial_balance(tenant: Tenant):
     for acct in Account.objects.all():
         debit = acct.journalitem_set.aggregate(models.Sum("debit"))["debit__sum"] or Decimal("0.00")
         credit = acct.journalitem_set.aggregate(models.Sum("credit"))["credit__sum"] or Decimal("0.00")
-        if debit == 0 and credit == 0:
+        # Skip completely inactive OR fully netted (DR==CR) accounts to keep report concise
+        if (debit == 0 and credit == 0) or debit == credit:
             continue
         balance = debit - credit
         data.append((acct.number, debit, credit, balance))
