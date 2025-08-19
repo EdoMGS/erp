@@ -430,7 +430,7 @@ class CutPlan(models.Model):
     ref = models.CharField(max_length=60, unique=True)
 
 
-def execute_cut_plan(*, tenant: Tenant, work_order: WorkOrder, item: Item, warehouse: Warehouse, src: Location, wip: Location, plan_ref: str, cuts: list[Decimal], bar_length: Decimal | None = None):
+def execute_cut_plan(*, tenant: Tenant, work_order: WorkOrder, item: Item, warehouse: Warehouse, src: Location, wip: Location, plan_ref: str, cuts: list[Decimal], bar_length: Decimal | None = None, create_offcut_quant: bool = True):
     total_cut: Decimal = sum((Decimal(c) for c in cuts), Decimal('0'))
     src_q = _get_quant(item, warehouse, src)
     if src_q.qty < total_cut:
@@ -450,6 +450,23 @@ def execute_cut_plan(*, tenant: Tenant, work_order: WorkOrder, item: Item, wareh
         offcuts=[str(leftover)] if leftover > 0 else [],
         ref=plan_ref,
     )
+    # Offcut quant handling: Reclass leftover into its own lot for tracking
+    if leftover > 0 and create_offcut_quant:
+        # Further reduce main source quant by leftover (so total reduction equals full bar), then create new quant
+        main_quant = _get_quant(item, warehouse, src)
+        if main_quant.qty < leftover:
+            # Safety: don't allow negative; skip transforming if insufficient due to concurrent changes
+            pass
+        else:
+            main_quant.qty -= leftover
+            main_quant.save(update_fields=["qty"])
+            off_lot, _ = StockLot.objects.get_or_create(item=item, lot_code=f"OFF-{plan_ref}")
+            off_q, created = StockQuant.objects.get_or_create(item=item, warehouse=warehouse, location=src, lot=off_lot, defaults={"qty": Decimal('0'), "cost_per_uom": main_quant.cost_per_uom})
+            # Assign same cost per uom; quantity add
+            off_q.qty += leftover
+            if off_q.cost_per_uom == 0:
+                off_q.cost_per_uom = main_quant.cost_per_uom
+            off_q.save(update_fields=["qty", "cost_per_uom"])
     return cp
 
 

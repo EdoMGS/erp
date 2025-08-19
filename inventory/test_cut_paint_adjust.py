@@ -53,5 +53,10 @@ def test_cut_plan_basic():
     tenant, wh, bin_loc, wip_loc, scrap_loc, base, hardener, thinner, profile = base_setup()
     receive_inventory(tenant=tenant, item=profile, warehouse=wh, location=bin_loc, qty=Decimal('12'), price_per_uom=Decimal('3'), ref='RCVP')
     wo = WorkOrder.objects.create(code='WO-C1')
+    # Cut total 5.8 out of a 6.0 bar, expect 0.2 offcut quant created with lot OFF-CP1
     cp = execute_cut_plan(tenant=tenant, work_order=wo, item=profile, warehouse=wh, src=bin_loc, wip=wip_loc, plan_ref='CP1', cuts=[Decimal('2.4'), Decimal('2.4'), Decimal('1.0')], bar_length=Decimal('6.0'))
     assert cp.offcuts == ['0.2']
+    from inventory.models import StockQuant, StockLot
+    off_lot = StockLot.objects.get(item=profile, lot_code='OFF-CP1')
+    off_q = StockQuant.objects.get(item=profile, lot=off_lot, location=bin_loc)
+    assert off_q.qty == Decimal('0.2')
