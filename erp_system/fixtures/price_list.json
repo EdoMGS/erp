@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "effective_from": "2023-01-01",
+  "effective_to": null,
+  "material_per_kg": 2.0,
+  "paint_per_m2_per_layer": 5.0,
+  "labor_per_m2": 10.0,
+  "logistics_per_m": 2.0
+}

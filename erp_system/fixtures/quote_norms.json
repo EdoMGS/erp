@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "effective_from": "2023-01-01",
+  "effective_to": null,
+  "default_waste_pct": 0.05,
+  "paint_systems": {
+    "Good": {"layers": [{"name": "primer"}]},
+    "Better": {"layers": [{"name": "primer"}, {"name": "topcoat"}]},
+    "Best": {"layers": [{"name": "primer"}, {"name": "midcoat"}, {"name": "topcoat"}]}
+  }
+}
