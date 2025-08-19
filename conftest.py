@@ -33,11 +33,15 @@ def seed_minimal_accounts(django_db_setup, django_db_blocker):  # noqa: D401
             "150": ("WIP", "active"),
             "220": ("Dobavljači", "passive"),
             "400": ("Prihodi usluge", "income"),
+            "2680": ("PDV izlazni", "passive"),
             "500": ("COGS", "expense"),
             "699": ("Otpad / Razlike", "expense"),
         }
         for number, (name, atype) in needed.items():
-            Account.objects.get_or_create(number=number, defaults={"name": name, "account_type": atype})
+            created = Account.objects.filter(number=number).exists()
+            obj, _ = Account.objects.get_or_create(number=number, defaults={"name": name, "account_type": atype})
+            if not created:
+                print(f"[seed_minimal_accounts] Created account {number} {name} {atype}")
 
 
 LEGACY_MODULE_PREFIXES = [

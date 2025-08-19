@@ -44,6 +44,16 @@ class Account(models.Model):
         credit = JournalItem.objects.filter(account=self).aggregate(Sum("credit"))["credit__sum"] or Decimal("0.00")
         return debit - credit if self.account_type in ["active", "expense"] else credit - debit
 
+    def balance_for(self, tenant, start_date=None, end_date=None):
+        qs = JournalItem.objects.filter(account=self, entry__tenant=tenant)
+        if start_date:
+            qs = qs.filter(entry__date__gte=start_date)
+        if end_date:
+            qs = qs.filter(entry__date__lte=end_date)
+        debit = qs.aggregate(Sum("debit"))["debit__sum"] or Decimal("0.00")
+        credit = qs.aggregate(Sum("credit"))["credit__sum"] or Decimal("0.00")
+        return debit - credit if self.account_type in ["active", "expense"] else credit - debit
+
 
 class JournalEntry(models.Model):
     tenant = models.ForeignKey('tenants.Tenant', on_delete=models.CASCADE, null=True, blank=True, related_name='journal_entries')
@@ -113,6 +123,20 @@ class JournalItem(models.Model):
         indexes = [
             models.Index(fields=["debit"]),
             models.Index(fields=["credit"]),
+            # Performance composite indexes (added via migration 0008)
+            models.Index(fields=["entry", "account"], name="ji_entry_acct_idx"),
+            models.Index(fields=["account"], name="ji_acct_idx"),
+            models.Index(fields=["entry"], name="ji_entry_idx"),
+        ]
+        constraints = [
+            models.CheckConstraint(
+                name="journalitem_debit_xor_credit",
+                check=(
+                    models.Q(debit__gt=0, credit=0)
+                    | models.Q(credit__gt=0, debit=0)
+                    | models.Q(debit=0, credit=0)
+                ),
+            )
         ]
 
     def __str__(self):

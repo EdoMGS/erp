@@ -70,69 +70,9 @@ class BankTransaction(models.Model):
 
 
 def sinkroniziraj_bankovne_transakcije(api_url, api_key):
-    """
-    Primjer dohvaćanja transakcija s bankovnog API-ja i upisa/azuriranja u DB.
-    - 'api_url' je endpoint banke
-    - 'api_key' je token/ključ za autorizaciju
-
-    U stvarnom životu prilagodi format JSON odgovora
-    i mapiranje polja (referenca, datum_valute, ...)
-    """
-    # Configure retry strategy
-    retry_strategy = Retry(total=3, backoff_factor=0.5, status_forcelist=[500, 502, 503, 504])
-    adapter = HTTPAdapter(max_retries=retry_strategy)
-    session = requests.Session()
-    session.mount("https://", adapter)
-    session.mount("http://", adapter)
-
-    headers = {"Authorization": f"Bearer {api_key}", "Accept": "application/json"}
-
-    try:
-        response = session.get(api_url, headers=headers, timeout=15)
-        if response.status_code == 200:
-            transakcije = response.json()
-
-            for t in transakcije:
-                # Ovisno o JSON formatu prilagodi polja:
-                referenca = t.get("reference")  # npr. "TRX12345"
-                tip = t.get("type")  # "priljev" ili "odljev"
-                iznos = Decimal(str(t.get("amount", "0.00")))
-                opis = t.get("description", "")
-                datum_trx = t.get("transaction_date")  # "2025-01-01"
-                datum_val = t.get("value_date")  # "2025-01-02"
-                saldo_str = t.get("balance", "0.00")
-                saldo_trx = Decimal(str(saldo_str))
-                bank_acc = t.get("iban", "HRxxxxxxxxxxxxx")
-                bank_naziv = t.get("bank_name", "Moja Banka")
-                currency = t.get("currency", "EUR")
-
-                obj, created = BankTransaction.objects.update_or_create(
-                    referenca=referenca,
-                    defaults={
-                        "tip_transakcije": tip,
-                        "iznos": iznos,
-                        "opis": opis,
-                        "datum": datum_trx,
-                        "datum_valute": datum_val,
-                        "saldo": saldo_trx,
-                        "bank_account_number": bank_acc,
-                        "bank_name": bank_naziv,
-                        "valuta": currency,
-                    },
-                )
-                if created:
-                    logger.info(f"Kreirana nova transakcija s referencom {referenca}")
-                else:
-                    logger.info(f"Ažurirana transakcija s referencom {referenca}")
-        else:
-            logger.error(f"Greška pri pozivu bankovnog API-ja: Status {response.status_code}")
-            raise Exception(f"Greška pri povezivanju s bankom, status {response.status_code}")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Greška pri komunikaciji s bankom: {e}")
-        raise e
-    except Exception as e:
-        logger.error(f"Fatal error in bank sync: {str(e)}")
-        raise
+    """Thin wrapper kept for backwards compatibility – delegates to services.bank_sync.sync_bank_transactions."""
+    from financije.services.bank_sync import sync_bank_transactions
+    return sync_bank_transactions(api_url=api_url, api_key=api_key)
 
 
 class CashFlow(models.Model):

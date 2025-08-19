@@ -39,6 +39,7 @@ from .overhead import (
 from .salary import Salary, SalaryAddition, Tax
 from .taxconfig import Municipality  # Changed from .tax to .taxconfig
 from .taxconfig import TaxConfiguration
+from .tax_local_rate import TaxLocalRate  # new local tax rate model
 
 __all__ = [
     # Accounting
@@ -72,6 +73,7 @@ __all__ = [
     "Tax",
     "TaxConfiguration",
     "Municipality",
+    "TaxLocalRate",
     # Refs / Idempotency
     "PostedJournalRef",
     # Other Financial

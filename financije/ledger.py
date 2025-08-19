@@ -8,7 +8,7 @@ We reuse financije.models.accounting models and add PostedJournalRef for idempot
 """
 from __future__ import annotations
 from decimal import Decimal, ROUND_HALF_UP
-from typing import List, Sequence, Iterable
+from typing import List, Sequence, Iterable, Optional
 
 from django.db import models, transaction
 from django.utils import timezone
@@ -35,18 +35,35 @@ def _is_locked(tenant: Tenant, date) -> bool:
 
 @transaction.atomic
 def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, date=None, kind: str = "generic") -> JournalEntry:
+    """Post a balanced journal entry.
+
+    Contract:
+      Inputs: tenant, iterable lines [{account/number, dc:'D'|'C', amount, cost_center?, labels?}], unique ref per tenant+kind, memo text.
+      Behavior: idempotent (returns existing entry on same tenant+ref+kind), validates: non-empty, positive amounts, balanced DR==CR, period not locked.
+      Side-effects: creates JournalEntry + JournalItems + PostedJournalRef within single transaction.
+      Returns: JournalEntry instance.
+    """
     existing_ref = (
         PostedJournalRef.objects.filter(tenant=tenant, ref=ref, kind=kind).select_related("entry").first()
     )
     if existing_ref:
         return existing_ref.entry
 
+    if not lines:
+        raise ValueError("No lines supplied")
+
     debit_total = Decimal("0")
     credit_total = Decimal("0")
     norm_lines: List[dict] = []
     for ln in lines:
-        amt = quantize(Decimal(ln["amount"]))
+        if "amount" not in ln or "dc" not in ln or "account" not in ln:
+            raise ValueError("Line missing required keys: account, dc, amount")
+        raw_amt = Decimal(ln["amount"])
+        if raw_amt < 0:
+            raise ValueError("Negative amounts not allowed")
+        amt = quantize(raw_amt)
         if amt == 0:
+            # silently skip zeroes to allow callers to pass computed lines
             continue
         dc = ln["dc"].upper()
         acct = ln["account"]
@@ -64,6 +81,9 @@ def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, da
             norm_lines.append({"account": acct_obj, "debit": Decimal("0"), "credit": amt})
         else:
             raise ValueError("dc must be 'D' or 'C'")
+
+    if not norm_lines:
+        raise ValueError("All lines were zero – nothing to post")
 
     if debit_total != credit_total:
         raise ValueError("Entry not balanced (DR != CR)")
@@ -94,21 +114,41 @@ def post_entry(*, tenant: Tenant, lines: Sequence[dict], ref: str, memo: str, da
     return je
 
 
-def trial_balance(tenant: Tenant, *, show_netted: bool = False):
-    data = []
-    for acct in Account.objects.all():
-        debit = acct.journalitem_set.aggregate(models.Sum("debit"))['debit__sum'] or Decimal("0.00")
-        credit = acct.journalitem_set.aggregate(models.Sum("credit"))['credit__sum'] or Decimal("0.00")
+def trial_balance(
+    tenant: Tenant,
+    *,
+    show_netted: bool = False,
+    start_date: Optional[object] = None,
+    end_date: Optional[object] = None,
+):
+    """Return list of tuples (account_number, debit, credit, balance) scoped to tenant.
+
+    Optional date range filters (inclusive) reduce the population to movements within the period.
+    When show_netted=False (default) skip accounts whose movements net to zero; otherwise include them.
+    """
+    ji_qs = JournalItem.objects.filter(entry__tenant=tenant)
+    if start_date:
+        ji_qs = ji_qs.filter(entry__date__gte=start_date)
+    if end_date:
+        ji_qs = ji_qs.filter(entry__date__lte=end_date)
+
+    agg = (
+        ji_qs.values("account__number")
+        .annotate(debit=models.Sum("debit"), credit=models.Sum("credit"))
+        .order_by("account__number")
+    )
+    data: List[tuple] = []
+    for row in agg:
+        debit = row["debit"] or Decimal("0.00")
+        credit = row["credit"] or Decimal("0.00")
         if not show_netted:
-            # Original behavior: skip fully netted accounts and inactive accounts
             if (debit == 0 and credit == 0) or debit == credit:
                 continue
         else:
-            # show_netted=True: only skip completely inactive
-            if (debit == 0 and credit == 0):
+            if debit == 0 and credit == 0:
                 continue
         balance = debit - credit
-        data.append((acct.number, debit, credit, balance))
+        data.append((row["account__number"], debit, credit, balance))
     return data
 
 
