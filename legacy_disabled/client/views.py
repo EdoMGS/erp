@@ -131,7 +131,7 @@ class InvoiceListView(BaseListView):
         return Invoice.objects.select_related("client").order_by("-issue_date")
 
     def get_search_filter(self, query):
-        return Q(invoice_number__icontains=query) | Q(client__name__icontains=query)
+        return Q(number__icontains=query) | Q(client__name__icontains=query)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -176,7 +176,7 @@ def client_home(request):
         "client_count": ClientSupplier.objects.filter(is_supplier=False).count(),
         "active_opportunities": SalesOpportunity.objects.filter(stage__in=["active", "negotiation"]).count(),
         "open_invoices": Invoice.objects.filter(
-            status_fakture="open"  # Izmijenjeno iz status u status_fakture
+            status="open"  # Izmijenjeno iz status_fakture
         ).count(),
         "today_activities": ClientActivityLog.objects.filter(timestamp__date=today).count(),
     }

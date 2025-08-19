@@ -55,35 +55,14 @@ class BaseModelForm(forms.ModelForm):
 class InvoiceForm(BaseModelForm):
     class Meta:
         model = Invoice
-        fields = [
-            "client_name",
-            "invoice_number",
-            "issue_date",
-            "due_date",
-            "pdv_rate",
-            "payment_method",
-            "status_fakture",
-            "user",
-            "is_guaranteed",
-            "guarantee_details",
-            "financial_guarantee",
-            "tender_statement",
-            "public_tender_ref",
-        ]
+        fields = ["tenant", "client_name", "issue_date", "status", "currency", "note"]
         widgets = {
+            "tenant": forms.Select(),
             "client_name": forms.TextInput(),
-            "invoice_number": forms.TextInput(),
             "issue_date": forms.DateInput(attrs={"type": "date"}),
-            "due_date": forms.DateInput(attrs={"type": "date"}),
-            "pdv_rate": forms.NumberInput(),
-            "payment_method": forms.Select(attrs={"class": "form-select"}),
-            "status_fakture": forms.Select(attrs={"class": "form-select"}),
-            "user": forms.Select(),
-            "is_guaranteed": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-            "guarantee_details": forms.Textarea(),
-            "financial_guarantee": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-            "tender_statement": forms.Textarea(),
-            "public_tender_ref": forms.TextInput(),
+            "status": forms.Select(attrs={"class": "form-select"}),
+            "currency": forms.TextInput(),
+            "note": forms.Textarea(),
         }
 
 
@@ -364,10 +343,10 @@ class InvoiceLineForm(forms.ModelForm):
 
     class Meta:
         model = InvoiceLine
-        fields = ["description", "quantity", "unit_price", "tax_rate"]
+        fields = ["description", "qty", "unit_price", "tax_rate"]
         widgets = {
             "description": forms.TextInput(attrs={"class": "form-control"}),
-            "quantity": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
+            "qty": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
             "unit_price": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
             "tax_rate": forms.NumberInput(attrs={"class": "form-control", "step": "0.01"}),
         }

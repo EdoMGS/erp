@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from .models import Invoice
+from prodaja.models import Invoice
 from .serializers import InvoiceSerializer
 
 

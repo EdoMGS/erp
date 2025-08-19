@@ -52,12 +52,12 @@ def micro_dashboard(request):
     from datetime import date
     from decimal import Decimal
     from proizvodnja.models import RadniNalog
-    from financije.models.invoice import Invoice
+    from prodaja.models import Invoice
 
     work_orders = RadniNalog.objects.filter(status='U_TIJEKU')
     today = date.today()
     invoices_today = Invoice.objects.filter(issue_date=today)
-    today_pool = sum(inv.amount * Decimal('0.3') for inv in invoices_today)
+    today_pool = sum(inv.total_amount * Decimal('0.3') for inv in invoices_today)
     return render(
         request,
         "dashboard/micro.html",

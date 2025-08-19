@@ -1,141 +1,19 @@
-from decimal import Decimal
-
-from django.conf import settings
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
-# Legacy ClientSupplier model removed from active INSTALLED_APPS.
-# Use plain text client_name instead for MVP scope.
-
-
-class Invoice(models.Model):
-    PAYMENT_METHODS = [
-        ("gotovina", "Gotovina"),
-        ("kartica", "Kartica"),
-        ("virman", "Virman"),
-    ]
-
-    STATUS_CHOICES = [
-        ("draft", "Draft"),
-        ("odobreno", "Odobreno"),
-        ("otkazano", "Otkazano"),
-    ]
-
-    # Replaced FK to client.ClientSupplier with textual placeholder field.
-    client_name = models.CharField(max_length=255, verbose_name=_("Klijent"))
-    invoice_number = models.CharField(max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True)
-    issue_date = models.DateField(verbose_name=_("Datum izdavanja"))
-    due_date = models.DateField(verbose_name=_("Datum dospijeća"))
-    pdv_rate = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        default=Decimal("25.00"),
-        verbose_name=_("Stopa PDV-a (%)"),
-    )
-    payment_method = models.CharField(
-        max_length=20,
-        choices=PAYMENT_METHODS,
-        default="virman",
-        verbose_name=_("Način plaćanja"),
-    )
-    status_fakture = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default="draft",
-        verbose_name=_("Status fakture"),
-    )
-    paid = models.BooleanField(default=False, verbose_name=_("Plaćeno"))
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name=_("Kreirao"),
-    )
-    is_guaranteed = models.BooleanField(default=False, verbose_name=_("Garancija?"))
-    guarantee_details = models.TextField(blank=True, null=True, verbose_name=_("Detalji garancije"))
-    stripe_link = models.URLField(blank=True, null=True, verbose_name=_("Stripe Link"))
-    financial_guarantee = models.BooleanField(default=False, verbose_name=_("Financijska garancija?"))
-    tender_statement = models.TextField(blank=True, null=True, verbose_name=_("Izjava za tender"))
-    public_tender_ref = models.CharField(
-        max_length=100,
-        blank=True,
-        null=True,
-        verbose_name=_("Referenca javnog natječaja"),
-    )
-
-    amount = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        default=Decimal('0.00'),
-        verbose_name=_('Ukupan iznos'),
-    )
-
-    @property
-    def calculated_amount(self):
-        """Calculate total from line items"""
-        return sum(line.line_total for line in self.lines.all())
-
-    @property
-    def pdv_amount(self):
-        """Calculate total tax from line items"""
-        return sum(line.tax_amount for line in self.lines.all())
-
-    def __str__(self):
-        return f"Invoice {self.invoice_number} - {self.client_name}"
-
-    class Meta:
-        verbose_name = _("Faktura")
-        verbose_name_plural = _("Fakture")
-        indexes = [
-            models.Index(fields=["issue_date"]),
-            models.Index(fields=["due_date"]),
-        ]
-        ordering = ["-issue_date"]
-
-    def clean(self):
-        if self.due_date < self.issue_date:
-            raise ValidationError(_("Datum dospijeća ne može biti prije datuma izdavanja"))
-
-
-class InvoiceLine(models.Model):
-    invoice = models.ForeignKey(Invoice, related_name="lines", on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, verbose_name=_("Opis stavke"))
-    quantity = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Jedinična cijena"))
-    tax_rate = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        default=Decimal("25.00"),
-        verbose_name=_("Stopa PDV-a"),
-    )
-
-    @property
-    def line_total(self):
-        return self.quantity * self.unit_price
-
-    @property
-    def tax_amount(self):
-        return self.line_total * (self.tax_rate / Decimal("100.00"))
-
-    class Meta:
-        verbose_name = _("Stavka računa")
-        verbose_name_plural = _("Stavke računa")
+from prodaja.models import Invoice, InvoiceLine
 
 
 class Payment(models.Model):
-    related_invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name="payments")
-    # ...existing code...
+    related_invoice = models.ForeignKey(
+        Invoice, on_delete=models.CASCADE, related_name="payments"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Debt(models.Model):
-    # Textual client reference replacing legacy FK
     client_name = models.CharField(max_length=255, verbose_name=_("Client"))
     invoice = models.ForeignKey(
-        Invoice,
-        on_delete=models.CASCADE,
-        related_name="debts",
-        verbose_name=_("Invoice"),
+        Invoice, on_delete=models.CASCADE, related_name="debts", verbose_name=_("Invoice")
     )
     due_date = models.DateField(verbose_name=_("Due Date"))
     amount_due = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Amount Due"))
@@ -153,18 +31,7 @@ class Debt(models.Model):
         ordering = ["due_date"]
 
     def __str__(self):
-        return f"Debt for Invoice {self.invoice.invoice_number}"
+        return f"Debt for Invoice {self.invoice.number}"
 
 
-# Signal to generate worker payouts when an invoice is marked as paid
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-from financije.tasks import generate_worker_payouts
-
-
-@receiver(post_save, sender=Invoice)
-def invoice_paid_handler(sender, instance, created, **kwargs):
-    # If invoice is marked paid, trigger worker payout generation
-    if instance.paid:
-        generate_worker_payouts.delay(instance.pk)
+__all__ = ["Invoice", "InvoiceLine", "Payment", "Debt"]

@@ -3,7 +3,7 @@ from decimal import Decimal
 import pytest
 
 from accounts.models import CustomUser
-from financije.models.invoice import Invoice
+from prodaja.models import Invoice
 from ljudski_resursi.models import (
     Department,
     Employee,
@@ -22,11 +22,10 @@ def test_run_profit_share_with_ramp_up():
     tenant = Tenant.objects.create(name="T", domain="t")
     TenantSettings.objects.create(tenant=tenant, ramp_up_min_net=Decimal("800.00"))
     invoice = Invoice.objects.create(
+        tenant=tenant,
         client_name="C",
-        invoice_number="INV1",
         issue_date="2025-01-01",
-        due_date="2025-01-10",
-        amount=Decimal("1000.00"),
+        total_amount=Decimal("1000.00"),
     )
 
     hl = HierarchicalLevel.objects.create(name="L1", level=1)

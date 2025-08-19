@@ -1,4 +1,4 @@
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import Decimal
 
 from django.db import transaction
 
@@ -9,12 +9,10 @@ from .models import ProfitShareParticipant, ProfitShareRun
 
 
 def _basis(invoice, tenant):
-    # NET if tenant vat_registered and PDV present else BRUTO (amount)
-    amount = getattr(invoice, 'amount', Decimal('0'))
-    if hasattr(tenant, 'vat_registered') and tenant.vat_registered and invoice.pdv_rate and invoice.pdv_rate > 0:
-        vat_fraction = invoice.pdv_rate / Decimal('100')
-        net = amount / (Decimal('1') + vat_fraction)
-        return quantize(net)
+    """Return net basis depending on VAT registration."""
+    amount = getattr(invoice, "total_amount", Decimal("0"))
+    if getattr(tenant, "vat_registered", False) and getattr(invoice, "total_tax", Decimal("0")) > 0:
+        return quantize(getattr(invoice, "total_base", amount))
     return quantize(amount)
 
 
@@ -23,7 +21,7 @@ def run_profit_share(invoice, participant_data, tenant, ref=None):
 
     Idempotent by invoice.
     """
-    ref_key = ref or f"PS-{invoice.invoice_number}"
+    ref_key = ref or f"PS-{invoice.number}"
     with transaction.atomic():
         existing = ProfitShareRun.objects.filter(invoice=invoice).first()
         if existing:
@@ -101,7 +99,12 @@ def run_profit_share(invoice, participant_data, tenant, ref=None):
                     lines.append({'account': settings.acc_profit_share_expense, 'dc': 'D', 'amount': amt})
             if lines:
                 try:
-                    je = post_entry(tenant=tenant, lines=lines, ref=f"PSLED-{ref_key}", memo=f"Profit share {invoice.invoice_number}")
+                    je = post_entry(
+                        tenant=tenant,
+                        lines=lines,
+                        ref=f"PSLED-{ref_key}",
+                        memo=f"Profit share {invoice.number}",
+                    )
                     run.posted_entry_id = getattr(je, 'id', None)
                     run.save(update_fields=['posted_entry_id'])
                 except Exception:

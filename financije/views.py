@@ -102,19 +102,12 @@ def generate_payment_order(request, invoice_id):
     InvoiceModel = apps.get_model("financije", "Invoice")
     invoice = get_object_or_404(InvoiceModel, pk=invoice_id)
 
-    # Ako je polje u modelu 'status_fakture', koristimo ga:
-    # if invoice.status_fakture == 'odobreno':
-    #     ...
+    if getattr(invoice, "status", "") == "posted":
+        print(f"Payment order generated for invoice: {invoice.number}")
 
-    # Ako je pak 'status_invoice' (ili 'approved'), podesite prema stvarnoj shemi:
-    if hasattr(invoice, "status_fakture") and invoice.status_fakture == "odobreno":
-        # Generiraj payment order
-        print(f"Payment order generated for invoice: {invoice.invoice_number}")
-
-        # Pošalji email
         send_mail(
             "Payment Order Generated",
-            f"A payment order for invoice {invoice.invoice_number} has been generated.",
+            f"A payment order for invoice {invoice.number} has been generated.",
             "no-reply@erp-system.com",
             [invoice.client.email],
         )

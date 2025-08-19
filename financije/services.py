@@ -3,7 +3,8 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .models import CashFlow, Invoice, InvoiceLine, Overhead
+from .models import CashFlow, Overhead
+from prodaja.models import Invoice, InvoiceLine
 
 
 class InvoiceService:
@@ -14,15 +15,15 @@ class InvoiceService:
         # Create associated records
         CashFlow.objects.create(
             tip_transakcije="priljev",
-            iznos=invoice.amount,
-            opis=f"Invoice {invoice.invoice_number}",
+            iznos=invoice.total_amount,
+            opis=f"Invoice {invoice.number}",
             datum=invoice.issue_date,
         )
         return invoice
 
     @staticmethod
     def calculate_overdue_invoices():
-        return Invoice.objects.filter(paid=False, due_date__lt=timezone.now().date())
+        return Invoice.objects.none()
 
 
 class FinancialReportingService:
@@ -171,12 +172,9 @@ def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_
     applied_rate = vat_rate if sender_in_vat else Decimal('0.00')
     today = timezone.now().date()
     invoice = Invoice.objects.create(
+        tenant=sender.tenant,
         client_name=str(receiver),
-        invoice_number=str(uuid.uuid4()),
         issue_date=today,
-        due_date=today,
-        pdv_rate=applied_rate,
-        amount=amount,
     )
     descr = f"{asset}"
     if not sender_in_vat:
@@ -184,7 +182,7 @@ def create_interco_invoice(sender, receiver, asset, amount, vat_rate, sender_in_
     InvoiceLine.objects.create(
         invoice=invoice,
         description=descr,
-        quantity=Decimal('1.00'),
+        qty=Decimal('1.00'),
         unit_price=amount,
         tax_rate=applied_rate,
     )

@@ -4,7 +4,7 @@ from decimal import Decimal
 
 from django.db import models
 
-from financije.models.invoice import Invoice
+from prodaja.models import Invoice
 from ljudski_resursi.models import Employee
 from tenants.models import Tenant
 

@@ -42,23 +42,21 @@ def create_interco_invoice():
     """Generate invoices for invoiceable asset usage records."""
     from asset_usage.models import AssetUsage
 
-    from financije.models.invoice import Invoice, InvoiceLine
+    from prodaja.models import Invoice, InvoiceLine
 
     usages = AssetUsage.objects.filter(invoiceable=True, is_deleted=False)
     for usage in usages:
         # Create Invoice
         invoice = Invoice.objects.create(
-            client=usage.client,
+            tenant=usage.tenant,
+            client_name=str(usage.client),
             issue_date=usage.usage_date,
-            due_date=usage.usage_date,
-            payment_method='virman',
-            status_fakture='draft',
         )
         # Add a line item for the usage amount
         InvoiceLine.objects.create(
             invoice=invoice,
             description=str(usage),
-            quantity=1,
+            qty=1,
             unit_price=usage.amount,
         )
         # Mark usage as invoiced
@@ -71,11 +69,11 @@ def generate_worker_payouts(invoice_id):
     """
     Stub task: generate worker payouts for a paid invoice.
     """
-    from financije.models.invoice import Invoice
+    from prodaja.models import Invoice
 
     try:
         invoice = Invoice.objects.get(pk=invoice_id)
         # TODO: implement payout distribution logic
-        print(f"Generating worker payouts for Invoice {invoice.invoice_number}")
+        print(f"Generating worker payouts for Invoice {invoice.number}")
     except Invoice.DoesNotExist:
         print(f"Invoice {invoice_id} not found for payout generation")

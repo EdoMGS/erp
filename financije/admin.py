@@ -38,9 +38,9 @@ from .models import (
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
     form = InvoiceForm
-    list_display = ["invoice_number", "client_name", "amount", "issue_date", "paid"]
-    list_filter = ["paid", "status_fakture", "issue_date"]
-    search_fields = ["invoice_number", "client_name"]
+    list_display = ["number", "client_name", "total_amount", "issue_date", "status"]
+    list_filter = ["status", "issue_date"]
+    search_fields = ["number", "client_name"]
     date_hierarchy = "issue_date"
 
 
@@ -148,7 +148,7 @@ class DebtAdmin(admin.ModelAdmin):
         "is_paid",
         "days_overdue",
     )
-    search_fields = ("client_name", "invoice__invoice_number")
+    search_fields = ("client_name", "invoice__number")
     list_filter = ("is_paid", "due_date")
     ordering = ("-due_date",)
 
