@@ -8,14 +8,6 @@ from tenants.models import TenantSettings
 from .models import ProfitShareParticipant, ProfitShareRun
 
 
-def _basis(invoice, tenant):
-    """Return net basis depending on VAT registration."""
-    amount = getattr(invoice, "total_amount", Decimal("0"))
-    if getattr(tenant, "vat_registered", False) and getattr(invoice, "total_tax", Decimal("0")) > 0:
-        return quantize(getattr(invoice, "total_base", amount))
-    return quantize(amount)
-
-
 def run_profit_share(invoice, participant_data, tenant, ref=None):
     """Compute and post profit-share (50/30/20) returning ProfitShareRun.
 

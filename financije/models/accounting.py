@@ -53,6 +53,11 @@ class Account(models.Model):
         credit = qs.aggregate(Sum("credit"))["credit__sum"] or Decimal("0.00")
         return debit - credit if self.account_type in ["active", "expense"] else credit - debit
 
+    # New explicit helper (clearer name). Keep balance_for for backwards compatibility.
+    def balance_for_tenant(self, tenant, start=None, end=None):  # noqa: D401
+        """Return balance for tenant (optionally date filtered)."""
+        return self.balance_for(tenant, start_date=start, end_date=end)
+
 
 class JournalEntry(models.Model):
     tenant = models.ForeignKey(
@@ -139,8 +144,6 @@ class JournalItem(models.Model):
         constraints = [
             models.CheckConstraint(
                 name="journalitem_debit_xor_credit",
-                check=(models.Q(debit__gt=0, credit=0) | models.Q(credit__gt=0, debit=0) | models.Q(debit=0, credit=0)),
-            )
         ]
 
     def __str__(self):
