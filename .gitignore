@@ -30,3 +30,8 @@ staticfiles/
 
 # Node
 node_modules/
+
+# Local artifacts / scratch
+collect.txt
+smoke_out.txt
+z_smoke_test.py
