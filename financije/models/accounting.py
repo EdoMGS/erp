@@ -117,6 +117,16 @@ class JournalItem(models.Model):
             models.Index(fields=["debit"]),
             models.Index(fields=["credit"]),
         ]
+        # Ensure exactly one side (debit or credit) is non-zero (XOR) and never both.
+        constraints = [
+            models.CheckConstraint(
+                name="journalitem_debit_xor_credit",
+                check=(
+                    (models.Q(debit=0) & ~models.Q(credit=0))
+                    | (models.Q(credit=0) & ~models.Q(debit=0))
+                ),
+            )
+        ]
 
     def __str__(self):
         return f"Journal Item: Entry #{self.entry.id}, Konto {self.account.number}"
