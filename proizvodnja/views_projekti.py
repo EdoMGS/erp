@@ -7,8 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import ProjektForm  # Pretpostavka da je ProjektForm u forms.py
 from .models import Projekt, RadniNalog, TemplateRadniNalog
@@ -26,7 +25,9 @@ class ListaProjekataView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        queryset = Projekt.objects.filter(is_active=True).select_related("tip_projekta", "tip_vozila")
+        queryset = Projekt.objects.filter(is_active=True).select_related(
+            "tip_projekta", "tip_vozila"
+        )
         # Ažuriramo status svakog projekta prije prikaza
         for projekt in queryset:
             projekt.azuriraj_status()
@@ -36,7 +37,9 @@ class ListaProjekataView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Provjeravamo je li korisnik vlasnik ili direktor (radi prikaza dodatnih opcija)
-        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(name__in=["vlasnik", "direktor"]).exists()
+        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists()
         return context
 
 
@@ -64,7 +67,9 @@ class DetaljiProjektaView(LoginRequiredMixin, DetailView):
         projekt = self.get_object()
         context["radni_nalozi"] = projekt.radni_nalozi.filter(is_active=True)
         context["dokumentacija"] = projekt.dokumentacija.all()
-        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(name__in=["vlasnik", "direktor"]).exists()
+        context["korisnik_je_vlasnik"] = self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists()
         return context
 
 
@@ -79,7 +84,9 @@ class KreirajProjektView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         # Pristup imaju vlasnici, direktori i voditelji
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_form_kwargs(self):
         # Prosljeđujemo user formi, ako nam treba za logiku u ProjektForm
@@ -96,11 +103,14 @@ class KreirajProjektView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if not projekt.ručni_unos_radnih_naloga:
             # Provjeravamo da je tip_projekta "Izrada novih vatrogasnih vozila"
             # ili neki drugi naziv po želji
-            if projekt.tip_projekta and projekt.tip_projekta.naziv == "Izrada novih vatrogasnih vozila":
+            if (
+                projekt.tip_projekta
+                and projekt.tip_projekta.naziv == "Izrada novih vatrogasnih vozila"
+            ):
                 # Dohvati sve template radne naloge za taj tip projekta
-                template_nalozi = TemplateRadniNalog.objects.filter(tip_projekta=projekt.tip_projekta).order_by(
-                    "sort_index"
-                )
+                template_nalozi = TemplateRadniNalog.objects.filter(
+                    tip_projekta=projekt.tip_projekta
+                ).order_by("sort_index")
 
                 # Ako želiš razlikovati i po tipu vozila (npr. cisterna vs. tehničko vozilo),
                 # možeš ovdje dodati filter(tip_vozila=projekt.tip_vozila)
@@ -139,7 +149,9 @@ class AzurirajProjektView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         # Pristup imaju vlasnici, direktori i voditelji
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -204,6 +216,8 @@ def projekt_detail(request, pk):
         "projekt": projekt,
         "radni_nalozi": projekt.radni_nalozi.filter(is_active=True),
         "dokumentacija": (projekt.dokumentacija.all() if hasattr(projekt, "dokumentacija") else []),
-        "korisnik_je_vlasnik": request.user.groups.filter(name__in=["vlasnik", "direktor"]).exists(),
+        "korisnik_je_vlasnik": request.user.groups.filter(
+            name__in=["vlasnik", "direktor"]
+        ).exists(),
     }
     return render(request, "proizvodnja/projekt_detail.html", context)

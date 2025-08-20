@@ -7,8 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import DodatniAngazmanForm, RadniNalogForm
 from .models import Angazman, Projekt, RadniNalog, Zaposlenik
@@ -23,7 +22,12 @@ class ListaRadnihNalogaView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         projekt_id = self.kwargs["projekt_id"]
-        queryset = super().get_queryset().filter(projekt_id=projekt_id, is_active=True).order_by("-created_at")
+        queryset = (
+            super()
+            .get_queryset()
+            .filter(projekt_id=projekt_id, is_active=True)
+            .order_by("-created_at")
+        )
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -143,7 +147,9 @@ class AzurirajRadniNalogView(LoginRequiredMixin, UpdateView):
                 poruka,
             )
         if getattr(instance, "bypass_materijala", False):
-            poruka = f"Radni nalog '{getattr(instance, 'naziv_naloga', '')}' koristi bypass materijala."
+            poruka = (
+                f"Radni nalog '{getattr(instance, 'naziv_naloga', '')}' koristi bypass materijala."
+            )
             notify_via_websocket(
                 getattr(getattr(instance, "odgovorna_osoba", None), "korisnik", None),
                 poruka,

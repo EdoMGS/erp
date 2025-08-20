@@ -5,11 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import (Materijal, OcjenaKvalitete, Projekt, RadniNalog,
-                     TehnickaDokumentacija)
-from .serializers import (MaterijalSerializer, OcjenaKvaliteteSerializer,
-                          ProjektSerializer, RadniNalogSerializer,
-                          TehnickaDokumentacijaSerializer)
+from .models import Materijal, OcjenaKvalitete, Projekt, RadniNalog, TehnickaDokumentacija
+from .serializers import (
+    MaterijalSerializer,
+    OcjenaKvaliteteSerializer,
+    ProjektSerializer,
+    RadniNalogSerializer,
+    TehnickaDokumentacijaSerializer,
+)
 from .utils import informiraj_ocjenjivace, log_action
 
 
@@ -84,9 +87,9 @@ class StatistikaProjektaAPIView(APIView):
                 "napredak": projekt.napredak,
                 "status": projekt.status,
                 "ukupni_radni_nalozi": projekt.radni_nalozi.count(),
-                "prosjek_ocjena": projekt.radni_nalozi.aggregate(avg_ocjena=Avg("ocjene_kvalitete__ocjena"))[
-                    "avg_ocjena"
-                ],
+                "prosjek_ocjena": projekt.radni_nalozi.aggregate(
+                    avg_ocjena=Avg("ocjene_kvalitete__ocjena")
+                )["avg_ocjena"],
             }
         )
 

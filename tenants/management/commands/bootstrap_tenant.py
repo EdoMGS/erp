@@ -17,5 +17,7 @@ class Command(BaseCommand):
             raise CommandError(f"Tenant with domain '{domain}' already exists.")
         tenant = Tenant.objects.create(name=name, domain=domain)
         self.stdout.write(
-            self.style.SUCCESS(f"Tenant '{tenant.name}' with domain '{tenant.domain}' created successfully.")
+            self.style.SUCCESS(
+                f"Tenant '{tenant.name}' with domain '{tenant.domain}' created successfully."
+            )
         )

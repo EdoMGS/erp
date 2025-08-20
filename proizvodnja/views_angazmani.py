@@ -5,10 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import AngazmanForm, DodatniAngazmanForm
+
 # Ispravno importamo Angazman, RadniNalog iz proizvodnja.models
 from .models import Angazman
 from .utils import log_action
@@ -27,7 +27,9 @@ class ListaAngazmanaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         # Samo vlasnik/direktor/voditelj?
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_queryset(self):
         qs = Angazman.objects.select_related("radni_nalog", "employee").filter(is_active=True)
@@ -46,7 +48,9 @@ class DodajAngazmanView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = "dodaj_angazman.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def form_valid(self, form):
         # Moguća prilagodba logike
@@ -62,7 +66,9 @@ class AzurirajAngazmanView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = "dodaj_angazman.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -77,7 +83,9 @@ class DodajDodatniAngazmanView(LoginRequiredMixin, UserPassesTestMixin, CreateVi
     template_name = "dodaj_dodatni_angazman.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -91,7 +99,9 @@ class ObrisiAngazmanView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "obrisi_angazman.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):

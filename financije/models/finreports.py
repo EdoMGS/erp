@@ -11,8 +11,12 @@ class FinancialReports:
         from financije.models.bank import CashFlow
 
         cash_flows = CashFlow.objects.filter(datum__range=[start_date, end_date])
-        income = cash_flows.filter(tip_transakcije="priljev").aggregate(total=Sum("iznos"))["total"] or Decimal("0.00")
-        expense = cash_flows.filter(tip_transakcije="odljev").aggregate(total=Sum("iznos"))["total"] or Decimal("0.00")
+        income = cash_flows.filter(tip_transakcije="priljev").aggregate(total=Sum("iznos"))[
+            "total"
+        ] or Decimal("0.00")
+        expense = cash_flows.filter(tip_transakcije="odljev").aggregate(total=Sum("iznos"))[
+            "total"
+        ] or Decimal("0.00")
         return {
             "income": income,
             "expense": expense,
@@ -24,12 +28,12 @@ class FinancialReports:
         from financije.models.invoice import Invoice
         from financije.models.overhead import Overhead
 
-        income = Invoice.objects.filter(issue_date__year=year, issue_date__month=month).aggregate(total=Sum("amount"))[
-            "total"
-        ] or Decimal("0.00")
-        expenses = Overhead.objects.filter(godina=year, mjesec=month).aggregate(total=Sum("overhead_ukupno"))[
-            "total"
-        ] or Decimal("0.00")
+        income = Invoice.objects.filter(issue_date__year=year, issue_date__month=month).aggregate(
+            total=Sum("amount")
+        )["total"] or Decimal("0.00")
+        expenses = Overhead.objects.filter(godina=year, mjesec=month).aggregate(
+            total=Sum("overhead_ukupno")
+        )["total"] or Decimal("0.00")
         return {
             "income": income,
             "expenses": expenses,
@@ -102,13 +106,13 @@ class FinancialReport(models.Model):
             ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
         else:  # yearly
-            priljev = CashFlow.objects.filter(tip_transakcije="priljev", datum__year=self.year).aggregate(
-                ukupno=Sum("iznos")
-            )["ukupno"] or Decimal("0.00")
+            priljev = CashFlow.objects.filter(
+                tip_transakcije="priljev", datum__year=self.year
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
-            odljev = CashFlow.objects.filter(tip_transakcije="odljev", datum__year=self.year).aggregate(
-                ukupno=Sum("iznos")
-            )["ukupno"] or Decimal("0.00")
+            odljev = CashFlow.objects.filter(
+                tip_transakcije="odljev", datum__year=self.year
+            ).aggregate(ukupno=Sum("iznos"))["ukupno"] or Decimal("0.00")
 
         self.priljev_ukupno = priljev
         self.odljev_ukupno = odljev

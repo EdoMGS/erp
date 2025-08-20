@@ -4,8 +4,7 @@ from django.db.models import Avg, Sum
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
 
-from .forms import (EvaluacijaProjektaForm, EvaluacijaRadnikaForm,
-                    EvaluacijaRadnogNalogaForm)
+from .forms import EvaluacijaProjektaForm, EvaluacijaRadnikaForm, EvaluacijaRadnogNalogaForm
 from .models import Projekt, RadniNalog, Zaposlenik
 from .utils import log_action
 
@@ -67,7 +66,9 @@ class DodajEvaluacijuProjektaView(LoginRequiredMixin, UserPassesTestMixin, Creat
     def form_valid(self, form):
         evaluacija = form.save()
         log_action(self.request.user, evaluacija, "CREATE")
-        messages.success(self.request, f"Evaluacija za projekt {evaluacija.projekt} uspješno dodana!")
+        messages.success(
+            self.request, f"Evaluacija za projekt {evaluacija.projekt} uspješno dodana!"
+        )
         return super().form_valid(form)
 
 

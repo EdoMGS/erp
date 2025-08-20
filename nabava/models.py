@@ -50,7 +50,9 @@ class Dobavljac(models.Model):
         related_name="dobavljaci",
         verbose_name=_("Grupa dobavljača"),
     )
-    rejting = models.CharField(max_length=1, choices=REJTING_CHOICES, default="D", verbose_name=_("Rejting"))
+    rejting = models.CharField(
+        max_length=1, choices=REJTING_CHOICES, default="D", verbose_name=_("Rejting")
+    )
 
     rok_placanja = models.PositiveIntegerField(default=30, verbose_name=_("Rok plaćanja (dana)"))
     popust = models.DecimalField(
@@ -101,7 +103,9 @@ class ProcurementPlan(models.Model):
 
 
 class ProcurementRequest(models.Model):
-    procurement_plan = models.ForeignKey(ProcurementPlan, on_delete=models.CASCADE, verbose_name=_("Procurement Plan"))
+    procurement_plan = models.ForeignKey(
+        ProcurementPlan, on_delete=models.CASCADE, verbose_name=_("Procurement Plan")
+    )
     item = models.CharField(max_length=200, verbose_name=_("Item"))
     quantity = models.IntegerField(verbose_name=_("Quantity"))
     department = models.CharField(max_length=200, verbose_name=_("Department"))
@@ -138,7 +142,9 @@ class PurchaseOrder(models.Model):
         verbose_name=_("Dobavljač"),
     )
     order_date = models.DateField(verbose_name=_("Order Date"), default=timezone.now)
-    expected_delivery_date = models.DateField(null=True, blank=True, verbose_name=_("Expected Delivery"))
+    expected_delivery_date = models.DateField(
+        null=True, blank=True, verbose_name=_("Expected Delivery")
+    )
     status = models.CharField(
         max_length=20,
         choices=ORDER_STATUS_CHOICES,
@@ -183,7 +189,9 @@ class PurchaseOrder(models.Model):
         if self.agreed_price and self.reference_price and self.reference_price > 0:
             if self.agreed_price > self.reference_price * Decimal("1.20"):
                 if not self.justification_for_deviation:
-                    raise ValidationError(_("Agreed price is >20% above reference price. Justification required."))
+                    raise ValidationError(
+                        _("Agreed price is >20% above reference price. Justification required.")
+                    )
 
     def __str__(self):
         supplier_name = self.supplier.naziv if self.supplier else "Unknown"
@@ -219,7 +227,9 @@ class PurchaseOrderLine(models.Model):
         related_name="lines",
         verbose_name=_("Purchase Order"),
     )
-    artikl = models.ForeignKey("skladiste.Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl"))
+    artikl = models.ForeignKey(
+        "skladiste.Artikl", on_delete=models.PROTECT, verbose_name=_("Artikl")
+    )
     quantity = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
     unit_price = models.DecimalField(
         max_digits=10,
@@ -292,7 +302,9 @@ class Narudzbenica(models.Model):
     )
 
     # M2M prema Artikl, preko “NarudzbenicaStavka”
-    artikli = models.ManyToManyField("skladiste.Artikl", through="NarudzbenicaStavka", verbose_name=_("Artikli"))
+    artikli = models.ManyToManyField(
+        "skladiste.Artikl", through="NarudzbenicaStavka", verbose_name=_("Artikli")
+    )
 
     # Modificirana veza prema Racun - dodali smo related_name
     racun = models.OneToOneField(
@@ -356,7 +368,9 @@ class NarudzbenicaStavka(models.Model):
         related_name="stavke",
         verbose_name=_("Narudžbenica"),
     )
-    artikl = models.ForeignKey("skladiste.Artikl", on_delete=models.CASCADE, verbose_name=_("Artikl"))
+    artikl = models.ForeignKey(
+        "skladiste.Artikl", on_delete=models.CASCADE, verbose_name=_("Artikl")
+    )
     kolicina = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
     cijena = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Cijena"))
 

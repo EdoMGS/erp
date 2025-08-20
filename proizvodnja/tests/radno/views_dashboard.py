@@ -82,7 +82,8 @@ def api_dashboard_data(request):
     """
     korisnik = request.user
     if korisnik.is_staff or (
-        hasattr(korisnik, "zaposlenik") and korisnik.zaposlenik.role in ["Administrator", "Voditelj Proizvodnje"]
+        hasattr(korisnik, "zaposlenik")
+        and korisnik.zaposlenik.role in ["Administrator", "Voditelj Proizvodnje"]
     ):
         response_data = {
             "projekti": Projekt.objects.filter(is_active=True).count(),

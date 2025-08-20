@@ -9,13 +9,29 @@ from django.views.generic import CreateView, DetailView, ListView
 from rest_framework import viewsets
 
 from .forms import ArtiklForm, PrimkaForm, PrimkaStavkaForm
-from .models import (Alat, Artikl, DnevnikDogadaja, HTZOprema, Izdatnica,
-                     Lokacija, Materijal, Primka, PrimkaStavka,
-                     SkladisteResurs, Zona)
-from .serializers import (AlatSerializer, ArtiklSerializer,
-                          DnevnikDogadajaSerializer, HTZOpremaSerializer,
-                          LokacijaSerializer, MaterijalSerializer,
-                          SkladisteResursSerializer, ZonaSerializer)
+from .models import (
+    Alat,
+    Artikl,
+    DnevnikDogadaja,
+    HTZOprema,
+    Izdatnica,
+    Lokacija,
+    Materijal,
+    Primka,
+    PrimkaStavka,
+    SkladisteResurs,
+    Zona,
+)
+from .serializers import (
+    AlatSerializer,
+    ArtiklSerializer,
+    DnevnikDogadajaSerializer,
+    HTZOpremaSerializer,
+    LokacijaSerializer,
+    MaterijalSerializer,
+    SkladisteResursSerializer,
+    ZonaSerializer,
+)
 
 
 ########################################
@@ -147,7 +163,9 @@ def primka_list(request):
 
 @login_required
 def primka_create(request):
-    PrimkaStavkaFormSet = inlineformset_factory(Primka, PrimkaStavka, form=PrimkaStavkaForm, extra=1, can_delete=True)
+    PrimkaStavkaFormSet = inlineformset_factory(
+        Primka, PrimkaStavka, form=PrimkaStavkaForm, extra=1, can_delete=True
+    )
 
     if request.method == "POST":
         form = PrimkaForm(request.POST)

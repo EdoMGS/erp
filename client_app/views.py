@@ -13,18 +13,20 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from rest_framework import generics, viewsets
 
 from financije.models import Invoice  # Only for read operations
-from prodaja.models import (  # Updated to import SalesOrder from prodaja
-    SalesOpportunity, SalesOrder)
+from prodaja.models import SalesOpportunity, SalesOrder  # Updated to import SalesOrder from prodaja
 
-from .forms import \
-    SalesOpportunityForm  # Only forms we actually define in our app
-from .forms import ClientSupplierForm
+from .forms import (
+    ClientSupplierForm,
+    SalesOpportunityForm,  # Only forms we actually define in our app
+)
 from .models import ClientActivityLog, ClientSupplier
-from .serializers import \
-    SalesOpportunitySerializer  # Added SalesOpportunitySerializer
-from .serializers import SalesOrderSerializer  # Added SalesOrderSerializer
-from .serializers import (ClientActivityLogSerializer,
-                          ClientSupplierSerializer, InvoiceSerializer)
+from .serializers import (
+    ClientActivityLogSerializer,
+    ClientSupplierSerializer,
+    InvoiceSerializer,
+    SalesOpportunitySerializer,  # Added SalesOpportunitySerializer
+    SalesOrderSerializer,  # Added SalesOrderSerializer
+)
 
 logger = logging.getLogger(__name__)
 
@@ -170,11 +172,17 @@ def client_app_home(request):
     today = timezone.now().date()
 
     context = {
-        "recent_clients": ClientSupplier.objects.filter(is_supplier=False).order_by("-date_created")[:5],
-        "recent_activities": ClientActivityLog.objects.select_related("client").order_by("-timestamp")[:10],
+        "recent_clients": ClientSupplier.objects.filter(is_supplier=False).order_by(
+            "-date_created"
+        )[:5],
+        "recent_activities": ClientActivityLog.objects.select_related("client").order_by(
+            "-timestamp"
+        )[:10],
         # Statistika
         "client_count": ClientSupplier.objects.filter(is_supplier=False).count(),
-        "active_opportunities": SalesOpportunity.objects.filter(stage__in=["active", "negotiation"]).count(),
+        "active_opportunities": SalesOpportunity.objects.filter(
+            stage__in=["active", "negotiation"]
+        ).count(),
         "open_invoices": Invoice.objects.filter(
             status_fakture="open"  # Izmijenjeno iz status u status_fakture
         ).count(),

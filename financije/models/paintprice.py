@@ -4,7 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 class PaintPrice(models.Model):
     name = models.CharField(max_length=100, verbose_name=_("Naziv"))
-    price_per_m2 = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_("Cijena po m2"))
+    price_per_m2 = models.DecimalField(
+        max_digits=8, decimal_places=2, verbose_name=_("Cijena po m2")
+    )
     currency = models.CharField(max_length=10, default="EUR", verbose_name=_("Valuta"))
 
     class Meta:

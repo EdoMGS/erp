@@ -42,7 +42,6 @@ def test_materijal_unique_together():
 
 from django.test import Client, TestCase
 from django.urls import reverse
-from nalozi.models import Projekt, RadniNalog
 
 
 class ViewsTestCase(TestCase):

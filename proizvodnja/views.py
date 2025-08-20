@@ -4,15 +4,20 @@ from django.forms import inlineformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import DetailView, UpdateView
 
-from financije.services import (calculate_project_costs,
-                                process_completed_work_order)
+from financije.services import calculate_project_costs, process_completed_work_order
 from ljudski_resursi.models import Employee
 from projektiranje_app.models import CADDocument
 from skladiste.models import Materijal
 
-from .forms import (AngazmanForm, OcjenaKvaliteteForm, ProjektForm,
-                    RadniNalogForm, RadniNalogMaterijalForm,
-                    VideoMaterijalForm, VideoPitanjeForm)
+from .forms import (
+    AngazmanForm,
+    OcjenaKvaliteteForm,
+    ProjektForm,
+    RadniNalogForm,
+    RadniNalogMaterijalForm,
+    VideoMaterijalForm,
+    VideoPitanjeForm,
+)
 from .models import Projekt, RadniNalog
 from .views_dashboard import dashboard_view
 
@@ -209,17 +214,27 @@ def univerzalni_radni_nalog(request, pk=None, action="create"):
         radni_nalog = None
 
     # Initialize all formsets
-    MaterialFormSet = inlineformset_factory(RadniNalog, RadniNalogMaterijal, form=RadniNalogMaterijalForm, extra=1)
-    VideoMaterijalFormSet = inlineformset_factory(RadniNalog, VideoMaterijal, form=VideoMaterijalForm, extra=1)
-    VideoPitanjeFormSet = inlineformset_factory(RadniNalog, VideoPitanje, form=VideoPitanjeForm, extra=1)
-    OcjenaKvaliteteFormSet = inlineformset_factory(RadniNalog, OcjenaKvalitete, form=OcjenaKvaliteteForm, extra=1)
+    MaterialFormSet = inlineformset_factory(
+        RadniNalog, RadniNalogMaterijal, form=RadniNalogMaterijalForm, extra=1
+    )
+    VideoMaterijalFormSet = inlineformset_factory(
+        RadniNalog, VideoMaterijal, form=VideoMaterijalForm, extra=1
+    )
+    VideoPitanjeFormSet = inlineformset_factory(
+        RadniNalog, VideoPitanje, form=VideoPitanjeForm, extra=1
+    )
+    OcjenaKvaliteteFormSet = inlineformset_factory(
+        RadniNalog, OcjenaKvalitete, form=OcjenaKvaliteteForm, extra=1
+    )
     AngazmanFormSet = inlineformset_factory(RadniNalog, Angazman, form=AngazmanForm, extra=1)
 
     if request.method == "POST" and action != "view":
         form = RadniNalogForm(request.POST, instance=radni_nalog)
         # Initialize formsets with POST data
         materijal_formset = MaterialFormSet(request.POST, instance=radni_nalog)
-        video_materijal_formset = VideoMaterijalFormSet(request.POST, request.FILES, instance=radni_nalog)
+        video_materijal_formset = VideoMaterijalFormSet(
+            request.POST, request.FILES, instance=radni_nalog
+        )
         video_pitanje_formset = VideoPitanjeFormSet(request.POST, instance=radni_nalog)
         ocjena_kvalitete_formset = OcjenaKvaliteteFormSet(request.POST, instance=radni_nalog)
         angazman_formset = AngazmanFormSet(request.POST, instance=radni_nalog)

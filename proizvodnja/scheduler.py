@@ -18,7 +18,9 @@ def initialize_scheduler():
         task_name = f"check_project_status_{timestamp}"
 
         # Try to find existing task
-        existing_task = PeriodicTask.objects.filter(task="proizvodnja.tasks.check_project_status").first()
+        existing_task = PeriodicTask.objects.filter(
+            task="proizvodnja.tasks.check_project_status"
+        ).first()
 
         if existing_task:
             # Update existing task

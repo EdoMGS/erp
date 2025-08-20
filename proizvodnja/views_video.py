@@ -5,13 +5,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import VideoMaterijalForm, VideoPitanjeForm
 from .models import OcjenaKvalitete, RadniNalog, VideoMaterijal, VideoPitanje
-from .utils import informiraj_korisnika  # Dodana funkcija ako je potrebna
-from .utils import log_action
+from .utils import (
+    informiraj_korisnika,  # Dodana funkcija ako je potrebna
+    log_action,
+)
 
 
 # ==============================
@@ -25,7 +26,9 @@ class ListaVideoMaterijalaView(LoginRequiredMixin, UserPassesTestMixin, ListView
 
     def test_func(self):
         # Pristup imaju vlasnik, direktor i voditelj
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_queryset(self):
         projekt_id = self.kwargs.get("projekt_id")
@@ -42,7 +45,9 @@ class DodajVideoMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateVie
 
     def test_func(self):
         # Pristup imaju vlasnik, direktor i voditelj
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -82,7 +87,10 @@ class AzurirajVideoMaterijalView(LoginRequiredMixin, UserPassesTestMixin, Update
     def test_func(self):
         # Pristup imaju korisnik koji je dodao ili korisnici u grupi 'direktor'
         video_materijal = self.get_object()
-        return self.request.user == video_materijal.dodao or self.request.user.groups.filter(name="direktor").exists()
+        return (
+            self.request.user == video_materijal.dodao
+            or self.request.user.groups.filter(name="direktor").exists()
+        )
 
     @transaction.atomic
     def form_valid(self, form):
@@ -113,7 +121,10 @@ class ObrisiVideoMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteVi
 
     def test_func(self):
         # Pristup imaju korisnik koji je dodao ili korisnici u grupi 'direktor'
-        return self.request.user == self.get_object().dodao or self.request.user.groups.filter(name="direktor").exists()
+        return (
+            self.request.user == self.get_object().dodao
+            or self.request.user.groups.filter(name="direktor").exists()
+        )
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
@@ -148,7 +159,9 @@ class ListaVideoPitanjaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_queryset(self):
         radni_nalog_id = self.kwargs.get("radni_nalog_id", None)
@@ -165,7 +178,9 @@ class DodajVideoPitanjeView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
 
     def test_func(self):
         # Pristup imaju vlasnik, direktor i voditelj
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -203,7 +218,10 @@ class ObrisiVideoPitanjeView(LoginRequiredMixin, UserPassesTestMixin, DeleteView
 
     def test_func(self):
         # Pristup imaju korisnik koji je dodao ili korisnici u grupi 'direktor'
-        return self.request.user == self.get_object().dodao or self.request.user.groups.filter(name="direktor").exists()
+        return (
+            self.request.user == self.get_object().dodao
+            or self.request.user.groups.filter(name="direktor").exists()
+        )
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
@@ -240,13 +258,17 @@ class PregledMedijaOcjeneView(LoginRequiredMixin, UserPassesTestMixin, DetailVie
         # Pristup imaju direktor, voditelj, administrativno osoblje ili korisnik koji je dodao ocjenu
         ocjena = self.get_object()
         return (
-            self.request.user.groups.filter(name__in=["direktor", "voditelj", "administrativno osoblje"]).exists()
+            self.request.user.groups.filter(
+                name__in=["direktor", "voditelj", "administrativno osoblje"]
+            ).exists()
             or self.request.user == ocjena.ocjenjivac.user
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ocjena = self.get_object()
-        context["slike"] = ocjena.slike.all()  # Pretpostavka da je 'slike' ManyToManyField ili reverse FK
+        context["slike"] = (
+            ocjena.slike.all()
+        )  # Pretpostavka da je 'slike' ManyToManyField ili reverse FK
         context["video"] = ocjena.video  # Pretpostavka da je 'video' FK ili FileField
         return context

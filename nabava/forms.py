@@ -1,9 +1,16 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import (Dobavljac, GrupaDobavljaca, Narudzbenica,
-                     NarudzbenicaStavka, ProcurementPlan, ProcurementRequest,
-                     PurchaseOrder, PurchaseOrderLine)
+from .models import (
+    Dobavljac,
+    GrupaDobavljaca,
+    Narudzbenica,
+    NarudzbenicaStavka,
+    ProcurementPlan,
+    ProcurementRequest,
+    PurchaseOrder,
+    PurchaseOrderLine,
+)
 
 
 class ProcurementPlanForm(forms.ModelForm):
@@ -68,7 +75,9 @@ class PurchaseOrderForm(forms.ModelForm):
 
         if agreed_price and reference_price:
             if agreed_price > reference_price * 1.20 and not justification:
-                raise forms.ValidationError(_("Potrebno je obrazloženje kada cijena prelazi referentnu za 20%"))
+                raise forms.ValidationError(
+                    _("Potrebno je obrazloženje kada cijena prelazi referentnu za 20%")
+                )
         return cleaned_data
 
 
@@ -122,7 +131,10 @@ class NarudzbenicaStavkaForm(forms.ModelForm):
         artikl = self.cleaned_data.get("artikl")
         narudzbenica = self.instance.narudzbenica if self.instance else None
 
-        if narudzbenica and NarudzbenicaStavka.objects.filter(narudzbenica=narudzbenica, artikl=artikl).exists():
+        if (
+            narudzbenica
+            and NarudzbenicaStavka.objects.filter(narudzbenica=narudzbenica, artikl=artikl).exists()
+        ):
             raise forms.ValidationError(_("Ovaj artikl je već dodan u narudžbenicu"))
 
         return artikl

@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from ljudski_resursi.models import Employee, RadnaEvaluacija  # Updated import
+from ljudski_resursi.models import RadnaEvaluacija  # Updated import
 
 
 class Salary(models.Model):
@@ -12,7 +12,9 @@ class Salary(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_("Zaposlenik"),
     )
-    gross_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Bruto iznos"))
+    gross_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name=_("Bruto iznos")
+    )
     net_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Neto iznos"))
     taxes = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Porezi"))
     date = models.DateField(verbose_name=_("Datum obračuna plaće"), blank=True, null=True)
@@ -59,8 +61,12 @@ class VariablePayCalculation(models.Model):
     employee = models.ForeignKey("ljudski_resursi.Employee", on_delete=models.CASCADE)
     period = models.DateField()
     base_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    performance_multiplier = models.DecimalField(max_digits=3, decimal_places=2, default=Decimal("1.00"))
-    quality_multiplier = models.DecimalField(max_digits=3, decimal_places=2, default=Decimal("1.00"))
+    performance_multiplier = models.DecimalField(
+        max_digits=3, decimal_places=2, default=Decimal("1.00")
+    )
+    quality_multiplier = models.DecimalField(
+        max_digits=3, decimal_places=2, default=Decimal("1.00")
+    )
     final_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 

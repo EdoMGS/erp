@@ -54,9 +54,15 @@ class DesignTask(models.Model):
         default=Decimal("0.0"),
         verbose_name=_("Utrošeni sati dizajna"),
     )
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft", verbose_name=_("Status"))
-    datum_pocetka = models.DateField(null=True, blank=True, verbose_name=_("Datum početka projektiranja"))
-    datum_zavrsetka = models.DateField(null=True, blank=True, verbose_name=_("Datum završetka projektiranja"))
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="draft", verbose_name=_("Status")
+    )
+    datum_pocetka = models.DateField(
+        null=True, blank=True, verbose_name=_("Datum početka projektiranja")
+    )
+    datum_zavrsetka = models.DateField(
+        null=True, blank=True, verbose_name=_("Datum završetka projektiranja")
+    )
     napomena = models.TextField(blank=True, null=True, verbose_name=_("Napomena / opis dizajna"))
     # Polja za audit trail
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja"))
@@ -113,7 +119,9 @@ class DesignSegment(models.Model):
         related_name="segments",
         verbose_name=_("Glavni zadatak projektiranja"),
     )
-    segment_type = models.CharField(max_length=50, choices=SEGMENT_TYPE_CHOICES, verbose_name=_("Tip segmenta"))
+    segment_type = models.CharField(
+        max_length=50, choices=SEGMENT_TYPE_CHOICES, verbose_name=_("Tip segmenta")
+    )
     opis = models.TextField(blank=True, null=True, verbose_name=_("Opis segmenta"))
     planirani_sati = models.DecimalField(
         max_digits=5,
@@ -128,7 +136,9 @@ class DesignSegment(models.Model):
         verbose_name=_("Utrošeni sati za segment"),
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Datum kreiranja segmenta"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Datum posljednje izmjene segmenta"))
+    updated_at = models.DateTimeField(
+        auto_now=True, verbose_name=_("Datum posljednje izmjene segmenta")
+    )
 
     class Meta:
         verbose_name = _("Segment dizajna")

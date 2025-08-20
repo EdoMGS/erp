@@ -12,4 +12,6 @@ class Command(BaseCommand):
         # Add only view permissions for all models
         for perm in Permission.objects.filter(codename__startswith="view_"):
             group.permissions.add(perm)
-        self.stdout.write(self.style.SUCCESS('Group "worker" created/updated with read-only permissions.'))
+        self.stdout.write(
+            self.style.SUCCESS('Group "worker" created/updated with read-only permissions.')
+        )

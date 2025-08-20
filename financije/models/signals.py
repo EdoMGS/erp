@@ -22,7 +22,9 @@ class AuditLog(models.Model):
 
 
 def create_audit_log(user, action, model_name, instance_id):
-    AuditLog.objects.create(user=user, action=action, model_name=model_name, instance_id=instance_id)
+    AuditLog.objects.create(
+        user=user, action=action, model_name=model_name, instance_id=instance_id
+    )
 
 
 @receiver(post_save, sender=Invoice)

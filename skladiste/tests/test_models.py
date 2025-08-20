@@ -1,10 +1,21 @@
 import pytest
 
 from skladiste.employee_factory import create_minimal_employee
-from skladiste.models import (Alat, Artikl, DnevnikDogadaja, HTZOprema,
-                              Izdatnica, IzdatnicaStavka, Kategorija, Lokacija,
-                              Materijal, Primka, PrimkaStavka, SkladisteResurs,
-                              Zona)
+from skladiste.models import (
+    Alat,
+    Artikl,
+    DnevnikDogadaja,
+    HTZOprema,
+    Izdatnica,
+    IzdatnicaStavka,
+    Kategorija,
+    Lokacija,
+    Materijal,
+    Primka,
+    PrimkaStavka,
+    SkladisteResurs,
+    Zona,
+)
 
 
 @pytest.mark.django_db
@@ -116,7 +127,9 @@ def test_primka_str():
     user = User.objects.create(username="testuser")
     grupa = GrupaDobavljaca.objects.create(naziv="Dummy Grupa")
     dobavljac = Dobavljac.objects.create(naziv="Dummy Dobavljac", grupa=grupa)
-    primka = Primka.objects.create(broj_primke="P1", datum="2024-01-01", dobavljac=dobavljac, created_by=user)
+    primka = Primka.objects.create(
+        broj_primke="P1", datum="2024-01-01", dobavljac=dobavljac, created_by=user
+    )
     assert "Primka P1" in str(primka)
 
 
@@ -141,7 +154,9 @@ def test_primkastavka_str():
         dobavljac=dobavljac,
         lokacija=lok,
     )
-    primka = Primka.objects.create(broj_primke="P1", datum="2024-01-01", dobavljac=dobavljac, created_by=user)
+    primka = Primka.objects.create(
+        broj_primke="P1", datum="2024-01-01", dobavljac=dobavljac, created_by=user
+    )
     stavka = PrimkaStavka.objects.create(primka=primka, artikl=artikl, kolicina=1, cijena=1)
     assert artikl.naziv in str(stavka)
 
@@ -153,7 +168,9 @@ def test_izdatnica_str():
     User = get_user_model()
     user = User.objects.create(username="testuser")
     employee = create_minimal_employee(user)
-    izdatnica = Izdatnica.objects.create(broj_izdatnice="I1", datum="2024-01-01", preuzeo=employee, created_by=user)
+    izdatnica = Izdatnica.objects.create(
+        broj_izdatnice="I1", datum="2024-01-01", preuzeo=employee, created_by=user
+    )
     assert "Izdatnica I1" in str(izdatnica)
 
 
@@ -179,6 +196,8 @@ def test_izdatnicastavka_str():
         dobavljac=dobavljac,
         lokacija=lok,
     )
-    izdatnica = Izdatnica.objects.create(broj_izdatnice="I1", datum="2024-01-01", preuzeo=employee, created_by=user)
+    izdatnica = Izdatnica.objects.create(
+        broj_izdatnice="I1", datum="2024-01-01", preuzeo=employee, created_by=user
+    )
     stavka = IzdatnicaStavka.objects.create(izdatnica=izdatnica, artikl=artikl, kolicina=1)
     assert artikl.naziv in str(stavka)

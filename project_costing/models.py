@@ -56,7 +56,9 @@ class MaterialUsage(models.Model):
 
 
 class ProfitShareConfig(models.Model):
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="profit_share_config")
+    project = models.OneToOneField(
+        Project, on_delete=models.CASCADE, related_name="profit_share_config"
+    )
     owner_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("20.00"))
     worker_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("30.00"))
     company_share = models.DecimalField(max_digits=5, decimal_places=2, default=Decimal("50.00"))

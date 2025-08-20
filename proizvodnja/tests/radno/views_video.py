@@ -2,12 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import VideoMaterijalForm, VideoPitanjeForm
-from .models import (OcjenaKvalitete, Projekt, RadniNalog, VideoMaterijal,
-                     VideoPitanje)
+from .models import OcjenaKvalitete, Projekt, RadniNalog, VideoMaterijal, VideoPitanje
 from .utils import log_action
 
 
@@ -23,13 +21,18 @@ class ListaVideoMaterijalaView(LoginRequiredMixin, ListView):
         Dohvaća video materijale za određeni projekt.
         """
         projekt_id = self.kwargs.get("projekt_id")
-        return VideoMaterijal.objects.filter(projekt_id=projekt_id, is_active=True).order_by("-created_at")
+        return VideoMaterijal.objects.filter(projekt_id=projekt_id, is_active=True).order_by(
+            "-created_at"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["projekt"] = get_object_or_404(Projekt, id=self.kwargs.get("projekt_id"))
         # Sakrij autora za radnike
-        if hasattr(self.request.user, "zaposlenik") and self.request.user.zaposlenik.access_level == "Radnik":
+        if (
+            hasattr(self.request.user, "zaposlenik")
+            and self.request.user.zaposlenik.access_level == "Radnik"
+        ):
             for video in context["video_materijali"]:
                 video.dodao = None
         return context
@@ -48,7 +51,9 @@ class DodajVideoMaterijalView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("lista_video_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]})
+        return reverse_lazy(
+            "lista_video_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]}
+        )
 
 
 class AzurirajVideoMaterijalView(LoginRequiredMixin, UpdateView):
@@ -101,13 +106,18 @@ class ListaVideoPitanjaView(LoginRequiredMixin, ListView):
         Dohvaća video pitanja za određeni radni nalog.
         """
         radni_nalog_id = self.kwargs.get("radni_nalog_id")
-        return VideoPitanje.objects.filter(radni_nalog_id=radni_nalog_id, is_active=True).order_by("-created_at")
+        return VideoPitanje.objects.filter(radni_nalog_id=radni_nalog_id, is_active=True).order_by(
+            "-created_at"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["radni_nalog"] = get_object_or_404(RadniNalog, id=self.kwargs.get("radni_nalog_id"))
         # Sakrij autora za radnike
-        if hasattr(self.request.user, "zaposlenik") and self.request.user.zaposlenik.access_level == "Radnik":
+        if (
+            hasattr(self.request.user, "zaposlenik")
+            and self.request.user.zaposlenik.access_level == "Radnik"
+        ):
             for pitanje in context["video_pitanja"]:
                 pitanje.dodao = None
         return context
@@ -147,7 +157,9 @@ class ObrisiVideoPitanjeView(LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy("lista_video_pitanja", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
+        return reverse_lazy(
+            "lista_video_pitanja", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
+        )
 
 
 # -------- 3. Pregled medija u ocjenama -------- #

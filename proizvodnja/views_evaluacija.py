@@ -25,7 +25,9 @@ class EvaluacijaRadnikaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def test_func(self):
         # Primjer: samo vlasnik/direktor/voditelj
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_queryset(self):
         """

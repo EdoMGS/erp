@@ -12,7 +12,9 @@ from tenants.models import Tenant
 def test_create_interco_invoice_creates_invoice_and_line(django_user_model):
     sender = Tenant.objects.create(name="Sender")
     receiver = Tenant.objects.create(name="Receiver")
-    asset = Asset.objects.create(type="vehicle", value=10000, amort_plan="plan", owner_tenant=sender)
+    asset = Asset.objects.create(
+        type="vehicle", value=10000, amort_plan="plan", owner_tenant=sender
+    )
     amount = Decimal("1000.00")
     vat_rate = Decimal("25.00")
 
@@ -30,7 +32,9 @@ def test_create_interco_invoice_creates_invoice_and_line(django_user_model):
 def test_create_interco_invoice_no_vat(django_user_model):
     sender = Tenant.objects.create(name="Sender")
     receiver = Tenant.objects.create(name="Receiver")
-    asset = Asset.objects.create(type="vehicle", value=10000, amort_plan="plan", owner_tenant=sender)
+    asset = Asset.objects.create(
+        type="vehicle", value=10000, amort_plan="plan", owner_tenant=sender
+    )
     amount = Decimal("1000.00")
     vat_rate = Decimal("25.00")
 

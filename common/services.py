@@ -40,7 +40,9 @@ class ModuleCommunicationService:
     @transaction.atomic
     def update_related_modules(source_module: str, action: str, data: dict):
         """Coordinate updates across multiple modules"""
-        EventManager.notify_modules("module_update", {"source": source_module, "action": action, "data": data})
+        EventManager.notify_modules(
+            "module_update", {"source": source_module, "action": action, "data": data}
+        )
 
 
 class FinancialTrackingService:

@@ -166,7 +166,9 @@ class Materijal(models.Model):
     current_stock = models.PositiveIntegerField(default=0)
     min_required_stock = models.PositiveIntegerField(default=0)
 
-    narudzbenica = models.ForeignKey("nabava.Narudzbenica", on_delete=models.SET_NULL, null=True, blank=True)
+    narudzbenica = models.ForeignKey(
+        "nabava.Narudzbenica", on_delete=models.SET_NULL, null=True, blank=True
+    )
 
     def __str__(self):
         return self.naziv
@@ -212,7 +214,9 @@ class HTZOprema(models.Model):
     vrsta = models.CharField(max_length=100, verbose_name=_("Vrsta HTZ opreme"))
     stanje = models.CharField(max_length=50, verbose_name=_("Stanje"))
     is_assigned = models.BooleanField(default=False, verbose_name=_("Trenutačno zaduženo?"))
-    htz_equipment_tracking = models.BooleanField(default=False, verbose_name=_("Praćenje zaduženja HTZ opreme"))
+    htz_equipment_tracking = models.BooleanField(
+        default=False, verbose_name=_("Praćenje zaduženja HTZ opreme")
+    )
 
     assigned_to = models.ForeignKey(
         "ljudski_resursi.Employee",
@@ -280,7 +284,9 @@ class Primka(models.Model):
 
     broj_primke = models.CharField(max_length=20, unique=True, verbose_name=_("Broj primke"))
     datum = models.DateField(verbose_name=_("Datum primke"))
-    dobavljac = models.ForeignKey("nabava.Dobavljac", on_delete=models.PROTECT, verbose_name=_("Dobavljač"))
+    dobavljac = models.ForeignKey(
+        "nabava.Dobavljac", on_delete=models.PROTECT, verbose_name=_("Dobavljač")
+    )
     napomena = models.TextField(blank=True, null=True, verbose_name=_("Napomena"))
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(

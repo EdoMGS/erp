@@ -10,11 +10,21 @@ from rest_framework import viewsets
 from proizvodnja.models import RadniNalog  # Updated import
 
 from .forms import DepartmentForm, EmployeeForm, RadnaEvaluacijaForm
-from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
-                     Position, RadnaEvaluacija)
-from .serializers import (DepartmentSerializer, EmployeeSerializer,
-                          ExpertiseLevelSerializer,
-                          HierarchicalLevelSerializer, PositionSerializer)
+from .models import (
+    Department,
+    Employee,
+    ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
+    RadnaEvaluacija,
+)
+from .serializers import (
+    DepartmentSerializer,
+    EmployeeSerializer,
+    ExpertiseLevelSerializer,
+    HierarchicalLevelSerializer,
+    PositionSerializer,
+)
 
 
 def index(request):
@@ -108,7 +118,6 @@ class EmployeeCreateView(LoginRequiredMixin, View):
 
 # Example of lazy import within a method to prevent circular dependency
 def some_view(request):
-    from proizvodnja.models import SomeModel  # Lazy import
 
     # ...use SomeModel as needed...
     return render(request, "some_template.html", {})

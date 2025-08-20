@@ -30,7 +30,9 @@ class Invoice(models.Model):
         related_name="invoices",
         verbose_name=_("Klijent"),
     )
-    invoice_number = models.CharField(max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True)
+    invoice_number = models.CharField(
+        max_length=100, unique=True, verbose_name=_("Broj fakture"), db_index=True
+    )
     issue_date = models.DateField(verbose_name=_("Datum izdavanja"))
     due_date = models.DateField(verbose_name=_("Datum dospijeća"))
     pdv_rate = models.DecimalField(
@@ -60,7 +62,9 @@ class Invoice(models.Model):
     )
     is_guaranteed = models.BooleanField(default=False, verbose_name=_("Garancija?"))
     guarantee_details = models.TextField(blank=True, null=True, verbose_name=_("Detalji garancije"))
-    financial_guarantee = models.BooleanField(default=False, verbose_name=_("Financijska garancija?"))
+    financial_guarantee = models.BooleanField(
+        default=False, verbose_name=_("Financijska garancija?")
+    )
     tender_statement = models.TextField(blank=True, null=True, verbose_name=_("Izjava za tender"))
     public_tender_ref = models.CharField(
         max_length=100,
@@ -100,7 +104,9 @@ class InvoiceLine(models.Model):
     invoice = models.ForeignKey(Invoice, related_name="lines", on_delete=models.CASCADE)
     description = models.CharField(max_length=255, verbose_name=_("Opis stavke"))
     quantity = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Količina"))
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Jedinična cijena"))
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name=_("Jedinična cijena")
+    )
     tax_rate = models.DecimalField(
         max_digits=5,
         decimal_places=2,

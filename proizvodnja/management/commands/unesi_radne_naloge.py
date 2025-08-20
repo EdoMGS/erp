@@ -157,7 +157,9 @@ class Command(BaseCommand):
                         rok_za_izradu=zadatak_data["rok_za_izradu"],
                         status="Planirano",  # Početni status
                     )
-                    self.stdout.write(self.style.SUCCESS(f"Radni nalog '{nalog.naziv_naloga}' uspješno kreiran."))
+                    self.stdout.write(
+                        self.style.SUCCESS(f"Radni nalog '{nalog.naziv_naloga}' uspješno kreiran.")
+                    )
                 else:
                     self.stdout.write(
                         self.style.ERROR(

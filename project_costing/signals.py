@@ -31,10 +31,15 @@ def allocate_profit_share(sender, instance, created, **kwargs):
 def calculate_profit_on_close(sender, instance, **kwargs):
     if instance.end_date:  # Assuming end_date indicates project closure
         total_labour_cost = sum(
-            entry.hours_worked * entry.hourly_rate for entry in LabourEntry.objects.filter(project=instance)
+            entry.hours_worked * entry.hourly_rate
+            for entry in LabourEntry.objects.filter(project=instance)
         )
         profit = instance.budget - total_labour_cost
         # Example logic: distribute profit equally among workers
-        workers = LabourEntry.objects.filter(project=instance).values_list("worker_name", flat=True).distinct()
+        workers = (
+            LabourEntry.objects.filter(project=instance)
+            .values_list("worker_name", flat=True)
+            .distinct()
+        )
         worker_share = profit / Decimal(len(workers)) if workers else Decimal("0.00")
         print(f"Profit per worker: {worker_share}")

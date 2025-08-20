@@ -35,7 +35,9 @@ class Asset(SoftDeleteModel):
     type = models.CharField(max_length=32, choices=TYPE_CHOICES)
     value = models.DecimalField(max_digits=12, decimal_places=2)
     amort_plan = models.TextField()
-    owner_tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE, related_name="erp_assets")
+    owner_tenant = models.ForeignKey(
+        "tenants.Tenant", on_delete=models.CASCADE, related_name="erp_assets"
+    )
     division = models.CharField(max_length=16, choices=DIVISION_CHOICES, default="BRAVARIJA")
 
     def __str__(self):

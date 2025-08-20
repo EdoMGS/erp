@@ -7,7 +7,9 @@ from .models import Bonus, Evaluacija, Nagrada
 @receiver(post_save, sender=Evaluacija)
 def handle_evaluation(sender, instance, created, **kwargs):
     if created:
-        last_3 = Evaluacija.objects.filter(employee=instance.employee).order_by("-datum_evaluacije")[:3]
+        last_3 = Evaluacija.objects.filter(employee=instance.employee).order_by(
+            "-datum_evaluacije"
+        )[:3]
         avg_score = sum(evaluacija.ocjena for evaluacija in last_3) / len(last_3)
 
         if avg_score >= 4.5:

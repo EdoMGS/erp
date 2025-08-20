@@ -2,8 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import AngazmanForm, DodatniAngazmanForm
 from .models import Angazman, RadniNalog
@@ -63,7 +62,9 @@ class DodajAngazmanView(LoginRequiredMixin, CreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]})
+        return reverse_lazy(
+            "lista_angazmana", kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]}
+        )
 
 
 # -------- 3. Ažuriranje angažmana -------- #
@@ -89,7 +90,9 @@ class AzurirajAngazmanView(LoginRequiredMixin, UpdateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
+        return reverse_lazy(
+            "lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
+        )
 
 
 # -------- 4. Dodavanje dodatnog angažmana -------- #
@@ -145,7 +148,9 @@ class ObrisiAngazmanView(LoginRequiredMixin, DeleteView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy("lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id})
+        return reverse_lazy(
+            "lista_angazmana", kwargs={"radni_nalog_id": self.object.radni_nalog.id}
+        )
 
 
 class DetaljiAngazmanaView(LoginRequiredMixin, DetailView):

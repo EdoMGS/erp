@@ -3,8 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import MaterijalForm
 from .models import Materijal, Projekt, RadniNalog
@@ -21,7 +20,9 @@ class ListaMaterijalaView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     paginate_by = 10
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     def get_queryset(self):
         queryset = Materijal.objects.select_related("radni_nalog").filter(is_active=True)
@@ -75,7 +76,9 @@ class DodajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = "dodaj_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -86,7 +89,9 @@ class DodajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if radni_nalog_id:
             materijal.radni_nalog = get_object_or_404(RadniNalog, id=radni_nalog_id)
         elif projekt_id:
-            materijal.projekt = get_object_or_404(Projekt, id=projekt_id)  # Ensure 'projekt' field exists if used
+            materijal.projekt = get_object_or_404(
+                Projekt, id=projekt_id
+            )  # Ensure 'projekt' field exists if used
 
         inventory_item = form.cleaned_data.get("inventory_item")
         if inventory_item:
@@ -119,7 +124,9 @@ class AzurirajMaterijalView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
     template_name = "dodaj_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def form_valid(self, form):
@@ -147,7 +154,9 @@ class ObrisiMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "obrisi_materijal.html"
 
     def test_func(self):
-        return self.request.user.groups.filter(name__in=["vlasnik", "direktor", "voditelj"]).exists()
+        return self.request.user.groups.filter(
+            name__in=["vlasnik", "direktor", "voditelj"]
+        ).exists()
 
     @transaction.atomic
     def delete(self, request, *args, **kwargs):
@@ -170,9 +179,8 @@ class ObrisiMaterijalView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 # ...existing code...
-from django.shortcuts import get_object_or_404, render
 
-from .models import Materijal, RadniNalog
+from .models import Materijal
 
 
 def lista_materijala(request, radni_nalog_id=None):

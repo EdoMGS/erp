@@ -61,7 +61,9 @@ def send_notification(title, message, object_type=None, object_id=None, recipien
 
             if recipients:
                 for recipient in recipients:
-                    async_to_sync(channel_layer.group_send)(f"user_{recipient.id}_notifications", notification_data)
+                    async_to_sync(channel_layer.group_send)(
+                        f"user_{recipient.id}_notifications", notification_data
+                    )
             else:
                 async_to_sync(channel_layer.group_send)("global_notifications", notification_data)
     except Exception as e:

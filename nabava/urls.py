@@ -7,7 +7,9 @@ router = DefaultRouter()
 router.register(r"procurement-plans", views.ProcurementPlanViewSet)
 router.register(r"procurement-requests", views.ProcurementRequestViewSet)
 router.register(r"purchase-orders", views.PurchaseOrderViewSet)
-router.register(r"purchase-order-lines", views.PurchaseOrderLineViewSet)  # Dodano za PurchaseOrderLine
+router.register(
+    r"purchase-order-lines", views.PurchaseOrderLineViewSet
+)  # Dodano za PurchaseOrderLine
 router.register(r"dobavljaci", views.DobavljacViewSet)  # Dodano za Dobavljac
 router.register(r"grupe-dobavljaca", views.GrupaDobavljacaViewSet)  # Dodano za GrupaDobavljaca
 

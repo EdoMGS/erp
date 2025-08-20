@@ -2,8 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  UpdateView)
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 from .forms import MaterijalForm
 from .models import Materijal, Notifikacija, Projekt, RadniNalog
@@ -80,7 +79,9 @@ class DodajMaterijalView(LoginRequiredMixin, CreateView):
                 kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]},
             )
         if "projekt_id" in self.kwargs:
-            return reverse_lazy("lista_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]})
+            return reverse_lazy(
+                "lista_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]}
+            )
         return reverse_lazy("lista_materijala")
 
 
@@ -125,7 +126,9 @@ class ObrisiMaterijalView(LoginRequiredMixin, DeleteView):
                 kwargs={"radni_nalog_id": self.kwargs["radni_nalog_id"]},
             )
         if "projekt_id" in self.kwargs:
-            return reverse_lazy("lista_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]})
+            return reverse_lazy(
+                "lista_materijala", kwargs={"projekt_id": self.kwargs["projekt_id"]}
+            )
         return reverse_lazy("lista_materijala")
 
 
