@@ -14,8 +14,13 @@ AUTH_USER_MODEL = "users.CustomUser"
 MIDDLEWARE += ["core.middleware.tenant_middleware.TenantMiddleware"]
 
 INSTALLED_APPS = [
-    # ...existing apps...
-    "client",
-    "projektiranje",
-    # ...existing apps...
+    # Core / infra
+    *INSTALLED_APPS,  # inherit base apps from imported base settings
+    # Active domain apps (legacy moved to legacy_disabled and excluded)
+    "financije",
+    "prodaja",
+    "inventory",
+    "project_costing",
+    "tenants",
+    "ljudski_resursi",
 ]

@@ -1,5 +1,7 @@
+from django.apps import apps
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -13,7 +15,7 @@ from django.views.generic import (
 # Dodajemo REST framework imports
 from rest_framework import viewsets
 
-from .forms import InvoiceForm, OverheadForm
+from .forms import BudgetForm, InvoiceForm, OverheadForm
 from .models import (
     AuditLog,
     BankTransaction,
@@ -166,7 +168,14 @@ def view_salaries(request):
     return render(request, "financije/view_salaries.html", {"salaries": salaries})
 
 
-# REST FRAMEWORK VIEWSETS
+"""Views for the financije app.
+
+This module mixes classic Django views and DRF viewsets. Duplicate viewset
+definitions and undefined symbols have been cleaned up.
+"""
+
+
+# REST FRAMEWORK VIEWSETS (single definitions only)
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -339,44 +348,16 @@ class BudgetDeleteView(View):
 
 class DebtManagementView(View):
     def get(self, request):
-        DebtModel = apps.get_model("financije", "Debt")
-        debts = DebtModel.objects.all()
+        debts = Debt.objects.all()
         return render(request, "financije/debt_management.html", {"debts": debts})
 
-    # Implementirajte POST metode za create/update ako želite
+    # POST for create/update could be added here
 
 
 # ViewSet za FinancialReport, ako koristite DRF:
 
 
-class FinancialReportViewSet(viewsets.ModelViewSet):
-    queryset = FinancialReport.objects.all()
-    serializer_class = FinancialReportSerializer
-
-
-class DebtViewSet(viewsets.ModelViewSet):
-    queryset = Debt.objects.all()
-    serializer_class = DebtSerializer
-
-
-class BankTransactionViewSet(viewsets.ModelViewSet):
-    queryset = BankTransaction.objects.all()
-    serializer_class = BankTransactionSerializer
-
-
-class OverheadCategoryViewSet(viewsets.ModelViewSet):
-    queryset = OverheadCategory.objects.all()
-    serializer_class = OverheadCategorySerializer
-
-
-class MonthlyOverheadViewSet(viewsets.ModelViewSet):
-    queryset = MonthlyOverhead.objects.all()
-    serializer_class = MonthlyOverheadSerializer
-
-
-class BudgetViewSet(viewsets.ModelViewSet):
-    queryset = Budget.objects.all()
-    serializer_class = BudgetSerializer
+"""Duplicate viewset definitions removed above."""
 
 
 class InvoiceListView(LoginRequiredMixin, ListView):

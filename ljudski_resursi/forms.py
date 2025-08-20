@@ -15,7 +15,7 @@ from .models import (
 class BaseModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _field_name, field in self.fields.items():  # noqa: B007
             existing_classes = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = f"{existing_classes} form-control".strip()
 
@@ -94,7 +94,7 @@ class EmployeeForm(BaseModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if not email.endswith("@mgs-grupa.com"):
+        if email and not email.endswith("@mgs-grupa.com"):
             raise forms.ValidationError("Email must be @mgs-grupa.com domain.")
         if (
             email
