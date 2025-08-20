@@ -1,3 +1,20 @@
 [tool.black]
-line-length = 120
-skip-string-normalization = true
+line-length = 100
+target-version = ["py311"]
+extend-exclude = '''
+(
+  ^.*/migrations/.*$
+| ^.*/legacy_disabled/.*$
+)
+'''
+# (opcionalno) zadrži ako želiš
+# skip-string-normalization = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+lint.select = ["E","F","I","B","UP"]
+exclude = ["**/migrations/**", "**/legacy_disabled/**"]
+
+[tool.ruff.format]
+quote-style = "double"
