@@ -88,9 +88,9 @@ def calculate_financial_metrics(obj):
 
 def calculate_price_with_tax(price, tax_rate):
     """Calculate price with tax"""
-    if not isinstance(price, (int, float, Decimal)):
+    if not isinstance(price, int | float | Decimal):
         raise ValidationError(_("Price must be a number"))
-    if not isinstance(tax_rate, (int, float, Decimal)):
+    if not isinstance(tax_rate, int | float | Decimal):
         raise ValidationError(_("Tax rate must be a number"))
 
     return Decimal(price) * (1 + Decimal(tax_rate) / 100)

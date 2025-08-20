@@ -39,7 +39,7 @@ class BaseModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _field_name, field in self.fields.items():  # noqa: B007
             existing_classes = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = f"{existing_classes} form-control".strip()
 

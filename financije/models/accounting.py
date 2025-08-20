@@ -40,13 +40,20 @@ class Account(models.Model):
 
     @property
     def balance(self):
+        """Return current balance for the account.
+
+        Aktiva (active) and Rashod (expense) konta increase with debit and decrease with
+        credit. All others (passive, income) behave inversely.
+        """
         debit = JournalItem.objects.filter(account=self).aggregate(Sum("debit"))[
             "debit__sum"
         ] or Decimal("0.00")
         credit = JournalItem.objects.filter(account=self).aggregate(Sum("credit"))[
             "credit__sum"
         ] or Decimal("0.00")
-        return debit - credit if self.account_type in ["active", "expense"] else credit - debit
+        if self.account_type in {"active", "expense"}:
+            return debit - credit
+        return credit - debit
 
 
 class JournalEntry(models.Model):

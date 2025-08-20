@@ -20,7 +20,7 @@ def write_break_even_snapshots():
                 fc.monthly_value()
                 for fc in FixedCost.objects.filter(tenant=tenant, division=division)
             )
-            snapshot = BreakEvenSnapshot.objects.create(
+            BreakEvenSnapshot.objects.create(
                 tenant=tenant,
                 division=division,
                 date=today,

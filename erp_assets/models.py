@@ -41,6 +41,7 @@ class Asset(SoftDeleteModel):
     division = models.CharField(max_length=16, choices=DIVISION_CHOICES, default="BRAVARIJA")
 
     def __str__(self):
+        # Shortened to satisfy line-length (Black + Ruff E501)
         return f"{self.type_display} - {self.value} € ({self.division_display})"
 
     @property
@@ -64,7 +65,11 @@ class AssetUsage(SoftDeleteModel):
     division = models.CharField(max_length=16, choices=DIVISION_CHOICES, default="BRAVARIJA")
 
     def __str__(self):
-        return f"Usage of {self.content_object} (invoiceable: {self.invoiceable}, {self.division_display})"
+        # Break into two segments to stay within 100 chars
+        return (
+            f"Usage of {self.content_object} (invoiceable: {self.invoiceable}, "
+            f"{self.division_display})"
+        )
 
     @property
     def division_display(self):

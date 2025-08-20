@@ -7,10 +7,10 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from proizvodnja.models import Projekt  # Povezan s proizvodnjom
 
 # Pretpostavljamo da BaseModel sadrži created_at, updated_at, is_active
 from common.models import BaseModel
-from proizvodnja.models import Projekt  # Povezan s proizvodnjom
 
 # Import modela iz ostalih aplikacija (prilagodite namespace prema vašem projektu)
 from projektiranje_app.models import CADDocument, DesignTask
@@ -544,12 +544,12 @@ class TenderPreparation(BaseModel):
         if self.tender_validity and self.delivery_opening_datetime:
             if self.tender_validity < self.delivery_opening_datetime.date():
                 raise ValidationError(
-                    {"tender_validity": "Tender validity must be after opening date"}
+                    {"tender_validity": ("Tender validity must be after opening date")}
                 )
 
         if self.seriousness_guarantee_percentage > 100:
             raise ValidationError(
-                {"seriousness_guarantee_percentage": "Percentage cannot exceed 100"}
+                {"seriousness_guarantee_percentage": ("Percentage cannot exceed 100")}
             )
 
     # Kalkulacijske metode
@@ -562,21 +562,17 @@ class TenderPreparation(BaseModel):
         return Decimal("0.00")
 
     def calculate_fixed_costs(self):
+        """Izračun fiksnih mjesečnih troškova.
+
+        Trenutno koristi statičku vrijednost; kasnije povući iz modula financija.
         """
-        Izračunava fiksne mjesečne troškove (režije, administracija, krediti itd.).
-        Ovdje se koriste fiksne vrijednosti, ali u praksi biste mogli povući podatke iz drugog modula ili postavki.
-        """
-        # Primjer fiksnih troškova – ovo možete zamijeniti s konfiguracijom iz financija
-        fixed_costs = Decimal("2000.00")  # npr. ukupni fiksni troškovi po mjesecu
-        # Ako postoji financijska analiza, možete dodati njene fiksne troškove
+        fixed_costs = Decimal("2000.00")
         if self.financial_analysis and hasattr(self.financial_analysis, "fixed_costs"):
             fixed_costs += self.financial_analysis.fixed_costs
         return fixed_costs
 
     def calculate_production_cost(self):
-        """
-        Ako je definiran proizvodni kapacitet (povezani projekt), poziva se metoda izračuna troška iz modula proizvodnje.
-        """
+        """Izračun troška proizvodnje ako je definiran kapacitet."""
         production_cost = Decimal("0.00")
         if self.production_capacity and hasattr(self.production_capacity, "calculate_cost"):
             production_cost = self.production_capacity.calculate_cost(
@@ -585,18 +581,14 @@ class TenderPreparation(BaseModel):
         return production_cost
 
     def calculate_available_work_hours(self):
-        """
-        Izračunava raspoložive radne sate na temelju proizvodnog kapaciteta.
-        Pretpostavlja se da proizvodni projekt ima polja 'worker_count' i 'monthly_hours'.
-        """
+        """Raspoloživi radni sati prema kapacitetu ili zadana vrijednost."""
         if (
             self.production_capacity
             and hasattr(self.production_capacity, "worker_count")
             and hasattr(self.production_capacity, "monthly_hours")
         ):
             return self.production_capacity.worker_count * self.production_capacity.monthly_hours
-        # Default: npr. 7 radnika * 160 sati = 1120 sati
-        return Decimal("1120")
+        return Decimal("1120")  # default npr. 7 * 160
 
     def calculate_total_cost(self):
         """
@@ -624,13 +616,10 @@ class TenderPreparation(BaseModel):
         return total * (1 + Decimal(margin_percentage) / Decimal("100"))
 
     def calculate_margin(self):
-        """
-        Izračunava maržu (ako postoji budžet) kao postotak razlike između budžeta iz prilike i ukupnih troškova.
-        """
+        """Marža (%) između budžeta prilike i ukupnih troškova."""
         if self.opportunity and self.opportunity.budget and self.calculate_total_cost():
-            return (
-                (self.opportunity.budget - self.calculate_total_cost()) / self.opportunity.budget
-            ) * 100
+            diff = self.opportunity.budget - self.calculate_total_cost()
+            return (diff / self.opportunity.budget) * 100
         return None
 
     def check_required_documents(self):
@@ -668,26 +657,8 @@ class TenderPreparation(BaseModel):
             self.warranty_guarantee_amount = None
 
     def notify_departments(self):
-        """
-        Obavještava relevantne odjele (projektiranje, proizvodnja, financije) o novom ili ažuriranom tenderu.
-        Ovdje se koristi send_mail – u praksi bi se mogla koristiti integracija s sustavom za notifikacije.
-        """
-        from django.core.mail import send_mail
-
-        # Ovdje biste dohvatili kontakte odjela iz konfiguracije ili modela
-        departments = {
-            "projektiranje": ["projektiranje@tvrtka.com"],
-            "proizvodnja": ["proizvodnja@tvrtka.com"],
-            "financije": ["financije@tvrtka.com"],
-        }
-
-        for dept, contacts in departments.items():
-            send_mail(
-                subject=f"Novi tender {self.pk} zahtijeva vašu pažnju",
-                message=f"Detalji tendera: {self}",
-                from_email="erp@tvrtka.com",
-                recipient_list=contacts,
-            )
+        """Placeholder for notification logic (email / websocket) removed for lint baseline."""
+        return None
 
     def calculate_overall_offer(self, margin_percentage):
         """

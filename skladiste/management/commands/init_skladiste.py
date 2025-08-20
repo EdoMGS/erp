@@ -39,7 +39,10 @@ def premjesti_artikl(request):
             artikl.save()
 
             DnevnikDogadaja.objects.create(
-                poruka=f"Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' u '{nova_lokacija.naziv}'",
+                poruka=(
+                    f"Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' "
+                    f"u '{nova_lokacija.naziv}'"
+                ),
                 tip="info",
             )
         return JsonResponse(
@@ -64,7 +67,10 @@ def rezerviraj_artikl(request):
             artikl.save()
 
             DnevnikDogadaja.objects.create(
-                poruka=f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}' za narudžbu/projekt.",
+                poruka=(
+                    f"Rezervirano {kolicina} jedinica artikla '{artikl.naziv}' "
+                    "za narudžbu/projekt."
+                ),
                 tip="info",
             )
             return JsonResponse(
@@ -106,7 +112,11 @@ def automatizirano_premjestanje():
             artikl.lokacija = nova_lokacija
             artikl.save()
             DnevnikDogadaja.objects.create(
-                poruka=f"Automatski premještaj: Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' u '{nova_lokacija.naziv}' zbog niske zalihe.",
+                poruka=(
+                    "Automatski premještaj: "
+                    f"Artikl '{artikl.naziv}' premješten iz '{stara_lokacija.naziv}' "
+                    f"u '{nova_lokacija.naziv}' zbog niske zalihe."
+                ),
                 tip="upozorenje",
             )
 
@@ -118,7 +128,8 @@ def obavijesti_nabavu_o_niskim_zalihama():
     for artikl in artikli:
         # Ovdje bi bila logika za slanje zahtjeva modulu nabave
         print(
-            f"Obavijest nabavi: Artikl '{artikl.naziv}' ima niske zalihe ({artikl.kolicina} jedinica)."
+            f"Obavijest nabavi: Artikl '{artikl.naziv}' ima niske zalihe "
+            f"({artikl.kolicina} jedinica)."
         )
 
 

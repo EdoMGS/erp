@@ -120,7 +120,6 @@ def test_skladisteresurs_str():
 @pytest.mark.django_db
 def test_primka_str():
     from django.contrib.auth import get_user_model
-
     from nabava.models import Dobavljac, GrupaDobavljaca
 
     User = get_user_model()
@@ -136,7 +135,6 @@ def test_primka_str():
 @pytest.mark.django_db
 def test_primkastavka_str():
     from django.contrib.auth import get_user_model
-
     from nabava.models import Dobavljac, GrupaDobavljaca
 
     User = get_user_model()
@@ -177,7 +175,6 @@ def test_izdatnica_str():
 @pytest.mark.django_db
 def test_izdatnicastavka_str():
     from django.contrib.auth import get_user_model
-
     from nabava.models import Dobavljac, GrupaDobavljaca
 
     User = get_user_model()

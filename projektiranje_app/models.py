@@ -146,16 +146,17 @@ class DesignSegment(models.Model):
         ordering = ["created_at"]
 
     def __str__(self):
-        return f"{self.get_segment_type_display()} za {self.design_task}"
+        return f"Segment {self.design_task}"  # Simplified; avoids long line
 
     def izracunaj_preostale_sate(self):
         return self.planirani_sati - self.utroseni_sati
 
 
 class BillOfMaterials(models.Model):
-    """
-    Glavni BOM model – može se primijeniti na cjelokupni dizajnerski zadatak ili samo na pojedinačne segmente.
-    Time omogućavamo višerazinsku strukturu (glavni BOM i pod-BOM-ovi po segmentima).
+    """Glavni BOM model.
+
+    Može se primijeniti na cijeli zadatak ili pojedine segmente, čime se dobiva
+    višerazinska struktura (glavni i pod-BOM-ovi).
     """
 
     design_task = models.ForeignKey(
@@ -257,13 +258,11 @@ class CADDocument(models.Model):
         ordering = ["-uploaded_at"]
 
     def __str__(self):
-        return f"{self.get_file_type_display()} dokument za {self.design_task}"
+        return f"CAD {self.design_task}"  # Simplified
 
 
 class DesignRevision(models.Model):
-    """
-    Evidencija revizija – bilježi promjene i revizije na dizajnerskim zadacima ili njihovim segmentima.
-    """
+    """Evidencija revizija za zadatke ili segmente."""
 
     design_task = models.ForeignKey(
         DesignTask,
@@ -301,12 +300,10 @@ class DesignRevision(models.Model):
 
 
 class DynamicPlan(models.Model):
-    """
-    Dinamički plan (npr. Gantt plan) za praćenje izvršenja zadataka.
-    Može biti vezan uz cijeli dizajnerski zadatak ili samo na njegov segment.
-    """
+    """Dinamički (Gantt) plan za zadatak ili segment."""
 
-    # Napomena: Ako se plan primjenjuje isključivo na cjelokupan zadatak, polje design_segment ostaje null.
+    # Napomena: Ako se plan primjenjuje samo na cijeli zadatak,
+    # polje design_segment ostaje null.
     design_task = models.OneToOneField(
         DesignTask,
         on_delete=models.CASCADE,

@@ -78,15 +78,17 @@ class SkladisteResursForm(BaseSkladisteForm):
 # 3) MATERIJAL I INVENTORY
 ###############################################################################
 class MaterijalForm(BaseSkladisteForm):
-    """
-    Materijal -> Vezan na RadniNalog iz 'proizvodnja'
-    """
+    """Materijal (vezan na RadniNalog iz 'proizvodnja')."""
 
     class Meta:
         model = Materijal
         exclude = ["tehnicki_nacrt"]  # Exclude this field from form to avoid circular import
         # Or specify only the fields you want to include:
-        # fields = ['artikl', 'radni_nalog', 'status', 'naziv', 'cijena', 'kolicina', 'opis', 'datum_dostave']
+
+    # fields = [
+    #     'artikl', 'radni_nalog', 'status', 'naziv', 'cijena',
+    #     'kolicina', 'opis', 'datum_dostave'
+    # ]
 
 
 # class InventoryItemForm(BaseSkladisteForm):
