@@ -117,14 +117,12 @@ class JournalItem(models.Model):
             models.Index(fields=["debit"]),
             models.Index(fields=["credit"]),
         ]
-        # Ensure exactly one side (debit or credit) is non-zero (XOR) and never both.
+        # Enforce: at most one of (debit, credit) is non-zero (allow both zero).
+        # i.e. NOT (debit != 0 AND credit != 0)
         constraints = [
             models.CheckConstraint(
                 name="journalitem_debit_xor_credit",
-                check=(
-                    (models.Q(debit=0) & ~models.Q(credit=0))
-                    | (models.Q(credit=0) & ~models.Q(debit=0))
-                ),
+                check=~(models.Q(debit__gt=0) & models.Q(credit__gt=0)),
             )
         ]
 
