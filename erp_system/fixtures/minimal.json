@@ -31,21 +31,5 @@
       "is_staff": false,
       "is_active": true
     }
-  },
-  {
-    "model": "proizvodnja.radninalog",
-    "pk": 1,
-    "fields": {
-      "naziv": "Radni nalog 1",
-      "status": "otvoren"
-    }
-  },
-  {
-    "model": "proizvodnja.radninalog",
-    "pk": 2,
-    "fields": {
-      "naziv": "Radni nalog 2",
-      "status": "zatvoren"
-    }
   }
 ]
