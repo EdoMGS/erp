@@ -5,6 +5,17 @@ from decimal import Decimal
 from django.db import migrations, models
 
 
+def _noop(*args, **kwargs):
+    """No-op placeholder used to skip unsafe duplicate schema operations.
+
+    The BalanceSheet.assets column already exists from 0001_initial. A prior
+    refactor regenerated this migration adding it again, causing duplicate
+    column errors on a fresh database (as seen in CI). We intentionally skip
+    re-adding it to keep the linear history without needing a squash.
+    """
+    return None
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -12,11 +23,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="balancesheet",
-            name="assets",
-            field=models.DecimalField(decimal_places=2, default=Decimal("0.00"), max_digits=12),
-        ),
+        # Duplicate AddField suppressed – assets already present in 0001_initial.
+        migrations.RunPython(code=_noop, reverse_code=_noop),
         migrations.AlterField(
             model_name="account",
             name="id",
