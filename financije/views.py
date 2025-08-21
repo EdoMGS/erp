@@ -253,7 +253,6 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
 # Primjer lazy importa unutar metode (da izbjegnemo circular import)
 def tax_configuration_view(request):
-
     # koristite 'Employee' po potrebi
     return render(request, "financije/tax_configuration.html", {})
 
