@@ -7,4 +7,3 @@ Remove once all imports updated to use prodaja.models.* directly from the packag
 
 from .models.main import *  # noqa: F401,F403
 from .models.quote import *  # noqa: F401,F403
-from .models.work_order import *  # noqa: F401,F403

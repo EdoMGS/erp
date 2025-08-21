@@ -16,7 +16,6 @@ from rest_framework.views import APIView
 from tenants.models import Tenant
 
 from .models.quote import EstimSnapshot, Quote
-from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
 
@@ -179,13 +178,3 @@ class QuoteAcceptView(APIView):
         }
         _IDEMPOTENCY_CACHE[key] = resp
         return Response(resp)
-
-
-class QuoteToWOView(APIView):
-    def post(self, request, pk: int):
-        tenant_obj = _get_tenant(request)
-        option = request.data.get("option")
-        if not option:
-            return Response({"detail": "option required"}, status=400)
-        wo = convert_to_work_order(tenant_obj, pk, option)
-        return Response({"work_order_id": wo.id})

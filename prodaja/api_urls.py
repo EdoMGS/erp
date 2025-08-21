@@ -6,7 +6,6 @@ from .api import (
     QuoteCreateView,
     QuoteDetailView,
     QuoteSendView,
-    QuoteToWOView,
 )
 
 urlpatterns = [
@@ -15,5 +14,4 @@ urlpatterns = [
     path("quotes/<int:pk>", QuoteDetailView.as_view()),
     path("quotes/<int:pk>/send", QuoteSendView.as_view()),
     path("quotes/<int:pk>/accept", QuoteAcceptView.as_view()),
-    path("quotes/<int:pk>/to-wo", QuoteToWOView.as_view()),
 ]
