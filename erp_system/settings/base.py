@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     # legacy apps moved under legacy_disabled
     # "nabava",
     "proizvodnja",  # stub reintroduced to satisfy historical migrations
-    "projektiranje_app",  # stub reintroduced
+    # removed obsolete stub projektiranje_app (replaced by projektiranje)
     "ljudski_resursi",
     "skladiste",  # stub reintroduced to satisfy historical migrations
     "prodaja",

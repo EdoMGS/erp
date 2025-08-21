@@ -6,10 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        (
-            "projektiranje_app",
-            "0002_caddocument_designrevision_designsegment_dynamicplan_and_more",
-        ),
+        # Dropped legacy dependency on projektiranje_app (app removed)
         ("prodaja", "0003_tenderdocument_tenderpreparation"),
     ]
 

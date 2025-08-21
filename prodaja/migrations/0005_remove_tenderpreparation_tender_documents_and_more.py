@@ -10,7 +10,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        # Removed dependencies on legacy disabled apps (proizvodnja, projektiranje_app)
+        # Removed dependencies on legacy disabled apps (proizvodnja, projektiranje_app now deleted)
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("financije", "0006_financialanalysis"),
         ("prodaja", "0004_tenderpreparation_proposal_drawings_and_more"),
