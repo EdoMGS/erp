@@ -48,7 +48,7 @@
 > *Prompt Copilotu: **"Preimenuj app 'client\_app' u 'client' i osvježi sve import‑e, settings i migracije."***
 
 * [x] `client_app` → `client`
-* [x] `projektiranje_app` → `projektiranje`
+* [x] `projektiranje_app` removed (migration graph stabilized); future `projektiranje` app TBD
 * [x] Ažuriraj `INSTALLED_APPS`, import putanje, `reverse()` pozive i testove.
 
 ## 3️⃣ Single Settings modul + Docker uniforma

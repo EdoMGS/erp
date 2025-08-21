@@ -3,10 +3,10 @@
 This project has been pruned to a *minimal but functional* state to unblock new development.
 
 ## Overview
-Several legacy domains (projektiranje_app, skladiste, proizvodnja) previously contributed a large, interdependent migration graph that prevented forward migrations in active apps (prodaja, financije, ljudski_resursi, common). Rather than fully restoring deprecated schemas, we introduced **stub models** and **collapsed / edited migrations** so historical ForeignKey / ManyToMany references no longer block `makemigrations` or `migrate`.
+Several legacy domains (projektiranje_app, skladiste, proizvodnja) previously contributed a large, interdependent migration graph that prevented forward migrations in active apps (prodaja, financije, ljudski_resursi, common). Rather than fully restoring deprecated schemas, we introduced **stub models** and **collapsed / edited migrations** so historical ForeignKey / ManyToMany references no longer block `makemigrations` or `migrate`. As of Aug 21 2025 the transient stub `projektiranje_app` has been fully removed (replaced conceptually by a future `projektiranje` app skeleton not yet activated).
 
 ## What Was Done
-- projektiranje_app reduced to a single model: `DesignTask` (stub) – all other models/forms/views/serializers removed.
+- (Removed) projektiranje_app: was temporarily reduced to a single `DesignTask` stub to repair migration chains; now deleted after stabilization.
 - skladiste reduced to empty placeholder models: `Artikl`, `Zona`, `Materijal`, `Primka`.
 - proizvodnja reduced to minimal placeholder models (`RadniNalog`, etc.) plus placeholder migrations 0002–0006 to satisfy downstream dependency chains.
 - Removed or edited migrations in `financije`, `ljudski_resursi`, `prodaja`, and `common` that referenced deleted legacy models (e.g. `CADDocument`, `Primka`, `RadniNalog`, proposal drawing M2M, self‐FK content_object, audit trail change_type fields).
@@ -23,7 +23,7 @@ The stub strategy keeps historical FK targets satisfiable while treating removed
 ## Implications
 - Historical data tied to removed tables is not present (models dropped). Any required legacy data recovery would need a targeted extraction from old backups before reintroducing structure.
 - New development should *not* add fields back into stub models inside the original collapsed migrations. Use **new forward migrations** instead.
-- API endpoints for removed models have been removed; only `DesignTask` list + API viewset remains for projektiranje_app.
+- API endpoints for removed models have been removed; the temporary projektiranje_app DesignTask endpoint has also been retired.
 
 ## Safe Extension Guidelines
 1. When adding a new field to a stub model, create a fresh migration (do not edit the initial stub migration).
@@ -32,7 +32,7 @@ The stub strategy keeps historical FK targets satisfiable while treating removed
 4. Prefer referencing stub placeholders via simple CharFields (e.g. *_ref) instead of resurrecting deep cross-app FKs.
 
 ## Key Edited Migrations (Illustrative)
-- projektiranje_app: 0001 kept minimal; 0002 & 0003 turned into no-ops; 0004 alters PK type only.
+- projektiranje_app (historical): 0001 minimal; 0002 & 0003 no-ops; 0004 PK alter (all migrations now deleted from active tree).
 - prodaja: 0004 stripped `proposal_drawings` M2M; 0011 & 0013 skip FK alterations to removed/ external models.
 - financije: 0003 removed `primka` FK; 0014 skipped primka ref replacement.
 - ljudski_resursi: 0005 removed FK to proizvodnja.RadniNalog; 0010 unaffected after patch.
