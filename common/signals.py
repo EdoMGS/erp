@@ -1,3 +1,11 @@
+"""Signal handlers for common app.
+
+Note: Added ruff directive to bypass inconsistent I001 import-sorting differences between
+local and CI environments after migration cleanup.
+"""
+
+# ruff: noqa: I001
+
 import logging
 
 from asgiref.sync import async_to_sync
