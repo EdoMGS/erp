@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # multi-tenant support app (needed by financije and others)
     "tenants",
     "financije",
+    "erp_assets",  # required for financije interco invoice tests
     # legacy apps moved under legacy_disabled
     # "nabava",
     "proizvodnja",  # stub reintroduced to satisfy historical migrations
