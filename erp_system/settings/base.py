@@ -98,9 +98,15 @@ else:
         }
     }
 
-# Celery
-CELERY_BROKER_URL = env("REDIS_URL")  # redis://redis:6379/0
-CELERY_RESULT_BACKEND = env("REDIS_URL")
+# Celery (allow fallback if REDIS_URL not set to unblock CI/test environments)
+_raw_redis = os.getenv("REDIS_URL")
+if _raw_redis:
+    CELERY_BROKER_URL = _raw_redis
+    CELERY_RESULT_BACKEND = _raw_redis
+else:
+    # Use in‑memory (or dummy) backend for tests when Redis not provided.
+    CELERY_BROKER_URL = "memory://"
+    CELERY_RESULT_BACKEND = "cache+memory://"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
