@@ -103,7 +103,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="taxconfiguration",
-            index=models.Index(fields=["valid_from", "valid_to"], name="financije_t_valid_f_ae643a_idx"),
+            index=models.Index(
+                fields=["valid_from", "valid_to"], name="financije_t_valid_f_ae643a_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="taxconfiguration",

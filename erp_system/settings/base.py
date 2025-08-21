@@ -23,12 +23,15 @@ INSTALLED_APPS = [
     "accounts",
     "client_app",
     "common",
+    # multi-tenant support app (needed by financije and others)
+    "tenants",
     "financije",
-    "nabava",
-    "proizvodnja",
-    "projektiranje_app",
+    # legacy apps moved under legacy_disabled
+    # "nabava",
+    "proizvodnja",  # stub reintroduced to satisfy historical migrations
+    "projektiranje_app",  # stub reintroduced
     "ljudski_resursi",
-    "skladiste",
+    "skladiste",  # stub reintroduced to satisfy historical migrations
     "prodaja",
     "django_celery_beat",
     "django_celery_results",
@@ -67,9 +70,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "erp_system.wsgi.application"
 
-DATABASES = {
-    "default": env.db(),
-}
+_raw_db_url = os.getenv("DATABASE_URL")
+if _raw_db_url:
+    # Use explicitly provided DATABASE_URL (e.g. Postgres in docker-compose)
+    DATABASES = {"default": env.db()}
+else:
+    # Developer fallback: local sqlite so generic management commands work without running Postgres
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Celery
 CELERY_BROKER_URL = env("REDIS_URL")  # redis://redis:6379/0
@@ -103,3 +115,6 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# Global default primary key type (silence warnings & ensure consistency)
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -164,12 +164,12 @@ class Racun(models.Model):
         default="draft",
     )
 
-    primka = models.OneToOneField(
-        "skladiste.Primka",
-        on_delete=models.SET_NULL,
+    primka_ref = models.CharField(
+        max_length=50,
         null=True,
         blank=True,
-        related_name="racun",
+        verbose_name=_("Primka ref"),
+        help_text=_("Legacy skladiste.Primka identifier (string copy)."),
     )
 
     class Meta:

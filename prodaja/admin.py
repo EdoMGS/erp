@@ -37,7 +37,7 @@ class SalesContractAdmin(admin.ModelAdmin):
 
 @admin.register(WorkOrderInput)
 class WorkOrderInputAdmin(admin.ModelAdmin):
-    list_display = ("radni_nalog", "proizvod", "kolicina", "cijena")
+    list_display = ("work_order_ref", "proizvod", "kolicina", "cijena")
     search_fields = ("proizvod",)
 
 

@@ -143,40 +143,6 @@ def calculate_work_order_savings(radni_nalog):
     return {"saved_hours": saved_hours, "bonus_amount": bonus_amount}
 
 
-def calculate_production_costs(proizvodnja):
-    """
-    Calculate total costs for a production unit
-    """
-    costs = Decimal("0.00")
-
-    # Sum costs from all work orders
-    for nalog in proizvodnja.radni_nalozi.all():
-        # Labor costs
-        labor = sum(
-            ang.sati_rada * ang.employee.calculate_total_salary()["base_salary"]
-            for ang in nalog.angazmani.all()
-        )
-
-        # Material costs
-        materials = sum(
-            mat.materijal.cijena * mat.kolicina for mat in nalog.materijali_stavke.all()
-        )
-
-        costs += labor + materials
-
-    # Add overhead
-    from .models import Overhead
-
-    current_overhead = Overhead.objects.current()
-    if current_overhead:
-        total_hours = sum(
-            ang.sati_rada
-            for nalog in proizvodnja.radni_nalozi.all()
-            for ang in nalog.angazmani.all()
-        )
-        overhead_cost = (
-            current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati
-        ) * total_hours
-        costs += overhead_cost
-
-    return costs
+def calculate_production_costs(*_, **__):
+    """Legacy helper removed (proizvodnja dependency). Returns zero now."""
+    return Decimal("0.00")

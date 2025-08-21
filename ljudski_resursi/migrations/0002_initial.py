@@ -13,18 +13,16 @@ class Migration(migrations.Migration):
         ("ljudski_resursi", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("financije", "0003_initial"),
-        ("proizvodnja", "0001_initial"),
+        # Removed dependency on ('proizvodnja', '0001_initial') because proizvodnja app is disabled.
     ]
 
     operations = [
         migrations.AddField(
             model_name="ocjenakvalitete",
             name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="ocjene_kvalitete_ljudski",
-                to="proizvodnja.radninalog",
-            ),
+            field=models.IntegerField(
+                null=True, blank=True
+            ),  # placeholder; original FK to proizvodnja.RadniNalog removed
         ),
         migrations.AddField(
             model_name="jobposition",

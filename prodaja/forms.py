@@ -64,7 +64,8 @@ class SalesContractForm(ModelForm):
 class WorkOrderInputForm(ModelForm):
     class Meta:
         model = WorkOrderInput
-        fields = ["radni_nalog", "proizvod", "kolicina", "cijena"]
+
+    fields = ["work_order_ref", "proizvod", "kolicina", "cijena"]
 
 
 # Tender Preparation – kompletna kalkulacija

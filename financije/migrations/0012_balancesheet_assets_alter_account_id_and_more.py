@@ -20,72 +20,100 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="account",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="auditlog",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="balancesheet",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="banktransaction",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="breakevensnapshot",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="budget",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="cashflow",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="debt",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="financialanalysis",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="financialdetails",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="financialreport",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="financijskatransakcija",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="fixedcost",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="invoice",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="invoice",
@@ -95,101 +123,141 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="invoiceline",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="journalentry",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="journalitem",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="mjesecnioverheadpregled",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="monthlyoverhead",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="municipality",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="nekifinancijskimodel",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="overhead",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="overheadcategory",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="paintprice",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="payment",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="racun",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salary",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salaryaddition",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salescontract",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tax",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="taxconfiguration",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="variablecostpreset",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="variablepaycalculation",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="variablepayrule",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

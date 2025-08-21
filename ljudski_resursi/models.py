@@ -186,8 +186,8 @@ class Employee(models.Model):
     salary_coefficient = models.DecimalField(
         max_digits=5,
         decimal_places=2,
-        default=1.0,
-        verbose_name=_("Salary Coefficient"),
+        default=Decimal("1.00"),
+        verbose_name=("Salary Coefficient"),
     )
 
     onboarding_date = models.DateField(null=True, blank=True, verbose_name=_("Onboarding Date"))
@@ -312,11 +312,12 @@ class Nagrada(models.Model):
         related_name="nagrade",
         verbose_name=_("Zaposlenik"),
     )
-    radni_nalog = models.ForeignKey(
-        "proizvodnja.RadniNalog",
-        on_delete=models.CASCADE,
-        related_name="nagrade",
-        verbose_name=_("Radni nalog"),
+    work_order_ref = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        verbose_name=_("Radni nalog referenca"),
+        help_text=("Legacy work order identifier (string)."),
     )
     iznos = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name=_("Iznos nagrade (€)")
@@ -337,7 +338,7 @@ class Nagrada(models.Model):
         ordering = ["-datum_dodjele"]
 
     def __str__(self):
-        return f"Nagrada {self.iznos}€ za {self.employee} ({self.radni_nalog})"
+        return f"Nagrada {self.iznos}€ za {self.employee} (WO: {self.work_order_ref or '-'} )"
 
 
 class RadnaEvaluacija(models.Model):
@@ -359,7 +360,7 @@ class RadnaEvaluacija(models.Model):
     # Additional metrics
     broj_zavrsenih_naloga = models.IntegerField(default=0)
     prosjecna_ocjena_kvalitete = models.DecimalField(max_digits=3, decimal_places=2, null=True)
-    ukupno_sati_rada = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    ukupno_sati_rada = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0.00"))
 
     komentar = models.TextField(blank=True)
     preporuke = models.TextField(blank=True)
