@@ -1,30 +1,55 @@
+from django.apps import apps
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import DetailView  # Dodali UpdateView
-from django.views.generic import CreateView, ListView, UpdateView, View
+from django.views.generic import (
+    CreateView,
+    DetailView,  # Dodali UpdateView
+    ListView,
+    UpdateView,
+    View,
+)
+
 # Dodajemo REST framework imports
 from rest_framework import viewsets
 
-from .forms import InvoiceForm, OverheadForm
-from .models import (AuditLog, BankTransaction, Budget, CashFlow, Debt,
-                     FinancialReport, Invoice, MonthlyOverhead, Overhead,
-                     OverheadCategory, Salary, SalaryAddition, Tax,
-                     TaxConfiguration, VariablePayRule)
+from .forms import BudgetForm, InvoiceForm, OverheadForm
+from .models import (
+    AuditLog,
+    BankTransaction,
+    Budget,
+    CashFlow,
+    Debt,
+    FinancialReport,
+    Invoice,
+    MonthlyOverhead,
+    Overhead,
+    OverheadCategory,
+    Salary,
+    SalaryAddition,
+    Tax,
+    TaxConfiguration,
+    VariablePayRule,
+)
+
 # Add serializer imports
-from .serializers import BankTransactionSerializer  # Dodano
-from .serializers import BudgetSerializer  # Dodano
-from .serializers import DebtSerializer  # Dodano
-from .serializers import FinancialReportSerializer  # Dodano
-from .serializers import MonthlyOverheadSerializer  # Dodano
-from .serializers import OverheadCategorySerializer  # Dodano
-from .serializers import SalaryAdditionSerializer  # Dodano
-from .serializers import SalarySerializer  # Dodano
-from .serializers import TaxConfigurationSerializer  # Dodano
-from .serializers import TaxSerializer  # Dodano
-from .serializers import VariablePayRuleSerializer  # Dodano
-from .serializers import AuditLogSerializer, InvoiceSerializer
+from .serializers import (
+    AuditLogSerializer,
+    BankTransactionSerializer,  # Dodano
+    BudgetSerializer,  # Dodano
+    DebtSerializer,  # Dodano
+    FinancialReportSerializer,  # Dodano
+    InvoiceSerializer,
+    MonthlyOverheadSerializer,  # Dodano
+    OverheadCategorySerializer,  # Dodano
+    SalaryAdditionSerializer,  # Dodano
+    SalarySerializer,  # Dodano
+    TaxConfigurationSerializer,  # Dodano
+    TaxSerializer,  # Dodano
+    VariablePayRuleSerializer,  # Dodano
+)
 
 # ...existing code...
 
@@ -143,7 +168,14 @@ def view_salaries(request):
     return render(request, "financije/view_salaries.html", {"salaries": salaries})
 
 
-# REST FRAMEWORK VIEWSETS
+"""Views for the financije app.
+
+This module mixes classic Django views and DRF viewsets. Duplicate viewset
+definitions and undefined symbols have been cleaned up.
+"""
+
+
+# REST FRAMEWORK VIEWSETS (single definitions only)
 
 
 class InvoiceViewSet(viewsets.ModelViewSet):
@@ -221,9 +253,6 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
 # Primjer lazy importa unutar metode (da izbjegnemo circular import)
 def tax_configuration_view(request):
-    from ljudski_resursi.models import \
-        Employee  # ili hr.models, ovisno gdje se Employee nalazi
-
     # koristite 'Employee' po potrebi
     return render(request, "financije/tax_configuration.html", {})
 
@@ -318,44 +347,16 @@ class BudgetDeleteView(View):
 
 class DebtManagementView(View):
     def get(self, request):
-        DebtModel = apps.get_model("financije", "Debt")
-        debts = DebtModel.objects.all()
+        debts = Debt.objects.all()
         return render(request, "financije/debt_management.html", {"debts": debts})
 
-    # Implementirajte POST metode za create/update ako želite
+    # POST for create/update could be added here
 
 
 # ViewSet za FinancialReport, ako koristite DRF:
 
 
-class FinancialReportViewSet(viewsets.ModelViewSet):
-    queryset = FinancialReport.objects.all()
-    serializer_class = FinancialReportSerializer
-
-
-class DebtViewSet(viewsets.ModelViewSet):
-    queryset = Debt.objects.all()
-    serializer_class = DebtSerializer
-
-
-class BankTransactionViewSet(viewsets.ModelViewSet):
-    queryset = BankTransaction.objects.all()
-    serializer_class = BankTransactionSerializer
-
-
-class OverheadCategoryViewSet(viewsets.ModelViewSet):
-    queryset = OverheadCategory.objects.all()
-    serializer_class = OverheadCategorySerializer
-
-
-class MonthlyOverheadViewSet(viewsets.ModelViewSet):
-    queryset = MonthlyOverhead.objects.all()
-    serializer_class = MonthlyOverheadSerializer
-
-
-class BudgetViewSet(viewsets.ModelViewSet):
-    queryset = Budget.objects.all()
-    serializer_class = BudgetSerializer
+"""Duplicate viewset definitions removed above."""
 
 
 class InvoiceListView(LoginRequiredMixin, ListView):

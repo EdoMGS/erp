@@ -13,19 +13,16 @@ class Migration(migrations.Migration):
         ("client_app", "0001_initial"),
         ("prodaja", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("proizvodnja", "0001_initial"),
+        # Removed dependency on ('proizvodnja', '0001_initial') – legacy app disabled.
     ]
 
     operations = [
         migrations.AddField(
             model_name="workorderinput",
             name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="work_order_inputs",
-                to="proizvodnja.radninalog",
-                verbose_name="Radni nalog",
-            ),
+            field=models.IntegerField(
+                null=True, blank=True
+            ),  # placeholder for legacy FK to proizvodnja.RadniNalog
         ),
         migrations.AddField(
             model_name="salesorder",
@@ -75,13 +72,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="salescontract",
             name="related_production_order",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="proizvodnja.radninalog",
-                verbose_name="Povezani Radni Nalog (ako postoji)",
-            ),
+            field=models.IntegerField(null=True, blank=True),  # placeholder for legacy FK
         ),
         migrations.AddField(
             model_name="salescontract",
@@ -109,12 +100,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="quotation",
             name="linked_production_order",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="proizvodnja.radninalog",
-            ),
+            field=models.IntegerField(null=True, blank=True),  # placeholder for legacy FK
         ),
         migrations.AddField(
             model_name="quotation",

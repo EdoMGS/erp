@@ -15,7 +15,9 @@ class FixedCost(models.Model):
     division = models.CharField(max_length=64, verbose_name=_("Divizija"))
     name = models.CharField(max_length=128, verbose_name=_("Naziv troška"))
     amount = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Iznos"))
-    period = models.CharField(max_length=1, choices=PERIOD_CHOICES, default="M", verbose_name=_("Period"))
+    period = models.CharField(
+        max_length=1, choices=PERIOD_CHOICES, default="M", verbose_name=_("Period")
+    )
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name=_("Tenant"))
 
     def monthly_value(self):
@@ -34,7 +36,9 @@ class FixedCost(models.Model):
 class VariableCostPreset(models.Model):
     division = models.CharField(max_length=64, verbose_name=_("Divizija"))
     name = models.CharField(max_length=128, verbose_name=_("Naziv"))
-    amount_per_unit = models.DecimalField(max_digits=12, decimal_places=4, verbose_name=_("Iznos po jedinici"))
+    amount_per_unit = models.DecimalField(
+        max_digits=12, decimal_places=4, verbose_name=_("Iznos po jedinici")
+    )
     unit = models.CharField(max_length=32, verbose_name=_("Jedinica"))
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name=_("Tenant"))
 

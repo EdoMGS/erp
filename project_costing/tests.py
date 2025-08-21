@@ -4,8 +4,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from project_costing.models import (CostLine, LabourEntry, ProfitShareConfig,
-                                    Project, WorkerShare)
+from project_costing.models import CostLine, LabourEntry, ProfitShareConfig, Project, WorkerShare
 from tenants.models import Tenant
 
 
@@ -21,7 +20,9 @@ def test_profit_share_positive():
         revenue=Decimal("1000.00"),
         division="BRAVARIJA",
     )
-    CostLine.objects.create(project=project, type="MAT", description="mat1", amount=Decimal("400.00"))
+    CostLine.objects.create(
+        project=project, type="MAT", description="mat1", amount=Decimal("400.00")
+    )
     LabourEntry.objects.create(project=project, worker=user1, hours=5, date=timezone.now())
     LabourEntry.objects.create(project=project, worker=user2, hours=3, date=timezone.now())
     ProfitShareConfig.objects.create(
@@ -49,7 +50,9 @@ def test_profit_share_zero_or_negative():
         revenue=Decimal("100.00"),
         division="FARBANJE",
     )
-    CostLine.objects.create(project=project, type="MAT", description="mat2", amount=Decimal("150.00"))
+    CostLine.objects.create(
+        project=project, type="MAT", description="mat2", amount=Decimal("150.00")
+    )
     LabourEntry.objects.create(project=project, worker=user, hours=2, date=timezone.now())
     ProfitShareConfig.objects.create(
         project=project,

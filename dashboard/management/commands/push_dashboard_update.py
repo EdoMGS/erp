@@ -23,5 +23,7 @@ class Command(BaseCommand):
             for jc in qs
         ]
         channel_layer = get_channel_layer()
-        async_to_sync(channel_layer.group_send)("dashboard", {"type": "dashboard_update", "data": {"rows": data}})
+        async_to_sync(channel_layer.group_send)(
+            "dashboard", {"type": "dashboard_update", "data": {"rows": data}}
+        )
         self.stdout.write(self.style.SUCCESS("Dashboard update pushed."))

@@ -7,7 +7,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("client", "0003_clientsupplier_tenant_id"),
+        # Corrected app label from 'client' to 'client_app'. Adjusted to existing latest migration 0002.
+        ("client_app", "0002_clientprofile_alter_citypostalcode_options_and_more"),
         ("ljudski_resursi", "0006_employee_access_level"),
     ]
 
@@ -20,48 +21,64 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="ljr_hierarchical_levels",
-                to="client.clientsupplier",
+                to="client_app.clientsupplier",
                 verbose_name="Tenant (Holding/Operativa)",
             ),
         ),
         migrations.AlterField(
             model_name="department",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="employee",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="expertiselevel",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="hierarchicallevel",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="jobposition",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="nagrada",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="position",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="radnaevaluacija",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

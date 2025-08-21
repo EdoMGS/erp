@@ -7,11 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("projektiranje", "0003_delete_dokumentacijaprojektiranja_and_more"),
-        (
-            "client",
-            "0004_rename_client_app__postal__8c341e_idx_client_city_postal__bddf1a_idx_and_more",
-        ),
+        # Removed dependency on non-existent 'projektiranje' app; rely only on prior prodaja migration.
         ("prodaja", "0010_projectservicetype_tenant_id_and_more"),
     ]
 
@@ -19,118 +15,122 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="fieldvisit",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="projectservicetype",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
-        ),
-        migrations.AlterField(
-            model_name="quotation",
-            name="client",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="client.clientsupplier",
-                verbose_name="Klijent (CRM)",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
             ),
         ),
         migrations.AlterField(
             model_name="quotation",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salescontract",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
-        ),
-        migrations.AlterField(
-            model_name="salesopportunity",
-            name="client",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="client.clientsupplier",
-                verbose_name="Klijent (CRM)",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
             ),
         ),
+        # Skipping client FK alterations referencing external app in stub path.
         migrations.AlterField(
             model_name="salesopportunity",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salesorder",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendercost",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderdocument",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderlabor",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendermaterial",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderneposrednitroskovi",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderposrednitroskovi",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
-        ),
-        migrations.AlterField(
-            model_name="tenderpreparation",
-            name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
-        ),
-        migrations.AlterField(
-            model_name="tenderpreparation",
-            name="technical_drawings",
-            field=models.ManyToManyField(
-                blank=True,
-                related_name="tenders",
-                to="projektiranje.designtask",
-                verbose_name="Tehnički nacrti",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
             ),
         ),
         migrations.AlterField(
+            model_name="tenderpreparation",
+            name="id",
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
+        ),
+        # Field referencing projektiranje DesignTask removed in stub simplification; keep placeholder list
+        migrations.AlterField(
             model_name="tenderrasclamba",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderstatuschange",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendersummary",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="workorderinput",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

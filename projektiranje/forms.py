@@ -1,7 +1,14 @@
 from django import forms
 
-from .models import (BillOfMaterials, BOMItem, CADDocument, DesignRevision,
-                     DesignSegment, DesignTask, DynamicPlan)
+from .models import (
+    BillOfMaterials,
+    BOMItem,
+    CADDocument,
+    DesignRevision,
+    DesignSegment,
+    DesignTask,
+    DynamicPlan,
+)
 
 
 ###############################################################################
@@ -14,7 +21,7 @@ class BaseModelForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _field_name, field in self.fields.items():  # noqa: B007
             # Ako widget već nema postavljenu klasu, dodaj 'form-control'
             if not field.widget.attrs.get("class"):
                 field.widget.attrs["class"] = "form-control"

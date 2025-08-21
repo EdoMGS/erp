@@ -30,7 +30,9 @@ class Migration(migrations.Migration):
                 ("date", models.DateField(verbose_name="Datum")),
                 (
                     "fixed_costs",
-                    models.DecimalField(decimal_places=2, max_digits=14, verbose_name="Fiksni troškovi"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=14, verbose_name="Fiksni troškovi"
+                    ),
                 ),
                 (
                     "revenue",

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("proizvodnja", "0002_initial"),
+        # Original dependency on ('proizvodnja', '0002_initial') removed: app disabled.
         ("financije", "0005_alter_salaryaddition_evaluation_and_more"),
         (
             "ljudski_resursi",
@@ -61,16 +61,7 @@ class Migration(migrations.Migration):
                 verbose_name="Odobrio",
             ),
         ),
-        migrations.AddField(
-            model_name="nagrada",
-            name="radni_nalog",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE,
-                related_name="nagrade",
-                to="proizvodnja.radninalog",
-                verbose_name="Radni nalog",
-            ),
-        ),
+        # Removed legacy FK to proizvodnja.RadniNalog in stub environment.
         migrations.AlterUniqueTogether(
             name="radnaevaluacija",
             unique_together={("employee", "evaluation_period")},

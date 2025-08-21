@@ -18,7 +18,9 @@ class OverheadManager(models.Manager):
 class Overhead(models.Model):
     godina = models.PositiveIntegerField(verbose_name=_("Godina"))
     mjesec = models.PositiveIntegerField(verbose_name=_("Mjesec"))
-    overhead_ukupno = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Ukupni overhead (€)"))
+    overhead_ukupno = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name=_("Ukupni overhead (€)")
+    )
     mjesecni_kapacitet_sati = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -58,7 +60,9 @@ class OverheadCategory(models.Model):
 class MonthlyOverhead(models.Model):
     year = models.PositiveIntegerField(verbose_name=_("Year"))
     month = models.PositiveIntegerField(verbose_name=_("Month"))
-    category = models.ForeignKey(OverheadCategory, on_delete=models.CASCADE, verbose_name=_("Category"))
+    category = models.ForeignKey(
+        OverheadCategory, on_delete=models.CASCADE, verbose_name=_("Category")
+    )
     amount = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Amount (€)"))
 
     class Meta:
@@ -73,7 +77,9 @@ class MonthlyOverhead(models.Model):
 class MjesecniOverheadPregled(models.Model):
     godina = models.PositiveIntegerField(verbose_name=_("Godina"))
     mjesec = models.PositiveIntegerField(verbose_name=_("Mjesec"))
-    ukupni_overhead = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Ukupni overhead (€)"))
+    ukupni_overhead = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name=_("Ukupni overhead (€)")
+    )
 
     class Meta:
         verbose_name = _("Mjesečni pregled overhead-a")
@@ -86,8 +92,8 @@ class MjesecniOverheadPregled(models.Model):
     def izracunaj_ukupni_overhead(self):
         from django.db.models import Sum
 
-        ukupno = MonthlyOverhead.objects.filter(year=self.godina, month=self.mjesec).aggregate(ukupno=Sum("amount"))[
-            "ukupno"
-        ] or Decimal("0.00")
+        ukupno = MonthlyOverhead.objects.filter(year=self.godina, month=self.mjesec).aggregate(
+            ukupno=Sum("amount")
+        )["ukupno"] or Decimal("0.00")
         self.ukupni_overhead = ukupno
         self.save()

@@ -16,41 +16,57 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="department",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="employee",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="expertiselevel",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="hierarchicallevel",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="jobposition",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="nagrada",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="position",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="radnaevaluacija",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

@@ -81,7 +81,9 @@ class AuditableMixin(models.Model):
     def log_change(self, user, change_type, notes=None):
         from common.models import AuditLog
 
-        AuditLog.objects.create(content_object=self, user=user, change_type=change_type, notes=notes)
+        AuditLog.objects.create(
+            content_object=self, user=user, change_type=change_type, notes=notes
+        )
 
 
 class NotificationMixin(models.Model):

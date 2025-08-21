@@ -13,7 +13,11 @@ def send_expiry_reminders():
     for document in expiring_soon:
         send_mail(
             subject=f"Expiry Reminder: {document.name}",
-            message=f"The document '{document.name}' ({document.document_type}) is expiring on {document.expiry_date}.",
+            message=(
+                "The document '"
+                f"{document.name}"  # noqa: E501 (split for clarity)
+                f"' ({document.document_type}) is expiring on {document.expiry_date}."
+            ),
             from_email="noreply@erp-system.com",
             recipient_list=["admin@erp-system.com"],
         )

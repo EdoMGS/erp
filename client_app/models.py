@@ -99,7 +99,9 @@ class ClientSupplier(models.Model):
 
 
 class ClientProfile(models.Model):
-    client = models.OneToOneField(ClientSupplier, on_delete=models.CASCADE, related_name="clientprofile")
+    client = models.OneToOneField(
+        ClientSupplier, on_delete=models.CASCADE, related_name="clientprofile"
+    )
     loyalty_level = models.CharField(
         max_length=20,
         choices=ClientSupplier.LOYALTY_LEVELS,
@@ -107,7 +109,9 @@ class ClientProfile(models.Model):
         verbose_name=_("Razina lojalnosti"),
     )
     feedback = models.TextField(null=True, blank=True, verbose_name=_("Povratne informacije"))
-    post_sales_feedback = models.TextField(null=True, blank=True, verbose_name=_("Post-prodajne povratne informacije"))
+    post_sales_feedback = models.TextField(
+        null=True, blank=True, verbose_name=_("Post-prodajne povratne informacije")
+    )
 
     class Meta:
         verbose_name = _("Profil klijenta")
@@ -154,7 +158,9 @@ class ClientActivityLog(models.Model):
         verbose_name=_("Klijent/Dobavljač"),
     )
     activity = models.TextField(verbose_name=_("Activity Description"))
-    timestamp = models.DateTimeField(default=timezone.now, db_index=True, verbose_name=_("Timestamp"))
+    timestamp = models.DateTimeField(
+        default=timezone.now, db_index=True, verbose_name=_("Timestamp")
+    )
     activity_type = models.CharField(
         max_length=20,
         choices=ACTIVITY_TYPES,

@@ -97,7 +97,9 @@ class TaxConfiguration(models.Model):
         with transaction.atomic():
             if self.is_active:
                 # Deaktiviraj sve ostale aktivne konfiguracije
-                TaxConfiguration.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
+                TaxConfiguration.objects.filter(is_active=True).exclude(pk=self.pk).update(
+                    is_active=False
+                )
             super().save(*args, **kwargs)
 
     def __str__(self):

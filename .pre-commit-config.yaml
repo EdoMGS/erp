@@ -1,16 +1,12 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 24.8.0
     hooks:
       - id: black
-        stages: [manual]  # Skip automatic run in CI
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.13.2
+        args: [--check]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
     hooks:
-      - id: isort
-        stages: [manual]  # Skip automatic run in CI
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
-    hooks:
-      - id: flake8
-        args: [--max-line-length=120]
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format

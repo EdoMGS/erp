@@ -1,28 +1,18 @@
 from decimal import Decimal
 
-from django.conf import settings
-from django.db import models, transaction
+from django.db import transaction
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
 from financije.models.accounting import Account, JournalEntry, JournalItem
-from financije.models.audit import AuditLog  # Updated import
+from financije.models.audit import AuditLog  # use central AuditLog
 from financije.models.invoice import Invoice
 
 
-class AuditLog(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    action = models.CharField(max_length=255)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    model_name = models.CharField(max_length=255)
-    instance_id = models.PositiveIntegerField()
-
-    def __str__(self):
-        return f"{self.user} - {self.action} - {self.timestamp}"
-
-
 def create_audit_log(user, action, model_name, instance_id):
-    AuditLog.objects.create(user=user, action=action, model_name=model_name, instance_id=instance_id)
+    AuditLog.objects.create(
+        user=user, action=action, model_name=model_name, instance_id=instance_id
+    )
 
 
 @receiver(post_save, sender=Invoice)

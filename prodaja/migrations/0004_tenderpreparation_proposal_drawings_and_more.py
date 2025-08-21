@@ -6,24 +6,12 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        (
-            "projektiranje_app",
-            "0002_caddocument_designrevision_designsegment_dynamicplan_and_more",
-        ),
+        # Dropped legacy dependency on projektiranje_app (app removed)
         ("prodaja", "0003_tenderdocument_tenderpreparation"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="tenderpreparation",
-            name="proposal_drawings",
-            field=models.ManyToManyField(
-                blank=True,
-                related_name="proposal_tender_preparations",
-                to="projektiranje_app.caddocument",
-                verbose_name="Ponudbeni nacrti",
-            ),
-        ),
+        # Removed proposal_drawings M2M to projektiranje_app.CADDocument (stubbed out).
         migrations.AddField(
             model_name="tenderpreparation",
             name="tender_documents",

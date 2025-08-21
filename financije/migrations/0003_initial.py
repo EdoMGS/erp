@@ -13,22 +13,13 @@ class Migration(migrations.Migration):
         ("client_app", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("contenttypes", "0002_remove_content_type_name"),
-        ("skladiste", "0001_initial"),
+        # Original dependency on ('skladiste', '0001_initial') removed because 'skladiste' app is disabled.
+        # If re-enabled, create a new migration adjusting relations.
         ("financije", "0002_initial"),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name="racun",
-            name="primka",
-            field=models.OneToOneField(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                related_name="racun",
-                to="skladiste.primka",
-            ),
-        ),
+        # Removed OneToOneField to skladiste.Primka in stub environment.
         migrations.AddField(
             model_name="payment",
             name="related_invoice",
@@ -62,7 +53,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="journalitem",
             name="account",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="financije.account"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="financije.account"
+            ),
         ),
         migrations.AddField(
             model_name="journalitem",
@@ -158,7 +151,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="auditlog",
             name="user",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
             model_name="account",
@@ -186,6 +181,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="monthlyoverhead",
-            index=models.Index(fields=["year", "month", "category"], name="financije_m_year_f983a9_idx"),
+            index=models.Index(
+                fields=["year", "month", "category"], name="financije_m_year_f983a9_idx"
+            ),
         ),
     ]

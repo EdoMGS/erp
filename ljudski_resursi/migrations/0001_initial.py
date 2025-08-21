@@ -98,7 +98,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "onboarding_timeline",
-                    models.PositiveIntegerField(blank=True, null=True, verbose_name="Onboarding Timeline (days)"),
+                    models.PositiveIntegerField(
+                        blank=True, null=True, verbose_name="Onboarding Timeline (days)"
+                    ),
                 ),
                 (
                     "employee_satisfaction",
@@ -219,7 +221,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "description",
-                    models.TextField(blank=True, null=True, verbose_name="Opis hijerarhijskog nivoa"),
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Opis hijerarhijskog nivoa"
+                    ),
                 ),
             ],
             options={

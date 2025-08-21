@@ -52,12 +52,18 @@ def calculate_project_costs(project):
     # Get current overhead
     from .models import Overhead
 
-    current_overhead = Overhead.objects.filter(godina=timezone.now().year, mjesec=timezone.now().month).first()
+    current_overhead = Overhead.objects.filter(
+        godina=timezone.now().year, mjesec=timezone.now().month
+    ).first()
 
     overhead_cost = Decimal("0.00")
     if current_overhead:
-        overhead_per_hour = current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati
-        total_hours = sum(ang.sati_rada for nalog in project.radni_nalozi.all() for ang in nalog.angazmani.all())
+        overhead_per_hour = (
+            current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati
+        )
+        total_hours = sum(
+            ang.sati_rada for nalog in project.radni_nalozi.all() for ang in nalog.angazmani.all()
+        )
         overhead_cost = overhead_per_hour * total_hours
 
     return {
@@ -91,10 +97,13 @@ def process_completed_work_order(work_order):
     """
     # Calculate costs for this specific work order
     labor_cost = sum(
-        ang.sati_rada * ang.employee.calculate_total_salary()["base_salary"] for ang in work_order.angazmani.all()
+        ang.sati_rada * ang.employee.calculate_total_salary()["base_salary"]
+        for ang in work_order.angazmani.all()
     )
 
-    material_cost = sum(mat.materijal.cijena * mat.kolicina for mat in work_order.materijali_stavke.all())
+    material_cost = sum(
+        mat.materijal.cijena * mat.kolicina for mat in work_order.materijali_stavke.all()
+    )
 
     # Create financial transaction records
     from .models import FinancijskaTransakcija
@@ -134,31 +143,6 @@ def calculate_work_order_savings(radni_nalog):
     return {"saved_hours": saved_hours, "bonus_amount": bonus_amount}
 
 
-def calculate_production_costs(proizvodnja):
-    """
-    Calculate total costs for a production unit
-    """
-    costs = Decimal("0.00")
-
-    # Sum costs from all work orders
-    for nalog in proizvodnja.radni_nalozi.all():
-        # Labor costs
-        labor = sum(
-            ang.sati_rada * ang.employee.calculate_total_salary()["base_salary"] for ang in nalog.angazmani.all()
-        )
-
-        # Material costs
-        materials = sum(mat.materijal.cijena * mat.kolicina for mat in nalog.materijali_stavke.all())
-
-        costs += labor + materials
-
-    # Add overhead
-    from .models import Overhead
-
-    current_overhead = Overhead.objects.current()
-    if current_overhead:
-        total_hours = sum(ang.sati_rada for nalog in proizvodnja.radni_nalozi.all() for ang in nalog.angazmani.all())
-        overhead_cost = (current_overhead.overhead_ukupno / current_overhead.mjesecni_kapacitet_sati) * total_hours
-        costs += overhead_cost
-
-    return costs
+def calculate_production_costs(*_, **__):
+    """Legacy helper removed (proizvodnja dependency). Returns zero now."""
+    return Decimal("0.00")

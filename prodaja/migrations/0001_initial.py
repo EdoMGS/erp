@@ -29,7 +29,9 @@ class Migration(migrations.Migration):
                 ("date_of_visit", models.DateField(verbose_name="Datum posjete")),
                 (
                     "purpose",
-                    models.TextField(blank=True, null=True, verbose_name="Svrha posjete / bilješke"),
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Svrha posjete / bilješke"
+                    ),
                 ),
             ],
             options={
@@ -101,7 +103,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
+                    ),
                 ),
                 (
                     "discount",
@@ -171,7 +175,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
+                    ),
                 ),
                 (
                     "discount",
@@ -189,7 +195,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "client_specific_reqs",
-                    models.TextField(blank=True, null=True, verbose_name="Posebni zahtjevi klijenta"),
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Posebni zahtjevi klijenta"
+                    ),
                 ),
                 (
                     "created_by",
@@ -258,7 +266,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "authority",
-                    models.BooleanField(default=False, verbose_name="Klijent ima ovlasti za potpis?"),
+                    models.BooleanField(
+                        default=False, verbose_name="Klijent ima ovlasti za potpis?"
+                    ),
                 ),
                 (
                     "need",
@@ -329,7 +339,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=15, verbose_name="Ukupan iznos (€)"
+                    ),
                 ),
                 (
                     "discount",
@@ -347,7 +359,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "date_approved_by_client",
-                    models.DateField(blank=True, null=True, verbose_name="Klijent potvrdio (datum)"),
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Klijent potvrdio (datum)"
+                    ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),

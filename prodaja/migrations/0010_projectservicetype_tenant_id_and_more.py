@@ -8,7 +8,8 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("tenants", "0001_initial"),
-        ("client", "0003_clientsupplier_tenant_id"),
+        # Corrected app label from 'client' to 'client_app'
+        ("client_app", "0002_clientprofile_alter_citypostalcode_options_and_more"),
         ("prodaja", "0009_tenderstatuschange"),
     ]
 
@@ -21,7 +22,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="prodaja_service_types",
-                to="client.clientsupplier",
+                to="client_app.clientsupplier",
                 verbose_name="Tenant (Holding/Operativa)",
             ),
         ),
@@ -76,86 +77,120 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="fieldvisit",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="projectservicetype",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="quotation",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salescontract",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salesopportunity",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="salesorder",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendercost",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderdocument",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderlabor",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendermaterial",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderneposrednitroskovi",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderposrednitroskovi",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderpreparation",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderrasclamba",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tenderstatuschange",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="tendersummary",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="workorderinput",
             name="id",
-            field=models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.AutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

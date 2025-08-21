@@ -30,23 +30,35 @@ class BankTransaction(models.Model):
         verbose_name=_("Broj bankovnog računa (IBAN)"),
         help_text=_("IBAN ili broj računa"),
     )
-    bank_name = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Naziv banke"))
-    tip_transakcije = models.CharField(max_length=10, choices=TRANSACTION_TYPES, verbose_name=_("Tip transakcije"))
-    iznos = models.DecimalField(max_digits=12, decimal_places=2, verbose_name=_("Iznos transakcije (€)"))
+    bank_name = models.CharField(
+        max_length=100, blank=True, null=True, verbose_name=_("Naziv banke")
+    )
+    tip_transakcije = models.CharField(
+        max_length=10, choices=TRANSACTION_TYPES, verbose_name=_("Tip transakcije")
+    )
+    iznos = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name=_("Iznos transakcije (€)")
+    )
     valuta = models.CharField(max_length=10, default="EUR", verbose_name=_("Valuta"))
     opis = models.CharField(max_length=255, verbose_name=_("Opis transakcije"))
     datum = models.DateField(verbose_name=_("Datum transakcije"))  # Changed from datum_transakcije
     datum_valute = models.DateField(verbose_name=_("Datum valute"), blank=True, null=True)
-    referenca = models.CharField(max_length=100, unique=True, verbose_name=_("Referenca transakcije"))
+    referenca = models.CharField(
+        max_length=100, unique=True, verbose_name=_("Referenca transakcije")
+    )
     saldo = models.DecimalField(
         max_digits=12,
         decimal_places=2,
         verbose_name=_("Saldo računa (€) nakon transakcije"),
     )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Vrijeme evidentiranja u sustavu"))
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name=_("Vrijeme evidentiranja u sustavu")
+    )
 
     # Opcionalno, ako želiš označiti da je transakcija usklađena s knjigovodstvom
-    is_reconciled = models.BooleanField(default=False, verbose_name=_("Usklađeno s knjigovodstvom?"))
+    is_reconciled = models.BooleanField(
+        default=False, verbose_name=_("Usklađeno s knjigovodstvom?")
+    )
 
     def save(self, *args, **kwargs):
         # Ensure proper decimal rounding

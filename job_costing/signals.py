@@ -18,7 +18,9 @@ def update_job_cost_fields(sender, instance, **kwargs):
         "majstor": Decimal("1.0"),
         "pomocni": Decimal("0.7"),
     }
-    total_weight = sum(fr.hours * role_weights.get(fr.role, Decimal("1.0")) for fr in fond if fr.quality_ok)
+    total_weight = sum(
+        fr.hours * role_weights.get(fr.role, Decimal("1.0")) for fr in fond if fr.quality_ok
+    )
     # Raspodjela fonda po ponderu, uz bonus i penal
     for fr in fond:
         if not fr.quality_ok:
@@ -26,7 +28,9 @@ def update_job_cost_fields(sender, instance, **kwargs):
             fr.penalty = fr.penalty or Decimal("0.00") + (total_fond / len(fond))  # penalizacija
             continue
         share = (
-            (fr.hours * role_weights.get(fr.role, Decimal("1.0"))) / total_weight if total_weight else Decimal("0.00")
+            (fr.hours * role_weights.get(fr.role, Decimal("1.0"))) / total_weight
+            if total_weight
+            else Decimal("0.00")
         )
         (total_fond * share) + fr.bonus - fr.penalty
         # Ovdje bi se moglo spremiti bruto izračun po radniku (npr. fr.bruto = bruto)

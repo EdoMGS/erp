@@ -10,9 +10,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("proizvodnja", "0004_alter_radninalog_gantogram_and_more"),
+        # Removed dependencies on legacy disabled apps (proizvodnja, projektiranje_app now deleted)
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("projektiranje_app", "0003_delete_dokumentacijaprojektiranja_and_more"),
         ("financije", "0006_financialanalysis"),
         ("prodaja", "0004_tenderpreparation_proposal_drawings_and_more"),
     ]
@@ -49,7 +48,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="estimated_production_time",
-            field=models.DurationField(blank=True, null=True, verbose_name="Procijenjeno vrijeme proizvodnje"),
+            field=models.DurationField(
+                blank=True, null=True, verbose_name="Procijenjeno vrijeme proizvodnje"
+            ),
         ),
         migrations.AddField(
             model_name="tenderpreparation",
@@ -108,13 +109,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="production_capacity",
-            field=models.ForeignKey(
-                blank=True,
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="proizvodnja.projekt",
-                verbose_name="Povezani projekt",
-            ),
+            field=models.IntegerField(
+                null=True, blank=True
+            ),  # placeholder for legacy FK to proizvodnja.Projekt
         ),
         migrations.AddField(
             model_name="tenderpreparation",
@@ -134,12 +131,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="tenderpreparation",
             name="technical_drawings",
-            field=models.ManyToManyField(
-                blank=True,
-                related_name="tenders",
-                to="projektiranje_app.designtask",
-                verbose_name="Tehnički nacrti",
-            ),
+            field=models.JSONField(
+                blank=True, default=list
+            ),  # placeholder for legacy M2M to projektiranje_app.DesignTask
         ),
         migrations.AddField(
             model_name="tenderpreparation",

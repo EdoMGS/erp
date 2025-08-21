@@ -27,6 +27,8 @@ class CommonValidator:
             raise ValidationError(_("Value cannot be negative"))
 
     @staticmethod
-    def validate_status_transition(current_status: str, new_status: str, allowed_transitions: dict) -> None:
+    def validate_status_transition(
+        current_status: str, new_status: str, allowed_transitions: dict
+    ) -> None:
         if new_status not in allowed_transitions.get(current_status, []):
             raise ValidationError(_("Invalid status transition"))

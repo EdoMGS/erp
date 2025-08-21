@@ -88,7 +88,9 @@ class FinancialDetails(models.Model):
 
 
 class VariablePayRule(models.Model):
-    position = models.ForeignKey("ljudski_resursi.Position", on_delete=models.CASCADE, verbose_name=_("Pozicija"))
+    position = models.ForeignKey(
+        "ljudski_resursi.Position", on_delete=models.CASCADE, verbose_name=_("Pozicija")
+    )
     expertise_level = models.ForeignKey(
         "ljudski_resursi.ExpertiseLevel",
         on_delete=models.CASCADE,
@@ -118,7 +120,9 @@ class VariablePayRule(models.Model):
 
 
 class SalesContract(models.Model):
-    contract_number = models.CharField(max_length=50, unique=True, verbose_name=_("Contract Number"))
+    contract_number = models.CharField(
+        max_length=50, unique=True, verbose_name=_("Contract Number")
+    )
     client = models.ForeignKey(ClientSupplier, on_delete=models.CASCADE, verbose_name=_("Client"))
 
     def __str__(self):
@@ -160,12 +164,12 @@ class Racun(models.Model):
         default="draft",
     )
 
-    primka = models.OneToOneField(
-        "skladiste.Primka",
-        on_delete=models.SET_NULL,
+    primka_ref = models.CharField(
+        max_length=50,
         null=True,
         blank=True,
-        related_name="racun",
+        verbose_name=_("Primka ref"),
+        help_text=_("Legacy skladiste.Primka identifier (string copy)."),
     )
 
     class Meta:

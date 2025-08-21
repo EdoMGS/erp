@@ -1,13 +1,13 @@
-name: Django CI
+name: CI
 
 on:
-  push: { branches: [ main ] }
+  push:
+    branches: [ main ]
   pull_request:
 
 jobs:
-  test:
+  lint-test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
         image: postgres:15
@@ -15,67 +15,56 @@ jobs:
           POSTGRES_USER: erp
           POSTGRES_PASSWORD: erp
           POSTGRES_DB: erp
-        ports: ['5432:5432']
+        ports: ["5432:5432"]
         options: >-
-          --health-cmd="pg_isready -U erp" --health-interval=5s
-          --health-timeout=5s --health-retries=5
-
+          --health-cmd="pg_isready -U erp" --health-interval=5s --health-timeout=5s --health-retries=5
       redis:
         image: redis:7
-        ports: ['6379:6379']
-
+        ports: ["6379:6379"]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: requirements.txt
-
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-django flake8 black isort autoflake pre-commit
-
-      - name: Install tox & pre‑commit
-        run: |
-          pip install tox pre-commit
-
-      - name: Run pre-commit hooks
-        run: pre-commit run --all-files
-
-      - name: Lint (flake8)
-        run: flake8 .
-
+          pip install black==24.8.0 ruff==0.6.9 pytest pytest-django
+      - name: Lint (ruff)
+        run: ruff check .
       - name: Format check (black)
         run: black --check .
-
-      - name: Import sort check (isort)
-        run: isort --check-only .
-
-      - name: Remove unused imports/vars (autoflake)
-        run: autoflake --check --recursive --remove-all-unused-imports --remove-unused-variables .
-
-      - name: Load test fixture
+      - name: Run migrations
+        env:
+            DATABASE_URL: postgres://erp:erp@localhost:5432/erp
+            REDIS_URL: redis://localhost:6379/0
+            DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+            SECRET_KEY: dummy
+            DEBUG: "False"
+            DJANGO_SETTINGS_MODULE: erp_system.settings.base
         run: |
-          python manage.py loaddata erp_system/fixtures/minimal.json
-
-      - name: Run pre‑commit (black, isort, flake8)
+          python manage.py migrate --noinput
+      - name: Load minimal fixture
+        env:
+            DATABASE_URL: postgres://erp:erp@localhost:5432/erp
+            REDIS_URL: redis://localhost:6379/0
+            DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+            SECRET_KEY: dummy
+            DEBUG: "False"
+            DJANGO_SETTINGS_MODULE: erp_system.settings.base
         run: |
-          pre-commit run --all-files --show-diff-on-failure
-
+          if [ -f erp_system/fixtures/minimal.json ]; then python manage.py loaddata erp_system/fixtures/minimal.json; else echo "No minimal.json fixture present, skipping."; fi
       - name: Run tests
         env:
-          DATABASE_URL: postgres://erp:erp@localhost:5432/erp
-          REDIS_URL: redis://localhost:6379/0
-          DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
-          SECRET_KEY: dummy
-          DEBUG: "False"
-          DJANGO_SETTINGS_MODULE: erp_system.settings.test
+            DATABASE_URL: postgres://erp:erp@localhost:5432/erp
+            REDIS_URL: redis://localhost:6379/0
+            DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+            SECRET_KEY: dummy
+            DEBUG: "False"
+            DJANGO_SETTINGS_MODULE: erp_system.settings.test
         run: |
-          tox -e py311
+          pytest -q

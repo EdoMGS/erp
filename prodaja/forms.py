@@ -2,11 +2,22 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, inlineformset_factory
 
-from .models import (FieldVisit, Quotation, SalesContract, SalesOpportunity,
-                     SalesOrder, TenderCost, TenderDocument, TenderLabor,
-                     TenderMaterial, TenderNeposredniTroskovi,
-                     TenderPosredniTroskovi, TenderPreparation,
-                     TenderRasclamba, WorkOrderInput)
+from .models import (
+    FieldVisit,
+    Quotation,
+    SalesContract,
+    SalesOpportunity,
+    SalesOrder,
+    TenderCost,
+    TenderDocument,
+    TenderLabor,
+    TenderMaterial,
+    TenderNeposredniTroskovi,
+    TenderPosredniTroskovi,
+    TenderPreparation,
+    TenderRasclamba,
+    WorkOrderInput,
+)
 
 # Osnovne forme
 
@@ -53,7 +64,8 @@ class SalesContractForm(ModelForm):
 class WorkOrderInputForm(ModelForm):
     class Meta:
         model = WorkOrderInput
-        fields = ["radni_nalog", "proizvod", "kolicina", "cijena"]
+
+    fields = ["work_order_ref", "proizvod", "kolicina", "cijena"]
 
 
 # Tender Preparation – kompletna kalkulacija
@@ -63,7 +75,11 @@ class TenderDocumentForm(ModelForm):
     class Meta:
         model = TenderDocument
         fields = ["file", "description"]
-        widgets = {"description": forms.Textarea(attrs={"rows": 3, "placeholder": "Unesite opis dokumenta..."})}
+        widgets = {
+            "description": forms.Textarea(
+                attrs={"rows": 3, "placeholder": "Unesite opis dokumenta..."}
+            )
+        }
 
     def clean_file(self):
         file = self.cleaned_data.get("file")
@@ -110,7 +126,9 @@ class TenderPreparationForm(ModelForm):
                     "placeholder": "Unesite tehničke specifikacije kao JSON",
                 }
             ),
-            "payment_schedule": forms.Textarea(attrs={"rows": 4, "placeholder": "Unesite plan plaćanja kao JSON"}),
+            "payment_schedule": forms.Textarea(
+                attrs={"rows": 4, "placeholder": "Unesite plan plaćanja kao JSON"}
+            ),
             "notes": forms.Textarea(attrs={"rows": 4, "placeholder": "Dodatne napomene..."}),
         }
 
@@ -149,11 +167,15 @@ TenderMaterialFormSet = inlineformset_factory(
     fields=("item_name", "unit_price", "quantity", "tax"),
     widgets={
         "item_name": forms.TextInput(attrs={"class": "form-control"}),
-        "unit_price": forms.NumberInput(attrs={"class": "form-control", "min": "0", "step": "0.01"}),
+        "unit_price": forms.NumberInput(
+            attrs={"class": "form-control", "min": "0", "step": "0.01"}
+        ),
         "quantity": forms.NumberInput(attrs={"class": "form-control", "min": "1"}),
-        "tax": forms.NumberInput(attrs={"class": "form-control", "min": "0", "max": "100", "step": "0.01"}),
+        "tax": forms.NumberInput(
+            attrs={"class": "form-control", "min": "0", "max": "100", "step": "0.01"}
+        ),
     },
-    **FORMSET_DEFAULTS
+    **FORMSET_DEFAULTS,
 )
 
 TenderLaborFormSet = inlineformset_factory(

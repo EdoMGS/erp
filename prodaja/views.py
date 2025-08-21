@@ -9,14 +9,22 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.csrf import csrf_exempt
 
-from .forms import (FieldVisitForm, OpportunityForm, QuotationForm,
-                    SalesContractForm, SalesOrderForm, TenderCostFormSet,
-                    TenderDocumentFormSet, TenderLaborFormSet,
-                    TenderMaterialFormSet, TenderNeposredniFormSet,
-                    TenderPosredniFormSet, TenderPreparationForm,
-                    TenderRasclambaFormSet)
-from .models import (Quotation, SalesContract, SalesOpportunity, SalesOrder,
-                     TenderPreparation)
+from .forms import (
+    FieldVisitForm,
+    OpportunityForm,
+    QuotationForm,
+    SalesContractForm,
+    SalesOrderForm,
+    TenderCostFormSet,
+    TenderDocumentFormSet,
+    TenderLaborFormSet,
+    TenderMaterialFormSet,
+    TenderNeposredniFormSet,
+    TenderPosredniFormSet,
+    TenderPreparationForm,
+    TenderRasclambaFormSet,
+)
+from .models import Quotation, SalesContract, SalesOpportunity, SalesOrder, TenderPreparation
 
 ########################################
 # OPPORTUNITY VIEWS
@@ -327,8 +335,12 @@ def tender_preparation_unified(request, pk=None, action="create"):
         material_formset = TenderMaterialFormSet(request.POST, prefix="material", instance=tender)
         labor_formset = TenderLaborFormSet(request.POST, prefix="labor", instance=tender)
         cost_formset = TenderCostFormSet(request.POST, prefix="cost", instance=tender)
-        rasclamba_formset = TenderRasclambaFormSet(request.POST, prefix="rasclamba", instance=tender)
-        neposredni_formset = TenderNeposredniFormSet(request.POST, prefix="neposredni", instance=tender)
+        rasclamba_formset = TenderRasclambaFormSet(
+            request.POST, prefix="rasclamba", instance=tender
+        )
+        neposredni_formset = TenderNeposredniFormSet(
+            request.POST, prefix="neposredni", instance=tender
+        )
         posredni_formset = TenderPosredniFormSet(request.POST, prefix="posredni", instance=tender)
 
         if all(

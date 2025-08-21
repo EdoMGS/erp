@@ -20,7 +20,7 @@ def get_display_value(instance, field_name):
 @register.filter
 def in_list(value, lst):
     """Provjerava je li `value` u `lst`."""
-    if not isinstance(lst, (list, tuple, set)):
+    if not isinstance(lst, list | tuple | set):
         return False
     return value in lst
 

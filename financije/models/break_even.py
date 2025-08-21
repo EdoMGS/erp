@@ -10,7 +10,9 @@ class BreakEvenSnapshot(models.Model):
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name=_("Tenant"))
     division = models.CharField(max_length=64, verbose_name=_("Divizija"))
     date = models.DateField(verbose_name=_("Datum"))
-    fixed_costs = models.DecimalField(max_digits=14, decimal_places=2, verbose_name=_("Fiksni troškovi"))
+    fixed_costs = models.DecimalField(
+        max_digits=14, decimal_places=2, verbose_name=_("Fiksni troškovi")
+    )
     revenue = models.DecimalField(
         max_digits=14,
         decimal_places=2,

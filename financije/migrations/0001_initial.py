@@ -562,7 +562,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "unit_price",
-                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Jedinična cijena"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Jedinična cijena"
+                    ),
                 ),
                 (
                     "tax_rate",
@@ -842,7 +844,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "gross_amount",
-                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Bruto iznos"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=10, verbose_name="Bruto iznos"
+                    ),
                 ),
                 (
                     "net_amount",
@@ -926,7 +930,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "tax_rate",
-                    models.DecimalField(decimal_places=2, max_digits=5, verbose_name="Stopa poreza (%)"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=5, verbose_name="Stopa poreza (%)"
+                    ),
                 ),
                 (
                     "mirovinsko_1",

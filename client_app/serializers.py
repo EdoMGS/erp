@@ -1,8 +1,10 @@
 from rest_framework import serializers
 
 from financije.models import Invoice  # Updated to import from financije
-from prodaja.models import SalesOpportunity  # Updated to import from prodaja
-from prodaja.models import SalesOrder
+from prodaja.models import (
+    SalesOpportunity,  # Updated to import from prodaja
+    SalesOrder,
+)
 
 from .models import ClientActivityLog, ClientSupplier
 

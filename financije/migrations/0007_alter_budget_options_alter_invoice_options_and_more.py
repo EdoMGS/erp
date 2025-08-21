@@ -28,7 +28,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="banktransaction",
-            index=models.Index(fields=["bank_account_number"], name="financije_b_bank_ac_03544c_idx"),
+            index=models.Index(
+                fields=["bank_account_number"], name="financije_b_bank_ac_03544c_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="invoice",

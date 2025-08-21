@@ -1,8 +1,14 @@
 from django.contrib import admin
 
-from .models import SalesContract  # Add new imports
-from .models import (Quotation, SalesOpportunity, SalesOrder, TenderDocument,
-                     TenderPreparation, WorkOrderInput)
+from .models import (
+    Quotation,
+    SalesContract,  # Add new imports
+    SalesOpportunity,
+    SalesOrder,
+    TenderDocument,
+    TenderPreparation,
+    WorkOrderInput,
+)
 
 
 @admin.register(SalesOpportunity)
@@ -31,7 +37,7 @@ class SalesContractAdmin(admin.ModelAdmin):
 
 @admin.register(WorkOrderInput)
 class WorkOrderInputAdmin(admin.ModelAdmin):
-    list_display = ("radni_nalog", "proizvod", "kolicina", "cijena")
+    list_display = ("work_order_ref", "proizvod", "kolicina", "cijena")
     search_fields = ("proizvod",)
 
 

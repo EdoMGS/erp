@@ -77,7 +77,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "unit_price",
-                    models.DecimalField(decimal_places=2, max_digits=12, verbose_name="Cijena jedinice"),
+                    models.DecimalField(
+                        decimal_places=2, max_digits=12, verbose_name="Cijena jedinice"
+                    ),
                 ),
                 ("quantity", models.PositiveIntegerField(verbose_name="Količina")),
                 (

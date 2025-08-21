@@ -61,7 +61,9 @@ def send_notification(title, message, object_type=None, object_id=None, recipien
 
             if recipients:
                 for recipient in recipients:
-                    async_to_sync(channel_layer.group_send)(f"user_{recipient.id}_notifications", notification_data)
+                    async_to_sync(channel_layer.group_send)(
+                        f"user_{recipient.id}_notifications", notification_data
+                    )
             else:
                 async_to_sync(channel_layer.group_send)("global_notifications", notification_data)
     except Exception as e:
@@ -86,9 +88,9 @@ def calculate_financial_metrics(obj):
 
 def calculate_price_with_tax(price, tax_rate):
     """Calculate price with tax"""
-    if not isinstance(price, (int, float, Decimal)):
+    if not isinstance(price, int | float | Decimal):
         raise ValidationError(_("Price must be a number"))
-    if not isinstance(tax_rate, (int, float, Decimal)):
+    if not isinstance(tax_rate, int | float | Decimal):
         raise ValidationError(_("Tax rate must be a number"))
 
     return Decimal(price) * (1 + Decimal(tax_rate) / 100)

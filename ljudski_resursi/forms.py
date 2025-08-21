@@ -2,14 +2,20 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
-from .models import (Department, Employee, ExpertiseLevel, HierarchicalLevel,
-                     Position, RadnaEvaluacija)
+from .models import (
+    Department,
+    Employee,
+    ExpertiseLevel,
+    HierarchicalLevel,
+    Position,
+    RadnaEvaluacija,
+)
 
 
 class BaseModelForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
+        for _field_name, field in self.fields.items():  # noqa: B007
             existing_classes = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = f"{existing_classes} form-control".strip()
 
@@ -45,7 +51,11 @@ class HierarchicalLevelForm(BaseModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get("name")
-        if HierarchicalLevel.objects.filter(name__iexact=name).exclude(pk=self.instance.pk).exists():
+        if (
+            HierarchicalLevel.objects.filter(name__iexact=name)
+            .exclude(pk=self.instance.pk)
+            .exists()
+        ):
             raise forms.ValidationError("Hierarchical Level with this name already exists.")
         return name
 
@@ -61,9 +71,15 @@ class EmployeeForm(BaseModelForm):
         model = Employee
         fields = "__all__"
         widgets = {
-            "first_name": forms.TextInput(attrs={"placeholder": "Enter first name...", "class": "form-control"}),
-            "last_name": forms.TextInput(attrs={"placeholder": "Enter last name...", "class": "form-control"}),
-            "email": forms.EmailInput(attrs={"placeholder": "Enter email...", "class": "form-control"}),
+            "first_name": forms.TextInput(
+                attrs={"placeholder": "Enter first name...", "class": "form-control"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"placeholder": "Enter last name...", "class": "form-control"}
+            ),
+            "email": forms.EmailInput(
+                attrs={"placeholder": "Enter email...", "class": "form-control"}
+            ),
             "position": forms.Select(attrs={"class": "form-select"}),
             "salary_coefficient": forms.NumberInput(attrs={"step": 0.1, "class": "form-control"}),
             "expertise_level": forms.Select(attrs={"class": "form-select"}),
@@ -78,9 +94,12 @@ class EmployeeForm(BaseModelForm):
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
-        if not email.endswith("@mgs-grupa.com"):
+        if email and not email.endswith("@mgs-grupa.com"):
             raise forms.ValidationError("Email must be @mgs-grupa.com domain.")
-        if email and Employee.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
+        if (
+            email
+            and Employee.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists()
+        ):
             self.add_error("email", "Email already exists.")
         return email
 
