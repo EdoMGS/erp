@@ -2,6 +2,7 @@ import datetime
 from decimal import Decimal
 
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
 from prodaja.models.quote import EstimSnapshot, Quote, QuoteOption
@@ -12,13 +13,15 @@ from prodaja.models.work_order import (
     QCPlan,
     WorkOrder,
 )
-from tenants.models import Tenant
+from tenants.models import Tenant, TenantUser
 
 
 @pytest.mark.django_db
 def test_convert_to_work_order_idempotent_fefo_and_isolated():
     t1 = Tenant.objects.create(name="t1", domain="t1")
     t2 = Tenant.objects.create(name="t2", domain="t2")
+    user = get_user_model().objects.create_user("u1", password="pw")
+    TenantUser.objects.create(tenant=t1, user=user, role="manager")
 
     quote = Quote.objects.create(
         tenant=t1,
@@ -68,6 +71,7 @@ def test_convert_to_work_order_idempotent_fefo_and_isolated():
     )
 
     client = APIClient()
+    client.force_authenticate(user=user)
     resp1 = client.post(
         f"/api/quotes/{quote.id}/to-wo",
         {"option": "Good"},

@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from decimal import Decimal
 from pathlib import Path
+from typing import Any, cast
 
 from .dto import (
     EstimateBreakdown,
@@ -21,20 +22,20 @@ from .pricing import ROUNDING_POLICY, money, sum_money
 BASE_DIR = Path(__file__).resolve().parents[3]
 
 
-def _load_fixture(path: Path) -> dict:
+def _load_fixture(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as fh:
-        return json.load(fh)
+        return cast(dict[str, Any], json.load(fh))
 
 
-def _load_norms() -> dict:
+def _load_norms() -> dict[str, Any]:
     return _load_fixture(BASE_DIR / "erp_system/fixtures/quote_norms.json")
 
 
-def _load_price_list() -> dict:
+def _load_price_list() -> dict[str, Any]:
     return _load_fixture(BASE_DIR / "erp_system/fixtures/price_list.json")
 
 
-def _parse_paint_systems(norms: dict) -> dict[str, PaintSystemSpec]:
+def _parse_paint_systems(norms: dict[str, Any]) -> dict[str, PaintSystemSpec]:
     systems: dict[str, PaintSystemSpec] = {}
     for sys_id, data in norms.get("paint_systems", {}).items():
         layers = [LayerSpec(**layer) for layer in data.get("layers", [])]
@@ -73,7 +74,7 @@ def estimate(quote: QuoteInput) -> dict[str, EstimateBreakdown]:
         net_total = money(component_sum + contingency + margin)
         vat_total = money(net_total * quote.vat_rate)
         gross_total = money(net_total + vat_total)
-        assumptions = {
+        assumptions: dict[str, Any] = {
             "waste_pct": norms.get("waste_pct"),
             "mode": quote.items[0].conditions.get("mode", "booth") if quote.items else None,
             "norms_version": norms.get("version"),

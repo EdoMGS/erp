@@ -30,6 +30,9 @@ staticfiles/
 # Node
 node_modules/
 
-# Test caches and artifacts
+# Hypothesis test cache
 .hypothesis/
+
+# Test caches and artifacts
+.pytest_cache/
 *.zip
