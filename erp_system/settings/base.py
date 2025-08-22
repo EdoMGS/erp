@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "prodaja",
     "django_celery_beat",
     "django_celery_results",
+    "drf_spectacular",
 ]
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
@@ -147,4 +148,18 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.ScopedRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {"estimate": "30/min"},
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "ERP API",
+    "DESCRIPTION": "ERP system API",
+    "VERSION": "0.1.0",
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-erp-cache",
+    }
 }

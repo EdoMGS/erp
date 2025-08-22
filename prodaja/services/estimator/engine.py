@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from decimal import Decimal
 from pathlib import Path
+from typing import Any, cast
 
 from .dto import (
     EstimateBreakdown,
@@ -21,9 +22,9 @@ from .pricing import ROUNDING_POLICY, money, sum_money
 BASE_DIR = Path(__file__).resolve().parents[3]
 
 
-def _load_fixture(path: Path) -> dict:
+def _load_fixture(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as fh:
-        return json.load(fh)
+        return cast(dict[str, Any], json.load(fh))
 
 
 def _load_norms() -> dict:

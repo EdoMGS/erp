@@ -9,8 +9,11 @@ from decimal import Decimal
 from typing import Any
 
 from django.conf import settings
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
@@ -20,6 +23,7 @@ from rest_framework.views import APIView
 from tenants.models import Tenant, TenantUser
 
 from .models.quote import EstimSnapshot, Quote, QuoteRevision
+from .serializers import QuoteInputSerializer
 from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
@@ -54,19 +58,24 @@ def _get_tenant(request) -> Tenant:
     return Tenant.objects.get(name=request.tenant)
 
 
-def _parse_quote_input(data: dict) -> QuoteInput:
-    items = [ItemInput(**item) for item in data.get("items", [])]
-    return QuoteInput(
-        tenant=data["tenant"],
-        currency=data["currency"],
-        vat_rate=Decimal(str(data["vat_rate"])),
-        is_vat_registered=data["is_vat_registered"],
-        risk_band=data["risk_band"],
-        contingency_pct=Decimal(str(data["contingency_pct"])),
-        margin_target_pct=Decimal(str(data["margin_target_pct"])),
+def _parse_quote_input(data: dict) -> tuple[QuoteInput, str]:
+    serializer = QuoteInputSerializer(data=data)
+    serializer.is_valid(raise_exception=True)
+    valid = serializer.validated_data
+    items = [ItemInput(**item) for item in valid["items"]]
+    quote_input = QuoteInput(
+        tenant=valid["tenant"],
+        currency=valid["currency"],
+        vat_rate=Decimal(str(valid["vat_rate"])),
+        is_vat_registered=valid["is_vat_registered"],
+        risk_band=valid["risk_band"],
+        contingency_pct=Decimal(str(valid["contingency_pct"])),
+        margin_target_pct=Decimal(str(valid["margin_target_pct"])),
         items=items,
-        options=data["options"],
+        options=list(valid["options"]),
     )
+    payload = json.dumps(valid, sort_keys=True, default=str)
+    return quote_input, hashlib.sha256(payload.encode()).hexdigest()
 
 
 def _serialize_breakdowns(breakdowns: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -105,26 +114,34 @@ class EstimateView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "estimate"
 
+    @extend_schema(request=QuoteInputSerializer, responses=OpenApiTypes.OBJECT)
     def post(self, request):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
             return Response({"detail": "Missing Idempotency-Key"}, status=400)
         key = _cache_key(request)
         if key in _IDEMPOTENCY_CACHE:
             return Response(_IDEMPOTENCY_CACHE[key])
-        quote_input = _parse_quote_input(request.data)
+        quote_input, input_hash = _parse_quote_input(request.data)
+        cache_key = f"estimate:{input_hash}"
+        cached = cache.get(cache_key)
+        if cached:
+            _IDEMPOTENCY_CACHE[key] = cached
+            return Response(cached)
         breakdowns = estimate(quote_input)
         serialized, assumptions = _serialize_breakdowns(breakdowns)
         resp = {"options": serialized, "assumptions": assumptions}
         _IDEMPOTENCY_CACHE[key] = resp
+        cache.set(cache_key, resp, 300)
         return Response(resp)
 
 
 class QuoteCreateView(APIView):
     permission_classes = [IsTenantUser]
 
+    @extend_schema(request=QuoteInputSerializer, responses=OpenApiTypes.OBJECT)
     def post(self, request):
         tenant_obj = _get_tenant(request)
-        quote_input = _parse_quote_input(request.data)
+        quote_input, _ = _parse_quote_input(request.data)
         breakdowns = estimate(quote_input)
         serialized, assumptions = _serialize_breakdowns(breakdowns)
         quote = Quote.objects.create(
@@ -214,6 +231,7 @@ class QuoteAcceptView(APIView):
 class QuoteToWOView(APIView):
     permission_classes = [IsTenantUser]
 
+    @extend_schema(request=OpenApiTypes.OBJECT, responses=OpenApiTypes.OBJECT)
     def post(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         option = request.data.get("option")
@@ -228,6 +246,7 @@ class QuoteToWOView(APIView):
 class QuoteRevisionView(APIView):
     permission_classes = [IsTenantUser]
 
+    @extend_schema(request=OpenApiTypes.OBJECT, responses=OpenApiTypes.OBJECT)
     def post(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
@@ -236,7 +255,7 @@ class QuoteRevisionView(APIView):
             return Response({"detail": "input required"}, status=400)
         reason = request.data.get("reason_code", "")
         delta = request.data.get("delta", {})
-        quote_input = _parse_quote_input(input_data)
+        quote_input, _ = _parse_quote_input(input_data)
         breakdowns = estimate(quote_input)
         serialized, assumptions = _serialize_breakdowns(breakdowns)
         prev_snapshot = quote.snapshots.order_by("-created_at").first()
