@@ -1,9 +1,9 @@
 """Backward compatibility layer delegating to new package-based models.
 
-All real model definitions now live in prodaja/models/main.py.
+All real model definitions now live in prodaja/models/*.py modules.
 Keep this file minimal to avoid duplicate model definitions and migration noise.
-Remove once all imports updated to use prodaja.models.* directly from the package.
 """
 
 from .models.main import *  # noqa: F401,F403
 from .models.quote import *  # noqa: F401,F403
+from .models.work_order import *  # noqa: F401,F403

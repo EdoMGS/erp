@@ -4,16 +4,20 @@ import json
 
 import pytest
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from tenants.models import Tenant
+from tenants.models import Tenant, TenantUser
 
 
 @pytest.mark.django_db
 def test_quote_crud_and_acceptance():
-    Tenant.objects.create(name="t1", domain="t1")
+    t1 = Tenant.objects.create(name="t1", domain="t1")
     Tenant.objects.create(name="t2", domain="t2")
+    user = get_user_model().objects.create_user("u1", password="pw")
+    TenantUser.objects.create(tenant=t1, user=user, role="manager")
     client = APIClient()
+    client.force_authenticate(user=user)
     quote_body = {
         "tenant": "t1",
         "number": "Q-1",
@@ -46,7 +50,7 @@ def test_quote_crud_and_acceptance():
 
     # isolation: other tenant can't read
     not_found = client.get(f"/api/quotes/{quote_id}", HTTP_X_TENANT="t2")
-    assert not_found.status_code == 404
+    assert not_found.status_code == 403
 
     get_resp = client.get(f"/api/quotes/{quote_id}", HTTP_X_TENANT="t1")
     assert get_resp.status_code == 200
