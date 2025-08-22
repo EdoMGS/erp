@@ -1,0 +1,9 @@
+{
+  "version": "2024.01",
+  "effective_from": "2024-01-01",
+  "effective_to": null,
+  "material": 2.0,
+  "paint": 10.0,
+  "labor": 20.0,
+  "logistics": 1.0
+}
