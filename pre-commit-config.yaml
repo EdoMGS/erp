@@ -3,13 +3,17 @@ repos:
     rev: 24.8.0
     hooks:
       - id: black
-        # Use settings from pyproject.toml (line-length 100, exclude migrations)
+        args: ["--config=pyproject.toml", "."]
+        pass_filenames: false
+        # Exclusions handled via pyproject.toml extend-exclude
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.9
     hooks:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
+
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0
     hooks:

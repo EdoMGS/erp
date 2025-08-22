@@ -1,10 +1,11 @@
 [tool.black]
 line-length = 100
 target-version = ["py311"]
+# Exclude migrations and legacy_disabled on all platforms (supports "/" and "\\")
 extend-exclude = '''
 (
-  ^.*/migrations/.*$
-| ^.*/legacy_disabled/.*$
+  (?:^|[\\/])legacy_disabled(?:[\\/].*)?$|
+  (?:^|[\\/]).*?[\\/]migrations(?:[\\/].*)?$
 )
 '''
 # (opcionalno) zadrži ako želiš
