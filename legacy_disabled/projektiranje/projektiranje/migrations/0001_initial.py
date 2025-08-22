@@ -31,7 +31,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "naziv",
-                    models.CharField(default="Glavni BOM", max_length=200, verbose_name="Naziv BOM-a"),
+                    models.CharField(
+                        default="Glavni BOM", max_length=200, verbose_name="Naziv BOM-a"
+                    ),
                 ),
                 (
                     "opis",
@@ -114,7 +116,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "plan_izrađen",
-                    models.BooleanField(default=False, verbose_name="Dinamički plan & gantt izrađeni"),
+                    models.BooleanField(
+                        default=False, verbose_name="Dinamički plan & gantt izrađeni"
+                    ),
                 ),
                 (
                     "napomena",
@@ -122,11 +126,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "revizija_dokumentacije",
-                    models.PositiveIntegerField(default=0, verbose_name="Broj revizija dokumentacije"),
+                    models.PositiveIntegerField(
+                        default=0, verbose_name="Broj revizija dokumentacije"
+                    ),
                 ),
                 (
                     "dynamic_plan",
-                    models.TextField(blank=True, null=True, verbose_name="Tekstualni prikaz planova"),
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Tekstualni prikaz planova"
+                    ),
                 ),
                 (
                     "bill_of_materials",
@@ -274,7 +282,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "napomena",
-                    models.CharField(blank=True, max_length=255, null=True, verbose_name="Napomena"),
+                    models.CharField(
+                        blank=True, max_length=255, null=True, verbose_name="Napomena"
+                    ),
                 ),
                 (
                     "bom",

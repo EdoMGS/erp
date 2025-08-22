@@ -3,16 +3,26 @@ repos:
     rev: 24.8.0
     hooks:
       - id: black
-        args: ["--config=pyproject.toml", "."]
-        pass_filenames: false
-        # Exclusions handled via pyproject.toml extend-exclude
+  args: ["--config=pyproject.toml"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.6.9
     hooks:
       - id: ruff
         args: ["--fix"]
+        types: [python]
+        exclude: |
+          (?x)^(
+            legacy_disabled/
+            | .*/migrations/
+          )
       - id: ruff-format
+        types: [python]
+        exclude: |
+          (?x)^(
+            legacy_disabled/
+            | .*/migrations/
+          )
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.8.0
@@ -20,3 +30,9 @@ repos:
       - id: mypy
         args: ["--config-file", "mypy.ini"]
         additional_dependencies: ["django-stubs", "djangorestframework-stubs"]
+        types: [python]
+        exclude: |
+          (?x)^(
+            legacy_disabled/
+            | .*/migrations/
+          )

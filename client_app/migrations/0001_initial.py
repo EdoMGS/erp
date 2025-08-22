@@ -29,7 +29,11 @@ class Migration(migrations.Migration):
                     "postal_code",
                     models.CharField(
                         max_length=10,
-                        validators=[django.core.validators.RegexValidator("^\\d{5}$", "Enter a valid postal code.")],
+                        validators=[
+                            django.core.validators.RegexValidator(
+                                "^\\d{5}$", "Enter a valid postal code."
+                            )
+                        ],
                         verbose_name="Postal Code",
                     ),
                 ),
@@ -40,7 +44,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "county",
-                    models.CharField(blank=True, max_length=100, null=True, verbose_name="Županija"),
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Županija"
+                    ),
                 ),
             ],
         ),
@@ -110,7 +116,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "county",
-                    models.CharField(blank=True, max_length=100, null=True, verbose_name="Županija"),
+                    models.CharField(
+                        blank=True, max_length=100, null=True, verbose_name="Županija"
+                    ),
                 ),
                 (
                     "long_term_relationship",
@@ -118,7 +126,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "relationship_status",
-                    models.CharField(default="active", max_length=100, verbose_name="Status odnosa"),
+                    models.CharField(
+                        default="active", max_length=100, verbose_name="Status odnosa"
+                    ),
                 ),
                 (
                     "loyalty_level",
@@ -169,7 +179,9 @@ class Migration(migrations.Migration):
                 ("activity", models.TextField(verbose_name="Activity Description")),
                 (
                     "timestamp",
-                    models.DateTimeField(default=django.utils.timezone.now, verbose_name="Timestamp"),
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="Timestamp"
+                    ),
                 ),
                 (
                     "client",

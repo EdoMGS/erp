@@ -1,20 +1,15 @@
 [tool.black]
 line-length = 100
 target-version = ["py311"]
-# Exclude migrations and legacy_disabled on all platforms (supports "/" and "\\")
-extend-exclude = '''
-(
-  (?:^|[\\/])legacy_disabled(?:[\\/].*)?$|
-  (?:^|[\\/]).*?[\\/]migrations(?:[\\/].*)?$
-)
-'''
-# (opcionalno) zadrži ako želiš
+
+# Ako želiš da ne dira navodnike:
 # skip-string-normalization = true
+
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-lint.select = ["E","F","I","B","UP"]
+lint.select = ["E", "F", "I", "B", "UP"]
 exclude = ["**/migrations/**", "**/legacy_disabled/**"]
 
 [tool.ruff.lint.per-file-ignores]

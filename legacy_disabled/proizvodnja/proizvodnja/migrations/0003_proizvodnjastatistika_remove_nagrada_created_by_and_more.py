@@ -416,7 +416,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="ocjenakvalitete",
             name="radni_nalog",
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="proizvodnja.radninalog"),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="proizvodnja.radninalog"
+            ),
         ),
         migrations.AlterField(
             model_name="ocjenakvalitete",
@@ -437,7 +439,11 @@ class Migration(migrations.Migration):
                 help_text="Podržani formati: mp4, avi, mkv.",
                 null=True,
                 upload_to="ocjene/videozapisi/",
-                validators=[django.core.validators.FileExtensionValidator(allowed_extensions=["mp4", "avi", "mkv"])],
+                validators=[
+                    django.core.validators.FileExtensionValidator(
+                        allowed_extensions=["mp4", "avi", "mkv"]
+                    )
+                ],
                 verbose_name="Priloženi video",
             ),
         ),

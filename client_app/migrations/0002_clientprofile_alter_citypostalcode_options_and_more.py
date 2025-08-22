@@ -178,7 +178,9 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name="clientactivitylog",
-            index=models.Index(fields=["client", "-timestamp"], name="client_app__client__277058_idx"),
+            index=models.Index(
+                fields=["client", "-timestamp"], name="client_app__client__277058_idx"
+            ),
         ),
         migrations.AddIndex(
             model_name="clientsupplier",

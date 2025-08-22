@@ -126,11 +126,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(auto_now_add=True, verbose_name="Datum kreiranja segmenta"),
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Datum kreiranja segmenta"
+                    ),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(auto_now=True, verbose_name="Datum posljednje izmjene segmenta"),
+                    models.DateTimeField(
+                        auto_now=True, verbose_name="Datum posljednje izmjene segmenta"
+                    ),
                 ),
             ],
             options={

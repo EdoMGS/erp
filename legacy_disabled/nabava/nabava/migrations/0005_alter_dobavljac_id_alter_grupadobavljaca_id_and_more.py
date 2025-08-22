@@ -13,41 +13,57 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="dobavljac",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="grupadobavljaca",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="narudzbenica",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="narudzbenicastavka",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="procurementplan",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="procurementrequest",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="purchaseorder",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
         migrations.AlterField(
             model_name="purchaseorderline",
             name="id",
-            field=models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+            field=models.BigAutoField(
+                auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+            ),
         ),
     ]

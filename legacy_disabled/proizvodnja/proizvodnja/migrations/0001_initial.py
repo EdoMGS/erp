@@ -110,7 +110,9 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv",
-                    models.CharField(max_length=255, unique=True, verbose_name="Naziv grupe poslova"),
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Naziv grupe poslova"
+                    ),
                 ),
                 (
                     "opis",
@@ -954,7 +956,9 @@ class Migration(migrations.Migration):
                 ("is_active", models.BooleanField(default=True, verbose_name="Active")),
                 (
                     "naziv",
-                    models.CharField(max_length=255, unique=True, verbose_name="Naziv tipa projekta"),
+                    models.CharField(
+                        max_length=255, unique=True, verbose_name="Naziv tipa projekta"
+                    ),
                 ),
                 ("opis", models.TextField(blank=True, null=True, verbose_name="Opis")),
                 ("aktivan", models.BooleanField(default=True)),
