@@ -1,4 +1,34 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Quote {{ quote.number }} - {{ option.name }}</title>
+    <style>
+      body { font-family: DejaVu Sans, Arial, sans-serif; font-size: 12px; }
+      h1 { font-size: 18px; margin: 0 0 8px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+      th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #ddd; }
+      .totals td { font-weight: bold; }
+      .meta { color: #666; font-size: 10px; margin-top: 16px; }
+    </style>
+  </head>
+  <body>
+    <h1>Offer for {{ quote.customer_name }}</h1>
+    <div>Quote number: <strong>{{ quote.number }}</strong></div>
+    <div>Option: <strong>{{ option.name }}</strong></div>
+
+    <table>
+      <tr><th>Component</th><th>Amount ({{ quote.currency }})</th></tr>
+      <tr><td>Material</td><td>{{ breakdown.components.material|default:0 }}</td></tr>
+      <tr class="totals"><td>Net total</td><td>{{ breakdown.net_total }}</td></tr>
+      <tr class="totals"><td>VAT total</td><td>{{ breakdown.vat_total }}</td></tr>
+      <tr class="totals"><td>Gross total</td><td>{{ breakdown.gross_total }}</td></tr>
+    </table>
+
+    <div class="meta">Snapshot: {{ snapshot_hash }}</div>
+  </body>
+  </html>
+<!DOCTYPE html>
 <html>
 <body>
 <h1>Quote {{ quote.number }} - {{ option.name }}</h1>
