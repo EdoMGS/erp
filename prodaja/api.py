@@ -177,4 +177,3 @@ class QuoteAcceptView(APIView):
             "accepted_at": quote.accepted_at.isoformat() if quote.accepted_at else None,
         }
         _IDEMPOTENCY_CACHE[key] = resp
-        return Response(resp)
