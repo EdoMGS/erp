@@ -9,12 +9,21 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
+
+from financije.ledger import post_transaction
 
 logger = logging.getLogger(__name__)
 
 
 class BankTransaction(models.Model):
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="bank_transactions",
+        null=True,
+        blank=True,
+    )
     """
     Evidencija stvarnih transakcija na bankovnom računu.
     """
@@ -148,6 +157,13 @@ def sinkroniziraj_bankovne_transakcije(api_url, api_key):
 
 
 class CashFlow(models.Model):
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="cash_flows",
+        null=True,
+        blank=True,
+    )
     """
     Jednostavna evidencija priljeva/odljeva za brzi uvid u tok novca
     (po datumu). Obično se radi sumarnije od bankovnih transakcija.
@@ -190,3 +206,40 @@ def auto_create_cashflow(sender, instance, created, **kwargs):
             datum=instance.datum,
             bank_transaction=instance,
         )
+
+
+@receiver(post_save, sender=BankTransaction)
+def auto_post_bank_to_ledger(sender, instance, created, **kwargs):
+    """Create journal entry for each bank transaction.
+
+    - priljev => BANK_CUSTOMER_PAYMENT (bank debit, AR credit)
+    - odljev  => BANK_SUPPLIER_PAYMENT (AP debit, bank credit)
+
+    Idempotent by unique transaction reference per tenant.
+    """
+    try:
+        event = None
+        if instance.tip_transakcije == "priljev":
+            event = "BANK_CUSTOMER_PAYMENT"
+        elif instance.tip_transakcije == "odljev":
+            event = "BANK_SUPPLIER_PAYMENT"
+        if not event:
+            return
+        payload = {
+            "date": instance.datum,
+            "description": instance.opis or f"Bank transakcija {instance.referenca}",
+            "amount": instance.iznos,
+        }
+        idem = (
+            f"{getattr(instance, 'tenant_id', 'na')}:banktxn:"
+            f"{instance.referenca}:{instance.tip_transakcije}"
+        )
+        post_transaction(
+            tenant=getattr(instance, "tenant", None),
+            event=event,
+            payload=payload,
+            idempotency_key=idem,
+            lock=True,
+        )
+    except Exception as e:
+        logger.error("Bank-to-ledger posting failed for %s: %s", instance.referenca, e)

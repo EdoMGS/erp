@@ -6,6 +6,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TaxConfiguration(models.Model):
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="tax_configurations",
+        null=True,
+        blank=True,
+    )
     name = models.CharField(max_length=100, verbose_name=_("Naziv konfiguracije poreza"))
     # Osnovni postotak poreza (rate) s validacijom između 0 i 100%
     tax_rate = models.DecimalField(

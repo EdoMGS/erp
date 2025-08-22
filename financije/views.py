@@ -178,12 +178,19 @@ definitions and undefined symbols have been cleaned up.
 # REST FRAMEWORK VIEWSETS (single definitions only)
 
 
-class InvoiceViewSet(viewsets.ModelViewSet):
+class TenantQuerysetMixin:
+    def get_queryset(self):
+        qs = super().get_queryset()
+        tenant = getattr(self.request, "tenant", None)
+        return qs.filter(tenant=tenant) if tenant else qs.none()
+
+
+class InvoiceViewSet(TenantQuerysetMixin, viewsets.ModelViewSet):
     queryset = Invoice.objects.all()
     serializer_class = InvoiceSerializer
 
 
-class AuditLogViewSet(viewsets.ModelViewSet):
+class AuditLogViewSet(TenantQuerysetMixin, viewsets.ModelViewSet):
     queryset = AuditLog.objects.all()
     serializer_class = AuditLogSerializer
 
@@ -223,7 +230,7 @@ class DebtViewSet(viewsets.ModelViewSet):
     serializer_class = DebtSerializer
 
 
-class BankTransactionViewSet(viewsets.ModelViewSet):
+class BankTransactionViewSet(TenantQuerysetMixin, viewsets.ModelViewSet):
     queryset = BankTransaction.objects.all()
     serializer_class = BankTransactionSerializer
 

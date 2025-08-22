@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -15,7 +16,16 @@ class Account(models.Model):
         ("expense", _("Rashod")),
     ]
 
-    number = models.CharField(max_length=20, unique=True, verbose_name=_("Broj konta"))
+    # --- multi-tenant ---
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="accounts",
+        verbose_name=_("Tenant"),
+        null=True,
+        blank=True,
+    )
+    number = models.CharField(max_length=20, verbose_name=_("Broj konta"))
     name = models.CharField(max_length=255, verbose_name=_("Naziv konta"))
     account_type = models.CharField(
         max_length=10, choices=ACCOUNT_TYPE_CHOICES, verbose_name=_("Tip konta")
@@ -34,6 +44,9 @@ class Account(models.Model):
         verbose_name = _("Konto (Account)")
         verbose_name_plural = _("Konta (Accounts)")
         ordering = ["number"]
+        constraints = [
+            models.UniqueConstraint(fields=["tenant", "number"], name="uniq_account_tenant_number")
+        ]
 
     def __str__(self):
         return f"{self.number} - {self.name}"
@@ -57,10 +70,25 @@ class Account(models.Model):
 
 
 class JournalEntry(models.Model):
+    # --- multi-tenant & locking/idempotency ---
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="journal_entries",
+        verbose_name=_("Tenant"),
+        null=True,
+        blank=True,
+    )
     date = models.DateField(verbose_name=_("Datum knjiženja"))
     description = models.TextField(verbose_name=_("Opis transakcije"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    posted_at = models.DateTimeField(null=True, blank=True)
+    locked = models.BooleanField(default=False)
+    idempotency_key = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    reversal_of = models.ForeignKey(
+        "self", on_delete=models.SET_NULL, null=True, blank=True, related_name="reversals"
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -82,9 +110,16 @@ class JournalEntry(models.Model):
 
     @transaction.atomic
     def save(self, *args, **kwargs):
-        if not self.pk:  # Only check on creation
+        # Disallow changes once locked
+        if self.pk and self.locked:
+            raise ValidationError(_("Journal entry is locked and cannot be modified."))
+        creating = self.pk is None
+        if creating:
             self.full_clean()
         super().save(*args, **kwargs)
+        if creating and self.locked and not self.posted_at:
+            self.posted_at = timezone.now()
+            super().save(update_fields=["posted_at"])
 
     def clean(self):
         super().clean()
@@ -93,13 +128,27 @@ class JournalEntry(models.Model):
 
     class Meta:
         app_label = "financije"
-        indexes = [models.Index(fields=["date"]), models.Index(fields=["created_at"])]
+        indexes = [
+            models.Index(fields=["date"]),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["idempotency_key"]),
+            models.Index(fields=["tenant", "date"]),
+        ]
 
     def __str__(self):
         return f"Journal Entry #{self.id} - {self.date}"
 
 
 class JournalItem(models.Model):
+    # --- multi-tenant ---
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="journal_items",
+        verbose_name=_("Tenant"),
+        null=True,
+        blank=True,
+    )
     entry = models.ForeignKey(
         JournalEntry, on_delete=models.CASCADE, related_name="journalitem_set"
     )
@@ -128,3 +177,11 @@ class JournalItem(models.Model):
 
     def __str__(self):
         return f"Journal Item: Entry #{self.entry.id}, Konto {self.account.number}"
+
+    def save(self, *args, **kwargs):
+        # Keep tenant consistent when provided
+        if self.entry_id and self.tenant_id and self.entry.tenant_id != self.tenant_id:
+            raise ValidationError(_("JournalItem.tenant must equal entry.tenant"))
+        if self.account_id and self.tenant_id and self.account.tenant_id != self.tenant_id:
+            raise ValidationError(_("JournalItem.tenant must equal account.tenant"))
+        super().save(*args, **kwargs)
