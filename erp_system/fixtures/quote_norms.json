@@ -1,0 +1,34 @@
+{
+  "version": "2024.01",
+  "effective_from": "2024-01-01",
+  "effective_to": null,
+  "waste_pct": 0.10,
+  "painting_hours_per_m2_per_layer": 0.2,
+  "condition_multipliers": {
+    "booth": 1.0,
+    "field": 1.2
+  },
+  "paint_systems": {
+    "Good": {
+      "name": "Good",
+      "layers": [
+        {"name": "primer", "dft_um": 80, "solids_pct": 60}
+      ]
+    },
+    "Better": {
+      "name": "Better",
+      "layers": [
+        {"name": "primer", "dft_um": 100, "solids_pct": 60},
+        {"name": "topcoat", "dft_um": 80, "solids_pct": 55}
+      ]
+    },
+    "Best": {
+      "name": "Best",
+      "layers": [
+        {"name": "primer", "dft_um": 120, "solids_pct": 60},
+        {"name": "midcoat", "dft_um": 100, "solids_pct": 55},
+        {"name": "topcoat", "dft_um": 80, "solids_pct": 50}
+      ]
+    }
+  }
+}
