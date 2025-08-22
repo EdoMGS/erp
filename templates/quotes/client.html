@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Quote {{ quote.number }} - {{ option.name }}</h1>
+<p>Valid until: {{ quote.valid_until }}</p>
+<table>
+  <tr><th>Component</th><th>Amount</th></tr>
+  {% for name, amount in breakdown.components.items %}
+  <tr><td>{{ name }}</td><td>{{ amount }}</td></tr>
+  {% endfor %}
+  <tr><td>Net Total</td><td>{{ breakdown.net_total }}</td></tr>
+  <tr><td>VAT Total</td><td>{{ breakdown.vat_total }}</td></tr>
+  <tr><td>Gross Total</td><td>{{ breakdown.gross_total }}</td></tr>
+</table>
+<footer>Snapshot: {{ snapshot_hash }}</footer>
+</body>
+</html>
