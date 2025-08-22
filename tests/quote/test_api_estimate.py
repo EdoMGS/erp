@@ -1,13 +1,17 @@
 import pytest
+from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
-from tenants.models import Tenant
+from tenants.models import Tenant, TenantUser
 
 
 @pytest.mark.django_db
 def test_estimate_endpoint_idempotent():
-    Tenant.objects.create(name="t1", domain="t1")
+    tenant = Tenant.objects.create(name="t1", domain="t1")
+    user = get_user_model().objects.create_user("u1", password="pw")
+    TenantUser.objects.create(tenant=tenant, user=user, role="staff")
     client = APIClient()
+    client.force_authenticate(user=user)
     data = {
         "tenant": "t1",
         "currency": "EUR",

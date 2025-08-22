@@ -12,15 +12,30 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import status
+from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from tenants.models import Tenant
+from tenants.models import Tenant, TenantUser
 
 from .models.quote import EstimSnapshot, Quote, QuoteRevision
 from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
+
+
+class IsTenantUser(BasePermission):
+    """Allow access to authenticated users bound to the request tenant."""
+
+    def has_permission(self, request, view) -> bool:
+        if not request.user or not request.user.is_authenticated:
+            return False
+        return TenantUser.objects.filter(
+            tenant__name=request.tenant,
+            user=request.user,
+            role__in=["owner", "manager", "staff"],
+        ).exists()
+
 
 _IDEMPOTENCY_CACHE: dict[tuple[str, str, str, str], dict[str, Any]] = {}
 
@@ -85,6 +100,8 @@ def _compute_hash(snapshot_data: dict) -> str:
 
 
 class EstimateView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
             return Response({"detail": "Missing Idempotency-Key"}, status=400)
@@ -100,6 +117,8 @@ class EstimateView(APIView):
 
 
 class QuoteCreateView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request):
         tenant_obj = _get_tenant(request)
         quote_input = _parse_quote_input(request.data)
@@ -131,6 +150,8 @@ class QuoteCreateView(APIView):
 
 
 class QuoteDetailView(APIView):
+    permission_classes = [IsTenantUser]
+
     def get(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
@@ -145,6 +166,8 @@ class QuoteDetailView(APIView):
 
 
 class QuoteSendView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
@@ -154,6 +177,8 @@ class QuoteSendView(APIView):
 
 
 class QuoteAcceptView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request, pk: int):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
             return Response({"detail": "Missing Idempotency-Key"}, status=400)
@@ -184,6 +209,8 @@ class QuoteAcceptView(APIView):
 
 
 class QuoteToWOView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         option = request.data.get("option")
@@ -196,6 +223,8 @@ class QuoteToWOView(APIView):
 
 
 class QuoteRevisionView(APIView):
+    permission_classes = [IsTenantUser]
+
     def post(self, request, pk: int):
         tenant_obj = _get_tenant(request)
         quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
