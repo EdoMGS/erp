@@ -1,6 +1,6 @@
 """Explicit model exports for financije app (no star imports)."""
 
-from .accounting import Account, JournalEntry, JournalItem
+from .accounting import Account, JournalEntry, JournalItem, PeriodClose
 from .audit import AuditLog
 from .bank import BankTransaction, CashFlow
 from .budget import Budget
@@ -22,6 +22,7 @@ __all__ = [
     "Account",
     "JournalEntry",
     "JournalItem",
+    "PeriodClose",
     "AuditLog",
     "BankTransaction",
     "CashFlow",

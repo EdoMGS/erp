@@ -14,6 +14,8 @@ from django.views.generic import (
 
 # Dodajemo REST framework imports
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .forms import BudgetForm, InvoiceForm, OverheadForm
 from .models import (
@@ -33,6 +35,7 @@ from .models import (
     TaxConfiguration,
     VariablePayRule,
 )
+from .reports import general_ledger, trial_balance
 
 # Add serializer imports
 from .serializers import (
@@ -248,6 +251,165 @@ class MonthlyOverheadViewSet(viewsets.ModelViewSet):
 class BudgetViewSet(viewsets.ModelViewSet):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
+
+
+@api_view(["GET"])
+def trial_balance_view(request):
+    tenant = getattr(request, "tenant", None)
+    start = request.query_params.get("start")
+    end = request.query_params.get("end")
+    start_date = None
+    end_date = None
+    if start:
+        from datetime import date
+
+        y, m, d = map(int, start.split("-"))
+        start_date = date(y, m, d)
+    if end:
+        from datetime import date
+
+        y, m, d = map(int, end.split("-"))
+        end_date = date(y, m, d)
+    data = trial_balance(tenant=tenant, start_date=start_date, end_date=end_date)
+    # Serialize dataclasses to dicts
+    lines = [
+        {
+            "account": f"{ln.account_number} {ln.account_name}",
+            "number": ln.account_number,
+            "name": ln.account_name,
+            "type": ln.account_type,
+            "debit": str(ln.debit),
+            "credit": str(ln.credit),
+            "balance": str(ln.balance),
+        }
+        for ln in data["lines"]
+    ]
+    return Response(
+        {
+            "total_debit": str(data["total_debit"]),
+            "total_credit": str(data["total_credit"]),
+            "lines": lines,
+        }
+    )
+
+
+@api_view(["GET"])
+def trial_balance_csv_view(request):
+    import csv
+    from io import StringIO
+
+    tenant = getattr(request, "tenant", None)
+    start = request.query_params.get("start")
+    end = request.query_params.get("end")
+    start_date = None
+    end_date = None
+    if start:
+        from datetime import date
+
+        y, m, d = map(int, start.split("-"))
+        start_date = date(y, m, d)
+    if end:
+        from datetime import date
+
+        y, m, d = map(int, end.split("-"))
+        end_date = date(y, m, d)
+    data = trial_balance(tenant=tenant, start_date=start_date, end_date=end_date)
+    sio = StringIO()
+    writer = csv.writer(sio)
+    writer.writerow(["Number", "Name", "Type", "Debit", "Credit", "Balance"])
+    for ln in data["lines"]:
+        writer.writerow(
+            [
+                ln.account_number,
+                ln.account_name,
+                ln.account_type,
+                str(ln.debit),
+                str(ln.credit),
+                str(ln.balance),
+            ]
+        )
+    resp = Response(sio.getvalue())
+    resp["Content-Type"] = "text/csv"
+    resp["Content-Disposition"] = "attachment; filename=trial_balance.csv"
+    return resp
+
+
+@api_view(["GET"])
+def general_ledger_view(request, account_number: str):
+    tenant = getattr(request, "tenant", None)
+    start = request.query_params.get("start")
+    end = request.query_params.get("end")
+    start_date = None
+    end_date = None
+    if start:
+        from datetime import date
+
+        y, m, d = map(int, start.split("-"))
+        start_date = date(y, m, d)
+    if end:
+        from datetime import date
+
+        y, m, d = map(int, end.split("-"))
+        end_date = date(y, m, d)
+    data = general_ledger(
+        tenant=tenant, account_number=account_number, start_date=start_date, end_date=end_date
+    )
+    lines = [
+        {
+            "date": str(ln.date),
+            "description": ln.description,
+            "debit": str(ln.debit),
+            "credit": str(ln.credit),
+            "balance": str(ln.balance),
+        }
+        for ln in data["lines"]
+    ]
+    return Response(
+        {
+            "account": data.get("account"),
+            "name": data.get("name"),
+            "type": data.get("type"),
+            "opening_balance": str(data.get("opening_balance", "0.00")),
+            "closing_balance": str(data.get("closing_balance", "0.00")),
+            "lines": lines,
+        }
+    )
+
+
+@api_view(["GET"])
+def general_ledger_csv_view(request, account_number: str):
+    import csv
+    from io import StringIO
+
+    tenant = getattr(request, "tenant", None)
+    start = request.query_params.get("start")
+    end = request.query_params.get("end")
+    start_date = None
+    end_date = None
+    if start:
+        from datetime import date
+
+        y, m, d = map(int, start.split("-"))
+        start_date = date(y, m, d)
+    if end:
+        from datetime import date
+
+        y, m, d = map(int, end.split("-"))
+        end_date = date(y, m, d)
+    data = general_ledger(
+        tenant=tenant, account_number=account_number, start_date=start_date, end_date=end_date
+    )
+    sio = StringIO()
+    writer = csv.writer(sio)
+    writer.writerow(["Date", "Description", "Debit", "Credit", "Balance"])
+    for ln in data["lines"]:
+        writer.writerow(
+            [str(ln.date), ln.description, str(ln.debit), str(ln.credit), str(ln.balance)]
+        )
+    resp = Response(sio.getvalue())
+    resp["Content-Type"] = "text/csv"
+    resp["Content-Disposition"] = f"attachment; filename=ledger_{account_number}.csv"
+    return resp
 
 
 # Primjer klasičnog CBV za kreiranje Invoice-a

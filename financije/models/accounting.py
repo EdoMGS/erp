@@ -185,3 +185,22 @@ class JournalItem(models.Model):
         if self.account_id and self.tenant_id and self.account.tenant_id != self.tenant_id:
             raise ValidationError(_("JournalItem.tenant must equal account.tenant"))
         super().save(*args, **kwargs)
+
+
+class PeriodClose(models.Model):
+    tenant = models.ForeignKey(
+        "tenants.Tenant",
+        on_delete=models.CASCADE,
+        related_name="period_closes",
+        null=True,
+        blank=True,
+    )
+    year = models.PositiveIntegerField()
+    month = models.PositiveIntegerField(null=True, blank=True)
+    closed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("tenant", "year", "month")
+        indexes = [models.Index(fields=["tenant", "year", "month"])]
+        verbose_name = _("Period close")
+        verbose_name_plural = _("Period closes")

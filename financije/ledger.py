@@ -6,7 +6,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from .account_map import ACCOUNT_RULES
-from .models import Account, JournalEntry, JournalItem
+from .models import Account, JournalEntry, JournalItem, PeriodClose
 
 
 def _resolve_lines(tenant, event: str, payload: dict) -> list[dict]:
@@ -31,15 +31,22 @@ def post_transaction(
     if not lines:
         raise ValueError("Posting produced no lines")
 
+    # K3 safeguard: block postings into closed periods
+    post_date = (
+        payload.get("date")
+        or payload.get("issue_date")
+        or payload.get("posted_at")
+        or payload.get("today")
+        or timezone.now().date()
+    )
+    if PeriodClose.objects.filter(
+        tenant=tenant, year=post_date.year, month=post_date.month
+    ).exists():
+        raise ValueError("Posting into a closed period is not allowed")
+
     je = JournalEntry.objects.create(
         tenant=tenant,
-        date=(
-            payload.get("date")
-            or payload.get("issue_date")
-            or payload.get("posted_at")
-            or payload.get("today")
-            or timezone.now().date()
-        ),
+        date=post_date,
         description=payload.get("description") or f"Auto post {event}",
         idempotency_key=idempotency_key,
         locked=lock,

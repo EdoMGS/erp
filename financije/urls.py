@@ -19,6 +19,14 @@ router.register(r"salaries", views.SalaryViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("trial-balance/", views.trial_balance_view, name="trial_balance"),
+    path("trial-balance.csv", views.trial_balance_csv_view, name="trial_balance_csv"),
+    path("ledger/<str:account_number>/", views.general_ledger_view, name="general_ledger"),
+    path(
+        "ledger/<str:account_number>.csv",
+        views.general_ledger_csv_view,
+        name="general_ledger_csv",
+    ),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("budgets/", views.BudgetListView.as_view(), name="budgets"),
     path("budgets/create/", views.BudgetCreateView.as_view(), name="create_budget"),
