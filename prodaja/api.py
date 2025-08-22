@@ -15,7 +15,6 @@ from rest_framework.views import APIView
 
 from tenants.models import Tenant
 
-from .models.quote import EstimSnapshot, Quote, QuoteRevision
 from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
@@ -179,50 +178,3 @@ class QuoteAcceptView(APIView):
         }
         _IDEMPOTENCY_CACHE[key] = resp
         return Response(resp)
-
-
-class QuoteToWOView(APIView):
-    def post(self, request, pk: int):
-        tenant_obj = _get_tenant(request)
-        option = request.data.get("option")
-        if not option:
-            return Response({"detail": "option required"}, status=400)
-        wo = convert_to_work_order(tenant_obj, pk, option)
-        return Response({"work_order_id": wo.id})
-
-
-class QuoteRevisionView(APIView):
-    def post(self, request, pk: int):
-        tenant_obj = _get_tenant(request)
-        quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
-        input_data = request.data.get("input")
-        if not input_data:
-            return Response({"detail": "input required"}, status=400)
-        reason = request.data.get("reason_code", "")
-        delta = request.data.get("delta", {})
-        quote_input = _parse_quote_input(input_data)
-        breakdowns = estimate(quote_input)
-        serialized, assumptions = _serialize_breakdowns(breakdowns)
-        prev_snapshot = quote.snapshots.order_by("-created_at").first()
-        new_version = str(quote.revision + 1)
-        new_snapshot = EstimSnapshot.objects.create(
-            tenant=tenant_obj,
-            quote=quote,
-            norms_version=assumptions.get("norms_version", ""),
-            price_list_version=assumptions.get("price_list_version", ""),
-            rounding_policy=assumptions.get("rounding_policy", ""),
-            input_data=input_data,
-            breakdown=serialized,
-            version=new_version,
-        )
-        QuoteRevision.objects.create(
-            tenant=tenant_obj,
-            parent=quote,
-            prev_snapshot=prev_snapshot,
-            new_snapshot=new_snapshot,
-            reason_code=reason,
-            delta=delta,
-        )
-        quote.revision += 1
-        quote.save()
-        return Response({"revision": quote.revision})
