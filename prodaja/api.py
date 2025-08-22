@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from tenants.models import Tenant
 
 from .models.quote import EstimSnapshot, Quote
+from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
 
@@ -178,3 +179,19 @@ class QuoteAcceptView(APIView):
         }
         _IDEMPOTENCY_CACHE[key] = resp
         return Response(resp)
+
+
+class QuoteToWorkOrderView(APIView):
+    def post(self, request, pk: int):
+        """Convert a Quote option into a Work Order.
+
+        Body: { "option": "<option_name>" }
+        Headers: X-Tenant for tenant scoping.
+        Idempotent: returns the same work_order_id if already created.
+        """
+        tenant_obj = _get_tenant(request)
+        option = request.data.get("option")
+        if not option:
+            return Response({"detail": "Missing 'option'"}, status=400)
+        wo = convert_to_work_order(tenant_obj, pk, option)
+        return Response({"work_order_id": wo.id})
