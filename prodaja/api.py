@@ -14,6 +14,7 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.permissions import BasePermission
 from rest_framework.response import Response
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
 from tenants.models import Tenant, TenantUser
@@ -101,6 +102,8 @@ def _compute_hash(snapshot_data: dict) -> str:
 
 class EstimateView(APIView):
     permission_classes = [IsTenantUser]
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "estimate"
 
     def post(self, request):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
