@@ -68,5 +68,5 @@ def test_reports_compute_expected_values():
 
     aging = ar_ap_aging(tenant=tenant, today=date(2024, 5, 1))
     assert aging["ar"]["0-30"] == Decimal("100.00")
-    assert aging["ar"]["61+"] == Decimal("50.00")
+    assert aging["ar"]["61-90"] == Decimal("50.00")
     assert aging["ap"]["0-30"] == Decimal("40.00")

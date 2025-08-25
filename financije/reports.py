@@ -187,7 +187,7 @@ def balance_sheet_light(*, tenant) -> dict:
 
 def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
     today = today or timezone.now().date()
-    buckets = ["0-30", "31-60", "61+"]
+    buckets = ["0-30", "31-60", "61-90", ">90"]
     ar = {b: Decimal("0.00") for b in buckets}
     ap = {b: Decimal("0.00") for b in buckets}
     items = JournalItem.objects.filter(
@@ -195,7 +195,14 @@ def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
     ).select_related("entry", "account")
     for item in items:
         days = (today - item.entry.date).days
-        bucket = buckets[0] if days <= 30 else buckets[1] if days <= 60 else buckets[2]
+        if days <= 30:
+            bucket = "0-30"
+        elif days <= 60:
+            bucket = "31-60"
+        elif days <= 90:
+            bucket = "61-90"
+        else:
+            bucket = ">90"
         if item.account.number.startswith("12"):
             amount = item.debit - item.credit
             if amount > 0:

@@ -29,3 +29,8 @@ pre-commit run --all-files
 3. Load minimal seed data: `python manage.py loaddata erp_system/fixtures/minimal.json`
 4. Run tests: `python -m pytest -q`
 5. Start server: `python manage.py runserver` and open API docs at `/docs/`.
+
+## Legal considerations for Croatia
+
+For an overview of current Croatian bookkeeping regulations, see
+[docs/CROATIAN_FINANCIAL_BOOKKEEPING.md](docs/CROATIAN_FINANCIAL_BOOKKEEPING.md).
