@@ -71,16 +71,5 @@ services:
     ports:
       - "5555:5555"
 
-  flower:
-    image: mher/flower
-    restart: unless-stopped
-    command: celery -A erp_system.celery flower --port=5555 --broker=${REDIS_URL}
-    env_file:
-      - .env
-    depends_on:
-      - redis
-    ports:
-      - "5555:5555"
-
 volumes:
   db-data:
