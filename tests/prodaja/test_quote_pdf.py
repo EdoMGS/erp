@@ -1,12 +1,15 @@
 import pytest
 
 from prodaja.models.quote import EstimSnapshot, Quote, QuoteOption
-from prodaja.services.quote_pdf import compute_snapshot_hash, render_client_pdf
+from prodaja.pdf.render import (
+    compute_snapshot_sha256,
+    render_client_pdf,
+    render_internal_pdf,
+)
 from tenants.models import Tenant
 
 
-@pytest.mark.django_db
-def test_pdf_render_and_hash_changes():
+def _create_data():
     tenant = Tenant.objects.create(name="t1", domain="t1")
     quote = Quote.objects.create(
         tenant=tenant,
@@ -36,12 +39,23 @@ def test_pdf_render_and_hash_changes():
         },
         version="1",
     )
+    return quote, option, snapshot
 
-    pdf = render_client_pdf(quote.id, option.name)
-    assert len(pdf) > 0
 
-    hash1 = compute_snapshot_hash(snapshot)
+@pytest.mark.django_db
+def test_client_and_internal_pdfs_generated():
+    quote, option, _ = _create_data()
+    client_pdf = render_client_pdf(quote.id, option.name)
+    internal_pdf = render_internal_pdf(quote.id, option.name)
+    assert len(client_pdf) > 0
+    assert len(internal_pdf) > 0
+
+
+@pytest.mark.django_db
+def test_snapshot_hash_changes_on_rounding_policy_change():
+    _, option, snapshot = _create_data()
+    hash1 = compute_snapshot_sha256(snapshot)
     snapshot.rounding_policy = "total"
     snapshot.save()
-    hash2 = compute_snapshot_hash(snapshot)
+    hash2 = compute_snapshot_sha256(snapshot)
     assert hash1 != hash2
