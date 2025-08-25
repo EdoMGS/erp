@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("client", "0003_clientsupplier_tenant_id"),
+        ("client_app", "0003_clientsupplier_tenant_id"),
     ]
 
     operations = [
@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="activity_logs",
-                to="client.clientsupplier",
+                to="client_app.clientsupplier",
                 verbose_name="Klijent/Dobavljač",
             ),
         ),
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             field=models.OneToOneField(
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="clientprofile",
-                to="client.clientsupplier",
+                to="client_app.clientsupplier",
             ),
         ),
         migrations.AlterField(
@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
                 null=True,
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="subclients",
-                to="client.clientsupplier",
+                to="client_app.clientsupplier",
                 verbose_name="Tenant (Holding/Operativa)",
             ),
         ),

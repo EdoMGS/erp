@@ -2,7 +2,6 @@ import hashlib
 import json
 from dataclasses import dataclass
 
-
 AUDIT_LOG: list[dict] = []
 
 
@@ -36,7 +35,9 @@ def fiscalize(invoice) -> FiscalizationResult:
     zki = _compute_zki(invoice.number, payload["issued_at"], payload["net"], invoice.operator_mark)
     jir = hashlib.sha1((zki + "jir").encode()).hexdigest()
     qr = json.dumps({"n": invoice.number, "zki": zki, "jir": jir})
-    resp_hash = hashlib.sha256(json.dumps({"jir": jir, "zki": zki}, sort_keys=True).encode()).hexdigest()
+    resp_hash = hashlib.sha256(
+        json.dumps({"jir": jir, "zki": zki}, sort_keys=True).encode()
+    ).hexdigest()
     AUDIT_LOG.append({"request_hash": req_hash, "response_hash": resp_hash})
     return FiscalizationResult(zki=zki, jir=jir, qr=qr)
 

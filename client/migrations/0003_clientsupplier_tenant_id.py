@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("client", "0002_clientprofile_alter_citypostalcode_options_and_more"),
+        ("client_app", "0002_clientprofile_alter_citypostalcode_options_and_more"),
     ]
 
     operations = [

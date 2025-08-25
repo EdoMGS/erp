@@ -7,7 +7,7 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from common.middleware import TenantManager
+from common.managers import TenantManager
 
 
 class ClientSupplier(models.Model):
@@ -110,7 +110,7 @@ class ClientSupplier(models.Model):
 
 class ClientProfile(models.Model):
     client = models.OneToOneField(
-        "client.ClientSupplier", on_delete=models.CASCADE, related_name="clientprofile"
+        "client_app.ClientSupplier", on_delete=models.CASCADE, related_name="clientprofile"
     )
     loyalty_level = models.CharField(
         max_length=20,

@@ -2,7 +2,6 @@ from django.db import models
 
 from tenants.models import Tenant
 
-
 # Minimal stub models referenced by historical migrations elsewhere.
 # Only primary keys provided; fields can be expanded if needed for runtime.
 

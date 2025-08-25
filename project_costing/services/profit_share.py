@@ -18,7 +18,13 @@ class ProfitShareResult:
     pdf: bytes
 
 
-def calculate_profit_share(*, tenant, net: Decimal, vat: Decimal = Decimal("0"), idempotency_key: str | None = None) -> ProfitShareResult:
+def calculate_profit_share(
+    *,
+    tenant,
+    net: Decimal,
+    vat: Decimal = Decimal("0"),
+    idempotency_key: str | None = None,
+) -> ProfitShareResult:
     """Distribute profit 50/30/20 and post journal entry.
 
     Base for distribution is NET for VAT registered tenants, otherwise GROSS.
@@ -32,9 +38,23 @@ def calculate_profit_share(*, tenant, net: Decimal, vat: Decimal = Decimal("0"),
     total = company + workers + owner
     diff = base - total
 
-    entry = profit_share_distribution(tenant=tenant, base=base, company=company, workers=workers, owner=owner, rounding_diff=diff, idempotency_key=idempotency_key)
+    entry = profit_share_distribution(
+        tenant=tenant,
+        base=base,
+        company=company,
+        workers=workers,
+        owner=owner,
+        rounding_diff=diff,
+        idempotency_key=idempotency_key,
+    )
 
-    pdf = render_profit_share_pdf(base=base, company=company, workers=workers, owner=owner, rounding_diff=diff)
+    pdf = render_profit_share_pdf(
+        base=base,
+        company=company,
+        workers=workers,
+        owner=owner,
+        rounding_diff=diff,
+    )
 
     return ProfitShareResult(
         base=base,

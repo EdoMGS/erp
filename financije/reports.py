@@ -190,10 +190,9 @@ def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
     buckets = ["0-30", "31-60", "61+"]
     ar = {b: Decimal("0.00") for b in buckets}
     ap = {b: Decimal("0.00") for b in buckets}
-    items = (
-        JournalItem.objects.filter(tenant=tenant, account__number__in=["120", "220"])
-        .select_related("entry", "account")
-    )
+    items = JournalItem.objects.filter(
+        tenant=tenant, account__number__in=["120", "220"]
+    ).select_related("entry", "account")
     for item in items:
         days = (today - item.entry.date).days
         bucket = buckets[0] if days <= 30 else buckets[1] if days <= 60 else buckets[2]

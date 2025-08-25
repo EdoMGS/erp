@@ -12,7 +12,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="radninalog",
             name="tenant",
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to="tenants.tenant"),
+            field=models.ForeignKey(
+                default=1, on_delete=django.db.models.deletion.CASCADE, to="tenants.tenant"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(

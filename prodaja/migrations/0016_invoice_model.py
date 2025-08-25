@@ -16,7 +16,9 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID"),
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True, verbose_name="Created at")),
                 ("updated_at", models.DateTimeField(auto_now=True, verbose_name="Updated at")),
@@ -60,7 +62,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "tenant",
-                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="tenants.tenant"),
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="tenants.tenant"
+                    ),
                 ),
             ],
             options={"ordering": ["-created_at"], "unique_together": {("tenant", "number")}},

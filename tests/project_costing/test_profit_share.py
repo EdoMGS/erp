@@ -44,7 +44,9 @@ def test_rounding_diff_captured_on_4999():
     Account.objects.create(tenant=tenant, number="2600", name="Liab1", account_type="passive")
     Account.objects.create(tenant=tenant, number="2601", name="Liab2", account_type="passive")
     Account.objects.create(tenant=tenant, number="8400", name="Equity", account_type="passive")
-    diff_acct = Account.objects.create(tenant=tenant, number="4999", name="Diff", account_type="expense")
+    diff_acct = Account.objects.create(
+        tenant=tenant, number="4999", name="Diff", account_type="expense"
+    )
 
     res = calculate_profit_share(tenant=tenant, net=Decimal("0.03"), vat=Decimal("0"))
     assert res.rounding_diff != Decimal("0.00")

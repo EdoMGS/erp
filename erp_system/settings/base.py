@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # your domain apps go here
     "accounts",
-    "client_app",
+    "client.apps.ClientAppConfig",
     "common",
     # multi-tenant support app (needed by financije and others)
     "tenants",
