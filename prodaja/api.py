@@ -20,6 +20,11 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
+from common.idempotency import (
+    compute_request_hash,
+    get_or_create_cached_response,
+    persist_response,
+)
 from tenants.models import Tenant, TenantUser
 
 from .models.quote import EstimSnapshot, Quote, QuoteRevision
@@ -115,19 +120,44 @@ class EstimateView(APIView):
     def post(self, request):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
             return Response({"detail": "Missing Idempotency-Key"}, status=400)
-        key = _cache_key(request)
-        if key in _IDEMPOTENCY_CACHE:
-            return Response(_IDEMPOTENCY_CACHE[key])
+        # DB-backed idempotency
+        tenant_obj = _get_tenant(request)
+        req_hash = compute_request_hash(request.data)
+        cached_body, cached_status = get_or_create_cached_response(
+            tenant=tenant_obj,
+            path=request.path,
+            method=request.method,
+            key=request.META.get("HTTP_IDEMPOTENCY_KEY", ""),
+            request_hash=req_hash,
+        )
+        if cached_body is not None:
+            return Response(cached_body, status=cached_status)
         quote_input, input_hash = _parse_quote_input(request.data)
         cache_key = f"estimate:{input_hash}"
         cached = cache.get(cache_key)
         if cached:
-            _IDEMPOTENCY_CACHE[key] = cached
+            persist_response(
+                tenant=tenant_obj,
+                path=request.path,
+                method=request.method,
+                key=request.META.get("HTTP_IDEMPOTENCY_KEY", ""),
+                request_hash=req_hash,
+                response=cached,
+                status_code=200,
+            )
             return Response(cached)
         breakdowns = estimate(quote_input)
         serialized, assumptions = _serialize_breakdowns(breakdowns)
         resp = {"options": serialized, "assumptions": assumptions}
-        _IDEMPOTENCY_CACHE[key] = resp
+        persist_response(
+            tenant=tenant_obj,
+            path=request.path,
+            method=request.method,
+            key=request.META.get("HTTP_IDEMPOTENCY_KEY", ""),
+            request_hash=req_hash,
+            response=resp,
+            status_code=200,
+        )
         cache.set(cache_key, resp, 300)
         return Response(resp)
 
@@ -199,17 +229,37 @@ class QuoteAcceptView(APIView):
     def post(self, request, pk: int):
         if "HTTP_IDEMPOTENCY_KEY" not in request.META:
             return Response({"detail": "Missing Idempotency-Key"}, status=400)
-        key = _cache_key(request, extra=str(pk))
-        if key in _IDEMPOTENCY_CACHE:
-            return Response(_IDEMPOTENCY_CACHE[key])
         tenant_obj = _get_tenant(request)
+        req_hash = compute_request_hash(request.data)
+        cached_body, cached_status = get_or_create_cached_response(
+            tenant=tenant_obj,
+            path=request.path,
+            method=request.method,
+            key=request.META.get("HTTP_IDEMPOTENCY_KEY", ""),
+            request_hash=req_hash,
+        )
+        if cached_body is not None:
+            return Response(cached_body, status=cached_status)
         quote = get_object_or_404(Quote, pk=pk, tenant=tenant_obj)
         snapshot = quote.snapshots.order_by("-created_at").first()
         if not snapshot:
             return Response({"detail": "No snapshot"}, status=400)
         snapshot_data = _snapshot_dict(snapshot)
         provided = request.data.get("acceptance_hash")
-        if not verify_acceptance_hash(settings.SECRET_KEY, snapshot_data, provided or ""):
+        # Accept current and rotated secrets (primary first)
+        secrets = getattr(settings, "ACCEPT_HMAC_SECRETS", [settings.SECRET_KEY])
+        # Try fast path with primary secret first to keep behavior deterministic
+        ok = False
+        if secrets:
+            if verify_acceptance_hash(secrets[0], snapshot_data, provided or ""):
+                ok = True
+            else:
+                # Fallback to any secondary secrets
+                for s in secrets[1:]:
+                    if verify_acceptance_hash(s, snapshot_data, provided or ""):
+                        ok = True
+                        break
+        if not ok:
             return Response({"detail": "Invalid acceptance hash"}, status=400)
         if quote.status != "accepted":
             quote.status = "accepted"
@@ -220,7 +270,15 @@ class QuoteAcceptView(APIView):
             "status": quote.status,
             "accepted_at": quote.accepted_at.isoformat() if quote.accepted_at else None,
         }
-        _IDEMPOTENCY_CACHE[key] = resp
+        persist_response(
+            tenant=tenant_obj,
+            path=request.path,
+            method=request.method,
+            key=request.META.get("HTTP_IDEMPOTENCY_KEY", ""),
+            request_hash=req_hash,
+            response=resp,
+            status_code=200,
+        )
         return Response(resp)
 
 

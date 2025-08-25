@@ -161,3 +161,25 @@ class Role(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ApiIdempotency(models.Model):
+    """Persisted idempotent API responses per tenant/path/method/key."""
+
+    tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
+    path = models.CharField(max_length=255)
+    method = models.CharField(max_length=10)
+    key = models.CharField(max_length=255)
+    request_hash = models.CharField(max_length=64, blank=True, null=True)
+    status_code = models.PositiveIntegerField(default=200)
+    response_body = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("tenant", "path", "method", "key")
+        indexes = [
+            models.Index(fields=["tenant", "path", "method", "key"]),
+        ]
+
+    def __str__(self):  # pragma: no cover
+        return f"{self.tenant}:{self.method}:{self.path}:{self.key}"

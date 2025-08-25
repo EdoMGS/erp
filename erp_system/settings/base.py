@@ -21,6 +21,14 @@ else:
 # This key MUST be overridden in any real deployment (production/staging).  # nosec
 SECRET_KEY = os.getenv("SECRET_KEY") or "dev-insecure-placeholder-key"  # nosec
 
+# HMAC acceptance key rotation: a comma-separated list in env ACCEPT_HMAC_SECRETS.
+# First item is treated as the primary for new signatures; all items are accepted for verification.
+_raw_accept_secrets = os.getenv("ACCEPT_HMAC_SECRETS", "").strip()
+if _raw_accept_secrets:
+    ACCEPT_HMAC_SECRETS = [s.strip() for s in _raw_accept_secrets.split(",") if s.strip()]
+else:
+    ACCEPT_HMAC_SECRETS = [SECRET_KEY]
+
 _raw_hosts = os.getenv("DJANGO_ALLOWED_HOSTS", "*")
 ALLOWED_HOSTS = [h.strip() for h in _raw_hosts.split(",") if h.strip()]
 if not ALLOWED_HOSTS:
