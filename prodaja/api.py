@@ -27,6 +27,8 @@ from .serializers import QuoteInputSerializer
 from .services.convert_to_wo import convert_to_work_order
 from .services.estimator.dto import ItemInput, QuoteInput
 from .services.estimator.engine import estimate
+from .services.hmac_accept import verify_acceptance_hash
+from .services.snapshot import snapshot_as_dict
 
 
 class IsTenantUser(BasePermission):
@@ -95,16 +97,11 @@ def _serialize_breakdowns(breakdowns: dict[str, Any]) -> tuple[dict[str, Any], d
 
 
 def _snapshot_dict(snapshot: EstimSnapshot) -> dict[str, Any]:
-    return {
-        "input": snapshot.input_data,
-        "breakdown": snapshot.breakdown,
-        "norms_version": snapshot.norms_version,
-        "price_list_version": snapshot.price_list_version,
-        "rounding_policy": snapshot.rounding_policy,
-    }
+    return snapshot_as_dict(snapshot)
 
 
 def _compute_hash(snapshot_data: dict) -> str:
+    # Kept for backwards-compatibility in tests; use verify_acceptance_hash for checks
     payload = json.dumps(snapshot_data, sort_keys=True)
     return hmac.new(settings.SECRET_KEY.encode(), payload.encode(), hashlib.sha256).hexdigest()
 
@@ -211,14 +208,13 @@ class QuoteAcceptView(APIView):
         if not snapshot:
             return Response({"detail": "No snapshot"}, status=400)
         snapshot_data = _snapshot_dict(snapshot)
-        expected = _compute_hash(snapshot_data)
         provided = request.data.get("acceptance_hash")
-        if expected != provided:
+        if not verify_acceptance_hash(settings.SECRET_KEY, snapshot_data, provided or ""):
             return Response({"detail": "Invalid acceptance hash"}, status=400)
         if quote.status != "accepted":
             quote.status = "accepted"
             quote.accepted_at = timezone.now()
-            quote.acceptance_hash = expected
+            quote.acceptance_hash = _compute_hash(snapshot_data)
             quote.save()
         resp = {
             "status": quote.status,
