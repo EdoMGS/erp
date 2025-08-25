@@ -2,10 +2,11 @@
 
 from decimal import Decimal
 
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
 
-from .account_map import ACCOUNT_RULES
+from .account_map_hr import ACCOUNT_RULES
 from .models import Account, JournalEntry, JournalItem, PeriodClose
 
 
@@ -42,7 +43,8 @@ def post_transaction(
     if PeriodClose.objects.filter(
         tenant=tenant, year=post_date.year, month=post_date.month
     ).exists():
-        raise ValueError("Posting into a closed period is not allowed")
+        period_key = f"{post_date.year:04d}-{post_date.month:02d}"
+        raise ValidationError(f"Period {period_key} is closed. Use reversal.")
 
     # Create entry unlocked first so items can be added
     je = JournalEntry.objects.create(
