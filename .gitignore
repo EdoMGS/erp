@@ -36,3 +36,8 @@ node_modules/
 # Test caches and artifacts
 .pytest_cache/
 *.zip
+test_db.sqlite3
+*.pdf
+media/
+.coverage
+htmlcov/

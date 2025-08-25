@@ -43,6 +43,26 @@ jobs:
         run: ruff check .
       - name: Format check (black)
         run: black --check .
+      - name: Django system check
+        env:
+            DATABASE_URL: postgres://erp:erp@localhost:5432/erp
+            REDIS_URL: redis://localhost:6379/0
+            DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+            SECRET_KEY: dummy
+            DEBUG: "False"
+            DJANGO_SETTINGS_MODULE: erp_system.settings.base
+        run: |
+          python manage.py check
+      - name: Migrations plan (check only)
+        env:
+            DATABASE_URL: postgres://erp:erp@localhost:5432/erp
+            REDIS_URL: redis://localhost:6379/0
+            DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
+            SECRET_KEY: dummy
+            DEBUG: "False"
+            DJANGO_SETTINGS_MODULE: erp_system.settings.base
+        run: |
+          python manage.py migrate --check --plan
       - name: Run migrations
         env:
             DATABASE_URL: postgres://erp:erp@localhost:5432/erp
@@ -73,3 +93,10 @@ jobs:
             DJANGO_SETTINGS_MODULE: erp_system.settings.test
         run: |
           pytest -q
+      - name: Upload PDFs (if any)
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: pdf-artifacts
+          path: artifacts/*.pdf
+          if-no-files-found: ignore
