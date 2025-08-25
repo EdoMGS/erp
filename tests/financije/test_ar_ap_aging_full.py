@@ -12,14 +12,14 @@ from tenants.models import Tenant
 @pytest.mark.django_db
 def test_ar_ap_aging_all_buckets():
     tenant = Tenant.objects.create(name="T", domain="t")
-    Account.objects.create(tenant=tenant, number="120", name="AR", account_type="active")
-    Account.objects.create(tenant=tenant, number="220", name="AP", account_type="passive")
-    Account.objects.create(tenant=tenant, number="400", name="Revenue", account_type="income")
-    Account.objects.create(tenant=tenant, number="470", name="VAT Payable", account_type="passive")
+    Account.objects.create(tenant=tenant, number="1200", name="AR", account_type="active")
+    Account.objects.create(tenant=tenant, number="2200", name="AP", account_type="passive")
+    Account.objects.create(tenant=tenant, number="7600", name="Revenue", account_type="income")
+    Account.objects.create(tenant=tenant, number="4700", name="VAT Payable", account_type="passive")
     Account.objects.create(
-        tenant=tenant, number="471", name="VAT Receivable", account_type="active"
+        tenant=tenant, number="1400", name="VAT Receivable", account_type="active"
     )
-    Account.objects.create(tenant=tenant, number="500", name="Expense", account_type="expense")
+    Account.objects.create(tenant=tenant, number="4000", name="Expense", account_type="expense")
 
     # AR buckets
     post_transaction(

@@ -1,4 +1,7 @@
-"""Helpers for loading the minimal Croatian chart of accounts."""
+"""Helpers for loading Croatian charts of accounts."""
+
+import json
+from pathlib import Path
 
 from financije.models import Account
 
@@ -38,4 +41,24 @@ def load_coa_hr_min(tenant) -> list[Account]:
     return accounts
 
 
-__all__ = ["load_coa_hr_min"]
+FIXTURE_DIR = Path(__file__).resolve().parent.parent / "fixtures"
+
+
+def load_coa_hr_2025(tenant) -> list[Account]:
+    """Load the 2025 HR chart of accounts from the bundled fixture."""
+
+    with open(FIXTURE_DIR / "hr_coa_2025.json", encoding="utf-8") as fh:
+        data = json.load(fh)
+
+    accounts: list[Account] = []
+    for item in data:
+        acct, _ = Account.objects.get_or_create(
+            tenant=tenant,
+            number=item["number"],
+            defaults={"name": item["name"], "account_type": item["account_type"]},
+        )
+        accounts.append(acct)
+    return accounts
+
+
+__all__ = ["load_coa_hr_min", "load_coa_hr_2025"]
