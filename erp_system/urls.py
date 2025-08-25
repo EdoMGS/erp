@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import include, path
 from drf_spectacular.views import (
     SpectacularAPIView,
@@ -7,6 +8,7 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("healthz", lambda r: JsonResponse({"ok": True})),
     path("api/", include("prodaja.api_urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path(

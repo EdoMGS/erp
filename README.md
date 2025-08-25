@@ -30,6 +30,20 @@ pre-commit run --all-files
 4. Run tests: `python -m pytest -q`
 5. Start server: `python manage.py runserver` and open API docs at `/docs/`.
 
+
+### Docker quickstart
+
+1. Start infra and app:
+
+	- `docker compose up -d db redis`
+	- `docker compose run --rm web python manage.py migrate --noinput`
+	- `docker compose up -d web worker beat`
+
+2. Open:
+
+	- Health: http://localhost:8000/healthz
+	- API docs: http://localhost:8000/api/docs/
+
 ## Legal considerations for Croatia
 
 For an overview of current Croatian bookkeeping regulations, see
