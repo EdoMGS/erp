@@ -17,6 +17,13 @@ if _raw_debug is None:
 else:
     DEBUG = _raw_debug.lower() in {"1", "true", "yes", "on"}
 
+# Feature flag for Croatian e-invoicing/fiscalization.
+_raw_fisk = os.getenv("FISKALIZACIJA_ERACUN", "0")
+FISKALIZACIJA_ERACUN = _raw_fisk.lower() in {"1", "true", "yes", "on"}
+
+# Local immutable blob storage root (can be replaced by S3 in production)
+BLOBSTORE_ROOT = env("BLOBSTORE_ROOT", default=str(BASE_DIR / "blobstore"))
+
 # Provide a fallback SECRET_KEY for CI / ephemeral environments where env vars are not injected.
 # This key MUST be overridden in any real deployment (production/staging).  # nosec
 SECRET_KEY = os.getenv("SECRET_KEY") or "dev-insecure-placeholder-key"  # nosec

@@ -183,3 +183,7 @@ class ApiIdempotency(models.Model):
 
     def __str__(self):  # pragma: no cover
         return f"{self.tenant}:{self.method}:{self.path}:{self.key}"
+
+
+# Ensure Blob model is registered with Django's app loading
+from .blob import Blob  # noqa: E402,F401

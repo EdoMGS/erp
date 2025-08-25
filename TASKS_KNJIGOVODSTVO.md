@@ -28,12 +28,12 @@ Cilj: **sve transakcije** završavaju u glavnoj knjizi (`JournalEntry/Item`), Σ
 ---
 
 ## K2 — Fiskalizacija & e-Računi
-- [ ] Modul `fiskalizacija/`:
+- [x] Modul `fiskalizacija/`:
   - Generator **UBL 2.1 (EN 16931)** iz `Invoice` (OIB, PDV breakdown, PaymentMeans).
   - `gateway.py`: adapter prema Poreznoj/posredniku (sandbox → prod), potpis certifikatom, JIR/ZKI/status pohranjen.
   - PDF: QR + hash footer (snapshot SHA256).
-- [ ] Feature flag: `FISKALIZACIJA_ERACUN=True` (datum primjene 2026/2027).
-- [ ] **Testovi**: demo račun → UBL → sandbox fiskalizacija → JIR → PDF s QR i hashom.
+- [x] Feature flag: `FISKALIZACIJA_ERACUN=True` (datum primjene 2026/2027).
+- [x] **Testovi**: demo račun → UBL → sandbox fiskalizacija → JIR → PDF s QR i hashom.
 
 ---
 
@@ -64,11 +64,11 @@ Cilj: **sve transakcije** završavaju u glavnoj knjizi (`JournalEntry/Item`), Σ
 ---
 
 ## K6 — Compliance & arhiva
-- [ ] **Retention**: čuvanje PDF/UBL/JOPPD ≥ 11 g. (WORM; nepromjenjivo).
-- [ ] **Audit log**: append-only (DB constraint), hash u footeru PDF-ova.
-- [ ] **OIB** validacija na partnerima i dokumentima.
-- [ ] **Period lock**: nakon predaje PDV-O/JOPPD izmjene samo reversal.
-- [ ] **Testovi**: pokušaj edit nakon lock → fail; audit log je nepromjenjiv.
+- [x] **Retention**: čuvanje PDF/UBL/JOPPD ≥ 11 g. (WORM; nepromjenjivo).
+- [x] **Audit log**: append-only (DB constraint), hash u footeru PDF-ova.
+- [x] **OIB** validacija na partnerima i dokumentima.
+- [x] **Period lock**: nakon predaje PDV-O/JOPPD izmjene samo reversal.
+- [x] **Testovi**: pokušaj edit nakon lock → fail; audit log je nepromjenjiv.
 
 ---
 

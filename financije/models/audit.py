@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
@@ -20,6 +21,15 @@ class AuditLog(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.action} - {self.timestamp}"
+
+    # Audit logs must be append-only
+    def save(self, *args, **kwargs):  # type: ignore[override]
+        if self.pk is not None:
+            raise ValidationError("Audit log entries are immutable")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):  # type: ignore[override]
+        raise ValidationError("Audit log entries are immutable")
 
     class Meta:
         verbose_name = "Audit Log"

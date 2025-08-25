@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from common.managers import TenantManager
+from common.validators import validate_oib
 
 
 class ClientSupplier(models.Model):
@@ -57,13 +58,7 @@ class ClientSupplier(models.Model):
         max_length=11,
         unique=True,
         verbose_name=_("OIB"),
-        validators=[
-            RegexValidator(
-                regex=r"^\d{11}$",
-                message=_("OIB mora imati točno 11 znamenki."),
-                code="invalid_oib",
-            )
-        ],
+        validators=[validate_oib],
     )
     country = models.CharField(max_length=100, verbose_name=_("Država"), default="Hrvatska")
     city = models.CharField(max_length=100, verbose_name=_("Grad"))

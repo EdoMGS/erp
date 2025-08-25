@@ -6,6 +6,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+from common.validators import validate_oib
 from prodaja.models import SalesOpportunity
 
 from .models import CityPostalCode, ClientActivityLog, ClientSupplier
@@ -101,8 +102,7 @@ class ClientSupplierForm(forms.ModelForm):
 
     def clean_oib(self):
         oib = self.cleaned_data.get("oib")
-        if not oib.isdigit() or len(oib) != 11:
-            raise ValidationError("OIB must be exactly 11 digits.")
+        validate_oib(oib)
         return oib
 
     def clean_email(self):
