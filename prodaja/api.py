@@ -246,7 +246,20 @@ class QuoteAcceptView(APIView):
             return Response({"detail": "No snapshot"}, status=400)
         snapshot_data = _snapshot_dict(snapshot)
         provided = request.data.get("acceptance_hash")
-        if not verify_acceptance_hash(settings.SECRET_KEY, snapshot_data, provided or ""):
+        # Accept current and rotated secrets (primary first)
+        secrets = getattr(settings, "ACCEPT_HMAC_SECRETS", [settings.SECRET_KEY])
+        # Try fast path with primary secret first to keep behavior deterministic
+        ok = False
+        if secrets:
+            if verify_acceptance_hash(secrets[0], snapshot_data, provided or ""):
+                ok = True
+            else:
+                # Fallback to any secondary secrets
+                for s in secrets[1:]:
+                    if verify_acceptance_hash(s, snapshot_data, provided or ""):
+                        ok = True
+                        break
+        if not ok:
             return Response({"detail": "Invalid acceptance hash"}, status=400)
         if quote.status != "accepted":
             quote.status = "accepted"
