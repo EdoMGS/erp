@@ -1,11 +1,19 @@
 from django.db import models
 
+from tenants.models import Tenant
+
+
 # Minimal stub models referenced by historical migrations elsewhere.
 # Only primary keys provided; fields can be expanded if needed for runtime.
 
 
 class RadniNalog(models.Model):
-    pass
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
+    quote_id = models.IntegerField()
+    option = models.CharField(max_length=16)
+
+    class Meta:
+        unique_together = [("tenant", "quote_id", "option")]
 
 
 class Projekt(models.Model):

@@ -44,12 +44,13 @@ def post_transaction(
     ).exists():
         raise ValueError("Posting into a closed period is not allowed")
 
+    # Create entry unlocked first so items can be added
     je = JournalEntry.objects.create(
         tenant=tenant,
         date=post_date,
         description=payload.get("description") or f"Auto post {event}",
         idempotency_key=idempotency_key,
-        locked=lock,
+        locked=False,
     )
 
     total_debit = Decimal("0.00")
@@ -69,20 +70,31 @@ def post_transaction(
     if total_debit != total_credit:
         raise ValueError("Unbalanced entry: ΣD != ΣC")
 
+    if lock:
+        now = timezone.now()
+        JournalEntry.objects.filter(pk=je.pk).update(locked=True, posted_at=now)
+        je.locked = True
+        je.posted_at = now
+
     return je
 
 
 @transaction.atomic
-def reverse_entry(entry: JournalEntry, *, reason: str = "Reversal") -> JournalEntry:
+def reverse_entry(entry: int | JournalEntry, *, reason: str = "Reversal") -> JournalEntry:
+    """Create a full reversal for the given locked entry."""
+    if not isinstance(entry, JournalEntry):
+        entry = JournalEntry.objects.get(pk=entry)
     if entry.locked is False:
         raise ValueError("Only locked entries can be reversed")
+
     reversal = JournalEntry.objects.create(
         tenant=entry.tenant,
         date=entry.date,
         description=f"Reversal of #{entry.pk}: {reason}",
         reversal_of=entry,
-        locked=True,
+        locked=False,
     )
+
     for item in JournalItem.objects.filter(entry=entry):
         JournalItem.objects.create(
             tenant=entry.tenant,
@@ -91,4 +103,10 @@ def reverse_entry(entry: JournalEntry, *, reason: str = "Reversal") -> JournalEn
             debit=item.credit,
             credit=item.debit,
         )
+
+    now = timezone.now()
+    JournalEntry.objects.filter(pk=reversal.pk).update(locked=True, posted_at=now)
+    reversal.locked = True
+    reversal.posted_at = now
+
     return reversal

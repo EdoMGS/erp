@@ -45,13 +45,14 @@ INSTALLED_APPS = [
     # legacy apps moved under legacy_disabled
     # "nabava",
     "proizvodnja",  # stub reintroduced to satisfy historical migrations
+    "inventory",
+    "project_costing",
     # removed obsolete stub projektiranje_app (replaced by projektiranje)
     "ljudski_resursi",
     "skladiste",  # stub reintroduced to satisfy historical migrations
     "prodaja",
     "django_celery_beat",
     "django_celery_results",
-    "drf_spectacular",
 ]
 
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
@@ -148,13 +149,6 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.ScopedRateThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {"estimate": "30/min"},
-    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-}
-
-SPECTACULAR_SETTINGS = {
-    "TITLE": "ERP API",
-    "DESCRIPTION": "ERP system API",
-    "VERSION": "0.1.0",
 }
 
 CACHES = {
