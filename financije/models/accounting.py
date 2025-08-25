@@ -179,12 +179,21 @@ class JournalItem(models.Model):
         return f"Journal Item: Entry #{self.entry.id}, Konto {self.account.number}"
 
     def save(self, *args, **kwargs):
+        # Disallow any modification when parent entry is locked
+        if self.entry_id and self.entry.locked:
+            raise ValidationError(_("Journal entry is locked and cannot be modified."))
+
         # Keep tenant consistent when provided
         if self.entry_id and self.tenant_id and self.entry.tenant_id != self.tenant_id:
             raise ValidationError(_("JournalItem.tenant must equal entry.tenant"))
         if self.account_id and self.tenant_id and self.account.tenant_id != self.tenant_id:
             raise ValidationError(_("JournalItem.tenant must equal account.tenant"))
         super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if self.entry.locked:
+            raise ValidationError(_("Journal entry is locked and cannot be modified."))
+        super().delete(*args, **kwargs)
 
 
 class PeriodClose(models.Model):
