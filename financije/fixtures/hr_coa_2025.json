@@ -1,0 +1,15 @@
+[
+  {"number": "1000", "name": "Bank account", "account_type": "active"},
+  {"number": "1200", "name": "Accounts receivable", "account_type": "active"},
+  {"number": "2200", "name": "Accounts payable", "account_type": "passive"},
+  {"number": "3000", "name": "Inventory", "account_type": "active"},
+  {"number": "4000", "name": "Operating expense", "account_type": "expense"},
+  {"number": "4700", "name": "VAT payable", "account_type": "passive"},
+  {"number": "1400", "name": "VAT receivable", "account_type": "active"},
+  {"number": "7600", "name": "Sales revenue", "account_type": "income"},
+  {"number": "2600", "name": "Profit share - company", "account_type": "passive"},
+  {"number": "2601", "name": "Profit share - workers", "account_type": "passive"},
+  {"number": "8400", "name": "Profit share - owner", "account_type": "passive"},
+  {"number": "4999", "name": "Rounding difference", "account_type": "income"},
+  {"number": "6300", "name": "Profit share expense", "account_type": "expense"}
+]

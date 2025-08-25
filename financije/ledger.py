@@ -5,7 +5,7 @@ from decimal import Decimal
 from django.db import transaction
 from django.utils import timezone
 
-from .account_map import ACCOUNT_RULES
+from .account_map_hr import ACCOUNT_RULES
 from .models import Account, JournalEntry, JournalItem, PeriodClose
 
 

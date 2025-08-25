@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import date
 from decimal import Decimal
 
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.utils import timezone
 
 from .models import Account, JournalItem
@@ -80,6 +80,14 @@ class LedgerLine:
     debit: Decimal
     credit: Decimal
     balance: Decimal
+
+
+@dataclass
+class RelatedPartyLedgerLine:
+    tenant: str
+    account_number: str
+    debit: Decimal
+    credit: Decimal
 
 
 def general_ledger(
@@ -191,7 +199,7 @@ def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
     ar = {b: Decimal("0.00") for b in buckets}
     ap = {b: Decimal("0.00") for b in buckets}
     items = JournalItem.objects.filter(
-        tenant=tenant, account__number__in=["120", "220"]
+        tenant=tenant, account__number__regex=r"^(12|22)"
     ).select_related("entry", "account")
     for item in items:
         days = (today - item.entry.date).days
@@ -212,3 +220,24 @@ def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
             if amount > 0:
                 ap[bucket] += amount
     return {"ar": ar, "ap": ap}
+
+
+def related_party_ledger(*, trace_id: str) -> list[RelatedPartyLedgerLine]:
+    rows = (
+        JournalItem.objects.filter(entry__idempotency_key__startswith=trace_id)
+        .values("tenant__name", "account__number")
+        .annotate(debit=Sum("debit"), credit=Sum("credit"))
+        .filter(~(Q(debit=0) & Q(credit=0)))
+        .order_by("tenant__name", "account__number")
+    )
+    lines: list[RelatedPartyLedgerLine] = []
+    for r in rows:
+        lines.append(
+            RelatedPartyLedgerLine(
+                tenant=r["tenant__name"],
+                account_number=r["account__number"],
+                debit=r["debit"] or Decimal("0.00"),
+                credit=r["credit"] or Decimal("0.00"),
+            )
+        )
+    return lines
