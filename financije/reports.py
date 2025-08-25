@@ -5,6 +5,7 @@ from datetime import date
 from decimal import Decimal
 
 from django.db.models import Sum
+from django.utils import timezone
 
 from .models import Account, JournalItem
 
@@ -145,3 +146,63 @@ def general_ledger(
         "lines": lines,
         "closing_balance": run,
     }
+
+
+def pnl_light(*, tenant) -> dict:
+    rows = (
+        JournalItem.objects.filter(tenant=tenant)
+        .values("account__account_type")
+        .annotate(debit=Sum("debit"), credit=Sum("credit"))
+    )
+    revenue = Decimal("0.00")
+    expense = Decimal("0.00")
+    for r in rows:
+        debit = r["debit"] or Decimal("0.00")
+        credit = r["credit"] or Decimal("0.00")
+        if r["account__account_type"] == "income":
+            revenue += credit - debit
+        elif r["account__account_type"] == "expense":
+            expense += debit - credit
+    return {"revenue": revenue, "expense": expense, "profit": revenue - expense}
+
+
+def balance_sheet_light(*, tenant) -> dict:
+    rows = (
+        JournalItem.objects.filter(tenant=tenant)
+        .values("account__account_type")
+        .annotate(debit=Sum("debit"), credit=Sum("credit"))
+    )
+    assets = Decimal("0.00")
+    liabilities = Decimal("0.00")
+    for r in rows:
+        debit = r["debit"] or Decimal("0.00")
+        credit = r["credit"] or Decimal("0.00")
+        if r["account__account_type"] == "active":
+            assets += debit - credit
+        elif r["account__account_type"] == "passive":
+            liabilities += credit - debit
+    equity = assets - liabilities
+    return {"assets": assets, "liabilities": liabilities, "equity": equity}
+
+
+def ar_ap_aging(*, tenant, today: date | None = None) -> dict:
+    today = today or timezone.now().date()
+    buckets = ["0-30", "31-60", "61+"]
+    ar = {b: Decimal("0.00") for b in buckets}
+    ap = {b: Decimal("0.00") for b in buckets}
+    items = (
+        JournalItem.objects.filter(tenant=tenant, account__number__in=["120", "220"])
+        .select_related("entry", "account")
+    )
+    for item in items:
+        days = (today - item.entry.date).days
+        bucket = buckets[0] if days <= 30 else buckets[1] if days <= 60 else buckets[2]
+        if item.account.number.startswith("12"):
+            amount = item.debit - item.credit
+            if amount > 0:
+                ar[bucket] += amount
+        else:
+            amount = item.credit - item.debit
+            if amount > 0:
+                ap[bucket] += amount
+    return {"ar": ar, "ap": ap}

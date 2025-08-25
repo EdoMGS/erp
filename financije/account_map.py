@@ -54,6 +54,26 @@ def bank_supplier_payment(_tenant, payload) -> list[dict]:
     ]
 
 
+def profit_share(_tenant, payload) -> list[dict]:
+    base = Decimal(str(payload["base"]))
+    company = Decimal(str(payload["company"]))
+    workers = Decimal(str(payload["workers"]))
+    owner = Decimal(str(payload["owner"]))
+    diff = Decimal(str(payload.get("rounding_diff", "0")))
+    lines = [
+        {"account": "7600", "debit": base, "credit": Decimal("0.00")},
+        {"account": "2600", "debit": Decimal("0.00"), "credit": company},
+        {"account": "2601", "debit": Decimal("0.00"), "credit": workers},
+        {"account": "8400", "debit": Decimal("0.00"), "credit": owner},
+    ]
+    if diff != Decimal("0"):
+        if diff > 0:
+            lines.append({"account": "4999", "debit": Decimal("0.00"), "credit": diff})
+        else:
+            lines.append({"account": "4999", "debit": -diff, "credit": Decimal("0.00")})
+    return lines
+
+
 ACCOUNT_RULES: dict[str, Callable] = {
     "SALE_INVOICE_POSTED": sale_invoice_posted,
     "PURCHASE_INVOICE_POSTED": purchase_invoice_posted,
@@ -61,4 +81,5 @@ ACCOUNT_RULES: dict[str, Callable] = {
     "ADVANCE_SETTLEMENT": advance_settlement,
     "BANK_CUSTOMER_PAYMENT": bank_customer_payment,
     "BANK_SUPPLIER_PAYMENT": bank_supplier_payment,
+    "PROFIT_SHARE": profit_share,
 }

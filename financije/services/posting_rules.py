@@ -82,6 +82,32 @@ def bank_supplier_payment(*, tenant, amount: Decimal, idempotency_key: str | Non
     )
 
 
+def profit_share_distribution(
+    *,
+    tenant,
+    base: Decimal,
+    company: Decimal,
+    workers: Decimal,
+    owner: Decimal,
+    rounding_diff: Decimal = Decimal("0.00"),
+    idempotency_key: str | None = None,
+):
+    payload = {
+        "base": base,
+        "company": company,
+        "workers": workers,
+        "owner": owner,
+        "rounding_diff": rounding_diff,
+        "description": "profit share",
+    }
+    return post_transaction(
+        tenant=tenant,
+        event="PROFIT_SHARE",
+        payload=payload,
+        idempotency_key=idempotency_key,
+    )
+
+
 __all__ = [
     "sale_invoice_posted",
     "purchase_invoice_posted",
@@ -89,4 +115,5 @@ __all__ = [
     "advance_settlement",
     "bank_customer_payment",
     "bank_supplier_payment",
+    "profit_share_distribution",
 ]
