@@ -59,6 +59,7 @@ isort>=5.13
 flake8>=7.0
 autoflake>=2.2
 hypothesis>=6.92  # property-based testing
+lxml>=5.0  # XML schema validation in payroll/JOPPD tests
 mypy>=1.8
 django-stubs>=4.2
 djangorestframework-stubs>=3.15
