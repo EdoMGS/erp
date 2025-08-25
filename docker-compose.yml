@@ -28,6 +28,8 @@ services:
       - .:/code
     env_file:
       - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: erp_system.settings
     ports:
       - "8000:8000"
     depends_on:
@@ -44,6 +46,8 @@ services:
       - .:/code
     env_file:
       - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: erp_system.settings
     depends_on:
       - redis
       - db
@@ -56,6 +60,8 @@ services:
       - .:/code
     env_file:
       - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: erp_system.settings
     depends_on:
       - redis
       - db
@@ -66,6 +72,8 @@ services:
     command: celery -A erp_system.celery flower --port=5555 --broker=${REDIS_URL}
     env_file:
       - .env
+    environment:
+      DJANGO_SETTINGS_MODULE: erp_system.settings
     depends_on:
       - redis
     ports:
